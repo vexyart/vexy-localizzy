@@ -5,6 +5,56 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-28: review fixes
+
+Fixes for the issue 145 code review. Each finding has a regression test.
+
+- **L1** (critical). Memory language matching rejects a variant in another
+  script (zh-Hans for zh_TW, sr-Latn for sr_Cyrl), any pt-BR/pt-PT cross, and
+  any variant further than `tag_distance` 4 (es-ES for es_MX, en for en_GB).
+  This now applies when the memory has only one variant of the language too.
+  Otherwise `--memory-lang` is required. The source side stays lenient. Bare
+  `pt` in a memory counts as Brazilian.
+- **L2** (critical). `build-ui` tags its output with the catalog language (or
+  `lang`), never the exclusion glossary's language. The glossary is loaded for
+  that tag with the normal matching rules and only decides exclusions.
+- **L3**. Upgrade takes the plural count from the target's Qt rule and uses
+  FRESH's slot count only for languages Qt does not know. When a port would
+  still drop reviewed forms, the APPROVED message is reserved, not consumed,
+  so RETIRED keeps it whole.
+- **L4**. An upgraded message counts as filled only when every `numerusform`
+  and `lengthvariant` has text, so a plural with an empty form keeps exit 1.
+- **L5**. `--relocated-finished` keeps APPROVED's own state. It no longer
+  promotes an unfinished translation to finished.
+- **L6**. `translate` derives its placeholder QA from the catalog format
+  (`qa.formats.format_policy`). PO uses per-entry flags: `c-format` (printf
+  through msgfmt), `python-brace-format` and `qt-format`. Unflagged PO entries
+  get no placeholder check, following gettext. i18next uses `{{name}}`,
+  Android uses printf for strings with a conversion, and XLIFF/TMX use the
+  style detected per unit. TS keeps Qt. `TextPolicy` gains `unit_styles`, which
+  serializes only as a digest, so TS cache identities are unchanged.
+  `check_text` supports the `i18next` style.
+- **L7**. `translate --nokeep-existing` (and `keep_existing=False`) is refused
+  without an engine, or when the output is the input catalog.
+- **L8**. `build-ui` excludes a source only when the term tier would really
+  fill it: a plain message that `Glossary.whole_match` finds and whose term
+  rendering passes the blocking QA. `&Kerning`, `Kerning %1` and plural
+  messages stay in the project memory.
+- **L9**. The legacy tag normaliser keeps script subtags (`sr-Latn`) and
+  numeric regions (`es-419`), writes European Portuguese as `pt-PT`, and maps
+  Apple `pt.lproj` and `Portuguese.lproj` to `pt-BR`. Two po2tmx goldens were
+  updated because their inputs exercise this; the golden README records it.
+- **L18**. Glossary term hits are written unfinished by default. The default
+  `--finish-on` for `translate` and `upgrade` is now `id,context`.
+- **L19**. A glossary TU with an unknown `x-status` such as `deprecated` is
+  excluded instead of aborting the whole glossary load.
+- **L20**. `build-ui` writes `x-numerus-form` for one-form plurals (zh, ja,
+  ko), so such messages match their own reviewed translation.
+- **L21**. `translate` exits 1 whenever the result is not ready, not only when
+  units are pending.
+- **L22**. The Qt numerus table knows Norwegian `no` (2 forms) and strips a
+  Qt `@modifier` such as `sr@latin` before parsing.
+
 ### 2026-09-28: module consolidation
 
 - Top-level modules moved into subpackages. The top level keeps only the
