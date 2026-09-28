@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import polib
 import pytest
 
-from vexy_localizzy.legacy_pairs import po_pairs, ts_pairs
+from vexy_localizzy.extract.legacy_pairs import po_pairs, ts_pairs
 
 
 def test_ts_pairs_when_mixed_states_then_select_finished_first_and_last_forms():

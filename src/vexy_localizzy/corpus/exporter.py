@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/exporter.py
+# this_file: src/vexy_localizzy/corpus/exporter.py
 """Streaming atomic TMX exports with a compact shared origin registry."""
 
 import json
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from lxml import etree
 
-from vexy_localizzy import export_selection
-from vexy_localizzy.corpus_identity import entry_map_sha256 as entry_map_digest
+from vexy_localizzy.corpus import export_selection
+from vexy_localizzy.corpus.identity import entry_map_sha256 as entry_map_digest
 from vexy_localizzy.memory.tmx_read import XML_LANG
 
 MANIFEST_PROP = "x-vexy-localizzy-origins"

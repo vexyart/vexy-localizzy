@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/review_types.py
+# this_file: src/vexy_localizzy/review/types.py
 """Strict edit and journal contracts for the local catalog reviewer."""
 
 from typing import Annotated, Literal

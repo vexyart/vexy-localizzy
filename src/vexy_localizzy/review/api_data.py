@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/review_api_data.py
+# this_file: src/vexy_localizzy/review/api_data.py
 """Browser projections exclude retained document bytes and expose every native slot."""
 
 from collections import Counter

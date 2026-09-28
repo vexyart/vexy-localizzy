@@ -12,7 +12,7 @@ def oss(monkeypatch):
 
 
 def test_parser_when_consumer_imported_then_uses_shared_projection(oss):
-    from vexy_localizzy.fluent_resources import flatten_pattern, parse_ftl
+    from vexy_localizzy.extract.fluent_resources import flatten_pattern, parse_ftl
 
     assert oss.parse_ftl is parse_ftl
     assert oss.flatten_pattern is flatten_pattern

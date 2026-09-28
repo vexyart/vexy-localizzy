@@ -5,7 +5,7 @@ import plistlib
 
 import pytest
 
-from vexy_localizzy.apple_resources import (
+from vexy_localizzy.extract.apple_resources import (
     flatten_value,
     parse_strings_text,
     resource_items,

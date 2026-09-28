@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.single import extract
 
 
 @pytest.mark.parametrize("alias", ["same", "symlink", "hardlink"])

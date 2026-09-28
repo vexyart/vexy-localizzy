@@ -17,6 +17,22 @@ DIRS = {old: new for group in mm.DIR_MOVES.values() for old, new in group.items(
 
 CASES = [
     (
+        "from vexy_localizzy import export_selection",
+        "from vexy_localizzy.corpus import export_selection",
+    ),
+    (
+        "from vexy_localizzy.corpus import exporter, store",
+        "from vexy_localizzy.corpus import exporter, store",
+    ),
+    (
+        "from vexy_localizzy.corpus import CorpusStore",
+        "from vexy_localizzy.corpus.store import CorpusStore",
+    ),
+    (
+        "from vexy_localizzy.qa import tokens",
+        "from vexy_localizzy.qa import tokens",
+    ),
+    (
         "from vexy_localizzy.qa import TextPolicy",
         "from vexy_localizzy.qa.text import TextPolicy",
     ),

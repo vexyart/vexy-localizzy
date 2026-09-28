@@ -68,7 +68,7 @@ Successful edits return the new catalog projection/revision. Invalid edits retur
 
 ```python
 from vexy_localizzy.formats import json_io, ts
-from vexy_localizzy.review_store import ReviewEdit, ReviewStore
+from vexy_localizzy.review.store import ReviewEdit, ReviewStore
 
 # Import once into the configured review workspace.
 json_io.dump(ts.load(source_ts), workspace / "catalog.json")

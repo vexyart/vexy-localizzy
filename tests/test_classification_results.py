@@ -13,7 +13,7 @@ from classification_fixtures import seal_fixture
 
 from vexy_localizzy.classification_export import export_ab
 from vexy_localizzy.classification_results import validated_results
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_results_when_complete_then_export_all_ab_targets_and_replay_rare_promotion(

@@ -8,8 +8,8 @@ import tempfile
 from contextlib import closing
 from pathlib import Path
 
-from vexy_localizzy.corpus_identity import entry_map_sha256
-from vexy_localizzy.exporter import check_destination
+from vexy_localizzy.corpus.exporter import check_destination
+from vexy_localizzy.corpus.identity import entry_map_sha256
 
 
 def stage_usable(db, *, exporting=False) -> None:

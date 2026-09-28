@@ -4,7 +4,7 @@
 import pytest
 
 from vexy_localizzy.classification_inputs import prepare_inputs
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_export_when_rebuilt_in_different_order_then_refuse_stale_entry_ids(tmp_path):

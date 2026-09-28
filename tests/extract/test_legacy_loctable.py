@@ -13,7 +13,7 @@ def lproj(monkeypatch):
 
 
 def test_loctable_when_consumer_loaded_then_shared_table_reader(lproj):
-    from vexy_localizzy.apple_resources import loctable_tables
+    from vexy_localizzy.extract.apple_resources import loctable_tables
 
     assert lproj.loctable_tables is loctable_tables, (
         "Share table reading with the public command"

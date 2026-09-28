@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/review_api.py
+# this_file: src/vexy_localizzy/review/api.py
 """Small local HTTP API over revision-aware filesystem review storage."""
 
 import tempfile
@@ -13,8 +13,8 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from vexy_localizzy.formats import ts
 from vexy_localizzy.qa.catalog import check_catalog
 from vexy_localizzy.qa.text import TextPolicy
-from vexy_localizzy.review_api_data import present, select_unit, summary
-from vexy_localizzy.review_types import ReviewConflict, ReviewEdit
+from vexy_localizzy.review.api_data import present, select_unit, summary
+from vexy_localizzy.review.types import ReviewConflict, ReviewEdit
 from vexy_localizzy.translate.types import TranslationExample
 
 

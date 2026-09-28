@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/corpus.py
+# this_file: src/vexy_localizzy/corpus/store.py
 """Traceable SQLite translation candidates with versioned input snapshots."""
 
 import os
@@ -6,11 +6,11 @@ import sqlite3
 from collections.abc import Iterable
 from pathlib import Path
 
-from vexy_localizzy.corpus_schema import APPLICATION_ID, SCHEMA, SCHEMA_VERSION, WINNERS
-from vexy_localizzy.exporter import export_tmx
-from vexy_localizzy.importer import import_tmx
-from vexy_localizzy.migrations import migrate_v1
-from vexy_localizzy.source_policy import SourcePolicy
+from vexy_localizzy.corpus.exporter import export_tmx
+from vexy_localizzy.corpus.importer import import_tmx
+from vexy_localizzy.corpus.migrations import migrate_v1
+from vexy_localizzy.corpus.schema import APPLICATION_ID, SCHEMA, SCHEMA_VERSION, WINNERS
+from vexy_localizzy.corpus.source_policy import SourcePolicy
 
 
 class Corpus:

@@ -9,7 +9,7 @@ import pytest
 from review_fixtures import edit, store
 
 from vexy_localizzy.formats import json_io
-from vexy_localizzy.review_store import ReviewConflict, ReviewEdit, ReviewStore
+from vexy_localizzy.review.store import ReviewConflict, ReviewEdit, ReviewStore
 
 
 def test_save_when_valid_then_reopen_preserves_draft_and_approval(tmp_path):
@@ -64,7 +64,7 @@ def test_save_when_concurrent_revision_then_exactly_one_writer_wins(tmp_path):
 def test_reopen_when_interrupted_then_reconcile_without_replaying(
     tmp_path, monkeypatch, after_replace
 ):
-    import vexy_localizzy.review_store as module
+    import vexy_localizzy.review.store as module
 
     saved = store(tmp_path)
     before = saved.open("main")
@@ -92,7 +92,7 @@ def test_reopen_when_interrupted_then_reconcile_without_replaying(
 def test_reopen_when_incomplete_intent_and_external_change_then_explicit_conflict(
     tmp_path, monkeypatch
 ):
-    import vexy_localizzy.review_store as module
+    import vexy_localizzy.review.store as module
 
     saved = store(tmp_path)
     before = saved.open("main")

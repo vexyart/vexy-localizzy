@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/export_selection.py
+# this_file: src/vexy_localizzy/corpus/export_selection.py
 """Disk-backed source-ID selection and weighted winner staging for TMX exports."""
 
 import hashlib

@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/corpus_identity.py
+# this_file: src/vexy_localizzy/corpus/identity.py
 """Stable fingerprints for corpus-local source identities, including inline XML."""
 
 import hashlib

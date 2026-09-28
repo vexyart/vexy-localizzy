@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/lineage_validation.py
+# this_file: src/vexy_localizzy/corpus/lineage_validation.py
 """Bounded raw-occurrence verification of imported compact provenance."""
 
 import hashlib

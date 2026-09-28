@@ -5,10 +5,10 @@ import hashlib
 import json
 from contextlib import contextmanager
 
-from vexy_localizzy import export_selection
-from vexy_localizzy.corpus_identity import entry_map_sha256 as entry_map_digest
+from vexy_localizzy.corpus import export_selection
+from vexy_localizzy.corpus.exporter import manifest
+from vexy_localizzy.corpus.identity import entry_map_sha256 as entry_map_digest
 from vexy_localizzy.embedding_store import decode
-from vexy_localizzy.exporter import manifest
 from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.translate.catalog_types import PromptContext
 from vexy_localizzy.translate.types import TranslationExample

@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from vexy_localizzy.formats import json_io, ts
-from vexy_localizzy.review_store import ReviewEdit, ReviewStore
+from vexy_localizzy.review.store import ReviewEdit, ReviewStore
 
 SOURCE = """<TS language="pl" sourcelanguage="en"><context><name>Menu</name><message id="n" numerus="yes"><location filename="menu.ui" line="7"/><source>%n items</source><comment>noun</comment><translation type="unfinished"><numerusform>%n element</numerusform><numerusform>%n elementy</numerusform><numerusform variants="yes"><lengthvariant>%n elementów</lengthvariant><lengthvariant>%n el.</lengthvariant></numerusform></translation><extra-note>keep</extra-note></message></context></TS>""".encode()
 

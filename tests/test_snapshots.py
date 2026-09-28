@@ -4,7 +4,7 @@
 import gzip
 import hashlib
 
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_corpus_when_input_replaced_then_original_bytes_remain_recoverable(tmp_path):

@@ -10,7 +10,7 @@ their fl10n scripts did.
 from importlib import import_module
 from pathlib import Path
 
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.single import extract
 
 
 def _run(module: str, *args: object, **kwargs: object) -> dict:

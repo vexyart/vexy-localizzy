@@ -47,7 +47,7 @@ def test_properties_when_invalid_then_no_partial_entries(tmp_path, adobe, data):
 
 
 def test_properties_when_consumer_loaded_then_shared_parser(adobe):
-    from vexy_localizzy.properties_resources import parse_properties
+    from vexy_localizzy.extract.properties_resources import parse_properties
 
     assert adobe.properties_pairs is parse_properties
 

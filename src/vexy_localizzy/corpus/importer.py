@@ -1,18 +1,18 @@
-# this_file: src/vexy_localizzy/importer.py
+# this_file: src/vexy_localizzy/corpus/importer.py
 """Bounded resumable imports; only complete stable snapshots contribute votes."""
 
 import os
 import sqlite3
 from pathlib import Path
 
-from vexy_localizzy.export_lineage import ExportLineage, read_manifest
+from vexy_localizzy.corpus.export_lineage import ExportLineage, read_manifest
+from vexy_localizzy.corpus.lineage_validation import verify_lineage
+from vexy_localizzy.corpus.snapshots import snapshot
+from vexy_localizzy.corpus.source_policy import SourcePolicy
+from vexy_localizzy.corpus.source_store import prepare
+from vexy_localizzy.corpus.unit_writer import UnitWriter
 from vexy_localizzy.inventory import _identity
-from vexy_localizzy.lineage_validation import verify_lineage
 from vexy_localizzy.memory.tmx_read import read_tmx
-from vexy_localizzy.snapshots import snapshot
-from vexy_localizzy.source_policy import SourcePolicy
-from vexy_localizzy.source_store import prepare
-from vexy_localizzy.unit_writer import UnitWriter
 
 
 def _report(db: sqlite3.Connection, source_id: int, cached: bool) -> dict:

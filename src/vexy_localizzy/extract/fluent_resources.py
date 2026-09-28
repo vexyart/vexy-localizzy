@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/fluent_resources.py
+# this_file: src/vexy_localizzy/extract/fluent_resources.py
 """Bounded legacy Fluent projections using the published syntax parser/serializer."""
 
 from collections.abc import Iterator

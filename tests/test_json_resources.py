@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from vexy_localizzy.json_resources import string_pairs
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.json_resources import string_pairs
+from vexy_localizzy.extract.single import extract
 
 
 def test_json_when_nested_and_literal_keys_then_preserve_typed_paths():

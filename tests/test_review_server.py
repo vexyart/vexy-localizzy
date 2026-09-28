@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from vexy_localizzy.review_server import load_app
+from vexy_localizzy.review.server import load_app
 
 
 def test_example_when_created_then_native_states_suggestions_and_forms_are_usable(
@@ -55,3 +55,20 @@ def test_config_when_unknown_or_outside_root_then_rejected(tmp_path, setting):
     config.write_text(setting + "\n[catalogs]\n")
     with pytest.raises(ValueError):
         load_app(config)
+
+
+def test_shipped_frontend_when_served_then_index_and_assets_load(tmp_path):
+    from vexy_localizzy.review.server import WEB_ROOT
+
+    assert (WEB_ROOT / "index.html").is_file(), f"frontend missing at {WEB_ROOT}"
+    root = tmp_path / "workspace"
+    root.mkdir()
+    config = root / "review.toml"
+    config.write_text("[catalogs]\n")
+    client = TestClient(
+        load_app(config, web_root=WEB_ROOT), base_url="http://localhost"
+    )
+    page = client.get("/")
+    assert page.status_code == 200 and "<div" in page.text
+    asset = next((WEB_ROOT / "assets").glob("*.js")).name
+    assert client.get(f"/assets/{asset}").status_code == 200

@@ -29,18 +29,18 @@ import polib
 from loguru import logger
 from pydantic import BaseModel, ConfigDict
 
+from vexy_localizzy.extract.fluent_resources import flatten_pattern as flatten_pattern
+from vexy_localizzy.extract.fluent_resources import parse_ftl as parse_ftl
 from vexy_localizzy.extract.legacy_lang import (
     EXTRA_DEFAULT_REGION,
     PIVOT,
     SCRIPT_TAGS,
     norm_lang,
 )
+from vexy_localizzy.extract.legacy_pairs import po_pairs as po_units
+from vexy_localizzy.extract.legacy_pairs import ts_pairs as ts_units
 from vexy_localizzy.extract.legacy_tmx import write_tmx
-from vexy_localizzy.fluent_resources import flatten_pattern as flatten_pattern
-from vexy_localizzy.fluent_resources import parse_ftl as parse_ftl
-from vexy_localizzy.legacy_pairs import po_pairs as po_units
-from vexy_localizzy.legacy_pairs import ts_pairs as ts_units
-from vexy_localizzy.mozilla_resources import parse_mozilla as parse_mozilla
+from vexy_localizzy.extract.mozilla_resources import parse_mozilla as parse_mozilla
 
 __all__ = [
     "APPS",

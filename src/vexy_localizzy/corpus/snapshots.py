@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/snapshots.py
+# this_file: src/vexy_localizzy/corpus/snapshots.py
 """Content-addressed compressed source snapshots for recoverable provenance."""
 
 import gzip

@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/source_extraction.py
+# this_file: src/vexy_localizzy/extract/single.py
 """Explicit plain-text TMX extraction from bilingual or key-paired resources."""
 
 import sys
@@ -9,10 +9,10 @@ from pathlib import Path
 import polib
 from loguru import logger
 
-from vexy_localizzy.legacy_pairs import Pair, po_pairs, ts_pairs
+from vexy_localizzy.extract.legacy_pairs import Pair, po_pairs, ts_pairs
+from vexy_localizzy.extract.source_resources import _resource_rows, loctable_rows
 from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
-from vexy_localizzy.source_resources import _resource_rows, loctable_rows
 
 FORMATS = {
     "ts",

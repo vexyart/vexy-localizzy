@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from vexy_localizzy.cli import main
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.single import extract
 
 
 def segments(path):

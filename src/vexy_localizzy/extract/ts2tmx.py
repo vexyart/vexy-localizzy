@@ -16,10 +16,10 @@ from pathlib import Path
 from loguru import logger
 
 from vexy_localizzy.extract.legacy_lang import norm_lang, stem_lang
+from vexy_localizzy.extract.legacy_pairs import TS_SKIP_TYPES
+from vexy_localizzy.extract.legacy_pairs import ts_pairs as units
 from vexy_localizzy.extract.legacy_tmx import write_tmx
 from vexy_localizzy.extract.walk import convert_all, plan_jobs
-from vexy_localizzy.legacy_pairs import TS_SKIP_TYPES
-from vexy_localizzy.legacy_pairs import ts_pairs as units
 
 TOOL = "ts2tmx"
 SKIP_TYPES = TS_SKIP_TYPES

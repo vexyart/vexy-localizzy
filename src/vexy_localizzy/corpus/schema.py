@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/corpus_schema.py
+# this_file: src/vexy_localizzy/corpus/schema.py
 """SQLite schema and deterministic independent-family voting queries."""
 
 SCHEMA_VERSION = 2

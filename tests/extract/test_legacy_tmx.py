@@ -25,7 +25,7 @@ def legacy(monkeypatch):
 
 
 def test_legacy_selection_when_imported_then_shared_projection_functions(legacy):
-    from vexy_localizzy.legacy_pairs import po_pairs, ts_pairs
+    from vexy_localizzy.extract.legacy_pairs import po_pairs, ts_pairs
 
     assert legacy["po2tmx"].units is po_pairs, (
         "Gettext selection must use the shared adapter"

@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 
 from vexy_localizzy.classification_export import export_ab
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 with Corpus("memory.sqlite") as corpus:
     report = export_ab(

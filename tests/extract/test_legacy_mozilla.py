@@ -50,6 +50,6 @@ def test_properties_when_key_looks_like_plural_then_do_not_guess_source(tmp_path
 
 
 def test_mozilla_when_consumer_imported_then_uses_shared_parser(oss):
-    from vexy_localizzy.mozilla_resources import parse_mozilla
+    from vexy_localizzy.extract.mozilla_resources import parse_mozilla
 
     assert oss.parse_mozilla is parse_mozilla

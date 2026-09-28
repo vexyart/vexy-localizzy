@@ -233,7 +233,7 @@ def test_tmx_when_fresh_untranslated_then_declared_target_projection_survives(
 
 
 def test_tmx_when_verified_corpus_lineage_then_reject_content_edit(tmp_path):
-    from vexy_localizzy.corpus import Corpus
+    from vexy_localizzy.corpus.store import Corpus
 
     source = tmp_path / "source.tmx"
     source.write_text(

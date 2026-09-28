@@ -6,7 +6,7 @@ import json
 import pytest
 from lxml import etree
 
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def native(path, label, target="Księżyc"):
@@ -60,7 +60,7 @@ def test_export_when_broken_lineage_then_rejects_without_active_votes(tmp_path):
 
 
 def test_export_when_writer_fails_then_preserves_previous_file(tmp_path, monkeypatch):
-    import vexy_localizzy.exporter as exporter
+    import vexy_localizzy.corpus.exporter as exporter
 
     output = tmp_path / "memory.tmx"
     output.write_text("previous")

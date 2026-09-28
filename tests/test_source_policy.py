@@ -3,7 +3,7 @@
 
 from pathlib import Path
 
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_alias_when_policy_revised_then_historical_policy_cannot_authorize_votes(

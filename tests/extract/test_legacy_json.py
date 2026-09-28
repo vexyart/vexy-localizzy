@@ -54,7 +54,7 @@ def test_locale_json_when_invalid_or_ambiguous_then_refuse(tmp_path, adobe, data
 
 
 def test_locale_json_when_consumer_loaded_then_shared_reader(adobe):
-    from vexy_localizzy.json_resources import string_pairs
+    from vexy_localizzy.extract.json_resources import string_pairs
 
     assert adobe.json_pairs is string_pairs
 

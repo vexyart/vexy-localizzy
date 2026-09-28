@@ -7,9 +7,9 @@ import numpy as np
 import pytest
 from test_selected_export import populated
 
-from vexy_localizzy.corpus_identity import entry_map_sha256
+from vexy_localizzy.corpus.export_selection import source_snapshot
+from vexy_localizzy.corpus.identity import entry_map_sha256
 from vexy_localizzy.embeddings import EmbeddingCache
-from vexy_localizzy.export_selection import source_snapshot
 from vexy_localizzy.retrieval import retrieval_memory
 from vexy_localizzy.translate.types import TranslationItem
 

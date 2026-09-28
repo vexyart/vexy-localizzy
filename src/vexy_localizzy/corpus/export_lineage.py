@@ -1,14 +1,14 @@
-# this_file: src/vexy_localizzy/export_lineage.py
+# this_file: src/vexy_localizzy/corpus/export_lineage.py
 """Recover source identities from exported TMX without creating derived votes."""
 
 import gzip
 import json
 from pathlib import Path
 
-from vexy_localizzy.exporter import LINEAGE_PROP, MANIFEST_PROP
+from vexy_localizzy.corpus.exporter import LINEAGE_PROP, MANIFEST_PROP
+from vexy_localizzy.corpus.snapshots import adopt_snapshot
+from vexy_localizzy.corpus.source_store import family_id, origin_id
 from vexy_localizzy.memory.tmx_read import Unit, UnitError
-from vexy_localizzy.snapshots import adopt_snapshot
-from vexy_localizzy.source_store import family_id, origin_id
 from vexy_localizzy.xmlio import records
 
 

@@ -4,7 +4,7 @@
 Verbatim port of ``adobe2tmx.norm_lang``/``clean_text``, the ``oss2tmx`` extra
 region and script tables, and ``ts2tmx.stem_lang``. This policy shortens
 default regions and may guess from filenames; the strict extractor in
-``vexy_localizzy.source_extraction`` does neither. Adapted from fl10n; see NOTICE.
+``vexy_localizzy.extract.single`` does neither. Adapted from fl10n; see NOTICE.
 """
 
 import re

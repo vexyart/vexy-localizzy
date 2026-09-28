@@ -6,7 +6,7 @@ import json
 import pytest
 
 from vexy_localizzy.classification_inputs import prepare_inputs
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_inputs_when_source_inactive_then_excludes_its_text_and_coverage(tmp_path):

@@ -11,7 +11,7 @@ from classification_fixtures import rewrite_input, seal_fixture
 
 from vexy_localizzy.classification_export import export_ab
 from vexy_localizzy.classification_results import validated_results
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 @pytest.mark.parametrize(

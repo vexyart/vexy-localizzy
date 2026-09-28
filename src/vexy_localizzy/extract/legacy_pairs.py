@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/legacy_pairs.py
+# this_file: src/vexy_localizzy/extract/legacy_pairs.py
 """Explicit compatibility projections for existing Qt/gettext TMX extractors.
 
 These retain historical first/last plural and plain-text selection rules. Use

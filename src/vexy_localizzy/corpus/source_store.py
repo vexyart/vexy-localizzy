@@ -1,10 +1,10 @@
-# this_file: src/vexy_localizzy/source_store.py
+# this_file: src/vexy_localizzy/corpus/source_store.py
 """Persist source revisions and their explicitly configured voting identities."""
 
 import sqlite3
 from pathlib import Path
 
-from vexy_localizzy.source_policy import SourcePolicy
+from vexy_localizzy.corpus.source_policy import SourcePolicy
 
 
 def family_id(db: sqlite3.Connection, name: str, weight: int) -> int:

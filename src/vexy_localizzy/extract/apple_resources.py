@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/apple_resources.py
+# this_file: src/vexy_localizzy/extract/apple_resources.py
 """Read Apple resource values without imposing bundle discovery or locale policy."""
 
 import plistlib

@@ -3,7 +3,7 @@
 
 from vexy_localizzy.catalog import Catalog, Unit
 from vexy_localizzy.formats import json_io
-from vexy_localizzy.review_store import ReviewEdit, ReviewStore
+from vexy_localizzy.review.store import ReviewEdit, ReviewStore
 
 
 def store(tmp_path):

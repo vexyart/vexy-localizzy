@@ -205,7 +205,9 @@ PACKAGE_DOCS = {
     "experimental": "Research code (classification, distillation, embeddings, clustering, retrieval).\n\nNot part of the supported CLI; APIs may change without notice.",
 }
 
-CHAIN = re.compile(rf"(?<![\w.]){PKG}(?:\.\w+)+")
+CHAIN = re.compile(
+    rf"(?<![\w.])(?P<chain>{PKG}(?:\.\w+)+)(?P<tail>\s+import\s+(?P<name>\w+))?"
+)
 FROM_PKG = re.compile(rf"^(\s*)from {PKG} import ([^#\n]*?)(\s*#.*)?$", re.M)
 
 
@@ -261,10 +263,31 @@ def rewrite_from_pkg(match: re.Match, moves: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
+def rewrite_chain_match(match: re.Match, moves: dict[str, str]) -> str:
+    """Rewrite a chain, except ``from <new package> import <new module>``.
+
+    ``from vexy_localizzy.corpus import exporter`` names the new package even
+    though ``vexy_localizzy.corpus`` is also the old ``corpus.py`` module.
+    """
+    chain, tail, name = (
+        match.group("chain"),
+        match.group("tail") or "",
+        match.group("name"),
+    )
+    news = {new for old, new in moves.items() if old != new}
+    if name and f"{chain}.{name}" in news:
+        return match.group(0)
+    return rewrite_chain(chain, moves) + tail
+
+
 def rewrite_text(text: str, moves: dict[str, str], dirs: dict[str, str]) -> str:
-    """Apply every rewrite rule to one file's text; idempotent by construction."""
+    """Apply every rewrite rule to one file's text; idempotent by construction.
+
+    Chains go first: the ``from vexy_localizzy import name`` rule emits new
+    package paths that the chain rule must not see as old module paths.
+    """
+    text = CHAIN.sub(lambda m: rewrite_chain_match(m, moves), text)
     text = FROM_PKG.sub(lambda m: rewrite_from_pkg(m, moves), text)
-    text = CHAIN.sub(lambda m: rewrite_chain(m.group(0), moves), text)
     for old, new in moves.items():
         before, after = module_file(old), target_file(old, new)
         if before != after:

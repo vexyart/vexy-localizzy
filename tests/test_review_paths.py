@@ -6,7 +6,7 @@ import os
 import pytest
 from review_fixtures import store
 
-from vexy_localizzy.review_store import ReviewStore
+from vexy_localizzy.review.store import ReviewStore
 
 
 @pytest.mark.parametrize("suffix", [".review.lock", ".review.jsonl"])

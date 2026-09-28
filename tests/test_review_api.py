@@ -4,7 +4,7 @@
 from fastapi.testclient import TestClient
 from review_fixtures import edit, store
 
-from vexy_localizzy.review_api import create_app
+from vexy_localizzy.review.api import create_app
 
 
 def client(tmp_path):

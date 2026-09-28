@@ -10,7 +10,7 @@ import pytest
 
 from vexy_localizzy.classification import consensus
 from vexy_localizzy.classification_inputs import prepare_inputs
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 @pytest.fixture

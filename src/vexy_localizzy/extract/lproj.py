@@ -22,13 +22,15 @@ from pathlib import Path
 
 from loguru import logger
 
-from vexy_localizzy.apple_resources import (
+from vexy_localizzy.extract.adobe import PIVOT, Entry, rel
+from vexy_localizzy.extract.apple_resources import (
     flatten_value,
     loctable_tables,
     resource_items,
 )
-from vexy_localizzy.apple_resources import parse_strings_text as parse_strings_text
-from vexy_localizzy.extract.adobe import PIVOT, Entry, rel
+from vexy_localizzy.extract.apple_resources import (
+    parse_strings_text as parse_strings_text,
+)
 from vexy_localizzy.extract.legacy_lang import clean_text, norm_lang
 from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 

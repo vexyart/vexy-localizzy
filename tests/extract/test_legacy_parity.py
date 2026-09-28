@@ -232,7 +232,7 @@ def test_tm_commands_when_wrapped_then_signature_matches_run(command, module, fu
 
 
 def test_tm_commands_when_listed_then_expected_names():
-    from vexy_localizzy.source_extraction import extract
+    from vexy_localizzy.extract.single import extract
 
     assert list(cli_tm.TM_COMMANDS) == [
         "build_ui",

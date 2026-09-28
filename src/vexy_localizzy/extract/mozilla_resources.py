@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/mozilla_resources.py
+# this_file: src/vexy_localizzy/extract/mozilla_resources.py
 """Mozilla DTD/properties projections using the published localization parser."""
 
 from moz.l10n.model import Entry, Format, PatternMessage

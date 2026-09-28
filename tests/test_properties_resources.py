@@ -5,8 +5,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from vexy_localizzy.properties_resources import parse_properties
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.properties_resources import parse_properties
+from vexy_localizzy.extract.single import extract
 
 
 @pytest.mark.parametrize(

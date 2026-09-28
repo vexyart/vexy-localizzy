@@ -8,7 +8,7 @@
 import tempfile
 from pathlib import Path
 
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as directory:

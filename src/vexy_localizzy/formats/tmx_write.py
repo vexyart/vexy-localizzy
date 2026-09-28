@@ -7,7 +7,7 @@ from pathlib import Path
 from lxml import etree
 
 from vexy_localizzy.catalog import Catalog, Unit
-from vexy_localizzy.exporter import LINEAGE_PROP
+from vexy_localizzy.corpus.exporter import LINEAGE_PROP
 from vexy_localizzy.formats.document import atomic_write
 from vexy_localizzy.formats.tmx_tree import (
     METADATA,

@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/json_resources.py
+# this_file: src/vexy_localizzy/extract/json_resources.py
 """Generic JSON string leaves with typed paths and no application text filters."""
 
 import json

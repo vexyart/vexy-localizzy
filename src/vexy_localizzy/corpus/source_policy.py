@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/source_policy.py
+# this_file: src/vexy_localizzy/corpus/source_policy.py
 """Explicit source-family policies, independent of any particular product."""
 
 import json

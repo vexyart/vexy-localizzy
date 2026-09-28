@@ -68,7 +68,7 @@ def convert(
 
 def review(config: str, port: int = 8765, verbose: bool = False):
     """Serve configured catalogs with the optional review UI and API."""
-    from vexy_localizzy.review_server import serve
+    from vexy_localizzy.review.server import serve
 
     return serve(config, port=port, verbose=verbose)
 

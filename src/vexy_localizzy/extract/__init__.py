@@ -1,8 +1,10 @@
 # this_file: src/vexy_localizzy/extract/__init__.py
-"""Legacy tree converters from foreign resources to TMX, moved from fl10n.
+"""Foreign resources to TMX: the strict single-file extractor and the legacy converters.
 
-Each module keeps its historical selection, language and naming policy; see
-``legacy_lang`` for the region-shortening rules. The strict single-file
-extractor remains ``vexy_localizzy.source_extraction``. Submodules are imported
-on demand because some need the optional ``sources`` extra.
+``single`` is the strict extractor behind ``localizzy tm extract``; the
+``*_resources`` and ``legacy_pairs`` modules parse the formats it accepts. The
+legacy tree converters (``ts2tmx``, ``po2tmx``, ``lproj``, ``adobe``, ``oss``,
+``names``) moved from fl10n and keep their historical selection, language and
+naming policy; see ``legacy_lang`` for the region-shortening rules. Submodules
+are imported on demand because some need the optional ``sources`` extra.
 """

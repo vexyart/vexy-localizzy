@@ -1,10 +1,10 @@
-# this_file: src/vexy_localizzy/migrations.py
+# this_file: src/vexy_localizzy/corpus/migrations.py
 """Transactional migration of the initial corpus schema; no source files change."""
 
 import sqlite3
 
-from vexy_localizzy.corpus_schema import SCHEMA
-from vexy_localizzy.source_policy import SourcePolicy
+from vexy_localizzy.corpus.schema import SCHEMA
+from vexy_localizzy.corpus.source_policy import SourcePolicy
 
 TABLES = ("families", "sources", "entries", "candidates", "occurrences", "exclusions")
 

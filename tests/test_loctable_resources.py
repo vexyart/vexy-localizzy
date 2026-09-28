@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from vexy_localizzy.apple_resources import loctable_tables
-from vexy_localizzy.source_extraction import extract
+from vexy_localizzy.extract.apple_resources import loctable_tables
+from vexy_localizzy.extract.single import extract
 
 
 @pytest.mark.parametrize("fmt", [plistlib.FMT_XML, plistlib.FMT_BINARY])

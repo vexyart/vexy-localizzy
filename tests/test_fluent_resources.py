@@ -4,7 +4,7 @@
 import pytest
 from fluent.syntax import FluentParser, ast
 
-from vexy_localizzy.fluent_resources import flatten_pattern, parse_ftl
+from vexy_localizzy.extract.fluent_resources import flatten_pattern, parse_ftl
 
 TEXT = """# Comment
 -brand = Example

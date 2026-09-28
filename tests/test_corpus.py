@@ -5,7 +5,7 @@ import sqlite3
 
 import pytest
 
-from vexy_localizzy.corpus import Corpus
+from vexy_localizzy.corpus.store import Corpus
 
 
 def memory(path, targets, source="Moon"):
@@ -139,7 +139,7 @@ def test_corpus_when_no_target_then_exclusion_is_visible_on_cached_run(tmp_path)
 def test_corpus_when_source_changes_mid_import_then_invalidates_committed_prefix(
     tmp_path, monkeypatch
 ):
-    import vexy_localizzy.importer as importer
+    import vexy_localizzy.corpus.importer as importer
 
     path = memory(tmp_path / "changing.tmx", ["ORIGINAL"])
     original = path.read_bytes()

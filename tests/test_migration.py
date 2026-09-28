@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from vexy_localizzy.corpus import Corpus
-from vexy_localizzy.corpus_schema import APPLICATION_ID
+from vexy_localizzy.corpus.schema import APPLICATION_ID
+from vexy_localizzy.corpus.store import Corpus
 
 
 def test_legacy_schema_without_snapshots_then_rejects_without_modifying(tmp_path):

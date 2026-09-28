@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/properties_resources.py
+# this_file: src/vexy_localizzy/extract/properties_resources.py
 """Java-style properties projection with caller-owned decoding and key policy."""
 
 import javaproperties
