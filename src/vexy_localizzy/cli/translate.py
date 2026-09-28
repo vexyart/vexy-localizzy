@@ -129,7 +129,7 @@ def translate(
     glossary_memory: str | None = None,
     memory_lang: str | None = None,
     glossary_status: str = "approved,do-not-translate",
-    finish_on: str = "id,context,term",
+    finish_on: str = "id,context",
     memory_only: bool = False,
     plural_count: int | None = None,
     keep_existing: bool = True,

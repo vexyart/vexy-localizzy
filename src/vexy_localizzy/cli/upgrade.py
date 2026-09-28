@@ -90,7 +90,7 @@ def upgrade(
     glossary_memory=None,
     memory_lang=None,
     glossary_status="approved,do-not-translate",
-    finish_on="id,context,term",
+    finish_on="id,context",
     fuzzy_threshold=0.92,
     relocated_finished=False,
     no_engine=False,

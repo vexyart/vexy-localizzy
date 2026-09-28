@@ -69,8 +69,10 @@ By default only `approved` and `do-not-translate` terms are used. Pass
 
 Precedence between the two memories is `id` > `context` > `term` > `source`.
 `--finish-on` picks the classes that are written finished; the default is
-`id,context,term`. The other classes are written unfinished (Qt
-`type="unfinished"`) for review.
+`id,context`. The other classes are written unfinished (Qt
+`type="unfinished"`) for review. A `term` hit ignores context and case, so a
+glossary "open" meaning the adjective could fill a menu verb "Open"; pass
+`--finish-on id,context,term` to finish term hits anyway.
 
 ## The QA gate
 

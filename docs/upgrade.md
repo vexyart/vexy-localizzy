@@ -16,7 +16,7 @@ the code now contains. The reviewed translations live in the APPROVED catalog.
 localizzy upgrade FRESH.ts APPROVED.ts --out NEW.ts --retired RETIRED.ts \
     [--report NEW.ts.upgrade.json] [--target de] \
     [--direct-memory a.tmx,b.tmx] [--glossary-memory core.tmx] [--memory-lang es-419] \
-    [--glossary-status approved,do-not-translate] [--finish-on id,context,term] \
+    [--glossary-status approved,do-not-translate] [--finish-on id,context] \
     [--fuzzy-threshold 0.92] [--relocated-finished] \
     [--no-engine | --endpoint URL --model M [--fallback-models a,b] [--api-key-env VAR] [--cache PATH] [--temperature 0.2]]
 ```

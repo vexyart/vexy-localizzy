@@ -143,10 +143,25 @@ def test_upgrade_when_memory_context_hit_then_finished(result):
     assert xml.text(element.find("translation"), "") == "Einheiten"
 
 
-def test_upgrade_when_whole_glossary_term_then_memory_term_finished(result):
+def test_upgrade_when_whole_glossary_term_then_memory_term_unfinished(result):
     outcome = by_source(result.report)["Glyph"]
     assert outcome.category == "memory_term"
-    assert outcome.state == "finished"
+    assert outcome.state == "unfinished", (
+        "a context-free glossary hit needs review by default"
+    )
+
+
+def test_upgrade_when_finish_on_includes_term_then_memory_term_finished():
+    result = upgrade_ts(
+        FRESH.read_bytes(),
+        APPROVED.read_bytes(),
+        direct=direct_memory(),
+        glossary=glossary(),
+        options=UpgradeOptions(
+            no_engine=True, finish_on=frozenset({"id", "context", "term"})
+        ),
+    )
+    assert by_source(result.report)["Glyph"].state == "finished"
 
 
 def test_upgrade_when_finish_on_excludes_context_then_memory_hit_unfinished():

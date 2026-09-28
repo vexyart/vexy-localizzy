@@ -90,7 +90,7 @@ FLAGS
         Default: 'approved,do-not-translate'
     --finish_on=FINISH_ON
         Type: str
-        Default: 'id,context,term'
+        Default: 'id,context'
     --memory_only=MEMORY_ONLY
         Type: bool
         Default: False
@@ -173,7 +173,7 @@ FLAGS
     --glossary_status=GLOSSARY_STATUS
         Default: 'approved,do-not-translate'
     --finish_on=FINISH_ON
-        Default: 'id,context,term'
+        Default: 'id,context'
     --fuzzy_threshold=FUZZY_THRESHOLD
         Default: 0.92
     --relocated_finished=RELOCATED_FINISHED

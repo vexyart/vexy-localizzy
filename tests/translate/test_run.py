@@ -484,3 +484,27 @@ def test_translate_file_when_memory_lang_override_then_uses_other_variant(tmp_pa
         memory_lang="zh-Hans",
     )
     assert report.memories[0]["languages"][str(memory)]["target"] == "zh-Hans"
+
+
+@pytest.mark.parametrize(
+    ("policy", "finished"),
+    [
+        (MemoryPolicy(), False),
+        (MemoryPolicy(finish_on=frozenset({"id", "context", "term"})), True),
+    ],
+)
+def test_translate_file_when_glossary_term_hit_then_unfinished_by_default(
+    tmp_path, policy, finished
+):
+    source = write(tmp_path / "app.ts", SOURCE_TS)
+    out = tmp_path / "de.ts"
+    report = translate_file(
+        source, target="de", out=out, glossary_memories=[CORE_DE], policy=policy
+    )
+    rows = {row.key: row for row in report.units}
+    units = {u.key: u for u in ts.load(out).units}
+    terms = [key for key, row in rows.items() if row.match == "term"]
+    assert terms, "the fixture must produce a term hit"
+    assert {units[key].state == "translated" for key in terms} == {finished}, (
+        "term hits ignore context, so they are written unfinished unless asked"
+    )

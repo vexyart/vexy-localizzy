@@ -52,7 +52,7 @@ class MemoryPolicy(Record):
     ``type="unfinished"``, state ``needs_review``).
     """
 
-    finish_on: frozenset[MatchClass] = frozenset({"id", "context", "term"})
+    finish_on: frozenset[MatchClass] = frozenset({"id", "context"})
     use: frozenset[MatchClass] = frozenset({"id", "context", "source", "term"})
 
 

@@ -51,7 +51,7 @@ class UpgradeInvariantError(RuntimeError):
 
 
 class UpgradeOptions(Record):
-    finish_on: frozenset[str] = frozenset({"id", "context", "term"})
+    finish_on: frozenset[str] = frozenset({"id", "context"})
     fuzzy_threshold: float = 0.92
     fuzzy_margin: float = 0.02
     relocated_finished: bool = False
