@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/qa_printf.py
+# this_file: src/vexy_localizzy/qa/printf.py
 """Delegate C printf argument/type validation to GNU gettext instead of reimplementing it."""
 
 import os

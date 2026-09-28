@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.qa import TextPolicy, check_text, validate_batch
+from vexy_localizzy.qa.text import TextPolicy, check_text, validate_batch
 from vexy_localizzy.translation_types import (
     TranslationBatch,
     TranslationItem,

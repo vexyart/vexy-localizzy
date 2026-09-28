@@ -5,7 +5,7 @@ import json
 
 from vexy_localizzy.catalog import Catalog, Unit, compute_source_hash
 from vexy_localizzy.catalog_translation_types import Disposition
-from vexy_localizzy.qa_catalog import check_catalog, scalar_targets, shape_findings
+from vexy_localizzy.qa.catalog import check_catalog, scalar_targets, shape_findings
 from vexy_localizzy.translation_types import TranslationItem
 
 

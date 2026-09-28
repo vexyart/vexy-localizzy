@@ -15,8 +15,8 @@ from vexy_localizzy.catalog_translation_types import (
     ProviderEvidence,
 )
 from vexy_localizzy.frozen_contexts import FrozenContexts
-from vexy_localizzy.qa import TextPolicy, validate_batch
-from vexy_localizzy.qa_catalog import check_catalog, scalar_targets
+from vexy_localizzy.qa.catalog import check_catalog, scalar_targets
+from vexy_localizzy.qa.text import TextPolicy, validate_batch
 from vexy_localizzy.translation_cache import TranslationCache, TranslationPending
 from vexy_localizzy.translation_store import digest
 from vexy_localizzy.translation_types import TranslationItem

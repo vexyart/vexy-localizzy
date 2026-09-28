@@ -6,7 +6,7 @@ import sys
 import pytest
 from translation_fixtures import batch, reply
 
-from vexy_localizzy.qa_icu import check_pairs, validate_batch
+from vexy_localizzy.qa.icu import check_pairs, validate_batch
 
 
 def command(output):

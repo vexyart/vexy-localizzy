@@ -42,7 +42,7 @@ def _open_cache(endpoint, models, api_key_env, cache_path, temperature):
     """Build the engine-backed cache inline; abersetz is an optional extra."""
     try:
         from vexy_localizzy.abersetz_transport import TRANSPORT_ID, translate_batch
-        from vexy_localizzy.qa import validate_batch
+        from vexy_localizzy.qa.text import validate_batch
         from vexy_localizzy.translation_cache import TranslationCache
     except ImportError as error:
         print(

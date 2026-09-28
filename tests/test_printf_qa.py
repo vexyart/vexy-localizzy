@@ -5,8 +5,8 @@ import shutil
 
 import pytest
 
-from vexy_localizzy.qa import TextPolicy, check_text
-from vexy_localizzy.qa_printf import printf_error
+from vexy_localizzy.qa.printf import printf_error
+from vexy_localizzy.qa.text import TextPolicy, check_text
 
 
 @pytest.mark.skipif(

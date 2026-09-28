@@ -10,8 +10,8 @@ from filelock import FileLock
 from vexy_localizzy.catalog import Catalog
 from vexy_localizzy.catalog_translation_inputs import fill_unit
 from vexy_localizzy.formats.document import atomic_write
-from vexy_localizzy.qa import TextPolicy
-from vexy_localizzy.qa_catalog import check_catalog, scalar_targets, shape_findings
+from vexy_localizzy.qa.catalog import check_catalog, scalar_targets, shape_findings
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.review_journal import append, reconcile, sync_directory
 from vexy_localizzy.review_types import (
     Completion,

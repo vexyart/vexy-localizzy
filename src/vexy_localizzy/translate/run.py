@@ -33,8 +33,8 @@ from vexy_localizzy.formats.ts_template import prepare_translation
 from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.memory.direct import DirectMemory, MatchClass
 from vexy_localizzy.memory.glossary import DEFAULT_STATUSES, Glossary
-from vexy_localizzy.qa import TextPolicy, check_text
-from vexy_localizzy.qa_catalog import scalar_targets, shape_findings
+from vexy_localizzy.qa.catalog import scalar_targets, shape_findings
+from vexy_localizzy.qa.text import TextPolicy, check_text
 from vexy_localizzy.translate.context import GlossaryContext
 from vexy_localizzy.translate.engine import EngineSpec, Request, open_cache
 

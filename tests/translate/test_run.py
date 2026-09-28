@@ -19,7 +19,7 @@ from translate_fixtures import (
 from vexy_localizzy.catalog import Catalog, Unit
 from vexy_localizzy.formats import ts
 from vexy_localizzy.memory import DirectMemory, Glossary
-from vexy_localizzy.qa import TextPolicy
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.translate import (
     EngineSpec,
     MemoryPolicy,

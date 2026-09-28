@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.qa_tokens import check_tokens
+from vexy_localizzy.qa.tokens import check_tokens
 
 
 @pytest.mark.parametrize(

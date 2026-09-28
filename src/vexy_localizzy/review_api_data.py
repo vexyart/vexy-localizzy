@@ -3,7 +3,7 @@
 
 from collections import Counter
 
-from vexy_localizzy.qa_catalog import scalar_targets
+from vexy_localizzy.qa.catalog import scalar_targets
 
 
 def summary(catalog_id, snapshot):

@@ -5,7 +5,7 @@ vexy_localizzy/review_web/THIRD_PARTY_LICENSES.txt and review/public/THIRD_PARTY
 Canonical catalog compatibility types and key/placeholder helpers in
 src/vexy_localizzy/catalog.py and filename planning in
 src/vexy_localizzy/tmx_names.py and literal-token QA contracts in
-src/vexy_localizzy/qa_tokens.py and the explicit compatibility projections in
+src/vexy_localizzy/qa/tokens.py and the explicit compatibility projections in
 src/vexy_localizzy/legacy_pairs.py and the plural/device projection in
 src/vexy_localizzy/apple_resources.py and Fluent projection in
 src/vexy_localizzy/fluent_resources.py and the legacy converters in

@@ -14,7 +14,7 @@ from vexy_localizzy.catalog_translation_inputs import prepare_units
 from vexy_localizzy.catalog_translation_types import PromptContext
 from vexy_localizzy.formats.document import atomic_write
 from vexy_localizzy.json_values import invalid_constant, unique_object
-from vexy_localizzy.qa import TextPolicy
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.translation_store import digest, encoded
 from vexy_localizzy.translation_types import TranslationRecord
 

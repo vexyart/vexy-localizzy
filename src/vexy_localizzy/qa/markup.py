@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/qa_markup.py
+# this_file: src/vexy_localizzy/qa/markup.py
 """Structural HTML comparison using the standard parser and explicit nesting checks."""
 
 import re

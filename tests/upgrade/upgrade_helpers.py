@@ -4,7 +4,7 @@
 from pathlib import Path
 
 from vexy_localizzy.memory import DirectMemory, Glossary
-from vexy_localizzy.qa import validate_batch
+from vexy_localizzy.qa.text import validate_batch
 from vexy_localizzy.translation_cache import TranslationCache
 from vexy_localizzy.translation_types import TranslationResult
 from vexy_localizzy.upgrade import message_refs

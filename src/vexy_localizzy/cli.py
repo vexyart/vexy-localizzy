@@ -70,8 +70,8 @@ def review(config: str, port: int = 8765, verbose: bool = False):
 def qa(catalog: str, fail_on: str = "major", plural_forms: str | None = None) -> dict:
     """Run the deterministic content checks on a catalog; exit 1 on blocking findings."""
     from vexy_localizzy.conversion import load_any
-    from vexy_localizzy.qa import TextPolicy
-    from vexy_localizzy.qa_catalog import check_catalog
+    from vexy_localizzy.qa.catalog import check_catalog
+    from vexy_localizzy.qa.text import TextPolicy
 
     ranks = {"info": 0, "minor": 1, "major": 2, "critical": 3}
     if fail_on not in ranks:

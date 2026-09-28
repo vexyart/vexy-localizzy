@@ -4,7 +4,7 @@
 import pytest
 
 from vexy_localizzy.catalog import Catalog, PluralForms, Unit
-from vexy_localizzy.qa_catalog import check_catalog
+from vexy_localizzy.qa.catalog import check_catalog
 
 
 def catalog(unit):

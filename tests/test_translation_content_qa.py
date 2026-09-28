@@ -1,7 +1,7 @@
 # this_file: tests/test_translation_content_qa.py
 """Real content validation participates in durable fallback decisions."""
 
-from vexy_localizzy.qa import validate_batch
+from vexy_localizzy.qa.text import validate_batch
 from vexy_localizzy.translation_types import (
     TranslationBatch,
     TranslationItem,

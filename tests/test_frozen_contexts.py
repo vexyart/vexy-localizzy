@@ -119,7 +119,7 @@ def test_archive_when_retrieval_mutates_inputs_then_reject(tmp_path):
 def test_archive_when_context_return_mutated_then_subsequent_reads_unchanged():
     artifact = prepare_contexts(template(), context, **OPTIONS)
     from vexy_localizzy.catalog_translation_inputs import prepare_units
-    from vexy_localizzy.qa import TextPolicy
+    from vexy_localizzy.qa.text import TextPolicy
 
     items = prepare_units(template(), None, {}, OPTIONS["plural_forms"], TextPolicy())[
         2
@@ -132,7 +132,7 @@ def test_archive_when_glossary_order_changes_then_prepared_bytes_stay_identical(
     tmp_path,
 ):
     from vexy_localizzy.catalog_translation_inputs import prepare_units
-    from vexy_localizzy.qa import TextPolicy
+    from vexy_localizzy.qa.text import TextPolicy
 
     artifact = prepare_contexts(
         template(),

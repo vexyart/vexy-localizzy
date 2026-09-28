@@ -8,7 +8,7 @@ from pathlib import Path
 from pydantic import Field
 
 from vexy_localizzy.catalog import Record
-from vexy_localizzy.qa import TextPolicy
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.review_api import create_app
 from vexy_localizzy.review_store import ReviewStore
 

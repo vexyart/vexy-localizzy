@@ -8,7 +8,7 @@ from catalog_translation_fixtures import cache, template
 
 from vexy_localizzy.catalog import Catalog, Unit
 from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.qa import TextPolicy
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.translation_types import TranslationResult
 
 

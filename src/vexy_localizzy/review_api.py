@@ -11,8 +11,8 @@ from filelock import Timeout
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from vexy_localizzy.formats import ts
-from vexy_localizzy.qa import TextPolicy
-from vexy_localizzy.qa_catalog import check_catalog
+from vexy_localizzy.qa.catalog import check_catalog
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.review_api_data import present, select_unit, summary
 from vexy_localizzy.review_types import ReviewConflict, ReviewEdit
 from vexy_localizzy.translation_types import TranslationExample

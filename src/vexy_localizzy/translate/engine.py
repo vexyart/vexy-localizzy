@@ -9,7 +9,7 @@ from pathlib import Path
 from pydantic import Field
 
 from vexy_localizzy.catalog import Record
-from vexy_localizzy.qa import validate_batch
+from vexy_localizzy.qa.text import validate_batch
 from vexy_localizzy.translation_cache import TranslationCache
 from vexy_localizzy.translation_types import TranslationBatch, TranslationResult
 

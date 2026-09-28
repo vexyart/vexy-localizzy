@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/qa.py
+# this_file: src/vexy_localizzy/qa/text.py
 """Deterministic scalar translation checks shared by caches, catalogs and review."""
 
 from typing import Annotated, Literal
@@ -6,9 +6,9 @@ from typing import Annotated, Literal
 from pydantic import Field
 
 from vexy_localizzy.catalog import Finding
-from vexy_localizzy.qa_markup import markup_pair, visible_text
-from vexy_localizzy.qa_placeholders import accelerators, arguments
-from vexy_localizzy.qa_printf import printf_error
+from vexy_localizzy.qa.markup import markup_pair, visible_text
+from vexy_localizzy.qa.placeholders import accelerators, arguments
+from vexy_localizzy.qa.printf import printf_error
 from vexy_localizzy.translation_types import (
     TranslationBatch,
     TranslationRecord,

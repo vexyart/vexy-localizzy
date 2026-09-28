@@ -30,7 +30,7 @@ endpoint/engine/validation identities and a content validator:
 
 ```python
 from vexy_localizzy.abersetz_transport import TRANSPORT_ID, translate_batch
-from vexy_localizzy.qa import validate_batch
+from vexy_localizzy.qa.text import validate_batch
 from vexy_localizzy.translation_cache import TranslationCache
 
 with TranslationCache(

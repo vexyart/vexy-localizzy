@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/qa_icu.py
+# this_file: src/vexy_localizzy/qa/icu.py
 """ICU checks through an explicitly installed, caller-pinned Node CLI."""
 
 import json

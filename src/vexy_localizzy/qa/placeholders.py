@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/qa_placeholders.py
+# this_file: src/vexy_localizzy/qa/placeholders.py
 """Exact Qt tokens and Python's own brace-format parser; never evaluate text."""
 
 import re

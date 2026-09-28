@@ -2,7 +2,7 @@
 """Complete catalog form coverage with durable batch reuse and review dispositions."""
 
 from vexy_localizzy.catalog import Catalog, PluralForms, Unit
-from vexy_localizzy.qa import validate_batch
+from vexy_localizzy.qa.text import validate_batch
 from vexy_localizzy.translation_cache import TranslationCache
 from vexy_localizzy.translation_types import TranslationResult
 
