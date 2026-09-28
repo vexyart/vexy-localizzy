@@ -101,3 +101,23 @@ def test_catalog_when_plural_source_differs_then_each_index_uses_its_source():
         ),
     )
     assert not check_catalog(catalog(unit), required_plural_forms=("0", "1"))
+
+
+def test_accelerators_when_literal_ampersand_before_space_then_not_a_marker():
+    from vexy_localizzy.qa import TextPolicy, check_text
+    from vexy_localizzy.qa_placeholders import accelerators
+
+    assert accelerators("Guides & Anchors") == (0, 0), (
+        "an ampersand before a space is literal text"
+    )
+    assert accelerators("&Guides") == (1, 0)
+    assert accelerators("Guides &") == (0, 0), "a trailing ampersand is literal text"
+    assert accelerators("Save &&as &%") == (0, 1), (
+        "&& is literal, &% is an invalid marker"
+    )
+    findings = check_text(
+        "Guides & Anchors", "Linie pomocnicze i kotwice", policy=TextPolicy()
+    )
+    assert not [f for f in findings if f.rule_id == "ACCEL-MISMATCH"], (
+        "translating a literal & as a word is fine"
+    )

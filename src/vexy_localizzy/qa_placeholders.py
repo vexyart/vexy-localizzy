@@ -47,8 +47,13 @@ def brace_fields(text: str) -> tuple:
 
 
 def accelerators(text: str) -> tuple[int, int]:
-    """Count Qt ampersand mnemonics and invalid markers; && is a literal ampersand."""
+    """Count Qt ampersand mnemonics and invalid markers; && is a literal ampersand.
+
+    An ampersand followed by whitespace or at the end of the text is literal
+    text in Qt ("Guides & Anchors" shows the ampersand), so a translation may
+    render it as a word; it counts as neither a mnemonic nor an invalid marker.
+    """
     marks = [m[1:] for m in re.findall(r"&&|&.?", text, re.DOTALL) if m != "&&"]
     return sum(bool(m) and m.isalnum() for m in marks), sum(
-        not m or not m.isalnum() for m in marks
+        bool(m) and not m.isalnum() and not m.isspace() for m in marks
     )
