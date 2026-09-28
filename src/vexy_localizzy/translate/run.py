@@ -360,6 +360,7 @@ def translate_file(
     provenance: Literal["sidecar", "extra"] = "sidecar",
     request: Request | None = None,
     style: str = "",
+    batch_size: int = 50,
 ) -> TranslateReport:
     """Translate one catalog file into ``out`` and write the JSON report sidecar.
 
@@ -417,6 +418,7 @@ def translate_file(
         "context": context,
         "policy": qa,
         "prefilled": {**kept, **memory},
+        "batch_size": batch_size,
     }
     if engine is None:
         result = translate_catalog(work, None, **options)

@@ -5,6 +5,8 @@ import hashlib
 import time
 from copy import copy
 
+from loguru import logger
+
 from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 from vexy_localizzy.translate.store import digest, encoded, open_store
 from vexy_localizzy.translate.types import (
@@ -134,6 +136,12 @@ class TranslationCache:
                     )
                 return None
             except (ValueError, TypeError) as error:
+                logger.warning(
+                    "translation batch rejected ({} via {}): {}",
+                    type(error).__name__,
+                    model,
+                    str(error)[:500],
+                )
                 with self.db:
                     self.db.execute(
                         "INSERT INTO attempts VALUES (?,?,?)",

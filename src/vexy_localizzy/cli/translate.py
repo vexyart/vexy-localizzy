@@ -58,6 +58,7 @@ def _options(
     api_key_env,
     cache,
     temperature,
+    timeout=120,
 ):
     """Parse Fire values into ``translate_file`` keyword arguments."""
     from vexy_localizzy.formats.ts_read import load
@@ -88,6 +89,7 @@ def _options(
             models=tuple(dict.fromkeys(models)),
             api_key_env=str(api_key_env),
             temperature=float(temperature),
+            timeout=float(timeout),
         )
     if plural_count is not None and (
         isinstance(plural_count, bool)
@@ -139,6 +141,8 @@ def translate(
     cache: str | None = None,
     temperature: float = 0.2,
     style_file: str | None = None,
+    batch_size: int = 50,
+    timeout: float = 120,
 ) -> dict:
     """Translate CATALOG into --target using memories, then an optional engine.
 
@@ -173,12 +177,16 @@ def translate(
             api_key_env,
             cache,
             temperature,
+            timeout,
         )
         from vexy_localizzy.translate.run import translate_file
 
         style = Path(str(style_file)).read_text(encoding="utf-8") if style_file else ""
         result = translate_file(
-            report=Path(str(report)) if report else None, style=style, **options
+            report=Path(str(report)) if report else None,
+            style=style,
+            batch_size=int(batch_size),
+            **options,
         )
     except ImportError as error:
         print(f"error: {error}; install vexy-localizzy[translation]", file=sys.stderr)

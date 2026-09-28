@@ -38,7 +38,7 @@ def _languages(path: Path) -> tuple[str, str | None]:
     return root.get("sourcelanguage") or "en", root.get("language")
 
 
-def _open_cache(endpoint, models, api_key_env, cache_path, temperature):
+def _open_cache(endpoint, models, api_key_env, cache_path, temperature, timeout=120):
     """Build the engine-backed cache inline; abersetz is an optional extra."""
     try:
         from vexy_localizzy.qa.text import validate_batch
@@ -59,7 +59,12 @@ def _open_cache(endpoint, models, api_key_env, cache_path, temperature):
 
     def request(model, batch):
         return translate_batch(
-            batch, model, base_url=endpoint, api_key=api_key, temperature=temperature
+            batch,
+            model,
+            base_url=endpoint,
+            api_key=api_key,
+            temperature=temperature,
+            timeout=timeout,
         )
 
     Path(cache_path).parent.mkdir(parents=True, exist_ok=True)
@@ -96,6 +101,7 @@ def upgrade(
     cache=None,
     temperature=0.2,
     style_file=None,
+    timeout=120,
 ) -> dict:
     """Port APPROVED translations onto FRESH lupdate output; write NEW and RETIRED.
 
@@ -169,7 +175,12 @@ def upgrade(
             else out.parent / ".localizzy" / "translation-cache.sqlite"
         )
         engine_cache = _open_cache(
-            str(endpoint), models, str(api_key_env), cache_path, float(temperature)
+            str(endpoint),
+            models,
+            str(api_key_env),
+            cache_path,
+            float(temperature),
+            float(timeout),
         )
     options = UpgradeOptions(
         style=Path(str(style_file)).read_text(encoding="utf-8") if style_file else "",
