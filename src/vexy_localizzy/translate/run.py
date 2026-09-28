@@ -365,7 +365,9 @@ def translate_file(
     """Translate one catalog file into ``out`` and write the JSON report sidecar.
 
     Without ``engine`` no provider is called: units without a kept target or memory
-    hit stay pending (``counts["pending"]``). ``request`` replaces the abersetz
+    hit stay pending (``counts["pending"]``). ``keep_existing=False`` on a
+    same-language catalog raises ValueError without an engine or when ``out`` is
+    the input, because it would wipe the existing translations. ``request`` replaces the abersetz
     transport. ``cache_path`` defaults to ``.localizzy/translation-cache.sqlite``
     next to ``out``; ``report`` defaults to ``OUT.localizzy.json``.
     """
@@ -379,6 +381,15 @@ def translate_file(
     template, same = _template(loaded, raw, fmt, wanted, plural_count)
     if out.resolve() == catalog.resolve() and not same:
         raise ValueError("Output would overwrite the input with another language")
+    if (
+        same
+        and not keep_existing
+        and (engine is None or out.resolve() == catalog.resolve())
+    ):
+        raise ValueError(
+            "--nokeep-existing clears every existing translation; it needs an "
+            "engine and an --out other than the input catalog"
+        )
     lang = template.target_lang or wanted
     qa = TextPolicy()
     plural_forms = _plural_forms(template, wanted, plural_count)

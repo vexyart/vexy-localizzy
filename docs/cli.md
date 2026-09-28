@@ -57,7 +57,8 @@ DESCRIPTION
     (id > context > source) and whole-string glossary terms fill messages before
     the engine; --finish-on picks which classes are written finished. A catalog
     already in the target language keeps its complete translations; turn that
-    off with --nokeep-existing (or --keep-existing=False). --out may be omitted
+    off with --nokeep-existing (or --keep-existing=False), which needs an engine
+    and an --out other than CATALOG. --out may be omitted
     only for a TS catalog that keeps its language. The report JSON goes to
     --report (default OUT.localizzy.json); --provenance=extra also writes
     <extra-localizzy-origin> into TS messages.

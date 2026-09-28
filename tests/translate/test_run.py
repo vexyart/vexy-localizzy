@@ -189,19 +189,54 @@ def test_translate_file_when_same_language_then_existing_translations_kept(tmp_p
     assert not report.ready, "an existing target failing QA blocks readiness"
 
 
-def test_translate_file_when_no_keep_existing_then_memory_replaces_and_rest_pends(
+@needs_abersetz
+def test_translate_file_when_no_keep_existing_then_memory_and_engine_replace(
     tmp_path,
 ):
     source = write(tmp_path / "de.ts", GERMAN_TS)
     memory = tmx(tmp_path / "m.tmx", tu("Menu", "Save", "Sichern"))
     out = tmp_path / "out.ts"
     report = translate_file(
-        source, target="de_DE", out=out, direct_memories=[memory], keep_existing=False
+        source,
+        target="de_DE",
+        out=out,
+        direct_memories=[memory],
+        keep_existing=False,
+        engine=ENGINE,
+        cache_path=tmp_path / "cache.sqlite",
+        request=FakeProvider(),
     )
     units = {u.source: u for u in ts.load(out).units}
     assert units["Save"].target == "Sichern"
-    assert units["Open"].target == "" and units["Close %1"].target == ""
-    assert report.counts["pending"] == 3 and report.counts["kept"] == 0
+    assert units["Open"].target == "DE Open"
+    assert report.counts["kept"] == 0 and report.counts["engine"] == 3
+
+
+@pytest.mark.parametrize("same_out", [False, True])
+def test_translate_file_when_no_keep_existing_without_engine_then_refuses(
+    tmp_path, same_out
+):
+    source = write(tmp_path / "de.ts", GERMAN_TS)
+    out = source if same_out else tmp_path / "out.ts"
+    with pytest.raises(ValueError, match="nokeep-existing"):
+        translate_file(source, target="de_DE", out=out, keep_existing=False)
+    assert source.read_text(encoding="utf-8") == GERMAN_TS
+    assert same_out or not out.exists()
+
+
+def test_translate_file_when_no_keep_existing_and_out_is_input_then_refuses(tmp_path):
+    source = write(tmp_path / "de.ts", GERMAN_TS)
+    with pytest.raises(ValueError, match="nokeep-existing"):
+        translate_file(
+            source,
+            target="de_DE",
+            out=source,
+            keep_existing=False,
+            engine=ENGINE,
+            cache_path=tmp_path / "cache.sqlite",
+            request=FakeProvider(),
+        )
+    assert source.read_text(encoding="utf-8") == GERMAN_TS
 
 
 def test_translate_file_when_provenance_extra_then_origin_element_and_same_units(

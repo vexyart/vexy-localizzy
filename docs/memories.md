@@ -105,7 +105,9 @@ Portuguese, re-extract them (the extractors now write `pt-PT`) or pass
 
 `--target de` counts as the same language as a `de_DE` catalog. The catalog
 keeps its own tag, and its complete translations are kept, unless you pass
-`--nokeep-existing` (or `--keep-existing=False`). An existing translation that
+`--nokeep-existing` (or `--keep-existing=False`). That flag clears every
+existing translation before the memory lookup, so it is refused (exit 2)
+without an engine or when the output would overwrite the input. An existing translation that
 fails QA, or is only partly filled, is left exactly as it is and reported as
 `KEPT-QA-FAIL` or `KEPT-INCOMPLETE`. For a new language, only TS catalogs can be
 prepared. The target's plural count comes from Qt's numerus table, or from

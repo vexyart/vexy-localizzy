@@ -132,7 +132,7 @@ def test_translate_when_out_omitted_for_same_language_then_overwrite(tmp_path):
     assert b"<translation>Sichern</translation>" in source.read_bytes()
 
 
-def test_translate_when_nokeep_existing_then_existing_text_replaced(tmp_path):
+def test_translate_when_nokeep_existing_without_engine_then_refuses(tmp_path):
     source = tmp_path / "app_de.ts"
     source.write_bytes(
         APP_DE.read_bytes().replace(
@@ -148,8 +148,19 @@ def test_translate_when_nokeep_existing_then_existing_text_replaced(tmp_path):
     assert b"Alt" in out.read_bytes()
     for flag in ("--nokeep-existing", "--keep-existing=False"):
         code, summary = run(*base, flag)
-        assert code == 0 and summary["counts"]["kept"] == 0, flag
-        assert b"<translation>Sichern</translation>" in out.read_bytes()
+        assert code == 2 and summary is None, "no engine: nothing to refill with"
+    assert b"Alt" in out.read_bytes(), "the refused run must not touch the output"
+
+
+def test_translate_when_nokeep_existing_in_place_then_refuses_and_keeps_input(
+    tmp_path,
+):
+    source = tmp_path / "app_de.ts"
+    source.write_bytes(APP_DE.read_bytes())
+    code, _ = run(str(source), "--target", "de", "--memory-only",
+                  "--nokeep-existing")  # fmt: skip
+    assert code == 2
+    assert source.read_bytes() == APP_DE.read_bytes(), "the catalog must be intact"
 
 
 def test_translate_when_target_is_no_then_stays_a_string(tmp_path):
