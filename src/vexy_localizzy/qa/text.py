@@ -1,9 +1,11 @@
 # this_file: src/vexy_localizzy/qa/text.py
 """Deterministic scalar translation checks shared by caches, catalogs and review."""
 
+import hashlib
+import json
 from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, model_serializer
 
 from vexy_localizzy.catalog import Finding
 from vexy_localizzy.qa.markup import markup_pair, visible_text
@@ -16,15 +18,44 @@ from vexy_localizzy.translate.types import (
     check_result,
 )
 
+PlaceholderStyle = Literal["qt", "python_brace", "printf", "i18next"]
+
 
 class TextPolicy(TranslationRecord):
-    """Select actual application syntax; brace checks must not inspect literal CSS."""
+    """Select actual application syntax; brace checks must not inspect literal CSS.
 
-    placeholder_styles: tuple[Literal["qt", "python_brace", "printf"], ...] = ("qt",)
+    ``unit_styles`` overrides ``placeholder_styles`` per unit key (PO entries
+    flagged ``c-format`` or ``python-brace-format``). The serialized form, used
+    in cache validation identities, carries only a digest of that map, and
+    nothing at all when it is empty.
+    """
+
+    placeholder_styles: tuple[PlaceholderStyle, ...] = ("qt",)
     markup: Literal["auto", "html", "none"] = "auto"
     accelerators: bool = True
     max_length: Annotated[int, Field(ge=0)] | None = None
     msgfmt: str = "msgfmt"
+    unit_styles: dict[str, tuple[PlaceholderStyle, ...]] = Field(default_factory=dict)
+
+    @model_serializer(mode="wrap")
+    def _identity(self, handler):
+        data = handler(self)
+        styles = data.pop("unit_styles", None)
+        if styles:
+            blob = json.dumps(styles, sort_keys=True, ensure_ascii=False)
+            data["unit_styles_sha256"] = hashlib.sha256(blob.encode()).hexdigest()
+        return data
+
+    def styles_for(self, unit_key: str | None) -> tuple[str, ...]:
+        """Styles for one unit; batch item ids (``["key","form"]``) name their unit."""
+        if unit_key is None or not self.unit_styles:
+            return self.placeholder_styles
+        if unit_key not in self.unit_styles and unit_key.startswith("["):
+            try:
+                unit_key = json.loads(unit_key)[0]
+            except (ValueError, IndexError, KeyError, TypeError):
+                pass
+        return self.unit_styles.get(unit_key, self.placeholder_styles)
 
 
 def check_text(
@@ -67,7 +98,7 @@ def check_text(
             "Translation equals the source; review an invariant explicitly.",
             "minor",
         )
-    for style in policy.placeholder_styles:
+    for style in policy.styles_for(unit_key):
         if style == "printf":
             if error := printf_error(source, target, executable=policy.msgfmt):
                 add("PH-MISMATCH", error, style=style)

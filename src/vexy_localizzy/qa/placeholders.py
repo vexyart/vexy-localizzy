@@ -6,6 +6,7 @@ from collections import Counter
 from string import Formatter
 
 QT_ARGUMENT = re.compile(r"%L?(?:[0-9]{1,2}|n)")
+I18NEXT_ARGUMENT = re.compile(r"\{\{(.*?)\}\}", re.DOTALL)
 
 
 def arguments(text: str, style: str) -> Counter:
@@ -14,6 +15,8 @@ def arguments(text: str, style: str) -> Counter:
         return Counter(QT_ARGUMENT.findall(text))
     if style == "python_brace":
         return Counter(brace_fields(text))
+    if style == "i18next":
+        return Counter(name.strip() for name in I18NEXT_ARGUMENT.findall(text))
     raise ValueError(f"Unsupported in-process placeholder style: {style}")
 
 

@@ -75,7 +75,18 @@ Precedence between the two memories is `id` > `context` > `term` > `source`.
 ## The QA gate
 
 Before a memory hit is used, every form goes through `qa.check_text` with the
-Qt placeholder policy. A major or critical finding, such as a missing `%1`, a
+placeholder policy of the catalog's format (`qa.formats.format_policy`). The
+same policy validates kept targets and engine batches.
+
+| Format | Placeholder check |
+|---|---|
+| TS, native JSON | Qt `%1`, `%L1`, `%n` |
+| PO | per entry, from its flags: `c-format` uses `msgfmt --check-format`, `python-brace-format` compares `{name}` fields, `qt-format` is Qt. An unflagged entry gets no placeholder check, as with `msgfmt`. |
+| i18next | `{{name}}` |
+| Android | Java/C printf through `msgfmt`, for strings that contain a conversion such as `%1$s` or `%d` |
+| XLIFF, TMX | the style detected in each unit's own source |
+
+A major or critical finding, such as a missing `%1`, a
 changed tag or a lost accelerator, drops the hit and records
 `MEMORY-QA-REJECT`. The next candidate is then tried; if none is left, the
 message goes to the engine. An unchanged target, such as `Größe` for `Größe`,

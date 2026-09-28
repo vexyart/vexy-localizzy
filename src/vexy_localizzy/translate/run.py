@@ -31,6 +31,7 @@ from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.memory.direct import DirectMemory, MatchClass
 from vexy_localizzy.memory.glossary import DEFAULT_STATUSES, Glossary
 from vexy_localizzy.qa.catalog import scalar_targets, shape_findings
+from vexy_localizzy.qa.formats import format_policy
 from vexy_localizzy.qa.text import TextPolicy, check_text
 from vexy_localizzy.translate.catalog import translate_catalog
 from vexy_localizzy.translate.catalog_types import Prefill
@@ -391,7 +392,7 @@ def translate_file(
             "engine and an --out other than the input catalog"
         )
     lang = template.target_lang or wanted
-    qa = TextPolicy()
+    qa = format_policy(template)
     plural_forms = _plural_forms(template, wanted, plural_count)
     kept, untouched, findings = {}, set(), []
     if same:
