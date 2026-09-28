@@ -37,7 +37,21 @@ class Disposition(TranslationRecord):
         "candidate",
         "review_required",
         "pending",
+        "memory",
+        "kept",
     ]
+    reason: str = ""
+
+
+class Prefill(TranslationRecord):
+    """Targets decided before any provider call: a memory hit or a kept translation.
+
+    ``values`` uses ``qa_catalog.scalar_targets`` form keys ("scalar", "0", ...).
+    """
+
+    values: dict[str, str]
+    state: Literal["translated", "needs_review", "approved"]
+    status: Literal["memory", "kept"]
     reason: str = ""
 
 

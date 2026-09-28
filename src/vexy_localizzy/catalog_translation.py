@@ -1,7 +1,7 @@
 # this_file: src/vexy_localizzy/catalog_translation.py
 """Translate every eligible native form through the durable validated batch cache."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from functools import partial
 
 from vexy_localizzy.catalog import Catalog
@@ -10,6 +10,7 @@ from vexy_localizzy.catalog_translation_inputs import fill_unit, item_id, prepar
 from vexy_localizzy.catalog_translation_types import (
     CatalogTranslation,
     Disposition,
+    Prefill,
     PromptContext,
     ProviderEvidence,
 )
@@ -23,7 +24,7 @@ from vexy_localizzy.translation_types import TranslationItem
 
 def translate_catalog(
     template: Catalog,
-    cache: TranslationCache,
+    cache: TranslationCache | None,
     *,
     plural_forms: dict[str, str] | None = None,
     reviewed: Catalog | None = None,
@@ -32,12 +33,16 @@ def translate_catalog(
     policy: TextPolicy = TextPolicy(),
     batch_size: int = 50,
     max_batch_bytes: int = 48000,
+    prefilled: Mapping[str, Prefill] | None = None,
 ) -> CatalogTranslation:
     """Return a candidate and exact dispositions; never publish or approve generated text.
 
     Each batch commits through TranslationCache. Repeating with the same template,
     context and policy resumes saved batches; incomplete native units stay pending.
     The context callback supplies private style/glossary/RAG evidence as data.
+    ``prefilled`` supplies memory hits and kept targets (dispositions ``memory`` and
+    ``kept``); they count as decided, like reviewed units. With ``cache=None`` no
+    provider is called and every remaining eligible unit stays pending.
     """
     if type(batch_size) is not int or not 1 <= batch_size <= 100:
         raise ValueError("batch_size must be an integer from one through 100")
@@ -48,12 +53,17 @@ def translate_catalog(
         raise ValueError("Translation requires a distinct target locale")
     plural_forms = dict(plural_forms or {})
     fixed, dispositions, items = prepare_units(
-        template, reviewed, invariants or {}, plural_forms, policy
+        template, reviewed, invariants or {}, plural_forms, policy, prefilled=prefilled
     )
-    if isinstance(context, FrozenContexts):
+    if cache is not None and isinstance(context, FrozenContexts):
         context.validate_for(template, items, batch_size, max_batch_bytes)
     values, providers = {}, []
-    for batch in batches(items, template, context, batch_size, max_batch_bytes):
+    work = (
+        batches(items, template, context, batch_size, max_batch_bytes)
+        if cache is not None
+        else ()
+    )
+    for batch in work:
         try:
             result = cache.translate_checked(
                 batch,

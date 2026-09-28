@@ -8,7 +8,8 @@ src/vexy_localizzy/tmx_names.py and literal-token QA contracts in
 src/vexy_localizzy/qa_tokens.py and the explicit compatibility projections in
 src/vexy_localizzy/legacy_pairs.py and the plural/device projection in
 src/vexy_localizzy/apple_resources.py and Fluent projection in
-src/vexy_localizzy/fluent_resources.py are adapted from fl10n, whose project metadata
+src/vexy_localizzy/fluent_resources.py and the legacy converters in
+src/vexy_localizzy/extract/ are adapted from fl10n, whose project metadata
 identifies FontLab as author and declares the MIT license.
 
 Copyright FontLab

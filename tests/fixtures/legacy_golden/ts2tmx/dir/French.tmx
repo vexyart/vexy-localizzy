@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tmx version="1.4"><header creationtool="po2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="gettext"/><body><tu tuid="1"><prop type="x-origin">French.ts</prop><prop type="x-context">Main</prop><tuv xml:lang="en"><seg>Color</seg></tuv><tuv xml:lang="fr-CA"><seg>Couleur</seg></tuv></tu></body></tmx>

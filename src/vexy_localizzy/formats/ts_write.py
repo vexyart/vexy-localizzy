@@ -6,6 +6,7 @@ from pathlib import Path
 from lxml import etree
 
 from vexy_localizzy.catalog import Catalog
+from vexy_localizzy.formats import ts_splice
 from vexy_localizzy.formats import ts_xml as xml
 from vexy_localizzy.formats.document import atomic_write
 from vexy_localizzy.formats.ts_read import load_bytes
@@ -116,43 +117,71 @@ def _fresh(catalog):
 
 
 def dump(catalog: Catalog, path: Path, *, keep_locations: bool = True) -> None:
-    """Atomically serialize; unsupported retained-document edits fail before writing."""
+    """Atomically serialize; unsupported retained-document edits fail before writing.
+
+    A retained document keeps its original bytes: only edited messages are
+    re-rendered and spliced in, so a one-string edit is a one-line diff.
+    """
     catalog = Catalog.model_validate(catalog.model_dump())
     if not keep_locations and any(unit.locations for unit in catalog.units):
         raise ValueError("Location removal requires an explicit lossy conversion")
     if catalog.document is None:
-        tree, ns = _fresh(catalog)
-    else:
-        if catalog.document.format != "ts":
-            raise ValueError(
-                "Converting another retained format to TS requires explicit loss acknowledgement"
-            )
-        raw = catalog.document.content
-        baseline = load_bytes(raw)
-        if catalog.source_lang != baseline.source_lang:
-            raise ValueError(
-                "Changing the source language requires explicit conversion"
-            )
-        current = {unit.record_id: unit for unit in catalog.units}
-        if len(current) != len(catalog.units) or set(current) != {
-            unit.record_id for unit in baseline.units
-        }:
-            raise ValueError("Retained TS message identities must match exactly")
-        tree, ns = xml.parse(raw)
-        changed = catalog.target_lang != baseline.target_lang
-        for (_, message), before in zip(
-            xml.messages(tree.getroot(), ns), baseline.units, strict=True
-        ):
-            changed = _apply(message, current[before.record_id], before, ns) or changed
-        if not changed:
-            atomic_write(path, raw)
-            return
-    root = tree.getroot()
-    if catalog.target_lang is not None:
-        root.set("language", catalog.target_lang)
-    else:
-        root.attrib.pop("language", None)
-    declaration = {} if tree.docinfo.doctype else {"doctype": "<!DOCTYPE TS>"}
-    raw = etree.tostring(tree, encoding="utf-8", xml_declaration=True, **declaration)
-    load_bytes(raw)
+        tree, _ = _fresh(catalog)
+        if catalog.target_lang is not None:
+            tree.getroot().set("language", catalog.target_lang)
+        raw = etree.tostring(
+            tree, encoding="utf-8", xml_declaration=True, doctype="<!DOCTYPE TS>"
+        )
+        load_bytes(raw)
+        atomic_write(path, raw)
+        return
+    if catalog.document.format != "ts":
+        raise ValueError(
+            "Converting another retained format to TS requires explicit loss acknowledgement"
+        )
+    raw = catalog.document.content
+    baseline = load_bytes(raw)
+    if catalog.source_lang != baseline.source_lang:
+        raise ValueError("Changing the source language requires explicit conversion")
+    current = {unit.record_id: unit for unit in catalog.units}
+    if len(current) != len(catalog.units) or set(current) != {
+        unit.record_id for unit in baseline.units
+    }:
+        raise ValueError("Retained TS message identities must match exactly")
+    if catalog.target_lang == baseline.target_lang and all(
+        current[unit.record_id] == unit for unit in baseline.units
+    ):
+        atomic_write(path, raw)
+        return
+    tree, ns = xml.parse(raw)
+    elements = [message for _, message in xml.messages(tree.getroot(), ns)]
+    encoding = tree.docinfo.encoding or "UTF-8"
+    spans = ts_splice.message_spans(raw)
+    ts_splice.check_spans(raw, spans, elements, encoding)
+    replacements = {}
+    style = None
+    for ordinal, (message, before) in enumerate(
+        zip(elements, baseline.units, strict=True)
+    ):
+        existing = list(message.iter())
+        if not _apply(message, current[before.record_id], before, ns):
+            continue
+        created = [node for node in message.iter() if not _contains(existing, node)]
+        style = style or ts_splice.detect_style(raw, encoding)
+        span = spans[ordinal]
+        rendered = ts_splice.render_message(message, style, span.indent, created)
+        if rendered != raw[span.start : span.end]:
+            replacements[ordinal] = rendered
+    root_attrs = (
+        {"language": catalog.target_lang}
+        if catalog.target_lang != baseline.target_lang
+        else None
+    )
+    if replacements or root_attrs:
+        raw = ts_splice.splice(raw, replacements, root_attrs=root_attrs)
+        load_bytes(raw)
     atomic_write(path, raw)
+
+
+def _contains(nodes, node) -> bool:
+    return any(candidate is node for candidate in nodes)

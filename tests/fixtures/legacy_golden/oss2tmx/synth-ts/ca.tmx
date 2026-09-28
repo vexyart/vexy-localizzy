@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tmx version="1.4"><header creationtool="po2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="gettext"/><body><tu tuid="1"><prop type="x-origin">translations/app_ca_CT.ts</prop><prop type="x-context">Main</prop><tuv xml:lang="en"><seg>Open</seg></tuv><tuv xml:lang="ca"><seg>Obre</seg></tuv></tu></body></tmx>

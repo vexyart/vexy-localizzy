@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+ <header creationtool="synthetic" creationtoolversion="1" segtype="sentence" o-tmf="qt-ts" adminlang="en" srclang="en" datatype="plaintext">
+  <prop type="x-memory-kind">fontlab-ui</prop>
+  <note>Synthetic direct memory, es-419.</note>
+ </header>
+ <body>
+  <tu tuid="Menu|Save">
+   <prop type="x-context">Menu</prop>
+   <tuv xml:lang="en">
+    <seg>Save</seg>
+   </tuv>
+   <tuv xml:lang="es-419">
+    <seg>Guardar</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Menu|Open">
+   <prop type="x-context">Menu</prop>
+   <tuv xml:lang="en">
+    <seg>Open</seg>
+   </tuv>
+   <tuv xml:lang="es-419">
+    <seg>Abrir</seg>
+   </tuv>
+  </tu>
+ </body>
+</tmx>

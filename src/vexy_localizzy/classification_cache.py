@@ -349,8 +349,7 @@ class CachedClassifier:
             # entered cooldown. Re-resolve only the unfinished route; cached
             # responses remain reusable and completed panels stay immutable.
             if any(
-                self._response(model, payload)[1] is None
-                and not self._available(model)
+                self._response(model, payload)[1] is None and not self._available(model)
                 for model in selected
             ):
                 selected = self._resolve(payload, count)

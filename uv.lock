@@ -8,8 +8,7 @@ resolution-markers = [
 
 [[package]]
 name = "abersetz"
-version = "1.0.28"
-source = { registry = "https://pypi.org/simple" }
+source = { editable = "../../github.twardoch/pub/abersetz" }
 dependencies = [
     { name = "deep-translator" },
     { name = "diskcache-rs" },
@@ -30,9 +29,47 @@ dependencies = [
     { name = "twat" },
     { name = "twat-task" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/32/5a/ebd347ac4233dd47ee0ef54fc709b6afaf6d8d03eb24395c7c1106719259/abersetz-1.0.28.tar.gz", hash = "sha256:0a8c27a8d127842baccbe9661863261c0095db50757e73ea0db8cfaec5eedf6e", size = 122187, upload-time = "2026-09-12T01:26:30.035Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/bc/40629e6c24d6d55c8c065f0d0f1297d3e0d9b6fb744fd5f51e52cd67f4ff/abersetz-1.0.28-py3-none-any.whl", hash = "sha256:0b70a1eaeafdfa2e4470a8e494fe30a46d309ae0280a46063bbf4d4676eb01fd", size = 95674, upload-time = "2026-09-12T01:26:28.386Z" },
+
+[package.metadata]
+requires-dist = [
+    { name = "deep-translator", specifier = ">=1.11" },
+    { name = "diskcache-rs", specifier = "==0.4.10" },
+    { name = "fire", specifier = ">=0.5" },
+    { name = "htmladapt" },
+    { name = "httpx", specifier = ">=0.25" },
+    { name = "huggingface-hub", specifier = ">=1.16.1" },
+    { name = "langcodes", specifier = ">=3.4" },
+    { name = "language-data", specifier = ">=1.4.0" },
+    { name = "llama-cpp-python", marker = "sys_platform == 'darwin' and extra == 'all'", specifier = ">=0.3.0" },
+    { name = "llama-cpp-python", marker = "sys_platform == 'darwin' and extra == 'gguf'", specifier = ">=0.3.0" },
+    { name = "lmstudio", marker = "extra == 'all'", specifier = ">=1.3.0" },
+    { name = "lmstudio", marker = "extra == 'lms'", specifier = ">=1.3.0" },
+    { name = "loguru", specifier = ">=0.7" },
+    { name = "mlx-lm", marker = "sys_platform == 'darwin' and extra == 'all'", specifier = ">=0.20.0" },
+    { name = "mlx-lm", marker = "sys_platform == 'darwin' and extra == 'mlx'", specifier = ">=0.20.0" },
+    { name = "platformdirs", specifier = ">=4.3" },
+    { name = "pydantic", specifier = ">=2.0" },
+    { name = "rich", specifier = ">=13.9" },
+    { name = "semantic-text-splitter", specifier = ">=0.7" },
+    { name = "tenacity", specifier = ">=8.4" },
+    { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2.0" },
+    { name = "tomli-w", specifier = ">=1.0" },
+    { name = "translators", specifier = ">=5.9" },
+    { name = "turbovec", marker = "extra == 'tm'", specifier = "==1.0.0" },
+    { name = "twat" },
+    { name = "twat-task" },
+    { name = "uubed", marker = "extra == 'tm'", specifier = ">=1.0.6" },
+    { name = "uubed-rs", marker = "extra == 'tm'", specifier = ">=1.0.12" },
+]
+provides-extras = ["all", "gguf", "lms", "mlx", "tm"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "mypy", specifier = ">=1.10" },
+    { name = "pytest", specifier = ">=8.3" },
+    { name = "pytest-asyncio", specifier = ">=1.3.0" },
+    { name = "pytest-cov", specifier = ">=6.0" },
+    { name = "ruff", specifier = ">=0.9" },
 ]
 
 [[package]]
@@ -4442,7 +4479,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "abersetz", marker = "extra == 'translation'", specifier = "==1.0.28" },
+    { name = "abersetz", marker = "extra == 'translation'", editable = "../../github.twardoch/pub/abersetz" },
     { name = "fastapi", marker = "extra == 'review'", specifier = ">=0.135,<1" },
     { name = "filelock", marker = "extra == 'llm'", specifier = ">=3.20,<4" },
     { name = "filelock", marker = "extra == 'review'", specifier = ">=3.20,<4" },

@@ -1,0 +1,290 @@
+{
+  "blender": {
+    "repo": [
+      "https://projects.blender.org/blender/blender-ui-translations.git",
+      [],
+      null
+    ],
+    "glob": "{lang}/*.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "firefox": {
+    "repo": [
+      "https://github.com/mozilla-l10n/firefox-l10n.git",
+      [],
+      null
+    ],
+    "glob": "{lang}/**/*.ftl",
+    "kind": "mozilla",
+    "source_repo": [
+      "https://github.com/mozilla-l10n/firefox-l10n-source.git",
+      [],
+      null
+    ],
+    "ignore": null
+  },
+  "fontforge": {
+    "repo": [
+      "https://github.com/fontforge/fontforge.git",
+      [
+        "/po/"
+      ],
+      null
+    ],
+    "glob": "po/{lang}.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "gimp": {
+    "repo": [
+      "https://gitlab.gnome.org/GNOME/gimp.git",
+      [
+        "/po/",
+        "/po-*/"
+      ],
+      null
+    ],
+    "glob": "po*/{lang}.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "inkscape": {
+    "repo": [
+      "https://gitlab.com/inkscape/translations.git",
+      [],
+      "master"
+    ],
+    "glob": "{lang}.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "kcharselect": {
+    "repo": [
+      "https://github.com/KDE/kcharselect.git",
+      [
+        "/po/"
+      ],
+      null
+    ],
+    "glob": "po/{lang}/kcharselect.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "krita": {
+    "repo": [
+      "https://github.com/KDE/krita.git",
+      [
+        "/po/"
+      ],
+      null
+    ],
+    "glob": "po/{lang}/krita.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "libreoffice-writer": {
+    "repo": [
+      "https://github.com/LibreOffice/translations.git",
+      [
+        "/source/*/sw/",
+        "/source/*/sd/"
+      ],
+      null
+    ],
+    "glob": "source/{lang}/sw/messages.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "libreoffice-draw": {
+    "repo": [
+      "https://github.com/LibreOffice/translations.git",
+      [
+        "/source/*/sw/",
+        "/source/*/sd/"
+      ],
+      null
+    ],
+    "glob": "source/{lang}/sd/messages.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "libreoffice-impress": {
+    "repo": [
+      "https://github.com/LibreOffice/translations.git",
+      [
+        "/source/*/sw/",
+        "/source/*/sd/"
+      ],
+      null
+    ],
+    "glob": "source/{lang}/sd/messages.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "scribus": {
+    "repo": [
+      "https://github.com/scribusproject/scribus.git",
+      [
+        "/resources/translations/"
+      ],
+      null
+    ],
+    "glob": "resources/translations/scribus.{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "tuxpaint": {
+    "repo": [
+      "https://git.code.sf.net/p/tuxpaint/tuxpaint",
+      [
+        "/src/po/"
+      ],
+      null
+    ],
+    "glob": "src/po/{lang}.po",
+    "kind": "po",
+    "source_repo": null,
+    "ignore": null
+  },
+  "qt": {
+    "repo": [
+      "https://github.com/qt/qttranslations.git",
+      [
+        "/translations/"
+      ],
+      "dev"
+    ],
+    "glob": "translations/*_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "fontmatrix": {
+    "repo": [
+      "https://github.com/fontmatrix/fontmatrix.git",
+      [
+        "/src/messages/"
+      ],
+      null
+    ],
+    "glob": "src/messages/fontmatrix-{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "coolreader": {
+    "repo": [
+      "https://github.com/CrazyCoder/coolreader-kindle-qt.git",
+      [
+        "/cr3-kindle/src/i18n/"
+      ],
+      null
+    ],
+    "glob": "cr3-kindle/src/i18n/*.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": "/qt_"
+  },
+  "tiled": {
+    "repo": [
+      "https://github.com/mapeditor/tiled.git",
+      [
+        "/translations/"
+      ],
+      null
+    ],
+    "glob": "translations/tiled_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "freecad": {
+    "repo": [
+      "https://github.com/FreeCAD-Nut/FreeCAD.git",
+      [
+        "/src/App/Resources/translations/"
+      ],
+      "main"
+    ],
+    "glob": "src/App/Resources/translations/App_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "lingmo-installer": {
+    "repo": [
+      "https://github.com/LingmoOS/LingmoOS.git",
+      [
+        "/installer/lang/"
+      ],
+      "main"
+    ],
+    "glob": "installer/lang/calamares_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "texmaker": {
+    "repo": [
+      "https://github.com/orao/texmaker.git",
+      [
+        "/trans/"
+      ],
+      null
+    ],
+    "glob": "trans/texmaker_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "goldendict": {
+    "repo": [
+      "https://github.com/goldendict/goldendict.git",
+      [
+        "/locale/"
+      ],
+      null
+    ],
+    "glob": "locale/{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": "/qt_"
+  },
+  "retext": {
+    "repo": [
+      "https://github.com/retext-project/retext.git",
+      [
+        "/ReText/locale/"
+      ],
+      null
+    ],
+    "glob": "ReText/locale/retext_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  },
+  "qcad": {
+    "repo": [
+      "https://github.com/qcad/qcad.git",
+      [
+        "/ts/"
+      ],
+      null
+    ],
+    "glob": "ts/*_{lang}.ts",
+    "kind": "ts",
+    "source_repo": null,
+    "ignore": null
+  }
+}

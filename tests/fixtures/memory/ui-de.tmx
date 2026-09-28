@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+ <header creationtool="synthetic" creationtoolversion="1" segtype="sentence" o-tmf="qt-ts" adminlang="en" srclang="en" datatype="plaintext">
+  <prop type="x-memory-kind">fontlab-ui</prop>
+  <note>Synthetic direct memory, de. Never copy real data here.</note>
+ </header>
+ <body>
+  <tu tuid="Menu|Save">
+   <prop type="x-context">Menu</prop>
+   <note>unit note</note>
+   <tuv xml:lang="en">
+    <seg>Save</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Sichern</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Dialog|Save">
+   <prop type="x-context">Dialog</prop>
+   <tuv xml:lang="en">
+    <seg>Save</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Speichern</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Toolbar|Open">
+   <prop type="x-context">Toolbar</prop>
+   <tuv xml:lang="en">
+    <seg>Open</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Öffnen</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Dialog|Open">
+   <prop type="x-context">Dialog</prop>
+   <tuv xml:lang="en">
+    <seg>Open</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Öffnen</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Panel|Form">
+   <prop type="x-context">Panel</prop>
+   <tuv xml:lang="en">
+    <seg>Form</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Formular</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Tool|Form">
+   <prop type="x-context">Tool</prop>
+   <tuv xml:lang="en">
+    <seg>Form</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Gestalt</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Panel|Form:">
+   <prop type="x-context">Panel</prop>
+   <tuv xml:lang="en">
+    <seg>Form:</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Form:</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Panel|Kern">
+   <prop type="x-context">Panel</prop>
+   <prop type="x-comment">verb</prop>
+   <tuv xml:lang="en">
+    <seg>Kern</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Unterschneiden</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Panel|Kern">
+   <prop type="x-context">Panel</prop>
+   <prop type="x-comment">noun</prop>
+   <tuv xml:lang="en">
+    <seg>Kern</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Unterschneidung</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Files|Open file">
+   <prop type="x-context">Files</prop>
+   <tuv xml:lang="en">
+    <seg>Open file</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Datei öffnen</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Other|Open file">
+   <prop type="x-context">Other</prop>
+   <prop type="x-message-id">file.open</prop>
+   <tuv xml:lang="en">
+    <seg>Open file</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Datei öffnen (per id)</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Files|%n file(s):0">
+   <prop type="x-context">Files</prop>
+   <prop type="x-numerus-form">0</prop>
+   <tuv xml:lang="en">
+    <seg>%n file(s)</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>%n Datei</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Files|%n file(s):1">
+   <prop type="x-context">Files</prop>
+   <prop type="x-numerus-form">1</prop>
+   <tuv xml:lang="en">
+    <seg>%n file(s)</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>%n Dateien</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Metrics|Größe">
+   <prop type="x-context">Metrics</prop>
+   <tuv xml:lang="en">
+    <seg>Größe</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Größe</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Text|Line one
+Line two">
+   <prop type="x-context">Text</prop>
+   <tuv xml:lang="en">
+    <seg>Line one
+Line two</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Zeile eins
+Zeile zwei</seg>
+   </tuv>
+  </tu>
+  <tu tuid="Only|French">
+   <prop type="x-context">Only</prop>
+   <tuv xml:lang="en">
+    <seg>French only</seg>
+   </tuv>
+   <tuv xml:lang="fr">
+    <seg>Français seulement</seg>
+   </tuv>
+  </tu>
+ </body>
+</tmx>

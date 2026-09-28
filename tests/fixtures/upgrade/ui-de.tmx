@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+ <header creationtool="synthetic" creationtoolversion="1" segtype="sentence" o-tmf="qt-ts" adminlang="en" srclang="en" datatype="plaintext">
+  <note>Synthetic direct memory for upgrade tests.</note>
+ </header>
+ <body>
+  <tu tuid="Preferences|Units">
+   <prop type="x-context">Preferences</prop>
+   <tuv xml:lang="en"><seg>Units</seg></tuv>
+   <tuv xml:lang="de"><seg>Einheiten</seg></tuv>
+  </tu>
+ </body>
+</tmx>

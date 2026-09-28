@@ -3,6 +3,66 @@ this_file: WORK.md
 ---
 # Work
 
+## 2026-09-28 — TS upgrade (toolchain Step L5)
+
+New `upgrade/` subpackage and `cli_upgrade.py`, with 60 tests in `tests/upgrade`.
+Real-data check, read-only, with no memories and no engine:
+- FRESH is fl10n's `i18n-repo/fontlab_de.ts` (10,474 messages). APPROVED is
+  `i18n/fontlab_de.ts` (10,587 messages).
+- Results: 10,448 exact, 11 fuzzy_similar (typo fixes such as "Horizonal" to
+  "Horizontal", ported unfinished with `<oldsource>`), 15 untranslated and 128
+  retired. Both invariants hold. The run takes about 0.9 s.
+- `upgrade_ts(X, X)` is byte-identical for both files, at about 0.7 s each.
+- Two of the untranslated messages had text in FRESH. Tier 10 empties it by
+  design, because FRESH never owns translations.
+Not wired into `cli.py`; run `python -m vexy_localizzy.cli_upgrade`.
+
+## 2026-09-28 — translate with memories (toolchain Step L3)
+
+New `translate/` subpackage, `cli_translate.py` and `cli_args.py`, plus the
+`prefilled=` path in `translate_catalog`. 61 new tests (tests/translate,
+tests/test_cli_translate.py) use a recording fake provider and no network.
+Real-data check, memory-only, on fl10n's `fontlab_de.ts` (10,587 messages) with
+the style guide's de memories:
+- keep-existing: output identical to the input bytes; 28 existing translations
+  fail QA and are reported as `KEPT-QA-FAIL`.
+- `--nokeep-existing`: 10,267 context hits and 269 term hits; 51 pending
+  (28 QA-rejected hits plus whitespace-padded sources). All context hits equal
+  the existing text. 32 term hits differ from it, because the glossary and the
+  catalog disagree (for example Dialog vs Dialogfeld).
+Not wired into `cli.py` yet; run `python -m vexy_localizzy.cli_translate`.
+
+## 2026-09-28 — legacy converters moved from fl10n (toolchain Step L7)
+
+`src/vexy_localizzy/extract/` now holds ports of fl10n's `ts2tmx`, `po2tmx`,
+`lproj2tmx`, `adobe2tmx`, `oss2tmx` and `tmxnorm`. `cli_tm.TM_COMMANDS` exposes
+them for the `tm` group, which is not yet wired into `cli.py`.
+
+- **Goldens.** The old scripts ran from fl10n's `.venv` on synthetic inputs only.
+  Re-running `tests/fixtures/legacy_golden/capture.py` reproduces them byte for
+  byte.
+- **Parity tests.** `tests/extract` has 83 tests. 56 are the ported fl10n legacy
+  tests, which also pass 56 of 56 in fl10n. 27 are new parity, registry and CLI
+  tests.
+- **Wheel.** The wheel ships `extract/oss_apps.toml` without any pyproject change.
+- **Next.** fl10n Step F1 rewrites the `run_*.sh` wrappers to call
+  `localizzy tm …` and deletes `tools/*2tmx.py` and `tmxnorm.py`.
+
+## 2026-09-28 — memory loaders (toolchain Step L2)
+
+New `src/vexy_localizzy/memory/` (langmatch, direct, glossary) reads TMX through
+`tmx.read_tmx`, which now keeps TU and TUV notes. 36 new tests in `tests/memory`
+pass; the full suite passes 946 (baseline 910). Real-data check: de and es UI
+memories each load 10,373 of 10,373 TUs (`de_DE`→`de`, `es_MX`→`es-419`).
+`fontlab_de.ts` gets 10,309 context hits out of 10,587 messages, and every hit
+equals the existing translation. The glossary has 206 terms (147 approved and
+59 do-not-translate), with 2 proposed terms excluded. Of the 278 misses, 270 are
+core terms. The other 8 have leading or trailing spaces or a trailing CR, which
+the style guide's `build_tmx.py` trims away, so they correctly miss verbatim
+lookup. 24 messages get both a context hit and a whole-term glossary match, so
+Step L3 needs a precedence rule. Next: Step L3 wires these into
+`localizzy translate`.
+
 ## 2026-09-14 — ordered CLIPROXY successor
 
 New classifier work uses the user-specified ordered 24-model CLIPROXY pool. The
@@ -928,3 +988,11 @@ validates against a bundled TMX 1.4 DTD. Review regressions cover empty-target i
 codes, protected exact-origin lineage and missing target-language declarations;
 projection metadata stays isolated across language pairs. All 18 TMX adapter tests
 and the full 255-test gate pass. Consumer migration and later MVP stages remain open.
+
+2026-09-28, TS splice writer (plan Step L1): `ts.dump` on a retained TS document
+now splices only edited messages into the original bytes (`formats/ts_splice.py`).
+The span tokenizer is checked against the lxml parse on every write. Rendering
+unedited messages reproduces all 42,348 messages of the four FontLab catalogs
+exactly. Smoke check: a one-character edit in `fontlab_de.ts` gives a 5-line
+`diff -U0` (was 38,139). 22 new tests in `tests/test_ts_splice.py`; full suite
+passes. `ts_template.py` still re-serializes prepared documents; not changed here.

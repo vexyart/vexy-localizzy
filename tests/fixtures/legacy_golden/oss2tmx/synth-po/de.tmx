@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tmx version="1.4"><header creationtool="po2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="gettext"/><body><tu tuid="1"><prop type="x-origin">po/de_DE.po</prop><tuv xml:lang="en"><seg>Open</seg></tuv><tuv xml:lang="de"><seg>Öffnen</seg></tuv></tu><tu tuid="2"><prop type="x-origin">po/de_DE.po</prop><prop type="x-context">menu</prop><tuv xml:lang="en"><seg>Open</seg></tuv><tuv xml:lang="de"><seg>Öffnen</seg></tuv></tu></body></tmx>

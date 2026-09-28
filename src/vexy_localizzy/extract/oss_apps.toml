@@ -1,0 +1,155 @@
+# this_file: src/vexy_localizzy/extract/oss_apps.toml
+# Registry of open-source apps for `localizzy tm oss2tmx`, ported from fl10n oss2tmx.APPS.
+# [apps.<name>]: glob (relative to the repo root; {lang} marks the language segment),
+# kind = po | ts | mozilla (default po), optional ignore (regex on the repo-relative path).
+# [apps.<name>.repo] / [apps.<name>.source_repo]: url, optional sparse paths and branch.
+# Firefox (mozilla) reads en-US from source_repo.
+
+[apps.blender]
+glob = "{lang}/*.po"
+[apps.blender.repo]
+url = "https://projects.blender.org/blender/blender-ui-translations.git"
+
+[apps.firefox]
+glob = "{lang}/**/*.ftl"
+kind = "mozilla"
+[apps.firefox.repo]
+url = "https://github.com/mozilla-l10n/firefox-l10n.git"
+[apps.firefox.source_repo]
+url = "https://github.com/mozilla-l10n/firefox-l10n-source.git"
+
+[apps.fontforge]
+glob = "po/{lang}.po"
+[apps.fontforge.repo]
+url = "https://github.com/fontforge/fontforge.git"
+paths = ["/po/"]
+
+[apps.gimp]
+glob = "po*/{lang}.po"
+[apps.gimp.repo]
+url = "https://gitlab.gnome.org/GNOME/gimp.git"
+paths = ["/po/", "/po-*/"]
+
+[apps.inkscape]
+glob = "{lang}.po"
+[apps.inkscape.repo]
+url = "https://gitlab.com/inkscape/translations.git"
+branch = "master"
+
+[apps.kcharselect]
+glob = "po/{lang}/kcharselect.po"
+[apps.kcharselect.repo]
+url = "https://github.com/KDE/kcharselect.git"
+paths = ["/po/"]
+
+[apps.krita]
+glob = "po/{lang}/krita.po"
+[apps.krita.repo]
+url = "https://github.com/KDE/krita.git"
+paths = ["/po/"]
+
+[apps.libreoffice-writer]
+glob = "source/{lang}/sw/messages.po"
+[apps.libreoffice-writer.repo]
+url = "https://github.com/LibreOffice/translations.git"
+paths = ["/source/*/sw/", "/source/*/sd/"]
+
+[apps.libreoffice-draw]
+glob = "source/{lang}/sd/messages.po"
+[apps.libreoffice-draw.repo]
+url = "https://github.com/LibreOffice/translations.git"
+paths = ["/source/*/sw/", "/source/*/sd/"]
+
+[apps.libreoffice-impress]
+glob = "source/{lang}/sd/messages.po"
+[apps.libreoffice-impress.repo]
+url = "https://github.com/LibreOffice/translations.git"
+paths = ["/source/*/sw/", "/source/*/sd/"]
+
+[apps.scribus]
+glob = "resources/translations/scribus.{lang}.ts"
+kind = "ts"
+[apps.scribus.repo]
+url = "https://github.com/scribusproject/scribus.git"
+paths = ["/resources/translations/"]
+
+[apps.tuxpaint]
+glob = "src/po/{lang}.po"
+[apps.tuxpaint.repo]
+url = "https://git.code.sf.net/p/tuxpaint/tuxpaint"
+paths = ["/src/po/"]
+
+[apps.qt]
+glob = "translations/*_{lang}.ts"
+kind = "ts"
+[apps.qt.repo]
+url = "https://github.com/qt/qttranslations.git"
+paths = ["/translations/"]
+branch = "dev"
+
+[apps.fontmatrix]
+glob = "src/messages/fontmatrix-{lang}.ts"
+kind = "ts"
+[apps.fontmatrix.repo]
+url = "https://github.com/fontmatrix/fontmatrix.git"
+paths = ["/src/messages/"]
+
+[apps.coolreader]
+glob = "cr3-kindle/src/i18n/*.ts"
+kind = "ts"
+ignore = "/qt_"
+[apps.coolreader.repo]
+url = "https://github.com/CrazyCoder/coolreader-kindle-qt.git"
+paths = ["/cr3-kindle/src/i18n/"]
+
+[apps.tiled]
+glob = "translations/tiled_{lang}.ts"
+kind = "ts"
+[apps.tiled.repo]
+url = "https://github.com/mapeditor/tiled.git"
+paths = ["/translations/"]
+
+[apps.freecad]
+glob = "src/App/Resources/translations/App_{lang}.ts"
+kind = "ts"
+[apps.freecad.repo]
+url = "https://github.com/FreeCAD-Nut/FreeCAD.git"
+paths = ["/src/App/Resources/translations/"]
+branch = "main"
+
+[apps.lingmo-installer]
+glob = "installer/lang/calamares_{lang}.ts"
+kind = "ts"
+[apps.lingmo-installer.repo]
+url = "https://github.com/LingmoOS/LingmoOS.git"
+paths = ["/installer/lang/"]
+branch = "main"
+
+[apps.texmaker]
+glob = "trans/texmaker_{lang}.ts"
+kind = "ts"
+[apps.texmaker.repo]
+url = "https://github.com/orao/texmaker.git"
+paths = ["/trans/"]
+
+[apps.goldendict]
+glob = "locale/{lang}.ts"
+kind = "ts"
+ignore = "/qt_"
+[apps.goldendict.repo]
+url = "https://github.com/goldendict/goldendict.git"
+paths = ["/locale/"]
+
+[apps.retext]
+glob = "ReText/locale/retext_{lang}.ts"
+kind = "ts"
+[apps.retext.repo]
+url = "https://github.com/retext-project/retext.git"
+paths = ["/ReText/locale/"]
+
+[apps.qcad]
+glob = "ts/*_{lang}.ts"
+kind = "ts"
+[apps.qcad.repo]
+url = "https://github.com/qcad/qcad.git"
+paths = ["/ts/"]

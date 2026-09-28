@@ -32,6 +32,7 @@ class Segment:
     text: str
     xml: str
     inline: bool
+    notes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -43,6 +44,7 @@ class Unit:
     source_language: str
     properties: tuple[tuple[str, str], ...]
     segments: tuple[Segment, ...]
+    notes: tuple[str, ...] = ()
 
     def english(self) -> Segment | None:
         """Select explicitly tagged English, never positional source guesses."""
@@ -57,6 +59,11 @@ class Unit:
         if len({s.text for s in choices}) != 1:
             raise ValueError(f"Ambiguous English source at TU {self.ordinal}")
         return choices[0]
+
+
+def _notes(element: etree._Element, namespace: str) -> tuple[str, ...]:
+    """Direct-child <note> texts only; header notes arrive as separate records."""
+    return tuple("".join(n.itertext()) for n in element.findall(namespace + "note"))
 
 
 def _segment(tuv: etree._Element, namespace: str) -> Segment:
@@ -78,6 +85,7 @@ def _segment(tuv: etree._Element, namespace: str) -> Segment:
         text="".join(segment.itertext()),
         xml=etree.tostring(segment, encoding="unicode", with_tail=False),
         inline=len(segment) > 0,
+        notes=_notes(tuv, namespace),
     )
 
 
@@ -111,6 +119,7 @@ def read_tmx(path: str | Path) -> Iterator[Unit]:
                         _segment(tuv, namespace)
                         for tuv in element.findall(namespace + "tuv")
                     ),
+                    _notes(element, namespace),
                 )
             except ValueError as error:
                 raise UnitError(ordinal, str(error)) from error

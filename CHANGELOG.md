@@ -5,6 +5,121 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-28: TS upgrade
+
+- Add `vexy_localizzy.upgrade`. `upgrade_ts(fresh, approved, ...)` ports
+  APPROVED translations onto FRESH lupdate output. It returns NEW bytes,
+  RETIRED bytes and an `UpgradeReport` (`localizzy-upgrade/1`).
+  `upgrade(...)` writes the three files atomically, and only when both
+  invariants hold.
+- Ten tiers run as global passes: exact, shape_changed, plural_count_changed,
+  memory id/context, relocated, fuzzy_exact_loose, fuzzy_similar, memory
+  term/source, machine, pending/untranslated. Tier 9 reuses `translate_catalog`
+  with batch-relevant glossary terms. `shape_changed` sends APPROVED's text as
+  an example.
+- NEW is FRESH's bytes with only changed messages spliced in through
+  `ts_splice`. `upgrade_ts(X, X)` is byte-identical on both FontLab German
+  catalogs.
+- Element ownership: FRESH owns locations, source, comment and extracomment.
+  APPROVED's whole `<translation>` is copied. translatorcomment, userdata and
+  extra-* are carried when FRESH lacks them. oldsource and oldcomment are
+  written for relocated and fuzzy ports.
+- RETIRED resolves relative locations to absolute ones using Qt's reader rule.
+  The result matches `lconvert -locations absolute` on 10,587 real messages.
+- Add `cli_upgrade.upgrade`, ready for Fire but not yet wired into `cli.py`.
+  Exit codes: 0 all filled, 1 empty messages remain, 2 usage, 3 missing
+  translation extra.
+- Docs: `docs/upgrade.md`. Tests: `tests/upgrade` (60 tests) with synthetic
+  fixtures in `tests/fixtures/upgrade`.
+
+### 2026-09-28: translate with memories
+
+- Add `vexy_localizzy.translate` (`run`, `engine`, `context`). `translate_file`
+  fills a catalog in this order: kept existing targets, direct-memory and
+  glossary hits, then the engine. It writes the output catalog and a JSON
+  report (`localizzy-translate/1`, default `OUT.localizzy.json`) with each
+  message's origin, match class, memory TU ids, glossary terms and models.
+- Memory precedence is `id` > `context` > `term` > `source`. Every hit passes a
+  placeholder, markup and accelerator QA gate first. A failing hit gives a
+  `MEMORY-QA-REJECT` finding and falls through to the next candidate or to the
+  engine. A glossary term's first letter is capitalized when the UI label's is.
+- A catalog already in the target language keeps its complete translations
+  (`kept`); `de` matches a `de_DE` catalog. An existing target that fails QA or
+  is only partly filled is left byte-for-byte unchanged, with a `KEPT-QA-FAIL`
+  or `KEPT-INCOMPLETE` finding. Memory-only on the German FontLab catalog with
+  keep-existing reproduces the input bytes exactly.
+- `catalog_translation_types.Prefill` and the `memory`/`kept` dispositions are
+  new. `translate_catalog(..., prefilled=...)` accepts prefilled units and
+  `cache=None`, which calls no provider and leaves the rest pending. Existing
+  callers are unaffected. `prepare_units` takes `prefilled` as a keyword.
+- `translate.engine.open_cache` wires `abersetz_transport.translate_batch` into
+  `TranslationCache` with ordered model fallbacks. `engine_identity` is
+  `TRANSPORT_ID` plus the temperature.
+- New Fire-ready `cli_translate.translate` and `cli_args.csv_paths`/`csv_strings`.
+  Exit codes: 0 done, 1 pending units remain, 2 usage or configuration error,
+  3 the `translation` extra is missing. `--provenance=extra` writes
+  `<extra-localizzy-origin>` into TS messages; the default writes the sidecar only.
+
+### 2026-09-28: legacy converters moved from fl10n
+
+- Add `vexy_localizzy.extract`, ported from the fl10n `tools/` scripts. The
+  ports cover `ts2tmx`, `po2tmx`, `lproj` (lproj2tmx), `adobe` (adobe2tmx),
+  `oss` (oss2tmx) and `names.normalize_folder` (tmxnorm). They share
+  `legacy_lang` (region shortening, filename guessing, XML-illegal character
+  stripping), `walk.plan_jobs` and the `legacy_tmx.write_tmx` row writer. Each
+  `main` became `run(...) -> dict` with its old parameters and defaults. Output
+  goes through loguru and the returned dict, so `rich` is no longer used. Failed
+  files still raise `SystemExit`.
+- `oss2tmx` reads its app registry from the packaged `extract/oss_apps.toml`.
+  `registry=` replaces it, `output` is required, and `Repo`/`App` are pydantic
+  models. `norm` has no default folder.
+- Add `cli_tm.TM_COMMANDS` for the `localizzy tm` group. It holds the six
+  converters plus the strict `extract`, and imports each converter on first call.
+- The TMX headers are unchanged. ts2tmx and oss2tmx still write
+  `creationtool="po2tmx"` and `o-tmf="gettext"`, because they shared po2tmx's writer.
+- Golden parity tests compare parsed records against outputs of the old scripts
+  on synthetic inputs, in `tests/fixtures/legacy_golden`. The fl10n
+  `test_legacy_*` suites were ported to `tests/extract/`.
+
+### 2026-09-28: TS splice writer
+
+- Add `formats/ts_splice.py`. `message_spans` tokenizes `<message>` elements as
+  byte spans, skipping comments, CDATA, processing instructions and the DOCTYPE.
+  `check_spans` parses every span and compares its exclusive C14N with the lxml
+  message. Any disagreement raises `ValueError`; there is no silent fallback.
+- `detect_style` records the declaration line, newline, indent unit, which empty
+  tags are written expanded (`<location …></location>`), and whether text uses
+  `&apos;`, `&quot;` or `&#32;` before a newline. `render_message` reproduces
+  every unedited message of the four FontLab catalogs byte for byte.
+- `ts.dump` on a retained document now re-renders only the edited messages and
+  splices them into the original bytes. A `language` change rewrites only the
+  `<TS>` start tag. New elements, such as an added `<translation>`, get their
+  neighbours' indentation; existing whitespace is never re-laid-out. The
+  unchanged-returns-raw path and the post-write `load_bytes` check remain.
+- Appending one character to one translation in the 10,587-message German
+  catalog now gives a 5-line `diff -U0`, down from 38,139 lines.
+- No existing test pinned the old re-serialized bytes, so no assertion changed.
+  Behaviour change: editing a retained TS document that is not in an
+  ASCII-compatible encoding (for example UTF-16) now fails the span check
+  instead of being re-serialized. Unchanged documents still write raw bytes
+  without tokenizing.
+- New whitespace goes only into layout containers: the message itself, and a
+  `translation` or `numerusform` holding only `numerusform`/`lengthvariant`
+  children. Text made of `<byte>` elements is never indented.
+
+### 2026-09-28: memory loaders
+
+- Add `vexy_localizzy.memory`. `select_language` maps catalog locales to a
+  memory's TUV language (`de_DE`→`de`, `es_MX`→`es-419`) and refuses ties.
+- `DirectMemory` does verbatim lookups (NFC, CRLF→LF only) with `id`, `context`
+  and `source` match classes, native Qt plural shapes, first-file precedence and
+  info findings (`MEMORY-CONFLICT`, `MEMORY-PLURAL-SHAPE`). `lookup_text` serves
+  callers without a catalog unit.
+- `Glossary` filters core terms by `x-status`, maps do-not-translate terms to
+  themselves, selects prompt terms at word boundaries and returns them in a
+  deterministic order.
+- `tmx.Unit` and `tmx.Segment` now keep their direct `<note>` texts (additive).
+
 - Accept a single JSON code block around a distillation vote, preserving raw
   cached responses and all strict selection, identity and byte-budget checks.
 

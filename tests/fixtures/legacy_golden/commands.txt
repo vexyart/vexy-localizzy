@@ -1,0 +1,11 @@
+python $TOOLS/ts2tmx.py --input $GOLDEN/inputs/ts --output $GOLDEN/ts2tmx/dir
+python $TOOLS/ts2tmx.py --input $GOLDEN/inputs/ts/app_de.ts --output $GOLDEN/ts2tmx/single/app_de.tmx --src_lang en_GB
+python $TOOLS/po2tmx.py --input $GOLDEN/inputs/po --output $GOLDEN/po2tmx/dir
+python $TOOLS/po2tmx.py --input $GOLDEN/inputs/po --output $GOLDEN/po2tmx/fuzzy --fuzzy
+python $TOOLS/lproj2tmx.py --app $WORK/Example.app --output $GOLDEN/lproj2tmx/default
+python $TOOLS/lproj2tmx.py --app $WORK/Example.app --output $GOLDEN/lproj2tmx/options --dedupe=False --skip_identical --include_infoplist
+python $TOOLS/adobe2tmx.py --input $WORK/Adobe Synthetic --output $GOLDEN/adobe2tmx/de --ui_lang de_DE
+python $TOOLS/adobe2tmx.py --input $WORK/Adobe Synthetic --output $GOLDEN/adobe2tmx/auto --dedupe=False --skip_identical --include_infoplist
+oss2tmx.main(output=$GOLDEN/oss2tmx, cache=<tmp>) with APPS from oss_registry.toml and fetch -> inputs/oss/<repo>
+tmxnorm.normalize(<tmp>/tmxnorm-dry_run, dry_run=True)
+tmxnorm.normalize(<tmp>/tmxnorm-apply, dry_run=False)

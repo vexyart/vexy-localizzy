@@ -1,15 +1,18 @@
 # this_file: src/vexy_localizzy/cli.py
 """Command-line entry points for generic catalog workflows."""
 
+import json
 import sys
 from pathlib import Path
 
 import fire
 from loguru import logger
 
+from vexy_localizzy.cli_tm import TM_COMMANDS
+from vexy_localizzy.cli_translate import translate
+from vexy_localizzy.cli_upgrade import upgrade
 from vexy_localizzy.conversion import convert as convert_catalog
 from vexy_localizzy.inventory import write_inventory
-from vexy_localizzy.source_extraction import extract
 
 
 def inventory(root: str, output: str, verbose: bool = False) -> dict:
@@ -64,13 +67,48 @@ def review(config: str, port: int = 8765, verbose: bool = False):
     return serve(config, port=port, verbose=verbose)
 
 
-def main() -> None:
-    """Expose explicit subcommands through Python Fire."""
-    fire.Fire(
-        {
-            "inventory": inventory,
-            "convert": convert,
-            "review": review,
-            "extract": extract,
-        }
+def qa(catalog: str, fail_on: str = "major", plural_forms: str | None = None) -> dict:
+    """Run the deterministic content checks on a catalog; exit 1 on blocking findings."""
+    from vexy_localizzy.conversion import load_any
+    from vexy_localizzy.qa import TextPolicy
+    from vexy_localizzy.qa_catalog import check_catalog
+
+    ranks = {"info": 0, "minor": 1, "major": 2, "critical": 3}
+    if fail_on not in ranks:
+        raise SystemExit(f"--fail_on must be one of {', '.join(ranks)}")
+    loaded = load_any(catalog)
+    required = tuple(str(plural_forms).split(",")) if plural_forms else None
+    findings = check_catalog(
+        loaded, policy=TextPolicy(), required_plural_forms=required
     )
+    blocking = [f for f in findings if ranks[f.severity] >= ranks[fail_on]]
+    result = {
+        "catalog": str(catalog),
+        "units": len(loaded.units),
+        "findings": [f.model_dump() for f in findings],
+        "blocking": len(blocking),
+    }
+    if blocking:
+        print(json.dumps(result, ensure_ascii=False, indent=1))
+        raise SystemExit(1)
+    return result
+
+
+COMMANDS = {
+    "translate": translate,
+    "upgrade": upgrade,
+    "convert": convert,
+    "qa": qa,
+    "review": review,
+    "inventory": inventory,
+    "tm": TM_COMMANDS,
+}
+
+
+def main() -> None:
+    """Expose explicit subcommands through Python Fire.
+
+    Hot-path verbs sit at the top level; the memory builders and converters are
+    grouped under ``tm``. ``extract`` is ``localizzy tm extract`` now.
+    """
+    fire.Fire(COMMANDS)

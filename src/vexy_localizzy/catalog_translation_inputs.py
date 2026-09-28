@@ -59,10 +59,20 @@ def items_for(unit: Unit, plural_forms: dict[str, str]) -> list[TranslationItem]
     return rows
 
 
-def prepare_units(template: Catalog, reviewed, invariants, plural_forms, policy):
-    """Preflight all native shapes and explicit approvals before any model calls."""
+def prepare_units(
+    template: Catalog, reviewed, invariants, plural_forms, policy, *, prefilled=None
+):
+    """Preflight all native shapes and explicit approvals before any model calls.
+
+    ``prefilled`` maps unit keys to ``Prefill`` values (memory hits, kept targets).
+    Such units may already carry targets; their filled form must pass shape and
+    major/critical QA checks, or this raises before any provider call.
+    """
     if len({u.key for u in template.units}) != len(template.units):
         raise ValueError("Catalog message keys must be distinct")
+    prefilled = dict(prefilled or {})
+    if set(prefilled) - {u.key for u in template.units}:
+        raise ValueError("Unknown prefilled message keys")
     if reviewed is not None and (
         reviewed.target_lang != template.target_lang
         or reviewed.source_lang != template.source_lang
@@ -76,6 +86,11 @@ def prepare_units(template: Catalog, reviewed, invariants, plural_forms, policy)
     fixed, dispositions, items = {}, {}, []
     for index, unit in enumerate(template.units):
         status, reason = None, ""
+        prefill = prefilled.get(unit.key)
+        if prefill is not None and (
+            unit.state == "vanished" or not unit.source.strip()
+        ):
+            raise ValueError(f"Excluded message cannot be prefilled: {unit.key}")
         if unit.state == "vanished":
             status = "excluded_vanished"
         elif not unit.source.strip():
@@ -87,7 +102,9 @@ def prepare_units(template: Catalog, reviewed, invariants, plural_forms, policy)
                 raise ValueError(
                     f"Invalid plural/variant template {unit.key}: {errors}"
                 )
-            if any(value and value.strip() for _, _, value in scalar_targets(unit)):
+            if prefill is None and any(
+                value and value.strip() for _, _, value in scalar_targets(unit)
+            ):
                 raise ValueError(
                     "Translation template must have empty eligible targets"
                 )
@@ -95,7 +112,17 @@ def prepare_units(template: Catalog, reviewed, invariants, plural_forms, policy)
                 raise ValueError(
                     "ICU catalog translation needs an explicit format policy"
                 )
-            if approval := invariants.get(unit.key):
+            if prefill is not None:
+                if unit.key in invariants:
+                    raise ValueError(
+                        f"Message is both prefilled and invariant: {unit.key}"
+                    )
+                values = dict(prefill.values)
+                if set(values) != {form for form, _, _ in scalar_targets(unit)}:
+                    raise ValueError(f"Prefilled target shape differs for {unit.key}")
+                fixed[index] = fill_unit(unit, values, prefill.state)
+                status, reason = prefill.status, prefill.reason
+            elif approval := invariants.get(unit.key):
                 if approval.source_hash != compute_source_hash(unit):
                     raise ValueError(f"Stale invariant approval for {unit.key}")
                 fixed[index] = fill_unit(
@@ -124,9 +151,13 @@ def prepare_units(template: Catalog, reviewed, invariants, plural_forms, policy)
                 )
                 if any(
                     f.severity in ("major", "critical")
-                    or (f.rule_id == "TARGET-UNCHANGED" and status != "invariant")
+                    or (f.rule_id == "TARGET-UNCHANGED" and status == "reviewed")
                     for f in errors
                 ):
+                    if status in ("memory", "kept"):
+                        raise ValueError(
+                            f"Prefilled output fails shape or QA checks: {unit.key}"
+                        )
                     raise ValueError(
                         f"Reviewed output needs correction or explicit invariant approval: {unit.key}"
                     )

@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tmx version="1.4"><header creationtool="lproj2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="AppleResources"/><body><tu tuid="title"><prop type="x-domain">Settings</prop><prop type="x-origin">Contents/Resources/Settings.loctable</prop><tuv xml:lang="en"><seg>Settings</seg></tuv><tuv xml:lang="zh-CN"><seg>设置</seg></tuv></tu></body></tmx>

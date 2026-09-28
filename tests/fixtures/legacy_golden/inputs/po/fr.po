@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Language: fr_FR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgctxt "menu"
+msgid "Open"
+msgstr "Ouvrir le menu"
+
+msgctxt "ctlctx"
+msgid "Belltext"
+msgstr "Clochetexte"
+
+#, fuzzy
+msgid "Maybe"
+msgstr "Peut-être"
+
+msgid "Untranslated"
+msgstr ""
+
+msgid "One file"
+msgid_plural "%d files"
+msgstr[0] "Un fichier"
+msgstr[1] "%d fichiers"
+
+msgid "Only singular"
+msgid_plural "Only plurals"
+msgstr[0] "Seulement singulier"
+msgstr[1] ""
+
+#~ msgid "Obsolete"
+#~ msgstr "Obsolète"

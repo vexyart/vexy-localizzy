@@ -47,7 +47,7 @@ clustering = [
     "threadpoolctl>=3.6,<4",
 ]
 translation = [
-    "abersetz==1.0.28",
+    "abersetz>=1.1,<2",
     "openai>=2.54,<3",
 ]
 review = [
@@ -55,6 +55,9 @@ review = [
     "filelock>=3.20,<4",
     "uvicorn>=0.41,<1",
 ]
+
+[tool.uv.sources]
+abersetz = { path = "../../github.twardoch/pub/abersetz", editable = true }
 
 [tool.hatch.version]
 source = "vcs"

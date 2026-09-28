@@ -1,0 +1,62 @@
+{
+  "inputs": [
+    "en-US.tmx",
+    "de-DE.tmx",
+    "de-AT.tmx",
+    "sr-Cyrl-SP.tmx",
+    "zh-TW.tmx",
+    "zh-HK.tmx",
+    "bs-Latn-BA.tmx",
+    "es-MX.tmx",
+    "junk_name.tmx",
+    "pt.tmx",
+    "pt-PT.tmx",
+    "fr.tmx",
+    "sub/en-GB.tmx",
+    "sub/pa-PK.tmx",
+    "sub/iw.tmx",
+    "sub/nb-NO.tmx"
+  ],
+  "dry_run": {
+    "renamed": 13,
+    "files": [
+      "bs-Latn-BA.tmx",
+      "de-AT.tmx",
+      "de-DE.tmx",
+      "en-US.tmx",
+      "es-MX.tmx",
+      "fr.tmx",
+      "junk_name.tmx",
+      "pt-PT.tmx",
+      "pt.tmx",
+      "sr-Cyrl-SP.tmx",
+      "sub/en-GB.tmx",
+      "sub/iw.tmx",
+      "sub/nb-NO.tmx",
+      "sub/pa-PK.tmx",
+      "zh-HK.tmx",
+      "zh-TW.tmx"
+    ]
+  },
+  "apply": {
+    "renamed": 13,
+    "files": [
+      "bs.tmx",
+      "de-at.tmx",
+      "de.tmx",
+      "en.tmx",
+      "es.tmx",
+      "fr.tmx",
+      "junk_name.tmx",
+      "pt-pt.tmx",
+      "pt.tmx",
+      "sr.tmx",
+      "sub/en-gb.tmx",
+      "sub/he.tmx",
+      "sub/nb.tmx",
+      "sub/pa-pk.tmx",
+      "zh-hant-hk.tmx",
+      "zh-hant.tmx"
+    ]
+  }
+}

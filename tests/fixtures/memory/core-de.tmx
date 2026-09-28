@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+ <header creationtool="synthetic" creationtoolversion="1" segtype="sentence" o-tmf="qt-ts" adminlang="en" srclang="en" datatype="plaintext">
+  <prop type="x-memory-kind">core</prop>
+  <note>Synthetic glossary, de; mentions do-not-translate in the header note.</note>
+ </header>
+ <body>
+  <tu tuid="term:kerning">
+   <prop type="x-term-id">kerning</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">approved</prop>
+   <note>Adjusting space between glyph pairs.</note>
+   <tuv xml:lang="en">
+    <seg>kerning</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <note>Established term.</note>
+    <seg>Unterschneidung</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:kern">
+   <prop type="x-term-id">kern</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">approved</prop>
+   <tuv xml:lang="en">
+    <seg>kern</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>unterschneiden</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:kerning-class">
+   <prop type="x-term-id">kerning-class</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">approved</prop>
+   <tuv xml:lang="en">
+    <seg>kerning class</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Kerning-Klasse</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:glyph">
+   <prop type="x-term-id">glyph</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">approved</prop>
+   <tuv xml:lang="en">
+    <seg>glyph</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Glyphe</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:fontlab">
+   <prop type="x-term-id">fontlab</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">no</prop>
+   <prop type="x-status">do-not-translate</prop>
+   <tuv xml:lang="en">
+    <seg>FontLab</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>FontLab</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:font">
+   <prop type="x-term-id">font</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">proposed</prop>
+   <tuv xml:lang="en">
+    <seg>font</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Schrift</seg>
+   </tuv>
+  </tu>
+  <tu tuid="term:class">
+   <prop type="x-term-id">class</prop>
+   <prop type="x-category">test</prop>
+   <prop type="x-translatable">yes</prop>
+   <prop type="x-status">approved</prop>
+   <tuv xml:lang="en">
+    <seg>class</seg>
+   </tuv>
+   <tuv xml:lang="de">
+    <seg>Klasse</seg>
+   </tuv>
+  </tu>
+ </body>
+</tmx>

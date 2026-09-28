@@ -1,0 +1,22 @@
+# Synthetic oss2tmx registry used by the golden parity tests.
+[apps.synth-po]
+glob = "po/{lang}.po"
+[apps.synth-po.repo]
+url = "https://example.test/porepo.git"
+paths = ["/po/"]
+
+[apps.synth-ts]
+glob = "translations/*_{lang}.ts"
+kind = "ts"
+ignore = "/qt_"
+[apps.synth-ts.repo]
+url = "https://example.test/tsrepo.git"
+branch = "main"
+
+[apps.synth-moz]
+glob = "{lang}/**/*.ftl"
+kind = "mozilla"
+[apps.synth-moz.repo]
+url = "https://example.test/mozl10n.git"
+[apps.synth-moz.source_repo]
+url = "https://example.test/mozsrc.git"

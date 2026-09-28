@@ -3,7 +3,7 @@ this_file: docs/extraction.md
 ---
 # Extract translation-memory pairs
 
-`localizzy extract INPUT OUTPUT` produces a plain-text TMX from selected bilingual
+`localizzy tm extract INPUT OUTPUT` produces a plain-text TMX from selected bilingual
 records. It uses the explicit [legacy source projections](legacy-sources.md).
 For native catalog editing and complete metadata preservation, use `convert`.
 

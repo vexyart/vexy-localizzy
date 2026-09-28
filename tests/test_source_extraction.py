@@ -95,7 +95,9 @@ def test_main_when_extract_requested_then_dispatch_shared_command(
     source, out = tmp_path / "a.po", tmp_path / "a.tmx"
     source.write_text('msgid "Open"\nmsgstr "Offen"\n')
     monkeypatch.setattr(
-        sys, "argv", ["localizzy", "extract", str(source), str(out), "--target_lang=de"]
+        sys,
+        "argv",
+        ["localizzy", "tm", "extract", str(source), str(out), "--target_lang=de"],
     )
     main()
     assert segments(out) == [["Open", "Offen"]]
