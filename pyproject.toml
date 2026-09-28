@@ -72,7 +72,7 @@ version-file = "src/vexy_localizzy/_version.py"
 packages = ["src/vexy_localizzy"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "examples", "docs", "icu/*.mjs", "icu/package*.json", "icu/README.md", "icu/LICENSE", "review/src", "review/public", "review/package.json", "review/package-lock.json", "review/index.html", "review/tsconfig.json", "review/vite.config.ts", "README.md", "LICENSE", "NOTICE", "DEPENDENCIES.md", "pyproject.toml", "test.sh"]
+include = ["src", "tests", "examples", "docs", "scripts", "icu/*.mjs", "icu/package*.json", "icu/README.md", "icu/LICENSE", "review/src", "review/public", "review/package.json", "review/package-lock.json", "review/index.html", "review/tsconfig.json", "review/vite.config.ts", "README.md", "LICENSE", "NOTICE", "DEPENDENCIES.md", "pyproject.toml", "test.sh"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
