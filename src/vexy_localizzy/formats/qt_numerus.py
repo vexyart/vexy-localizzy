@@ -105,6 +105,7 @@ QT_NUMERUS_FORMS: dict[str, int] = {
     "my": 1,
     "na": 1,
     "nb": 2,
+    "no": 2,  # Qt's QLocale::Norwegian; the macrolanguage of nb and nn
     "ne": 2,
     "nl": 2,
     "nn": 2,
@@ -172,8 +173,9 @@ class UnknownQtNumerus(ValueError):
 
 
 def count(lang: str) -> int:
-    """Return Qt's numerus form count for a BCP 47 or Qt-style tag such as ``pl``, ``es_MX``."""
-    tag = lang.replace("_", "-")
+    """Return Qt's numerus form count for a BCP 47 or Qt-style tag such as ``pl``,
+    ``es_MX`` or ``sr@latin`` (an ``@modifier`` never changes the count)."""
+    tag = lang.split("@", 1)[0].replace("_", "-")
     try:
         primary = Language.get(tag).language or ""
     except Exception as error:  # noqa: BLE001 - any parse failure is an unknown tag

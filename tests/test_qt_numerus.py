@@ -31,3 +31,11 @@ def test_count_when_language_known_then_matches_qt_table(lang, forms):
 def test_count_when_language_unknown_then_raises():
     with pytest.raises(UnknownQtNumerus):
         count("tlh")
+
+
+@pytest.mark.parametrize(
+    ("lang", "forms"),
+    [("no", 2), ("no_NO", 2), ("sr@latin", 3), ("sr_RS@latin", 3), ("ca@valencia", 2)],
+)
+def test_count_when_norwegian_or_qt_modifier_then_known(lang, forms):
+    assert count(lang) == forms, f"{lang} should have {forms} Qt numerus forms"
