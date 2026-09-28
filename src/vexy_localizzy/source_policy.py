@@ -4,7 +4,7 @@
 import json
 from dataclasses import asdict, dataclass, field
 
-from vexy_localizzy.tmx import Unit, UnitError
+from vexy_localizzy.memory.tmx_read import Unit, UnitError
 
 
 @dataclass(frozen=True)

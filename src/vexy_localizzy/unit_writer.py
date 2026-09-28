@@ -7,9 +7,9 @@ from functools import lru_cache
 
 from vexy_localizzy.export_lineage import ExportLineage
 from vexy_localizzy.exporter import LINEAGE_PROP
+from vexy_localizzy.memory.tmx_read import Unit
 from vexy_localizzy.source_policy import SourcePolicy
 from vexy_localizzy.source_store import family_id
-from vexy_localizzy.tmx import Unit
 
 
 def normalized(text: str) -> str:

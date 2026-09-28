@@ -11,8 +11,8 @@ from loguru import logger
 
 from vexy_localizzy.legacy_pairs import Pair, po_pairs, ts_pairs
 from vexy_localizzy.locales import canonical_locale
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 from vexy_localizzy.source_resources import _resource_rows, loctable_rows
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
 
 FORMATS = {
     "ts",

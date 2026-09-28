@@ -11,7 +11,7 @@ from lxml import etree
 
 from vexy_localizzy import export_selection
 from vexy_localizzy.corpus_identity import entry_map_sha256 as entry_map_digest
-from vexy_localizzy.tmx import XML_LANG
+from vexy_localizzy.memory.tmx_read import XML_LANG
 
 MANIFEST_PROP = "x-vexy-localizzy-origins"
 LINEAGE_PROP = "x-vexy-localizzy-lineage"

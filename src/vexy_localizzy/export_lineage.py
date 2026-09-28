@@ -6,9 +6,9 @@ import json
 from pathlib import Path
 
 from vexy_localizzy.exporter import LINEAGE_PROP, MANIFEST_PROP
+from vexy_localizzy.memory.tmx_read import Unit, UnitError
 from vexy_localizzy.snapshots import adopt_snapshot
 from vexy_localizzy.source_store import family_id, origin_id
-from vexy_localizzy.tmx import Unit, UnitError
 from vexy_localizzy.xmlio import records
 
 

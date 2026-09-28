@@ -9,7 +9,7 @@ import pytest
 from vexy_localizzy.catalog import PluralForms, Unit
 from vexy_localizzy.formats.ts import load as load_ts
 from vexy_localizzy.memory import DirectMemory, normalize_source
-from vexy_localizzy.tmx import read_tmx
+from vexy_localizzy.memory.tmx_read import read_tmx
 
 FIXTURES = Path(__file__).parent.parent / "fixtures" / "memory"
 UI_DE = FIXTURES / "ui-de.tmx"

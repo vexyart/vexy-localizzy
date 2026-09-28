@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/tmx_writer.py
+# this_file: src/vexy_localizzy/memory/tmx_write.py
 """Streaming TMX serialization for newly extracted plain-text resource records.
 
 Use formats.tmx for original-document editing and Corpus.export_tmx for weighted
@@ -15,7 +15,7 @@ from pathlib import Path
 from lxml import etree
 
 from vexy_localizzy.locales import canonical_locale
-from vexy_localizzy.tmx import XML_LANG
+from vexy_localizzy.memory.tmx_read import XML_LANG
 
 
 @dataclass(frozen=True)

@@ -30,7 +30,7 @@ from vexy_localizzy.apple_resources import (
 from vexy_localizzy.apple_resources import parse_strings_text as parse_strings_text
 from vexy_localizzy.extract.adobe import PIVOT, Entry, rel
 from vexy_localizzy.extract.legacy_lang import clean_text, norm_lang
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 
 __all__ = [
     "Entry",

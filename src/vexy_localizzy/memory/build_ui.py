@@ -18,7 +18,7 @@ from vexy_localizzy.formats import ts_xml as xml
 from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.memory.glossary import Glossary, match_text
 from vexy_localizzy.memory.langmatch import select_language
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 
 SKIP_TYPES = frozenset({"unfinished", "vanished", "obsolete"})
 

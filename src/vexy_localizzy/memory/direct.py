@@ -15,8 +15,8 @@ from typing import Literal
 
 from vexy_localizzy.catalog import Finding, Record, Unit
 from vexy_localizzy.memory.langmatch import select_language
-from vexy_localizzy.tmx import Segment, read_tmx
-from vexy_localizzy.tmx import Unit as TmxUnit
+from vexy_localizzy.memory.tmx_read import Segment, read_tmx
+from vexy_localizzy.memory.tmx_read import Unit as TmxUnit
 
 MatchClass = Literal["id", "context", "source", "term"]
 RANK: dict[str, int] = {"source": 1, "context": 2, "id": 3}

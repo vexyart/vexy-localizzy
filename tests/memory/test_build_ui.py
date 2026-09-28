@@ -4,7 +4,7 @@
 from pathlib import Path
 
 from vexy_localizzy.memory.build_ui import build_ui
-from vexy_localizzy.tmx import read_tmx
+from vexy_localizzy.memory.tmx_read import read_tmx
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "memory"
 

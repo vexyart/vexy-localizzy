@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.tmx import read_tmx
+from vexy_localizzy.memory.tmx_read import read_tmx
 
 
 @pytest.mark.parametrize(

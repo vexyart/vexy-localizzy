@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from vexy_localizzy.tmx_names import parse_tag, plan_folder, top_territory
+from vexy_localizzy.memory.names import parse_tag, plan_folder, top_territory
 
 
 @pytest.mark.parametrize(
@@ -60,7 +60,7 @@ def test_plan_when_folders_differ_then_refuse_misleading_collisions():
 
 
 def test_population_when_tied_or_missing_then_keep_territories(monkeypatch):
-    from vexy_localizzy import tmx_names
+    from vexy_localizzy.memory import names as tmx_names
 
     monkeypatch.setattr(
         tmx_names, "LANGUAGE_SPEAKING_POPULATION", {"en-US": 10, "en-GB": 10}

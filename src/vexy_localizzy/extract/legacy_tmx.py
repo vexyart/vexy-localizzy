@@ -10,7 +10,7 @@ from collections.abc import Iterable, Iterator
 from pathlib import Path
 
 from vexy_localizzy.extract.legacy_lang import clean_text
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 
 
 def write_tmx(

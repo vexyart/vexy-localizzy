@@ -5,8 +5,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from vexy_localizzy.tmx import read_tmx
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
+from vexy_localizzy.memory.tmx_read import read_tmx
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 
 
 def test_writer_when_values_need_escaping_then_records_and_origins_survive(tmp_path):

@@ -1,7 +1,7 @@
 # this_file: src/vexy_localizzy/extract/names.py
 """Rename ``.tmx`` files under a folder to their shortest BCP 47 tag (legacy tmxnorm).
 
-Planning rules live in ``vexy_localizzy.tmx_names`` (CLDR via ``langcodes`` and
+Planning rules live in ``vexy_localizzy.memory.names`` (CLDR via ``langcodes`` and
 ``language_data``, needs the ``sources`` extra): canonicalize, drop a redundant
 script, drop the most-populous territory, lowercase. Invalid stems are left
 alone, collisions are reported and nothing is ever overwritten. Ported from
@@ -14,7 +14,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from vexy_localizzy import tmx_names
+from vexy_localizzy.memory import names as tmx_names
 
 # Historical alias of the tmxnorm command: early .NET/Windows spelled Serbia
 # ``SP`` (``sr-Cyrl-SP``); the ISO 3166-1 code is ``RS``.

@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/tmx_names.py
+# this_file: src/vexy_localizzy/memory/names.py
 """Optional legacy TMX filename policy, separate from canonical locale identity.
 
 This is a naming convention: choosing the most populous territory as the bare

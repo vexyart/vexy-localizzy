@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/tmx.py
+# this_file: src/vexy_localizzy/memory/tmx_read.py
 """Streaming multilingual TMX records with stable source occurrence ordinals."""
 
 import gzip

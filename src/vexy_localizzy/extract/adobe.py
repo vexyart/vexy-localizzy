@@ -35,8 +35,8 @@ from loguru import logger
 from vexy_localizzy.apple_resources import resource_items
 from vexy_localizzy.extract.legacy_lang import PIVOT, XML_BAD, clean_text, norm_lang
 from vexy_localizzy.json_resources import string_pairs as json_pairs
+from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
 from vexy_localizzy.properties_resources import parse_properties as properties_pairs
-from vexy_localizzy.tmx_writer import TMXRecord, write_records
 
 __all__ = [
     "PIVOT",

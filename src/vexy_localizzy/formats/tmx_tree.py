@@ -7,7 +7,7 @@ from lxml import etree
 
 from vexy_localizzy.formats.xliff_xml import read_tree
 from vexy_localizzy.locales import canonical_locale
-from vexy_localizzy.tmx import XML_LANG
+from vexy_localizzy.memory.tmx_read import XML_LANG
 
 METADATA = "x-localizzy-catalog-v1"
 PROJECTION = "x-localizzy-projection-v1"

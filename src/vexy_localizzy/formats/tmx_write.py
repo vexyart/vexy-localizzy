@@ -21,7 +21,7 @@ from vexy_localizzy.formats.tmx_tree import (
 )
 from vexy_localizzy.formats.xliff_xml import set_content
 from vexy_localizzy.locales import canonical_locale
-from vexy_localizzy.tmx import XML_LANG
+from vexy_localizzy.memory.tmx_read import XML_LANG
 
 
 def representative(unit: Unit) -> str | None:

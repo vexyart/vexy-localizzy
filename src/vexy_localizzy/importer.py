@@ -8,10 +8,10 @@ from pathlib import Path
 from vexy_localizzy.export_lineage import ExportLineage, read_manifest
 from vexy_localizzy.inventory import _identity
 from vexy_localizzy.lineage_validation import verify_lineage
+from vexy_localizzy.memory.tmx_read import read_tmx
 from vexy_localizzy.snapshots import snapshot
 from vexy_localizzy.source_policy import SourcePolicy
 from vexy_localizzy.source_store import prepare
-from vexy_localizzy.tmx import read_tmx
 from vexy_localizzy.unit_writer import UnitWriter
 
 

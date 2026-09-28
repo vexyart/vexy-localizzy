@@ -8,7 +8,7 @@ import tempfile
 import unicodedata
 from pathlib import Path
 
-from vexy_localizzy.tmx import read_tmx
+from vexy_localizzy.memory.tmx_read import read_tmx
 
 
 def fingerprint(source, target) -> bytes:
