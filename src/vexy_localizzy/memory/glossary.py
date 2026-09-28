@@ -82,11 +82,14 @@ class Glossary:
         self._whole: dict[str, Term] = {}
         for file in self.files:
             for unit, src, tgt in file.pairs:
-                term = _term(unit, src, tgt)
-                key = match_text(term.source)
-                if term.status not in statuses or not key.strip():
+                # Filter on the raw status first: an unknown value such as
+                # "deprecated" is excluded, not a reason to abort the whole load.
+                raw = next((v for n, v in unit.properties if n == "x-status"), None)
+                key = match_text(src.text)
+                if (raw or None) not in statuses or not key.strip():
                     self.excluded += 1
                     continue
+                term = _term(unit, src, tgt)
                 if key in self._whole:
                     continue
                 self._whole[key] = term

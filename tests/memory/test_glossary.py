@@ -73,3 +73,22 @@ def test_summary_when_loaded_then_counts_terms_and_exclusions(glossary):
     summary = glossary.summary()
     assert (summary["terms"], summary["terms_excluded"]) == (6, 1), summary
     assert summary["statuses"] == ["approved", "do-not-translate"]
+
+
+def test_glossary_load_when_unknown_status_then_term_excluded_not_crash(tmp_path):
+    path = tmp_path / "g.tmx"
+    path.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?><tmx version="1.4">'
+        '<header creationtool="t" creationtoolversion="1" segtype="phrase" '
+        'o-tmf="tmx" adminlang="en" srclang="en" datatype="plaintext"/><body>'
+        '<tu tuid="term:x"><prop type="x-status">deprecated</prop>'
+        '<tuv xml:lang="en"><seg>x</seg></tuv><tuv xml:lang="de"><seg>y</seg></tuv></tu>'
+        '<tu tuid="term:k"><prop type="x-status">approved</prop>'
+        '<tuv xml:lang="en"><seg>kern</seg></tuv>'
+        '<tuv xml:lang="de"><seg>unterschneiden</seg></tuv></tu>'
+        "</body></tmx>",
+        encoding="utf-8",
+    )
+    glossary = Glossary.load([path], source_lang="en", target_lang="de")
+    assert [t.source for t in glossary.terms] == ["kern"]
+    assert glossary.excluded == 1
