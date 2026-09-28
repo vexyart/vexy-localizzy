@@ -104,9 +104,8 @@ def test_catalog_when_plural_source_differs_then_each_index_uses_its_source():
 
 
 def test_accelerators_when_literal_ampersand_before_space_then_not_a_marker():
-    from vexy_localizzy.qa_placeholders import accelerators
-
     from vexy_localizzy.qa import TextPolicy, check_text
+    from vexy_localizzy.qa.placeholders import accelerators
 
     assert accelerators("Guides & Anchors") == (0, 0), (
         "an ampersand before a space is literal text"

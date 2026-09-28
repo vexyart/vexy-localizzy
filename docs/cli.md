@@ -117,12 +117,18 @@ FLAGS
     -c, --cache=CACHE
         Type: Optional[str | None]
         Default: None
-    -t, --temperature=TEMPERATURE
+    --temperature=TEMPERATURE
         Type: float
         Default: 0.2
     -s, --style_file=STYLE_FILE
         Type: Optional[str | None]
         Default: None
+    -b, --batch_size=BATCH_SIZE
+        Type: int
+        Default: 50
+    --timeout=TIMEOUT
+        Type: float
+        Default: 120
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
@@ -192,6 +198,8 @@ FLAGS
     -s, --style_file=STYLE_FILE
         Type: Optional[]
         Default: None
+    --timeout=TIMEOUT
+        Default: 120
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
