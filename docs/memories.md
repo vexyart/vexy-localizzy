@@ -25,6 +25,15 @@ A direct memory holds reviewed messages of the same product as TMX 1.4. Each
 TU has the tuid `Context|Source[:form]` and the props `x-context`, `x-comment`,
 `x-numerus-form` and, optionally, `x-message-id`.
 
+`localizzy tm build-ui CATALOG OUT --exclude-memory core.tmx` builds one from a
+finished TS catalog. Every numerus form gets its own TU with `x-numerus-form`,
+even in one-form languages such as Chinese. The target tag is the catalog's
+`language` (or `--lang`), never the glossary's. A message is left out only when
+the glossary's whole-string term tier would fill it: a plain message whose
+source equals a term after the tier's own normalization, and whose term
+rendering passes the accelerator and placeholder checks. `&Kerning`,
+`Kerning %1` and plural messages therefore stay in the project memory.
+
 Sources match verbatim. Only Unicode NFC and CRLF-to-LF normalization apply, so
 case, spacing, punctuation, `&` accelerators and placeholders all count. Among
 the TUs with the same source, the match classes are:

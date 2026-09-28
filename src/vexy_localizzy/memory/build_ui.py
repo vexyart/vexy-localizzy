@@ -4,8 +4,12 @@
 One TU per finished message, or per numerus form. The English source is the
 message source; the target is the reviewed translation. Sources that are whole
 glossary terms of an exclusion memory are dropped, so the project memory and the
-core memory never hold the same string. This is the memory ``translate`` and
-``upgrade`` read as ``--direct-memory``.
+core memory never hold the same string, but only when the glossary's term tier
+would actually serve that message: numerus and length-variant messages, and
+sources whose term rendering fails the accelerator or placeholder QA ("&Kerning",
+"Kerning %1"), stay in the project memory. This is the memory ``translate`` and
+``upgrade`` read as ``--direct-memory``. The output is tagged with the catalog's
+language (or ``lang``); the glossary only decides the exclusions.
 """
 
 from collections.abc import Iterator, Sequence
@@ -16,15 +20,19 @@ from lxml import etree
 
 from vexy_localizzy.formats import ts_xml as xml
 from vexy_localizzy.locales import canonical_locale
-from vexy_localizzy.memory.glossary import Glossary, match_text
-from vexy_localizzy.memory.langmatch import select_language
+from vexy_localizzy.memory.glossary import Glossary
 from vexy_localizzy.memory.tmx_write import TMXRecord, write_records
+from vexy_localizzy.qa.text import TextPolicy, check_text
 
 SKIP_TYPES = frozenset({"unfinished", "vanished", "obsolete"})
+BLOCKING = ("major", "critical")
 
 
-def catalog_units(raw: bytes) -> Iterator[tuple[str, str, list[str], dict[str, str]]]:
-    """Yield (tuid base, source, forms, props) for every finished non-empty message."""
+def catalog_units(
+    raw: bytes,
+) -> Iterator[tuple[str, str, list[str], dict[str, str], str]]:
+    """Yield (tuid base, source, forms, props, kind) for every finished non-empty
+    message; kind is ``scalar``, ``numerus`` or ``variants``."""
     tree, ns = xml.parse(raw)
     for context, message in xml.messages(tree.getroot(), ns):
         source = xml.text(message.find(ns + "source"), ns)
@@ -46,28 +54,40 @@ def catalog_units(raw: bytes) -> Iterator[tuple[str, str, list[str], dict[str, s
         comment = message.find(ns + "comment")
         if comment is not None and xml.text(comment, ns):
             props["x-comment"] = xml.text(comment, ns)
-        yield (message_id or f"{context}|{source}"), source, forms, props
+        kind = (
+            "numerus"
+            if numerus
+            else "variants"
+            if trans.get("variants") == "yes"
+            else "scalar"
+        )
+        yield (message_id or f"{context}|{source}"), source, forms, props, kind
+
+
+def served_by_term(exclude: Glossary, source: str, kind: str) -> bool:
+    """True when translate's term tier would fill this message from ``exclude``:
+    a scalar message whose source is a whole term (same normalisation as
+    ``Glossary.whole_match``) and whose term rendering passes the blocking QA."""
+    if kind != "scalar" or (term := exclude.whole_match(source)) is None:
+        return False
+    findings = check_text(source, term.rendering, policy=TextPolicy())
+    return not any(f.severity in BLOCKING for f in findings)
 
 
 def build_ui_records(
     raw: bytes, *, source_lang: str, target_lang: str, exclude: Glossary | None
 ) -> tuple[Iterator[TMXRecord], dict[str, int]]:
-    owned = (
-        {match_text(term.source).strip() for term in exclude.terms}
-        if exclude
-        else set()
-    )
     counts = {"kept": 0, "dropped_core_terms": 0}
 
     def records():
-        for base, source, forms, props in catalog_units(raw):
-            if match_text(source).strip() in owned:
+        for base, source, forms, props, kind in catalog_units(raw):
+            if exclude is not None and served_by_term(exclude, source, kind):
                 counts["dropped_core_terms"] += 1
                 continue
             for index, text in enumerate(forms):
                 unit_props = dict(props)
                 tuid = base
-                if len(forms) > 1 or "x-numerus-form" in props:
+                if kind == "numerus":
                     unit_props["x-numerus-form"] = str(index)
                     tuid = f"{base}:{index}"
                 counts["kept"] += 1
@@ -93,22 +113,17 @@ def build_ui(
     root = etree.fromstring(raw, etree.XMLParser(resolve_entities=False))
     source_lang = canonical_locale(root.get("sourcelanguage") or "en")
     catalog_lang = root.get("language") or ""
+    if not (lang or catalog_lang):
+        raise ValueError("The catalog has no language; pass lang=")
+    target_lang = canonical_locale(str(lang or catalog_lang))
     exclude = None
     if exclude_memories:
         exclude = Glossary.load(
             [Path(p) for p in exclude_memories],
             source_lang=source_lang,
-            target_lang=catalog_lang or (lang or ""),
-            memory_lang=lang,
+            target_lang=target_lang,
             statuses=frozenset({"approved", "proposed", "do-not-translate"}),
         )
-        target_lang = exclude.files[0].target_lang
-    elif lang:
-        target_lang = canonical_locale(str(lang))
-    elif catalog_lang:
-        target_lang = select_language([canonical_locale(catalog_lang)], catalog_lang)
-    else:
-        raise ValueError("The catalog has no language; pass lang=")
     records, counts = build_ui_records(
         raw, source_lang=source_lang, target_lang=target_lang, exclude=exclude
     )
