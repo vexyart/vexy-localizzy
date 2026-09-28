@@ -50,6 +50,18 @@ def has_text(translation, ns: str) -> bool:
     return translation.find(".//" + ns + "byte") is not None
 
 
+def is_filled(translation, ns: str) -> bool:
+    """True when every ``numerusform`` and ``lengthvariant`` slot carries text or
+    a Qt byte reference; a plural with one empty form is not filled."""
+    if translation is None:
+        return False
+    for form in translation.findall(ns + "numerusform") or [translation]:
+        for slot in form.findall(ns + "lengthvariant") or [form]:
+            if not has_text(slot, ns):
+                return False
+    return True
+
+
 def refs_from_tree(root, ns: str) -> list[MessageRef]:
     refs = []
     for ordinal, (context, message) in enumerate(xml.messages(root, ns)):

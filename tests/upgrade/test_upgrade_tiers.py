@@ -49,11 +49,28 @@ def test_upgrade_when_identity_run_then_bytes_identical_and_all_exact():
     assert result.report.counts["retired_obsolete"] == 1, "vanished APPROVED retires"
 
 
+THREE_EMPTY_FORMS = b"                <numerusform></numerusform>\n" * 3
+
+
 def test_upgrade_when_identity_run_with_empty_unfinished_then_bytes_identical():
-    raw = FRESH.read_bytes()  # holds empty scalar and empty numerus translations
+    # FRESH holds empty scalar and empty numerus translations. Its German
+    # "%n layer(s)" has 3 slots; German has 2 Qt forms, so drop the extra slot.
+    raw = FRESH.read_bytes().replace(
+        THREE_EMPTY_FORMS, b"                <numerusform></numerusform>\n" * 2
+    )
     result = upgrade_ts(raw, raw, options=NO_ENGINE)
     assert result.new_bytes == raw, "empty unfinished messages must not re-render"
     assert result.report.counts["untranslated"] > 0
+
+
+def test_upgrade_ts_when_fresh_slots_exceed_qt_count_then_qt_count_wins():
+    raw = FRESH.read_bytes()
+    assert THREE_EMPTY_FORMS in raw
+    result = upgrade_ts(raw, raw, options=NO_ENGINE)
+    element = new_message(result.new_bytes, "%n layer(s)")
+    assert len(element.findall("translation/numerusform")) == 2, (
+        "German has 2 Qt numerus forms whatever FRESH's slot count"
+    )
 
 
 def test_upgrade_when_location_changed_then_exact_with_fresh_location(result):
@@ -242,3 +259,18 @@ def test_report_when_identity_run_with_empty_approved_then_still_accounted():
 def test_upgrade_when_ported_then_only_translation_side_changes(result):
     changed = fresh_side_unchanged(FRESH.read_bytes(), result.new_bytes)
     assert changed > 0
+
+
+def test_upgrade_ts_when_relocated_finished_and_approved_unfinished_then_unfinished():
+    fresh = doc(context("New", message("Open")))
+    approved = doc(context("Old", message("Open", "Oeffnen", unfinished=True)))
+    result = upgrade_ts(
+        fresh,
+        approved,
+        options=UpgradeOptions(no_engine=True, relocated_finished=True),
+    )
+    outcome = result.report.messages[0]
+    assert (outcome.category, outcome.state) == ("relocated", "unfinished"), (
+        "--relocated-finished must not promote an unreviewed translation"
+    )
+    assert b'type="unfinished">Oeffnen' in result.new_bytes

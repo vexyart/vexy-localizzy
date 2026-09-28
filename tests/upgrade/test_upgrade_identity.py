@@ -167,3 +167,88 @@ def test_upgrade_when_numerus_flips_then_shape_changed_and_candidate_retired():
     assert not outcome.filled
     assert result.report.retired_ordinals == [0], "shape_changed never consumes"
     assert result.report.invariants["approved_consumed_or_retired"]
+
+
+def _plural(source: str, count: int, *texts: str, unfinished: bool = False) -> str:
+    return message(
+        source, forms(count, *texts), unfinished=unfinished, attrs=' numerus="yes"'
+    )
+
+
+def _texts(raw: bytes, source: str) -> list[str]:
+    element = new_message(raw, source)
+    return [xml.text(f, "") for f in element.iter("numerusform")]
+
+
+def test_upgrade_ts_when_fresh_lacks_language_then_target_qt_count_keeps_all_forms():
+    polish = ("%n plik", "%n pliki", "%n plików")
+    approved = doc(context("C", _plural("%n files", 3, *polish)), language="pl")
+    fresh = doc(context("C", _plural("%n files", 2, unfinished=True))).replace(
+        b' language="de_DE"', b""
+    )
+    result = upgrade_ts(fresh, approved, options=NO_ENGINE)
+    outcome = result.report.messages[0]
+    assert (outcome.category, outcome.state) == ("exact", "finished"), outcome
+    assert _texts(result.new_bytes, "%n files") == list(polish), (
+        "FRESH's 2 slots must not truncate Polish's 3 reviewed forms"
+    )
+    assert result.report.retired_ordinals == []
+
+
+def test_upgrade_ts_when_port_drops_reviewed_forms_then_approved_is_retired():
+    approved = doc(
+        context("C", _plural("%n files", 3, "%n fichier", "%n fichiers", "%n extra")),
+        language="fr",
+    )
+    fresh = doc(context("C", _plural("%n files", 2, unfinished=True)), language="fr")
+    result = upgrade_ts(fresh, approved, options=NO_ENGINE)
+    outcome = result.report.messages[0]
+    assert (outcome.category, outcome.state) == ("plural_count_changed", "unfinished")
+    assert _texts(result.new_bytes, "%n files") == ["%n fichier", "%n fichiers"]
+    assert result.report.retired_ordinals == [0], "dropped forms must stay recoverable"
+    assert b"%n extra" in result.retired_bytes
+    assert result.report.ok, result.report.invariants
+
+
+def test_upgrade_ts_when_relocated_port_drops_forms_then_approved_is_retired():
+    approved = doc(
+        context("Old", _plural("%n files", 3, "%n fichier", "%n fichiers", "%n x")),
+        language="fr",
+    )
+    fresh = doc(context("New", _plural("%n files", 2, unfinished=True)), language="fr")
+    result = upgrade_ts(fresh, approved, options=NO_ENGINE)
+    assert result.report.messages[0].category == "relocated"
+    assert result.report.retired_ordinals == [0]
+    assert result.report.ok, result.report.invariants
+
+
+def test_upgrade_ts_when_plural_form_left_empty_then_not_filled():
+    approved = doc(
+        context("C", _plural("%n files", 2, "%n plik", "%n pliki")), language="pl"
+    )
+    fresh = doc(context("C", _plural("%n files", 3, unfinished=True)), language="pl")
+    result = upgrade_ts(fresh, approved, options=NO_ENGINE)
+    outcome = result.report.messages[0]
+    assert outcome.category == "plural_count_changed"
+    assert not outcome.filled, "an empty third Polish form is not a filled message"
+    assert result.report.unfilled == 1
+    assert result.report.counts["unfilled"] == 1
+
+
+def test_is_filled_when_length_variant_empty_then_false():
+    from lxml import etree
+
+    from vexy_localizzy.upgrade.identity import is_filled
+
+    full = etree.fromstring(
+        "<translation variants='yes'><lengthvariant>Long</lengthvariant>"
+        "<lengthvariant>L</lengthvariant></translation>"
+    )
+    partial = etree.fromstring(
+        "<translation variants='yes'><lengthvariant>Long</lengthvariant>"
+        "<lengthvariant></lengthvariant></translation>"
+    )
+    assert is_filled(full, "")
+    assert not is_filled(partial, "")
+    assert not is_filled(etree.fromstring("<translation/>"), "")
+    assert is_filled(etree.fromstring("<translation>X</translation>"), "")

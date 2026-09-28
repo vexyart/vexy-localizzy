@@ -28,7 +28,7 @@ from vexy_localizzy.upgrade.engine_step import run_engine
 from vexy_localizzy.upgrade.fuzzy import loose, similarity
 from vexy_localizzy.upgrade.identity import (
     MessageRef,
-    has_text,
+    is_filled,
     key_identity,
     refs_from_tree,
 )
@@ -97,17 +97,32 @@ class _State:
     engine_extra: set[int] = field(default_factory=set)
     examples: dict[int, list[TranslationExample]] = field(default_factory=dict)
     hits: dict[int, MemoryHit | None] = field(default_factory=dict)
+    ns: str = ""
 
     def remaining(self) -> list[MessageRef]:
         return [r for r in self.fresh if r.ordinal not in self.decisions]
 
+    def taken(self, a: MessageRef) -> bool:
+        return a.ordinal in self.consumed or a.ordinal in self.reserved
+
     def pool(self) -> list[MessageRef]:
-        taken = self.consumed | self.reserved
         return [
-            a
-            for a in self.approved
-            if a.active and a.has_text and a.ordinal not in taken
+            a for a in self.approved if a.active and a.has_text and not self.taken(a)
         ]
+
+    def take(self, ref: MessageRef, cand: MessageRef) -> None:
+        """Consume ``cand`` for ``ref``; reserve it instead when porting would
+        drop reviewed plural forms, so RETIRED keeps the full message."""
+        count = self.counts.get(ref.ordinal)
+        if (
+            ref.numerus
+            and cand.has_text
+            and count is not None
+            and _forms(cand, self.ns) > count
+        ):
+            self.reserved.add(cand.ordinal)
+        else:
+            self.consumed.add(cand.ordinal)
 
 
 def _forms(ref: MessageRef, ns: str) -> int:
@@ -116,14 +131,14 @@ def _forms(ref: MessageRef, ns: str) -> int:
 
 
 def _fresh_count(ref: MessageRef, ns: str, target: str) -> int | None:
+    """The target's Qt numerus count; FRESH's own slot count only when Qt has no
+    rule for the target (FRESH without a ``language`` attribute has 2 slots)."""
     if not ref.numerus:
         return None
-    if forms := _forms(ref, ns):
-        return forms
     try:
         return qt_numerus.count(target)
     except qt_numerus.UnknownQtNumerus:
-        return None
+        return _forms(ref, ns) or None
 
 
 def _example(approved: MessageRef, ns: str) -> TranslationExample | None:
@@ -184,7 +199,7 @@ def _classify_pair(st: _State, ref: MessageRef, cand: MessageRef, ns: str) -> No
             st.examples[ref.ordinal] = [example]
         st.decisions[ref.ordinal] = Decision("shape_changed", "pending", approved=cand)
         return
-    st.consumed.add(cand.ordinal)
+    st.take(ref, cand)
     if not cand.has_text:
         st.no_fuzzy.add(ref.ordinal)
         st.paired[ref.ordinal] = cand
@@ -254,7 +269,7 @@ def _port_to(
     old: bool,
     score: float | None = None,
 ) -> None:
-    st.consumed.add(cand.ordinal)
+    st.take(ref, cand)
     st.decisions[ref.ordinal] = Decision(
         category,
         "port",
@@ -275,12 +290,13 @@ def _relocated_pass(st: _State) -> None:
         found = [
             a
             for a in index.get((ref.source, ref.comment, ref.numerus), ())
-            if a.context != ref.context and a.ordinal not in st.consumed
+            if a.context != ref.context and not st.taken(a)
         ]
         if len(found) == 1:
-            _port_to(
-                st, ref, found[0], "relocated", st.options.relocated_finished, True
-            )
+            # --relocated-finished keeps APPROVED's own state; it never promotes
+            # an unfinished APPROVED translation to finished.
+            finished = None if st.options.relocated_finished else False
+            _port_to(st, ref, found[0], "relocated", finished, True)
 
 
 def _loose_pass(st: _State) -> None:
@@ -293,7 +309,7 @@ def _loose_pass(st: _State) -> None:
         found = [
             a
             for a in index.get((ref.context, loose(ref.source), ref.numerus), ())
-            if a.ordinal not in st.consumed
+            if not st.taken(a)
         ]
         if len(found) == 1:
             _port_to(st, ref, found[0], "fuzzy_exact_loose", False, True)
@@ -311,7 +327,7 @@ def _similar_pass(st: _State) -> None:
             (
                 (similarity(a.source, ref.source), a)
                 for a in index.get((ref.context, ref.numerus), ())
-                if a.ordinal not in st.consumed
+                if not st.taken(a)
             ),
             key=lambda pair: (-pair[0], pair[1].ordinal),
         )
@@ -460,7 +476,7 @@ def _outcome(
         source=ref.source,
         category=decision.category,
         state=state,
-        filled=has_text(trans, ns),
+        filled=is_filled(trans, ns),
         approved_ordinal=approved.ordinal if approved is not None else None,
         approved_source=approved.source if approved is not None and fuzzy else None,
         similarity=extra.get("similarity"),
@@ -508,6 +524,7 @@ def upgrade_ts(
         units=load_bytes(fresh).units,
         counts={r.ordinal: _fresh_count(r, ns, target_lang) for r in fresh_refs},
         options=options,
+        ns=ns,
     )
     _pair_identities(st, ns)
     _memory_pass(st, direct, ("id", "context"))

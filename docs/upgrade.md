@@ -51,9 +51,9 @@ message's fuzzy pairing therefore cannot take a later message's exact partner.
 |---|---|---|---|
 | 1 | `exact` / `exact_unfinished` | identity match, same numerus, APPROVED has text | APPROVED's state |
 | 2 | `shape_changed` | identity match, numerus differs | engine, with APPROVED's text as an example |
-| 3 | `plural_count_changed` | identity match, form counts differ | APPROVED's forms in the available slots, unfinished |
+| 3 | `plural_count_changed` | identity match, APPROVED's form count differs from the target's | APPROVED's forms in the available slots, unfinished |
 | 4 | `memory_id` / `memory_context` | direct-memory hit of class `id` or `context` | finished if the class is in `--finish-on` |
-| 5 | `relocated` | same source and comment, other context, exactly one candidate | unfinished (`--relocated-finished`: finished) |
+| 5 | `relocated` | same source and comment, other context, exactly one candidate | unfinished (`--relocated-finished`: APPROVED's own state) |
 | 6 | `fuzzy_exact_loose` | same context, `loose()` equal, exactly one candidate | unfinished, with `<oldsource>` |
 | 7 | `fuzzy_similar` | same context, best similarity ≥ threshold and at least 0.02 ahead of the runner-up | unfinished, with `<oldsource>` |
 | 8 | `memory_term` / `memory_source` | whole-string glossary term, then direct-memory `source` hit | finished if the class is in `--finish-on` |
@@ -63,7 +63,10 @@ message's fuzzy pairing therefore cannot take a later message's exact partner.
 | – | `excluded_vanished` | FRESH message is vanished or obsolete | FRESH bytes untouched |
 
 - Tiers 1, 3, 5, 6 and 7 consume their APPROVED candidate, so no APPROVED
-  message is ported twice. Tier 2 reserves its candidate: it is neither ported
+  message is ported twice. When a port would drop reviewed plural forms,
+  because APPROVED has more forms than the target language, the candidate is
+  reserved instead of consumed: NEW gets the forms that fit, unfinished, and
+  RETIRED keeps the whole APPROVED message. Tier 2 reserves its candidate: it is neither ported
   nor offered to later tiers, and it ends up in RETIRED. Memory tiers consume
   nothing.
 - Tiers 5 to 7 draw on unconsumed, active APPROVED messages that have text and
@@ -80,7 +83,13 @@ message's fuzzy pairing therefore cannot take a later message's exact partner.
   maps `%1`, `%L1`, `%n` and `%Ln` to `%#` and `{name}` to `{#}`, and casefolds.
   `similarity()` is difflib's ratio over the two loose forms.
 - The engine step reuses `translate_catalog`, including its cache, batching and
-  content QA. Numerus units get the target's Qt form count.
+  content QA.
+- Every numerus message uses the target language's Qt form count, in ports,
+  empty slots and engine output alike. FRESH's own slot count is used only when
+  Qt has no rule for the target. lupdate output without a `language` attribute
+  has 2 slots, which says nothing about the target.
+- `filled` is true only when every `numerusform` and `lengthvariant` of the NEW
+  translation has text. A plural with one empty form counts as unfilled.
 
 ## Element ownership
 
@@ -141,7 +150,7 @@ report to `OUT.upgrade.json` unless `--report` is given.
 | Code | Meaning |
 |---|---|
 | 0 | every active message has text in NEW |
-| 1 | at least one active message is empty in NEW (`pending`, `untranslated`, or an unfilled `shape_changed`) |
+| 1 | at least one active message is empty or partly empty in NEW (`pending`, `untranslated`, an unfilled `shape_changed`, or a plural with an empty form) |
 | 2 | usage error: a missing file, an output that is also an input, different source languages, a bad option, or no engine and no `--no-engine` |
 | 3 | an engine was requested but the `translation` extra is not installed |
 
