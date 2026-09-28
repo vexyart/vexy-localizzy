@@ -235,3 +235,19 @@ def test_translate_when_status_or_count_out_of_range_then_exit_two(tmp_path, ext
     code, _ = run(str(APP_DE), "--target", "de", "--out", str(tmp_path / "x.ts"),
                   "--memory-only", *extra)  # fmt: skip
     assert code == 2
+
+
+def test_translate_when_kept_target_fails_qa_then_exits_not_ready(tmp_path):
+    source = tmp_path / "de.ts"
+    source.write_text(
+        PLAIN_TS.replace('<TS version="2.1"', '<TS version="2.1" language="de"')
+        .replace("Save", "Close %1")
+        .replace('<translation type="unfinished"></translation>',
+                 "<translation>Schließen</translation>"),
+        encoding="utf-8",
+    )  # fmt: skip
+    code, _ = run(str(source), "--target", "de", "--out", str(tmp_path / "o.ts"),
+                  "--memory-only")  # fmt: skip
+    report = json.loads((tmp_path / "o.ts.localizzy.json").read_text())
+    assert report["counts"]["pending"] == 0 and report["ready"] is False
+    assert code == 1, "a not-ready result must not exit 0"

@@ -164,8 +164,8 @@ repeated run is served from the cache. Models are tried in order. See
 
 | Code | Meaning |
 |---|---|
-| 0 | Every eligible message has a translation or candidate. |
-| 1 | Some messages are still pending (for example after `--memory-only`). |
+| 0 | Every eligible message has a translation or candidate, and the report says `ready`. |
+| 1 | Not ready: some messages are still pending (for example after `--memory-only`), or an existing translation or engine result failed QA and needs review. |
 | 2 | Usage or configuration error: no `--endpoint` without `--memory-only`, a missing `--out`, an unknown match class, an unmatched memory language. |
 | 3 | The `translation` extra is not installed. |
 

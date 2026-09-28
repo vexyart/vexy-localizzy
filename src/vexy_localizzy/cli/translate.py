@@ -1,7 +1,8 @@
 # this_file: src/vexy_localizzy/cli/translate.py
 """Fire command `localizzy translate`: memories first, then an optional engine.
 
-Exit codes: 0 success; 1 pending units remain; 2 usage or configuration error;
+Exit codes: 0 success; 1 not ready (pending units remain, or output needs review
+because a kept target or engine result failed QA); 2 usage or configuration error;
 3 the ``translation`` extra is missing. The printed summary is the same for 0 and 1.
 """
 
@@ -203,7 +204,7 @@ def translate(
         "findings": len(result.findings),
         "ready": result.ready,
     }
-    if result.counts["pending"]:
+    if result.counts["pending"] or not result.ready:
         print(json.dumps(summary, ensure_ascii=False, indent=2))
         raise SystemExit(EXIT_PENDING)
     return summary
