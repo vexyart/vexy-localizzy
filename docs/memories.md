@@ -18,7 +18,7 @@ localizzy translate app_de.ts --target de --out app_de.new.ts \
 ```
 
 Until the command is wired into `localizzy`, run it as
-`python -m vexy_localizzy.cli_translate …`. The Python entry point is
+`python -m vexy_localizzy.cli.translate …`. The Python entry point is
 `vexy_localizzy.translate.translate_file`.
 
 ## Direct memory

@@ -1,5 +1,11 @@
-# this_file: src/vexy_localizzy/cli.py
-"""Command-line entry points for generic catalog workflows."""
+# this_file: src/vexy_localizzy/cli/__init__.py
+"""Command-line entry points for generic catalog workflows.
+
+The ``translate``, ``upgrade`` and ``tm`` submodules hold the bigger commands.
+This module never binds those names itself, so ``vexy_localizzy.cli.translate``
+stays the submodule and dotted paths such as ``vexy_localizzy.cli.translate.translate``
+resolve for imports and monkeypatching.
+"""
 
 import json
 import sys
@@ -8,9 +14,9 @@ from pathlib import Path
 import fire
 from loguru import logger
 
-from vexy_localizzy.cli_tm import TM_COMMANDS
-from vexy_localizzy.cli_translate import translate
-from vexy_localizzy.cli_upgrade import upgrade
+from vexy_localizzy.cli import tm as _tm
+from vexy_localizzy.cli import translate as _translate
+from vexy_localizzy.cli import upgrade as _upgrade
 from vexy_localizzy.conversion import convert as convert_catalog
 from vexy_localizzy.inventory import write_inventory
 
@@ -95,13 +101,13 @@ def qa(catalog: str, fail_on: str = "major", plural_forms: str | None = None) ->
 
 
 COMMANDS = {
-    "translate": translate,
-    "upgrade": upgrade,
+    "translate": _translate.translate,
+    "upgrade": _upgrade.upgrade,
     "convert": convert,
     "qa": qa,
     "review": review,
     "inventory": inventory,
-    "tm": TM_COMMANDS,
+    "tm": _tm.TM_COMMANDS,
 }
 
 

@@ -8,9 +8,9 @@ from pathlib import Path
 import fire
 import pytest
 
-from vexy_localizzy import cli_translate
-from vexy_localizzy.cli_args import csv_paths, csv_strings
-from vexy_localizzy.cli_translate import translate
+from vexy_localizzy.cli import translate as cli_translate
+from vexy_localizzy.cli._args import csv_paths, csv_strings
+from vexy_localizzy.cli.translate import translate
 from vexy_localizzy.translate.types import TranslationResult
 
 try:

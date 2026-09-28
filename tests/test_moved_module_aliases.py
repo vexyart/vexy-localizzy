@@ -62,3 +62,15 @@ def test_qa_package_when_imported_then_reexports_text_entry_points() -> None:
         text.check_text,
         text.validate_batch,
     )
+
+
+def test_cli_package_when_imported_then_submodules_not_shadowed() -> None:
+    import types
+
+    import vexy_localizzy.cli as cli
+
+    for name in ("translate", "upgrade", "tm"):
+        assert isinstance(getattr(cli, name), types.ModuleType), name
+    assert cli.COMMANDS["translate"] is cli.translate.translate
+    assert cli.COMMANDS["upgrade"] is cli.upgrade.upgrade
+    assert cli.COMMANDS["tm"] is cli.tm.TM_COMMANDS

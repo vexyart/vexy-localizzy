@@ -17,7 +17,7 @@ import fire
 import pytest
 from legacy_builders import build_adobe, build_lproj
 
-from vexy_localizzy import cli_tm
+from vexy_localizzy.cli import tm as cli_tm
 from vexy_localizzy.extract import adobe, lproj, names, oss, po2tmx, ts2tmx
 
 GOLDEN = Path(__file__).resolve().parents[1] / "fixtures" / "legacy_golden"

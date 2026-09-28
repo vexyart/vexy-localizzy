@@ -8,7 +8,7 @@ import fire
 import pytest
 from upgrade_helpers import APPROVED, FIXTURES, FRESH
 
-from vexy_localizzy.cli_upgrade import csv_list, upgrade
+from vexy_localizzy.cli.upgrade import csv_list, upgrade
 from vexy_localizzy.formats.ts_read import load_bytes
 
 

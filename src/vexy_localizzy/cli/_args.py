@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/cli_args.py
+# this_file: src/vexy_localizzy/cli/_args.py
 """Normalize Python Fire list flags: a comma string, a tuple/list, or None.
 
 Fire passes ``--flag a.tmx,b.tmx`` as a string but ``--flag=a,b`` as a tuple, and a

@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/cli_tm.py
+# this_file: src/vexy_localizzy/cli/tm.py
 """Fire-ready ``localizzy tm`` subcommands: legacy converters and strict extraction.
 
 Each function mirrors ``run`` in ``vexy_localizzy.extract.<module>`` and imports
@@ -153,7 +153,7 @@ def build_ui(
     so the project memory never repeats the core memory. --lang overrides the
     memory's target tag (for example es-419 for an es_MX catalog).
     """
-    from vexy_localizzy.cli_args import csv_paths
+    from vexy_localizzy.cli._args import csv_paths
     from vexy_localizzy.memory.build_ui import build_ui as _build_ui
 
     return _build_ui(

@@ -13,7 +13,7 @@ the code now contains. The reviewed translations live in the APPROVED catalog.
 - **Report**: JSON with one outcome per FRESH message.
 
 ```sh
-python -m vexy_localizzy.cli_upgrade FRESH.ts APPROVED.ts --out NEW.ts --retired RETIRED.ts \
+python -m vexy_localizzy.cli.upgrade FRESH.ts APPROVED.ts --out NEW.ts --retired RETIRED.ts \
     [--report NEW.ts.upgrade.json] [--target de] \
     [--direct-memory a.tmx,b.tmx] [--glossary-memory core.tmx] [--memory-lang es-419] \
     [--glossary-status approved,do-not-translate] [--finish-on id,context,term] \
