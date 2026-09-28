@@ -33,7 +33,7 @@ silently disable checking. Missing tools/timeouts are errors. This is native
 argument compatibility checking, not byte-identical formatting or Python `%` syntax.
 No printf parser is vendored; Qt-only checks require no external executable.
 
-`qa_catalog.check_catalog(catalog, policy=..., required_plural_forms=("0", "1"))`
+`qa.catalog.check_catalog(catalog, policy=..., required_plural_forms=("0", "1"))`
 checks every active nonblank-source message, even if it is marked untranslated.
 Every native plural and length variant is visited. Missing/extra plural forms,
 empty targets and inconsistent primary/variant aliases fail. Supply the exact

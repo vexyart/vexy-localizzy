@@ -81,3 +81,14 @@ sorted decimal IDs separated by newlines. Each unit records its source ID plus
 the usual winning candidate, weights and original lineage. The origin registry
 includes only origins/families used by selected winners. Selection staging uses a
 separate disk file and is discarded after success or failure.
+
+## Selector panel
+
+`experimental.distillation_cache.CachedSelector` uses the same durable provider
+fallbacks as classification. `select(entries, vectors, rare_locales=...)`
+requires three verified model identities; two must name the same equivalent
+retained entry before an entry can be dropped. Similarity and rare-language
+coverage are additional checks. Completed responses survive outages, and
+`DistillationPending` leaves the work resumable. Changed rarity invalidates the
+responses; changed similarity thresholds reuse the votes and recompute the
+decision. Full corpus passes and exports are still in development.

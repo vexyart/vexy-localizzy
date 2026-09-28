@@ -43,7 +43,7 @@ identity remains separate from population-based filename shortening.
 Format preservation and provider routing are original implementations;
 public tests and examples contain synthetic data.
 
-Published integration APIs have been exercised for abersetz 1.0.28,
+Published integration APIs have been exercised for abersetz 1.0.28 and 1.1 (dev),
 uubed 1.0.6 and quiht-tools 1.0.8; the registry also offers quiht-core 1.0.8.
 The uubed adapter is an optional component. Its CPU integration check uses
 sentence-transformers 5.7.0 and transformers 4.57.6 with the revision-pinned
@@ -114,11 +114,23 @@ dependency, not a runtime dependency. The iframe permits same-origin DOM access
 but no scripts; native `notr` strings remain unchanged. A small adapter populates
 line-edit/plain-text values omitted by quiht-core 1.0.8.
 
-The optional `translation` extra pins [abersetz 1.0.28](https://pypi.org/project/abersetz/1.0.28/)
-for published glossary/example prompt construction and output extraction, together
-with OpenAI's SDK. Installed-source and real-HTTP-mock tests verify the pinned
-engine's single-attempt implementation beneath its Tenacity wrapper; Localizzy
-owns fallback/cooldown policy. No translation engine implementation is vendored.
+The optional `translation` extra requires `abersetz>=1.1,<2` for glossary and
+example prompt construction and output extraction, together with OpenAI's SDK.
+abersetz 1.1 is not on PyPI yet, so `[tool.uv.sources]` resolves it from the
+sibling checkout `../../github.twardoch/pub/abersetz` as an editable path source;
+that checkout's hatch-vcs version reads `1.0.29.dev0` until the 1.1 tag exists.
+Switch the source back to PyPI once 1.1 is published. The transport calls the
+public `LlmEngine(..., max_attempts=1)` so that each request is one attempt;
+Localizzy owns fallback and cooldown policy. `TRANSPORT_ID` (`abersetz:1.1;…`) is
+part of the translation cache key, so a changed engine version starts a new cache
+entry. No translation engine implementation is vendored.
+
+`formats/qt_numerus.py` holds Qt Linguist's numerus form count per language. It
+was read from qttools `src/linguist/shared/numerus.cpp` (branch 5.15) on
+2026-09-28 and records facts about Qt's behaviour; no Qt code (LGPL/GPL) is
+copied. Language names were mapped to ISO 639 codes with langcodes. Qt's counts
+differ from CLDR plural categories (French 2 and 3, Polish 3 and 4), which is why
+TS preparation uses this table rather than CLDR.
 
 Content QA reuses Python `string.Formatter` and `html.parser`, plus the existing
 polib dependency. Explicit C printf checks require the external GNU gettext

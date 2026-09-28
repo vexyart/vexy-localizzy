@@ -112,3 +112,23 @@ cannot fit fails explicitly; source text and references are never truncated.
 
 Implementation references: [NumPy stable multi-key sorting](https://numpy.org/doc/stable/reference/generated/numpy.lexsort.html)
 and [SQLite savepoint semantics](https://www.sqlite.org/lang_savepoint.html).
+
+## Embedding cache and clustering
+
+The `embeddings` extra provides `experimental.embeddings.EmbeddingCache(path,
+engine)` for a published `uubed.embeddings.Embedder`.
+`embed([(source_id, text), ...])` consumes bounded batches and commits completed
+vectors for reuse after an interruption. `vectors()` streams explicit IDs and
+checksummed float32 vectors, and `search(text)` performs bounded-memory cosine
+retrieval in the same model and prompt space. Changed source text or engine
+identity requires a separate cache. Corpus completion is a separate expected-ID
+reconciliation; a readable cache does not imply it. For CPU MiniLM inference,
+install `sentence-transformers>=5.2,<6` and `transformers>=4.57.6,<5`, then use
+`Embedder("minilm", device="cpu", precision="float32")`. The caller owns and
+closes the engine.
+
+The `clustering` extra provides `experimental.clustering.cluster_embeddings(cache,
+output, expected_count=...)`. It streams bounded batches into MiniBatchKMeans and
+publishes an immutable SQLite partition with source IDs, centres, distances and
+the input identity. Cluster membership proposes candidates; it does not
+authorize deleting entries.

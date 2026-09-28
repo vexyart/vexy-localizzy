@@ -17,9 +17,7 @@ localizzy translate app_de.ts --target de --out app_de.new.ts \
     --direct-memory de-fontlab-ui.tmx --glossary-memory de-core.tmx --memory-only
 ```
 
-Until the command is wired into `localizzy`, run it as
-`python -m vexy_localizzy.cli.translate …`. The Python entry point is
-`vexy_localizzy.translate.translate_file`.
+The Python entry point is `vexy_localizzy.translate.translate_file`.
 
 ## Direct memory
 

@@ -59,7 +59,7 @@ below to expand and reconcile every native target slot.
 acceptance rules before selecting or caching a provider result. Both the cache's
 original validator and the additional validator must pass. The additional identity
 isolates saved selections; it does not change the original cache configuration.
-`catalog_translation.translate_catalog()` uses this path for its content policy,
+`translate.catalog.translate_catalog()` uses this path for its content policy,
 so a rejected candidate receives bounded retries and then provider fallback.
 
 Each successful batch records exact targets, requested model, actual reported
@@ -84,7 +84,7 @@ empty-source and obsolete messages, and carries length alternatives into every
 target plural position. Unknown XML within editable translations causes an error.
 Ordinary `ts.dump()` does not implicitly change native plural shapes.
 
-`catalog_translation.translate_catalog(template, cache, plural_forms=...)`
+`translate.catalog.translate_catalog(template, cache, plural_forms=...)`
 expands every eligible scalar, plural and length variant into stable request IDs.
 `plural_forms` maps native positional keys such as `"0"` to descriptions of their
 usage. The caller supplies these from its application's locale rules. Requests
@@ -107,7 +107,7 @@ if result.ready:
     ts.dump(result.catalog, candidate_path)
 ```
 
-`retrieve_context(items)` returns `catalog_translation_types.PromptContext` with
+`retrieve_context(items)` returns `translate.catalog_types.PromptContext` with
 style guidance, glossary and retrieved examples with provenance. It must not
 change the items. Retrieval and private application configuration remain caller
 responsibilities; the complete returned context participates in cache identity.
@@ -133,7 +133,7 @@ review states, coverage and provider evidence alongside native output.
 
 ## Legacy literal-token checks
 
-`qa_tokens.check_tokens(source, target, styles=..., unit_key=...)` preserves the
+`qa.tokens.check_tokens(source, target, styles=..., unit_key=...)` preserves the
 legacy `PH-MISS`, `PH-EXTRA`, `TAG-MISS` and `TAG-EXTRA` finding contracts for
 consumer migration. It compares multiplicities, so losing one of two repeated
 tokens is an error. Qt matching uses the shared `%1`/`%L1`/`%n`/`%Ln` tokenizer.
@@ -142,7 +142,7 @@ An absent target retains the legacy skip behavior; an empty target is checked.
 This compatibility API uses the catalog's literal inventory for non-Qt styles.
 It does not parse complete ICU messages or replace syntax-aware Python/printf
 validation through `qa.check_text`. Structural HTML validation and native target
-traversal are available through `qa.check_text` and `qa_catalog.scalar_targets`.
+traversal are available through `qa.check_text` and `qa.catalog.scalar_targets`.
 Consumers retain their own locale rules and choices about which states to check.
 
 The abersetz adapter accepts `temperature` (default `0.2`, finite range 0–2).

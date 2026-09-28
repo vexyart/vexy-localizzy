@@ -39,6 +39,25 @@ this_file: CHANGELOG.md
   imports the new paths.
 - `scripts/move_modules.py` performs the moves and import rewrites
   (idempotent, `--dry-run`, `--consumer DIR` for other repositories).
+- `review.server.WEB_ROOT` names the shipped frontend. Code that built the path
+  from `review_server.__file__` and `review_web` must use it instead.
+
+### 2026-09-28: README and docs
+
+- README rewritten as an outline (under 200 lines): layering, install extras,
+  six commands with one example each, memories, guarantees, API pointers, docs
+  index. Its examples are run by `tests/test_readme_examples.py`.
+- New `docs/formats.md` (catalog adapters) and `docs/corpus.md` (voting corpus),
+  holding the prose the README used to carry. Research prose moved into the
+  classification, retrieval and distillation docs.
+- New `docs/cli.md`, generated from `localizzy … --help` by
+  `scripts/gen_cli_docs.py`; `tests/test_docs_cli.py` fails when it is stale.
+- `docs/extraction.md` uses `localizzy tm extract` (formerly `localizzy
+  extract`) and documents the legacy tree converters. `docs/memories.md` and
+  `docs/upgrade.md` show the wired `localizzy translate` and `localizzy upgrade`.
+- DEPENDENCIES: abersetz `>=1.1,<2` from a local editable path source until 1.1
+  is on PyPI, the public single-attempt engine call, and the source of the Qt
+  numerus table.
 
 ### 2026-09-28: TS upgrade
 

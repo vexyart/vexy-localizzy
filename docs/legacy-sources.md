@@ -24,7 +24,7 @@ Qt byte escapes and length variants are not interpreted by this historical rule.
 Use `formats.ts`, `formats.po` and `conversion.convert()` for complete native
 catalog handling and explicit loss reporting. Locale normalization, resource
 discovery, provenance and destination paths remain caller policy. Feed selected
-records to `tmx_writer.write_records()` for atomic XML serialization.
+records to `memory.tmx_write.write_records()` for atomic XML serialization.
 
 The input contracts were checked against the official
 [Qt TS schema](https://doc.qt.io/qt-6/linguist-ts-file-format.html) and

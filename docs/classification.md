@@ -168,3 +168,31 @@ The public producer writes this contract. External producers may also implement
 it. Partial classification cannot be exported as a complete A/B corpus through
 this API. Full embeddings, distillation and final exports require their own
 complete-data checks.
+
+## Provider fallbacks and cooldowns
+
+`experimental.classification_cache.CachedClassifier` accepts ordered `fallbacks`
+per preferred model. A provider outage persists a cooldown that honours
+`Retry-After` without blocking other providers. Retry headers take precedence
+over gateway `reset_seconds` body hints and Google `RetryInfo.retryDelay`,
+including error envelopes. HTTP-success responses that carry a non-empty `error`
+object or string also enter cooldown and fallback, for both classification and
+translation. Malformed timing falls back to a bounded default cooldown.
+
+`classify_detailed()` returns routed labels and provider-reported model
+identities alongside the votes; aliases that report the same backend cannot
+supply separate votes. Legacy responses keep unknown reported identities, and an
+explicit `model_identities` map can resolve known aliases. A completed fallback
+choice is cached for that input and policy, consistently across concurrent
+callers. Pending panels extend cached assignments, including fallbacks, before
+new requests, and new batches reconsider the preferred model after recovery.
+Successful votes survive exhausted alternatives, and `ClassificationPending`
+identifies unfinished work. Applications choose their fallback models
+explicitly.
+
+Install the `llm` extra to use `translate.openai_transport.chat_request` with an
+OpenAI-compatible endpoint. Other transports can raise `ProviderUnavailable`
+(`translate.provider_errors`) with their retry delay and return `ModelResponse`
+to keep reported identities. Plain string transports remain supported with an
+unverified reported identity. Cache keys include the endpoint, routed model,
+rubric, input and locale coverage; selection keys also include the policy.

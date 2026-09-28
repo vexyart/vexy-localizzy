@@ -4,13 +4,14 @@ this_file: docs/extraction.md
 # Extract translation-memory pairs
 
 `localizzy tm extract INPUT OUTPUT` produces a plain-text TMX from selected bilingual
-records. It uses the explicit [legacy source projections](legacy-sources.md).
+records. It was `localizzy extract` before the CLI grouped the memory builders under
+`tm`; the Python entry point is `vexy_localizzy.extract.single.extract`. It uses the explicit [legacy source projections](legacy-sources.md).
 For native catalog editing and complete metadata preservation, use `convert`.
 
 ```sh
-localizzy extract translations/de.po memory/de.tmx
-localizzy extract translations/de.ts memory/de.tmx
-localizzy extract translations/de.po memory/de.tmx --fuzzy
+localizzy tm extract translations/de.po memory/de.tmx
+localizzy tm extract translations/de.ts memory/de.tmx
+localizzy tm extract translations/de.po memory/de.tmx --fuzzy
 ```
 
 TS requires a `TS` root and selects finished translations with first/last plural
@@ -27,15 +28,15 @@ a consumer that deliberately shortens default regions, pass its chosen language
 codes explicitly:
 
 ```sh
-localizzy extract catalog.ts memory.tmx --source_lang=en --target_lang=de
+localizzy tm extract catalog.ts memory.tmx --source_lang=en --target_lang=de
 ```
 
 Apple `.strings`/`.stringsdict`, Fluent `.ftl` and Java-style `.properties` files need the sources extra,
 a reference source file and an explicit target language:
 
 ```sh
-localizzy extract de/Localizable.strings memory.tmx --source=en/Localizable.strings --target_lang=de
-localizzy extract de/messages.ftl memory.tmx --source=en/messages.ftl --target_lang=de
+localizzy tm extract de/Localizable.strings memory.tmx --source=en/Localizable.strings --target_lang=de
+localizzy tm extract de/messages.ftl memory.tmx --source=en/messages.ftl --target_lang=de
 ```
 
 Resources join by key, never row position. Apple duplicate keys use the first
@@ -71,7 +72,7 @@ properties keys. For other encodings, decode explicitly and use
 `properties_resources.parse_properties(text)`; it returns all ordered pairs.
 
 ```sh
-localizzy extract de/messages.properties memory.tmx --source=en/messages.properties --target_lang=de
+localizzy tm extract de/messages.properties memory.tmx --source=en/messages.properties --target_lang=de
 ```
 
 Mozilla DTD files are recognized by `.dtd`; Mozilla properties syntax requires
@@ -82,16 +83,16 @@ DTD reference spelling stays literal; includes are omitted from translation
 entries without reading external resources. See [parser limits](legacy-sources.md#mozilla-properties-and-dtd).
 
 ```sh
-localizzy extract de/dialog.dtd memory.tmx --source=en/dialog.dtd --target_lang=de
-localizzy extract de/messages.properties memory.tmx --source=en/messages.properties --target_lang=de --source_format=mozilla-properties
+localizzy tm extract de/dialog.dtd memory.tmx --source=en/dialog.dtd --target_lang=de
+localizzy tm extract de/messages.properties memory.tmx --source=en/messages.properties --target_lang=de --source_format=mozilla-properties
 ```
 
 Apple `.loctable` files contain multiple language tables in one binary or XML
 plist. Select a pair explicitly; a separate `--source` file is not accepted:
 
 ```sh
-localizzy extract Localizable.loctable memory.tmx --source_lang=en --target_lang=de
-localizzy extract Localizable.loctable memory.tmx --source_key=Base --target_key=German --source_lang=en-US --target_lang=de-DE
+localizzy tm extract Localizable.loctable memory.tmx --source_lang=en --target_lang=de
+localizzy tm extract Localizable.loctable memory.tmx --source_key=Base --target_key=German --source_lang=en-US --target_lang=de-DE
 ```
 
 Table names are exact raw keys, defaulting to the supplied language codes (`en`
@@ -106,7 +107,7 @@ that need their own locale policy.
 Keyed `.json` resources require a reference source and explicit target language:
 
 ```sh
-localizzy extract de/strings.json memory.tmx --source=en/strings.json --target_lang=de
+localizzy tm extract de/strings.json memory.tmx --source=en/strings.json --target_lang=de
 ```
 
 Extraction uses strict UTF-8 with an optional BOM. Object and array roots are
@@ -116,9 +117,36 @@ and unmatched-key reports. Non-string leaves and empty pairs are omitted; values
 retain whitespace. There are no UI-text filters or plural-suffix fallbacks.
 Duplicate object keys, malformed JSON and unpaired Unicode surrogates are refused.
 For explicit alternate decoding or application-specific filtering, use
-`json_resources.string_pairs(text)`, which returns all ordered string leaves,
+`extract.json_resources.string_pairs(text)`, which returns all ordered string leaves,
 including empty values, paired with tuples of string keys and integer indices.
 It uses the [standard JSON decoder](https://docs.python.org/3/library/json.html)
 with the same strict object/constant hooks as native i18next editing. `convert`
-continues to use canonical JSON for full catalog interchange; `extract` reads
+continues to use canonical JSON for full catalog interchange; `tm extract` reads
 ordinary keyed resources.
+
+## Legacy tree converters
+
+`tm extract` reads one file with a strict policy. The legacy converters moved
+from fl10n walk whole trees and keep the old tools' behaviour exactly, including
+their language policy: regions are shortened by their own default-region table,
+the language falls back to the file name stem and XML-illegal characters are
+stripped. Golden parity tests compare them with the old scripts'
+output (`tests/fixtures/legacy_golden`).
+
+```sh
+localizzy tm ts2tmx translations/ --output tmx/
+localizzy tm po2tmx po/ --output tmx/ --fuzzy
+localizzy tm lproj2tmx /Applications/App.app tmx/app/ --skip-identical
+localizzy tm adobe2tmx "/Applications/Adobe App" tmx/adobe/ --ui-lang en_US
+localizzy tm oss2tmx tmx/oss/ --apps inkscape,gimp
+localizzy tm norm tmx/ --dry-run
+```
+
+`tm norm` renames each `.tmx` to its shortest BCP 47 tag with
+`memory.names.plan_folder()`; see [formats](formats.md#legacy-tmx-file-names).
+The converters exit 1 when any file failed. `oss2tmx` and `norm` need the
+`sources` extra. `oss2tmx` clones the upstream repositories listed in the
+packaged `oss_apps.toml` (or `--registry`) into `--cache`, by default
+`OUTPUT/_src`, and reuses them unless `--refresh` is given. Run `localizzy tm COMMAND --help` for every flag, or see the
+[CLI reference](cli.md).
+
