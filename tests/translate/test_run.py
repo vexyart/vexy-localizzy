@@ -421,3 +421,31 @@ def test_translate_file_when_po_in_other_language_then_refuse(tmp_path):
     source = write(tmp_path / "app.po", PO)
     with pytest.raises(ValueError, match="Only TS catalogs"):
         translate_file(source, target="fr", out=tmp_path / "fr.po")
+
+
+@pytest.mark.parametrize(
+    ("memory_lang", "target", "text"),
+    [("zh-Hans", "zh_TW", "保存"), ("pt-BR", "pt_PT", "Guardar BR")],
+)
+def test_translate_file_when_memory_is_other_script_or_portuguese_then_refuses(
+    tmp_path, memory_lang, target, text
+):
+    catalog = write(tmp_path / "src.ts", SOURCE_TS)
+    memory = tmx(tmp_path / "m.tmx", tu("Menu", "Save", text, lang=memory_lang))
+    out = tmp_path / "out.ts"
+    with pytest.raises(ValueError, match="pass --memory-lang"):
+        translate_file(catalog, target=target, out=out, direct_memories=[memory])
+    assert not out.exists(), "Nothing may be written when the memory language is wrong"
+
+
+def test_translate_file_when_memory_lang_override_then_uses_other_variant(tmp_path):
+    catalog = write(tmp_path / "src.ts", SOURCE_TS)
+    memory = tmx(tmp_path / "m.tmx", tu("Menu", "Save", "保存", lang="zh-Hans"))
+    report = translate_file(
+        catalog,
+        target="zh_TW",
+        out=tmp_path / "out.ts",
+        direct_memories=[memory],
+        memory_lang="zh-Hans",
+    )
+    assert report.memories[0]["languages"][str(memory)]["target"] == "zh-Hans"

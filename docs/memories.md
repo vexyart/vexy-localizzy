@@ -76,9 +76,23 @@ is only a minor finding and does not block.
 
 Catalog tags such as `de_DE` or `es_MX` rarely equal memory tags such as `de` or
 `es-419`. The memory language is the exact canonical tag if present. Otherwise
-it is the only variant with the same primary language, or the unique closest
-one by `langcodes.tag_distance`. A tie or a missing language is a
-configuration error; pass `--memory-lang es-419` to choose explicitly.
+it is the unique closest variant with the same primary language, by
+`langcodes.tag_distance`, among the variants that:
+
+- use the same script once both tags are maximized, so `zh-Hans` never answers
+  `zh_TW` and `sr-Latn` never answers `sr_Cyrl`;
+- do not cross Brazilian and European Portuguese, so `pt-BR` never answers
+  `pt_PT`, and bare `pt` counts as Brazilian;
+- are at distance 4 or less, so `de` answers `de_CH` and `es-419` answers
+  `es_MX`, but `es-ES` does not answer `es_MX` and `en` does not answer `en_GB`.
+
+The same rule applies when the memory has only one variant of the language. A
+tie or no acceptable variant is a configuration error; pass
+`--memory-lang es-419` to choose explicitly. Catalogs such as `zh_HK` with a
+`zh-Hant` memory, or `en_GB` with an `en` memory, now need `--memory-lang`.
+TMX files tagged bare `pt` are read as Brazilian. If they hold European
+Portuguese, re-extract them (the extractors now write `pt-PT`) or pass
+`--memory-lang pt`.
 
 `--target de` counts as the same language as a `de_DE` catalog. The catalog
 keeps its own tag, and its complete translations are kept, unless you pass

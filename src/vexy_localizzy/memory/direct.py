@@ -79,7 +79,7 @@ def read_bilingual(
     languages = {segment.language for unit in units for segment in unit.segments}
     if not units:
         return BilingualFile(str(path), sha, "", "", (), 0, 0)
-    source = select_language(languages, source_lang)
+    source = select_language(languages, source_lang, strict=False)
     target = select_language(languages - {source}, target_lang, override=memory_lang)
     pairs = []
     for unit in units:
