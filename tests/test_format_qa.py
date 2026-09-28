@@ -123,3 +123,26 @@ def test_translate_file_when_po_c_format_placeholder_lost_then_memory_hit_reject
     assert 'msgstr "Dateien löschen"' not in text
     assert 'msgstr "100% fertig"' in text, "an unflagged entry is not printf-checked"
     assert not report.ready
+
+
+@pytest.mark.parametrize(
+    ("source", "styles"),
+    [
+        ("Hello {name}", ("python_brace",)),
+        ("Hi {{name}}", ("i18next",)),
+        ("Open %1", ("qt",)),
+        ("Delete %s", ("printf",)),
+        ("{count, plural, one {x} other {y}}", ()),
+        ("Plain text", ()),
+    ],
+)
+def test_format_policy_when_xliff_then_styles_detected_per_unit(source, styles):
+    from vexy_localizzy.catalog import detect_placeholders
+
+    unit = Unit(
+        key="k", context="", source=source, placeholders=detect_placeholders(source)
+    )
+    policy = format_policy(
+        Catalog(source_lang="en", origin_format="xliff", units=[unit])
+    )
+    assert policy.styles_for("k") == styles, source

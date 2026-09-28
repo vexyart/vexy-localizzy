@@ -39,9 +39,22 @@ def _po_styles(catalog: Catalog) -> dict[str, tuple[str, ...]]:
     return styles
 
 
+I18NEXT = re.compile(r"\{\{.*?\}\}", re.DOTALL)
+BRACE = re.compile(r"\{\w+\}")
+ICU_ARGUMENT = re.compile(r"\{\s*\w+\s*,")
+
+
 def _detected(unit: Unit) -> tuple[str, ...]:
-    found = {p.style for p in unit.placeholders}
-    if "printf" in found and "%(" in unit.source:
+    """Styles seen in this unit's source. ``detect_placeholders`` reports
+    ``{name}`` as ICU, so braces are classified here: ``{{x}}`` is i18next,
+    and ``{x}`` without ICU ``{x, plural, ...}`` syntax is Python brace."""
+    source = unit.source
+    found = {p.style for p in unit.placeholders} - {"icu", "i18next", "python_brace"}
+    if I18NEXT.search(source):
+        found.add("i18next")
+    elif BRACE.search(source) and not ICU_ARGUMENT.search(source):
+        found.add("python_brace")
+    if "printf" in found and "%(" in source:
         found.discard("printf")  # named %(x)s is not C printf; msgfmt would reject it
     return tuple(style for style in DETECTED if style in found)
 
