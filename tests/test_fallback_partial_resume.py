@@ -5,8 +5,11 @@ from collections import Counter
 
 import pytest
 
-from vexy_localizzy.classification import Entry, request_text
-from vexy_localizzy.classification_cache import CachedClassifier, ClassificationPending
+from vexy_localizzy.experimental.classification import Entry, request_text
+from vexy_localizzy.experimental.classification_cache import (
+    CachedClassifier,
+    ClassificationPending,
+)
 from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 

@@ -11,9 +11,9 @@ import pytest
 from classification_fixtures import completed_run as completed_run
 from classification_fixtures import seal_fixture
 
-from vexy_localizzy.classification_export import export_ab
-from vexy_localizzy.classification_results import validated_results
 from vexy_localizzy.corpus.store import Corpus
+from vexy_localizzy.experimental.classification_export import export_ab
+from vexy_localizzy.experimental.classification_results import validated_results
 
 
 def test_results_when_complete_then_export_all_ab_targets_and_replay_rare_promotion(

@@ -7,8 +7,11 @@ from collections import Counter
 import numpy as np
 import pytest
 
-from vexy_localizzy.distillation import DistillationEntry
-from vexy_localizzy.distillation_cache import CachedSelector, DistillationPending
+from vexy_localizzy.experimental.distillation import DistillationEntry
+from vexy_localizzy.experimental.distillation_cache import (
+    CachedSelector,
+    DistillationPending,
+)
 from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 

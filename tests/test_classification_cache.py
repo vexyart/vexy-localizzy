@@ -5,8 +5,8 @@ from collections import Counter
 
 import pytest
 
-from vexy_localizzy.classification import Entry
-from vexy_localizzy.classification_cache import CachedClassifier
+from vexy_localizzy.experimental.classification import Entry
+from vexy_localizzy.experimental.classification_cache import CachedClassifier
 
 
 def test_classifier_when_resumed_then_reuses_exact_prompt_model_coverage(tmp_path):

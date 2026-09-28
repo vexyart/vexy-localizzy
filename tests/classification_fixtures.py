@@ -8,9 +8,9 @@ from collections import Counter
 
 import pytest
 
-from vexy_localizzy.classification import consensus
-from vexy_localizzy.classification_inputs import prepare_inputs
 from vexy_localizzy.corpus.store import Corpus
+from vexy_localizzy.experimental.classification import consensus
+from vexy_localizzy.experimental.classification_inputs import prepare_inputs
 
 
 @pytest.fixture

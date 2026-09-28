@@ -10,7 +10,7 @@ Pass the retained IDs and fingerprints from that completed selection.
 
 ```python
 from functools import partial
-from vexy_localizzy.retrieval import retrieval_memory
+from vexy_localizzy.experimental.retrieval import retrieval_memory
 from vexy_localizzy.translate.catalog import translate_catalog
 
 # corpus, embeddings and translation_cache are caller-owned open objects.

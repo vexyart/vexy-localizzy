@@ -9,7 +9,7 @@ import pytest
 from classification_run_fixtures import options, response, write_inputs
 from filelock import FileLock, Timeout
 
-from vexy_localizzy.classification_run import run_classification
+from vexy_localizzy.experimental.classification_run import run_classification
 
 
 @pytest.mark.parametrize(
@@ -60,7 +60,7 @@ def test_run_when_policy_changes_then_existing_directory_refused(tmp_path, chang
 def test_run_when_batch_save_fails_then_no_partial_decisions_and_cached_votes_survive(
     tmp_path, monkeypatch
 ):
-    from vexy_localizzy import classification_schedule
+    from vexy_localizzy.experimental import classification_schedule
 
     inputs, run = write_inputs(tmp_path / "input.jsonl", 1), tmp_path / "run"
     config = options(tmp_path)
@@ -93,7 +93,7 @@ def test_run_when_batch_save_fails_then_no_partial_decisions_and_cached_votes_su
 def test_run_when_marker_publication_fails_then_resume_seals_without_requests(
     tmp_path, monkeypatch
 ):
-    from vexy_localizzy import classification_run_store
+    from vexy_localizzy.experimental import classification_run_store
 
     inputs, run = write_inputs(tmp_path / "input.jsonl", 1), tmp_path / "run"
     config = options(tmp_path)
@@ -168,7 +168,7 @@ def test_run_when_database_from_another_run_then_refuse_rebinding(tmp_path):
 def test_run_when_schema_initialization_fails_then_retry_creates_complete_schema(
     tmp_path, monkeypatch
 ):
-    from vexy_localizzy import classification_run_store
+    from vexy_localizzy.experimental import classification_run_store
 
     inputs, run = write_inputs(tmp_path / "input.jsonl", 1), tmp_path / "run"
     original = classification_run_store.SCHEMA

@@ -12,7 +12,7 @@ lineage. Empty A/B selection produces an empty TMX, never the whole corpus.
 import json
 from pathlib import Path
 
-from vexy_localizzy.classification_export import export_ab
+from vexy_localizzy.experimental.classification_export import export_ab
 from vexy_localizzy.corpus.store import Corpus
 
 with Corpus("memory.sqlite") as corpus:
@@ -35,7 +35,7 @@ cache, rubric, preferred models and transport:
 
 ```python
 from functools import partial
-from vexy_localizzy.classification_run import run_classification
+from vexy_localizzy.experimental.classification_run import run_classification
 from vexy_localizzy.translate.openai_transport import chat_request
 
 report = run_classification(

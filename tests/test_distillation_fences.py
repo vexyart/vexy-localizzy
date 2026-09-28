@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.distillation import parse_selection
+from vexy_localizzy.experimental.distillation import parse_selection
 
 VOTE = '{"keep":[300,301],"drop":[]}'
 

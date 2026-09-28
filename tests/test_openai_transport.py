@@ -6,8 +6,8 @@ from collections import Counter
 
 import pytest
 
-from vexy_localizzy.classification import Entry
-from vexy_localizzy.classification_cache import CachedClassifier
+from vexy_localizzy.experimental.classification import Entry
+from vexy_localizzy.experimental.classification_cache import CachedClassifier
 from vexy_localizzy.translate.openai_transport import chat_request
 from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 

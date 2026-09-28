@@ -6,7 +6,11 @@ import json
 import numpy as np
 import pytest
 
-from vexy_localizzy.distillation import DistillationEntry, decide, parse_selection
+from vexy_localizzy.experimental.distillation import (
+    DistillationEntry,
+    decide,
+    parse_selection,
+)
 
 
 def reply(keep=(300,), drop=301, representative=300):

@@ -6,8 +6,8 @@ import json
 from test_retrieval import Engine, embed_all, options
 
 from vexy_localizzy.corpus.store import Corpus
-from vexy_localizzy.embeddings import EmbeddingCache
-from vexy_localizzy.retrieval import retrieval_memory
+from vexy_localizzy.experimental.embeddings import EmbeddingCache
+from vexy_localizzy.experimental.retrieval import retrieval_memory
 from vexy_localizzy.translate.types import TranslationItem
 
 

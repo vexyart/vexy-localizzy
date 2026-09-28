@@ -5,6 +5,41 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-28: module consolidation
+
+- Top-level modules moved into subpackages. The top level keeps only the
+  shared model and primitives (`catalog`, `locales`, `json_values`,
+  `json_sequence`, `xmlio`, `conversion`, `inventory`).
+  - `qa/`: `qa` → `qa.text` (the package re-exports `TextPolicy`,
+    `check_text`, `validate_batch`), `qa_<name>` → `qa.<name>`.
+  - `translate/`: `abersetz_transport`, `openai_transport`, `provider_errors`,
+    `frozen_contexts`; `translation_types|cache|store` → `types|cache|store`;
+    `catalog_translation` → `catalog`, `catalog_translation_inputs|batches|types`
+    → `inputs|batches|catalog_types`. The package exports resolve lazily.
+  - `memory/`: `tmx` → `tmx_read`, `tmx_writer` → `tmx_write`,
+    `tmx_names` → `names`.
+  - `cli/`: `cli` → `cli/__init__`, `cli_args|translate|upgrade|tm` →
+    `cli._args|translate|upgrade|tm`. The command tree is unchanged.
+  - `extract/`: `source_extraction` → `extract.single`, plus the
+    `*_resources` parsers and `legacy_pairs`.
+  - `review/`: `review_<name>` → `review.<name>`; the built frontend moved from
+    `review_web/` to `review/web/` (`review.server.WEB_ROOT`).
+  - `corpus/`: `corpus` → `corpus.store`, `corpus_identity|schema` →
+    `corpus.identity|schema`, plus importer, exporter, export lineage and
+    selection, lineage validation, migrations, snapshots, source store and
+    policy, unit writer.
+  - `experimental/`: the research code (`classification*`, `distillation*`,
+    `embeddings`, `embedding_search`, `embedding_store`, `clustering`,
+    `retrieval`). It is not part of the supported CLI.
+- **Deprecated aliases.** Every research module and every old path fl10n
+  imports stays importable at its old name. The old name is the same module
+  object as the new one and emits a `DeprecationWarning`. The research
+  aliases exist for the live classification run's private driver scripts;
+  delete them once that run is sealed. Delete the fl10n aliases once fl10n
+  imports the new paths.
+- `scripts/move_modules.py` performs the moves and import rewrites
+  (idempotent, `--dry-run`, `--consumer DIR` for other repositories).
+
 ### 2026-09-28: TS upgrade
 
 - Add `vexy_localizzy.upgrade`. `upgrade_ts(fresh, approved, ...)` ports

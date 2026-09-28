@@ -7,8 +7,8 @@ from collections import Counter
 
 import pytest
 
-from vexy_localizzy.classification import Entry
-from vexy_localizzy.classification_cache import CachedClassifier
+from vexy_localizzy.experimental.classification import Entry
+from vexy_localizzy.experimental.classification_cache import CachedClassifier
 from vexy_localizzy.translate.provider_errors import ProviderUnavailable, retry_delay
 
 

@@ -4,7 +4,7 @@
 import pytest
 from test_embeddings import Engine
 
-from vexy_localizzy.embeddings import EmbeddingCache
+from vexy_localizzy.experimental.embeddings import EmbeddingCache
 
 
 def test_search_when_subset_then_rank_only_eligible_sources_and_batch_queries(tmp_path):

@@ -7,9 +7,9 @@ import json
 import pytest
 from lxml import etree
 
-from vexy_localizzy.classification_inputs import prepare_inputs
 from vexy_localizzy.corpus.exporter import DECISION_PROP, LINEAGE_PROP, MANIFEST_PROP
 from vexy_localizzy.corpus.store import Corpus
+from vexy_localizzy.experimental.classification_inputs import prepare_inputs
 
 
 def source(path, text, targets):

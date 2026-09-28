@@ -8,9 +8,13 @@ from collections import Counter
 import numpy as np
 import pytest
 
-from vexy_localizzy.distillation import DistillationEntry
-from vexy_localizzy.distillation_cache import CachedSelector
-from vexy_localizzy.distillation_run import ClusterEntry, retained_items, run_pass
+from vexy_localizzy.experimental.distillation import DistillationEntry
+from vexy_localizzy.experimental.distillation_cache import CachedSelector
+from vexy_localizzy.experimental.distillation_run import (
+    ClusterEntry,
+    retained_items,
+    run_pass,
+)
 from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 
@@ -325,7 +329,7 @@ def test_pass_when_third_requested_then_record_it_but_reject_fourth(tmp_path):
 def test_pass_when_initialization_interrupted_then_same_path_resumes(
     tmp_path, monkeypatch
 ):
-    from vexy_localizzy import distillation_store
+    from vexy_localizzy.experimental import distillation_store
 
     once = [True]
     connect = sqlite3.connect

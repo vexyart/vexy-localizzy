@@ -7,8 +7,8 @@ from threading import Barrier, Lock
 import pytest
 from classification_run_fixtures import options, response, write_inputs
 
-from vexy_localizzy.classification_results import validated_results
-from vexy_localizzy.classification_run import run_classification
+from vexy_localizzy.experimental.classification_results import validated_results
+from vexy_localizzy.experimental.classification_run import run_classification
 
 
 def test_run_when_two_workers_then_at_most_six_model_requests_in_flight(tmp_path):
@@ -83,7 +83,7 @@ def test_run_when_input_changes_during_request_then_no_completion_until_original
 def test_run_when_input_changes_after_preflight_then_no_poisoned_checkpoint_and_resume_works(
     tmp_path, monkeypatch
 ):
-    from vexy_localizzy import classification_run
+    from vexy_localizzy.experimental import classification_run
 
     inputs, run = write_inputs(tmp_path / "input.jsonl", 1), tmp_path / "run"
     original_input = inputs.read_bytes()

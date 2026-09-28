@@ -6,7 +6,7 @@ import sqlite3
 import numpy as np
 import pytest
 
-from vexy_localizzy.embeddings import EmbeddingCache
+from vexy_localizzy.experimental.embeddings import EmbeddingCache
 
 
 class Engine:

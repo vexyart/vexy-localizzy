@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.classification import (
+from vexy_localizzy.experimental.classification import (
     Entry,
     batches,
     consensus,

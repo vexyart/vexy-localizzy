@@ -9,9 +9,9 @@ import pytest
 from classification_fixtures import completed_run as completed_run
 from classification_fixtures import rewrite_input, seal_fixture
 
-from vexy_localizzy.classification_export import export_ab
-from vexy_localizzy.classification_results import validated_results
 from vexy_localizzy.corpus.store import Corpus
+from vexy_localizzy.experimental.classification_export import export_ab
+from vexy_localizzy.experimental.classification_results import validated_results
 
 
 @pytest.mark.parametrize(
@@ -153,7 +153,7 @@ def test_results_when_legacy_marker_has_no_decision_binding_then_require_produce
 def test_decision_digest_when_producer_seals_rows_then_matches_independent_fixture(
     completed_run,
 ):
-    from vexy_localizzy.classification_results import decision_digest
+    from vexy_localizzy.experimental.classification_results import decision_digest
 
     directory, _, _ = completed_run
     expected = json.loads((directory / "complete.json").read_text())["decision_sha256"]

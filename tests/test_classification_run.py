@@ -9,8 +9,8 @@ from threading import Lock
 import pytest
 from classification_run_fixtures import options, response, write_inputs
 
-from vexy_localizzy.classification_results import validated_results
-from vexy_localizzy.classification_run import run_classification
+from vexy_localizzy.experimental.classification_results import validated_results
+from vexy_localizzy.experimental.classification_run import run_classification
 from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
