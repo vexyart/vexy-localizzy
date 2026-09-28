@@ -10,7 +10,7 @@ import pytest
 
 from vexy_localizzy.classification import Entry
 from vexy_localizzy.classification_cache import CachedClassifier
-from vexy_localizzy.openai_transport import chat_request
+from vexy_localizzy.translate.openai_transport import chat_request
 
 
 @pytest.mark.parametrize(

@@ -6,7 +6,7 @@ from collections import Counter
 
 from vexy_localizzy.classification import Entry
 from vexy_localizzy.classification_cache import CachedClassifier
-from vexy_localizzy.provider_errors import ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
 def test_pool_when_route_cools_then_uses_warm_routes_and_probes_once_due(tmp_path):

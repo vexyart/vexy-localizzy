@@ -7,9 +7,9 @@ import pytest
 from catalog_translation_fixtures import cache, response, template
 
 from vexy_localizzy.catalog import Catalog, Unit
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_types import InvariantApproval
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import InvariantApproval
+from vexy_localizzy.translate.types import TranslationResult
 
 
 @pytest.mark.parametrize("change", ["locale", "source", "quality"])

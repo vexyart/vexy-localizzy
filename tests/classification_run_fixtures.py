@@ -4,7 +4,7 @@
 import json
 from pathlib import Path
 
-from vexy_localizzy.provider_errors import ModelResponse
+from vexy_localizzy.translate.provider_errors import ModelResponse
 
 
 def write_inputs(path: Path, count: int = 201) -> Path:

@@ -6,10 +6,10 @@ import json
 import pytest
 from catalog_translation_fixtures import cache, response, template
 
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_types import PromptContext
-from vexy_localizzy.frozen_contexts import FrozenContexts, prepare_contexts
-from vexy_localizzy.translation_store import digest
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import PromptContext
+from vexy_localizzy.translate.frozen_contexts import FrozenContexts, prepare_contexts
+from vexy_localizzy.translate.store import digest
 
 OPTIONS = {
     "plural_forms": {"0": "one", "1": "few", "2": "many"},
@@ -118,8 +118,8 @@ def test_archive_when_retrieval_mutates_inputs_then_reject(tmp_path):
 
 def test_archive_when_context_return_mutated_then_subsequent_reads_unchanged():
     artifact = prepare_contexts(template(), context, **OPTIONS)
-    from vexy_localizzy.catalog_translation_inputs import prepare_units
     from vexy_localizzy.qa.text import TextPolicy
+    from vexy_localizzy.translate.inputs import prepare_units
 
     items = prepare_units(template(), None, {}, OPTIONS["plural_forms"], TextPolicy())[
         2
@@ -131,8 +131,8 @@ def test_archive_when_context_return_mutated_then_subsequent_reads_unchanged():
 def test_archive_when_glossary_order_changes_then_prepared_bytes_stay_identical(
     tmp_path,
 ):
-    from vexy_localizzy.catalog_translation_inputs import prepare_units
     from vexy_localizzy.qa.text import TextPolicy
+    from vexy_localizzy.translate.inputs import prepare_units
 
     artifact = prepare_contexts(
         template(),

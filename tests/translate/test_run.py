@@ -29,7 +29,7 @@ from vexy_localizzy.translate import (
 )
 from vexy_localizzy.translate.engine import abersetz_request, engine_identity
 from vexy_localizzy.translate.run import same_language
-from vexy_localizzy.translation_types import TranslationBatch, TranslationItem
+from vexy_localizzy.translate.types import TranslationBatch, TranslationItem
 
 ENGINE = EngineSpec(endpoint="http://fake.invalid/v1", models=("m1", "m2"))
 
@@ -356,7 +356,7 @@ def test_open_cache_when_first_model_fails_then_fallback_model_answers(tmp_path)
 
 def test_engine_identity_when_temperature_changes_then_identity_changes():
     pytest.importorskip("abersetz")
-    from vexy_localizzy.abersetz_transport import TRANSPORT_ID
+    from vexy_localizzy.translate.abersetz_transport import TRANSPORT_ID
 
     warm = ENGINE.model_copy(update={"temperature": 0.7})
     assert engine_identity(ENGINE).startswith(TRANSPORT_ID)

@@ -6,7 +6,7 @@ import math
 import subprocess
 from collections.abc import Sequence
 
-from vexy_localizzy.translation_types import (
+from vexy_localizzy.translate.types import (
     TranslationBatch,
     TranslationResult,
     check_result,

@@ -3,7 +3,7 @@
 
 import pytest
 
-from vexy_localizzy.provider_errors import retry_delay
+from vexy_localizzy.translate.provider_errors import retry_delay
 
 
 def retry_info(value):

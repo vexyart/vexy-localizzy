@@ -2,7 +2,7 @@
 """Real content validation participates in durable fallback decisions."""
 
 from vexy_localizzy.qa.text import validate_batch
-from vexy_localizzy.translation_types import (
+from vexy_localizzy.translate.types import (
     TranslationBatch,
     TranslationItem,
     TranslationResult,
@@ -12,7 +12,7 @@ from vexy_localizzy.translation_types import (
 def test_cache_when_content_invalid_then_validated_fallback_survives_reopen(tmp_path):
     from collections import Counter
 
-    from vexy_localizzy.translation_cache import TranslationCache
+    from vexy_localizzy.translate.cache import TranslationCache
 
     calls = Counter()
     batch = TranslationBatch(

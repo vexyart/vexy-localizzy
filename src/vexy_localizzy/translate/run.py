@@ -21,9 +21,6 @@ from lxml import etree
 from pydantic import Field
 
 from vexy_localizzy.catalog import Catalog, Finding, Record, Unit
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_inputs import fill_unit, item_id
-from vexy_localizzy.catalog_translation_types import Prefill
 from vexy_localizzy.conversion import convert_catalog, load_any
 from vexy_localizzy.formats import qt_numerus, ts, ts_splice
 from vexy_localizzy.formats import ts_xml as xml
@@ -35,8 +32,11 @@ from vexy_localizzy.memory.direct import DirectMemory, MatchClass
 from vexy_localizzy.memory.glossary import DEFAULT_STATUSES, Glossary
 from vexy_localizzy.qa.catalog import scalar_targets, shape_findings
 from vexy_localizzy.qa.text import TextPolicy, check_text
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import Prefill
 from vexy_localizzy.translate.context import GlossaryContext
 from vexy_localizzy.translate.engine import EngineSpec, Request, open_cache
+from vexy_localizzy.translate.inputs import fill_unit, item_id
 
 PRECEDENCE: tuple[MatchClass, ...] = ("id", "context", "term", "source")
 BLOCKING = ("major", "critical")

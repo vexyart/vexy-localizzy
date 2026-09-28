@@ -99,7 +99,7 @@ def test_cli_when_unknown_finish_class_then_exit_two(tmp_path):
 
 
 def fake_translate_batch(batch, model, *, base_url, api_key, temperature, **_):
-    from vexy_localizzy.translation_types import TranslationResult
+    from vexy_localizzy.translate.types import TranslationResult
 
     assert base_url == "http://synthetic" and api_key == "secret"
     return TranslationResult(
@@ -110,7 +110,7 @@ def fake_translate_batch(batch, model, *, base_url, api_key, temperature, **_):
 
 
 def test_cli_when_endpoint_given_then_engine_fills_offline(tmp_path, monkeypatch):
-    import vexy_localizzy.abersetz_transport as transport
+    import vexy_localizzy.translate.abersetz_transport as transport
 
     monkeypatch.setenv("SYNTHETIC_KEY", "secret")
     monkeypatch.setattr(transport, "translate_batch", fake_translate_batch)

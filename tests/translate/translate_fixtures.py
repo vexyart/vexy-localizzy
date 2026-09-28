@@ -6,12 +6,12 @@ from xml.sax.saxutils import escape
 
 import pytest
 
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.types import TranslationResult
 
 
 def _has_abersetz() -> bool:
     try:
-        import vexy_localizzy.abersetz_transport  # noqa: F401
+        import vexy_localizzy.translate.abersetz_transport  # noqa: F401
     except ImportError:
         return False
     return True

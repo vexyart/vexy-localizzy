@@ -21,8 +21,8 @@ from vexy_localizzy.formats import ts_xml as xml
 from vexy_localizzy.formats.document import atomic_write
 from vexy_localizzy.formats.ts_read import load_bytes
 from vexy_localizzy.memory import DirectMemory, Glossary, MemoryHit
-from vexy_localizzy.translation_cache import TranslationCache
-from vexy_localizzy.translation_types import TranslationExample
+from vexy_localizzy.translate.cache import TranslationCache
+from vexy_localizzy.translate.types import TranslationExample
 from vexy_localizzy.upgrade import message_edit as edit
 from vexy_localizzy.upgrade.engine_step import run_engine
 from vexy_localizzy.upgrade.fuzzy import loose, similarity

@@ -29,9 +29,9 @@ fields, nonempty targets and input/output byte budgets. The default timeout is
 endpoint/engine/validation identities and a content validator:
 
 ```python
-from vexy_localizzy.abersetz_transport import TRANSPORT_ID, translate_batch
+from vexy_localizzy.translate.abersetz_transport import TRANSPORT_ID, translate_batch
 from vexy_localizzy.qa.text import validate_batch
-from vexy_localizzy.translation_cache import TranslationCache
+from vexy_localizzy.translate.cache import TranslationCache
 
 with TranslationCache(
     "translations.sqlite",
@@ -92,7 +92,7 @@ split automatically when enriched batches exceed the byte budget; a single
 oversized item fails explicitly without truncation.
 
 ```python
-from vexy_localizzy.catalog_translation import translate_catalog
+from vexy_localizzy.translate.catalog import translate_catalog
 from vexy_localizzy.formats import ts
 from vexy_localizzy.formats.ts_template import prepare_translation
 

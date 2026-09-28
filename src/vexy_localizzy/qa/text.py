@@ -9,7 +9,7 @@ from vexy_localizzy.catalog import Finding
 from vexy_localizzy.qa.markup import markup_pair, visible_text
 from vexy_localizzy.qa.placeholders import accelerators, arguments
 from vexy_localizzy.qa.printf import printf_error
-from vexy_localizzy.translation_types import (
+from vexy_localizzy.translate.types import (
     TranslationBatch,
     TranslationRecord,
     TranslationResult,

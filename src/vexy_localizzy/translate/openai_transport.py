@@ -1,9 +1,9 @@
-# this_file: src/vexy_localizzy/openai_transport.py
+# this_file: src/vexy_localizzy/translate/openai_transport.py
 """Optional OpenAI-compatible transport with explicit provider failure timing."""
 
 from contextlib import contextmanager
 
-from vexy_localizzy.provider_errors import (
+from vexy_localizzy.translate.provider_errors import (
     ModelResponse,
     ProviderUnavailable,
     retry_delay,

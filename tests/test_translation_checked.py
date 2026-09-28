@@ -7,7 +7,7 @@ import pytest
 from test_translation_cache import cache
 from translation_fixtures import batch, reply
 
-from vexy_localizzy.translation_cache import TranslationPending
+from vexy_localizzy.translate.cache import TranslationPending
 
 
 def test_checked_when_policy_changes_then_isolate_selection_and_preserve_owner(

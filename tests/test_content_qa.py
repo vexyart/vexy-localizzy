@@ -4,7 +4,7 @@
 import pytest
 
 from vexy_localizzy.qa.text import TextPolicy, check_text, validate_batch
-from vexy_localizzy.translation_types import (
+from vexy_localizzy.translate.types import (
     TranslationBatch,
     TranslationItem,
     TranslationResult,

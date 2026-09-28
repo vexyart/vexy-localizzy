@@ -1,7 +1,7 @@
 # this_file: tests/translation_fixtures.py
 """Synthetic localization batches and a deterministic provider contract."""
 
-from vexy_localizzy.translation_types import (
+from vexy_localizzy.translate.types import (
     TranslationBatch,
     TranslationItem,
     TranslationResult,

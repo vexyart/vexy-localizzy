@@ -7,10 +7,10 @@ import pytest
 from catalog_translation_fixtures import cache, response, template
 
 from vexy_localizzy.catalog import compute_source_hash
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_types import InvariantApproval, PromptContext
-from vexy_localizzy.provider_errors import ProviderUnavailable
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import InvariantApproval, PromptContext
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
+from vexy_localizzy.translate.types import TranslationResult
 
 
 def test_translate_when_all_native_forms_then_complete_candidates_and_zero_call_resume(

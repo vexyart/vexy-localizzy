@@ -41,9 +41,12 @@ def _languages(path: Path) -> tuple[str, str | None]:
 def _open_cache(endpoint, models, api_key_env, cache_path, temperature):
     """Build the engine-backed cache inline; abersetz is an optional extra."""
     try:
-        from vexy_localizzy.abersetz_transport import TRANSPORT_ID, translate_batch
         from vexy_localizzy.qa.text import validate_batch
-        from vexy_localizzy.translation_cache import TranslationCache
+        from vexy_localizzy.translate.abersetz_transport import (
+            TRANSPORT_ID,
+            translate_batch,
+        )
+        from vexy_localizzy.translate.cache import TranslationCache
     except ImportError as error:
         print(
             f"localizzy upgrade: install the 'translation' extra ({error})",

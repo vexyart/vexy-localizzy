@@ -7,9 +7,9 @@ import pytest
 from catalog_translation_fixtures import cache, template
 
 from vexy_localizzy.catalog import Catalog, Unit
-from vexy_localizzy.catalog_translation import translate_catalog
 from vexy_localizzy.qa.text import TextPolicy
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.types import TranslationResult
 
 
 def test_translate_when_catalog_policy_stricter_then_fallback_before_pinning(tmp_path):

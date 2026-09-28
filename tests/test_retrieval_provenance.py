@@ -8,7 +8,7 @@ from test_retrieval import Engine, embed_all, options
 from vexy_localizzy.corpus import Corpus
 from vexy_localizzy.embeddings import EmbeddingCache
 from vexy_localizzy.retrieval import retrieval_memory
-from vexy_localizzy.translation_types import TranslationItem
+from vexy_localizzy.translate.types import TranslationItem
 
 
 def test_context_when_inline_codes_then_preserve_both_segment_structures(tmp_path):

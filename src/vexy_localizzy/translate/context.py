@@ -3,9 +3,9 @@
 
 from collections.abc import Callable
 
-from vexy_localizzy.catalog_translation_types import PromptContext
 from vexy_localizzy.memory.glossary import Glossary
-from vexy_localizzy.translation_types import TranslationExample, TranslationItem
+from vexy_localizzy.translate.catalog_types import PromptContext
+from vexy_localizzy.translate.types import TranslationExample, TranslationItem
 
 
 class GlossaryContext:

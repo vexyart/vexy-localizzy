@@ -3,8 +3,8 @@
 
 from vexy_localizzy.catalog import Catalog, PluralForms, Unit
 from vexy_localizzy.qa.text import validate_batch
-from vexy_localizzy.translation_cache import TranslationCache
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.cache import TranslationCache
+from vexy_localizzy.translate.types import TranslationResult
 
 
 def template():

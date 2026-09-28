@@ -15,7 +15,7 @@ from vexy_localizzy.qa.catalog import check_catalog
 from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.review_api_data import present, select_unit, summary
 from vexy_localizzy.review_types import ReviewConflict, ReviewEdit
-from vexy_localizzy.translation_types import TranslationExample
+from vexy_localizzy.translate.types import TranslationExample
 
 
 def create_app(store, *, ui_files=None, suggestions=None, web_root=None):

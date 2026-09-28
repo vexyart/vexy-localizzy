@@ -4,11 +4,11 @@
 import pytest
 
 from vexy_localizzy.catalog import Catalog, PluralForms, Unit
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_types import InvariantApproval, Prefill
 from vexy_localizzy.qa.text import validate_batch
-from vexy_localizzy.translation_cache import TranslationCache
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.cache import TranslationCache
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import InvariantApproval, Prefill
+from vexy_localizzy.translate.types import TranslationResult
 
 PLURALS = {"0": "", "1": ""}
 

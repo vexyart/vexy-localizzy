@@ -8,8 +8,8 @@ import pytest
 
 from vexy_localizzy.classification import Entry
 from vexy_localizzy.classification_cache import CachedClassifier
-from vexy_localizzy.openai_transport import chat_request
-from vexy_localizzy.provider_errors import ModelResponse, ProviderUnavailable
+from vexy_localizzy.translate.openai_transport import chat_request
+from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 openai = pytest.importorskip("openai")
 httpx = pytest.importorskip("httpx")

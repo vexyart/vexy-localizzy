@@ -7,7 +7,7 @@ import pytest
 
 from vexy_localizzy.classification import Entry, request_text
 from vexy_localizzy.classification_cache import CachedClassifier, ClassificationPending
-from vexy_localizzy.provider_errors import ModelResponse, ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 
 def classifier(path, request, **kwargs):

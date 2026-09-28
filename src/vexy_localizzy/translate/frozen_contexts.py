@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/frozen_contexts.py
+# this_file: src/vexy_localizzy/translate/frozen_contexts.py
 """Sealed prompt contexts transfer between embedding and translation runtimes."""
 
 import hashlib
@@ -9,14 +9,14 @@ from typing import Literal
 from pydantic import Field
 
 from vexy_localizzy.catalog import Catalog
-from vexy_localizzy.catalog_translation_batches import batches
-from vexy_localizzy.catalog_translation_inputs import prepare_units
-from vexy_localizzy.catalog_translation_types import PromptContext
 from vexy_localizzy.formats.document import atomic_write
 from vexy_localizzy.json_values import invalid_constant, unique_object
 from vexy_localizzy.qa.text import TextPolicy
-from vexy_localizzy.translation_store import digest, encoded
-from vexy_localizzy.translation_types import TranslationRecord
+from vexy_localizzy.translate.batches import batches
+from vexy_localizzy.translate.catalog_types import PromptContext
+from vexy_localizzy.translate.inputs import prepare_units
+from vexy_localizzy.translate.store import digest, encoded
+from vexy_localizzy.translate.types import TranslationRecord
 
 
 def _items_digest(items):

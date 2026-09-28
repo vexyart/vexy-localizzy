@@ -1,10 +1,10 @@
-# this_file: src/vexy_localizzy/catalog_translation_batches.py
+# this_file: src/vexy_localizzy/translate/batches.py
 """Bound enriched requests without truncating message or reference data."""
 
 from collections import deque
 
-from vexy_localizzy.catalog_translation_types import PromptContext
-from vexy_localizzy.translation_types import TranslationBatch, TranslationItem
+from vexy_localizzy.translate.catalog_types import PromptContext
+from vexy_localizzy.translate.types import TranslationBatch, TranslationItem
 
 
 def batches(items, template, context, batch_size, max_batch_bytes):

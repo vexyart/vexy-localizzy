@@ -6,8 +6,8 @@ from collections import Counter
 import pytest
 from translation_fixtures import batch, reply
 
-from vexy_localizzy.provider_errors import ProviderUnavailable
-from vexy_localizzy.translation_cache import TranslationCache, TranslationPending
+from vexy_localizzy.translate.cache import TranslationCache, TranslationPending
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
 def validate(request, result):

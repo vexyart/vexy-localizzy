@@ -11,7 +11,7 @@ from classification_run_fixtures import options, response, write_inputs
 
 from vexy_localizzy.classification_results import validated_results
 from vexy_localizzy.classification_run import run_classification
-from vexy_localizzy.provider_errors import ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
 def test_run_when_all_batches_finish_then_sealed_complete_and_zero_call_resume(

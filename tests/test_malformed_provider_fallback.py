@@ -9,8 +9,8 @@ import pytest
 from test_abersetz_transport import install_transport, response
 from translation_fixtures import batch
 
-from vexy_localizzy.abersetz_transport import translate_batch
-from vexy_localizzy.translation_cache import TranslationCache
+from vexy_localizzy.translate.abersetz_transport import translate_batch
+from vexy_localizzy.translate.cache import TranslationCache
 
 
 @pytest.mark.parametrize(

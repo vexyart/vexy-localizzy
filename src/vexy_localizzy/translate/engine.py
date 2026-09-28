@@ -10,8 +10,8 @@ from pydantic import Field
 
 from vexy_localizzy.catalog import Record
 from vexy_localizzy.qa.text import validate_batch
-from vexy_localizzy.translation_cache import TranslationCache
-from vexy_localizzy.translation_types import TranslationBatch, TranslationResult
+from vexy_localizzy.translate.cache import TranslationCache
+from vexy_localizzy.translate.types import TranslationBatch, TranslationResult
 
 Request = Callable[[str, TranslationBatch], TranslationResult]
 
@@ -28,14 +28,14 @@ class EngineSpec(Record):
 
 def engine_identity(spec: EngineSpec) -> str:
     """Transport version plus every generation setting that changes output."""
-    from vexy_localizzy.abersetz_transport import TRANSPORT_ID
+    from vexy_localizzy.translate.abersetz_transport import TRANSPORT_ID
 
     return f"{TRANSPORT_ID};temperature={spec.temperature!r}"
 
 
 def abersetz_request(spec: EngineSpec) -> Request:
     """Single-attempt abersetz call per model; the cache owns retry and fallback."""
-    from vexy_localizzy.abersetz_transport import translate_batch
+    from vexy_localizzy.translate.abersetz_transport import translate_batch
 
     api_key = os.environ.get(spec.api_key_env, "")
     if not api_key.strip():

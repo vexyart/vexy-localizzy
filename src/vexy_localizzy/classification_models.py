@@ -4,7 +4,7 @@
 from collections.abc import Callable, Sequence
 
 from vexy_localizzy.classification import parse_votes
-from vexy_localizzy.provider_errors import ModelResponse, ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 Request = Callable[[str, str, str], str | ModelResponse]
 

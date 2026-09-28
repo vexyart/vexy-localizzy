@@ -36,7 +36,7 @@ cache, rubric, preferred models and transport:
 ```python
 from functools import partial
 from vexy_localizzy.classification_run import run_classification
-from vexy_localizzy.openai_transport import chat_request
+from vexy_localizzy.translate.openai_transport import chat_request
 
 report = run_classification(
     "classification-input.jsonl", "runs/first",

@@ -12,12 +12,12 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 
 from vexy_localizzy.catalog import Catalog, PluralForms, Unit
-from vexy_localizzy.catalog_translation import translate_catalog
-from vexy_localizzy.catalog_translation_types import PromptContext
 from vexy_localizzy.formats import qt_numerus
 from vexy_localizzy.memory import Glossary
-from vexy_localizzy.translation_cache import TranslationCache
-from vexy_localizzy.translation_types import TranslationExample, TranslationItem
+from vexy_localizzy.translate.cache import TranslationCache
+from vexy_localizzy.translate.catalog import translate_catalog
+from vexy_localizzy.translate.catalog_types import PromptContext
+from vexy_localizzy.translate.types import TranslationExample, TranslationItem
 
 
 @dataclass(frozen=True)

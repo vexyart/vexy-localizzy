@@ -8,8 +8,8 @@ import openai
 import pytest
 from translation_fixtures import batch
 
-from vexy_localizzy.abersetz_transport import translate_batch
-from vexy_localizzy.provider_errors import ProviderUnavailable
+from vexy_localizzy.translate.abersetz_transport import translate_batch
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
 def install_transport(monkeypatch, handle):

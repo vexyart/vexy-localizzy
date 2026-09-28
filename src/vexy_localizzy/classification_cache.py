@@ -18,7 +18,7 @@ from vexy_localizzy.classification_models import (
     request_votes,
 )
 from vexy_localizzy.classification_store import open_cache
-from vexy_localizzy.provider_errors import ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable
 
 
 @dataclass(frozen=True)

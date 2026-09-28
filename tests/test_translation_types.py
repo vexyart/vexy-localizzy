@@ -7,7 +7,7 @@ import pytest
 from pydantic import ValidationError
 from translation_fixtures import batch
 
-from vexy_localizzy.translation_types import TranslationBatch, parse_targets
+from vexy_localizzy.translate.types import TranslationBatch, parse_targets
 
 
 def test_translation_payload_requires_exact_message_ids():
@@ -65,7 +65,7 @@ def test_duplicate_json_fields_are_rejected(text):
 
 
 def test_item_when_no_length_constraint_then_original_cache_payload_unchanged():
-    from vexy_localizzy.translation_types import TranslationItem
+    from vexy_localizzy.translate.types import TranslationItem
 
     item = TranslationItem(id="m", source="Open")
     assert "max_length" not in item.model_dump(), (

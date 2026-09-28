@@ -9,7 +9,7 @@ import pytest
 
 from vexy_localizzy.classification import Entry
 from vexy_localizzy.classification_cache import CachedClassifier
-from vexy_localizzy.provider_errors import ProviderUnavailable, retry_delay
+from vexy_localizzy.translate.provider_errors import ProviderUnavailable, retry_delay
 
 
 def classifier(path, request, **kwargs):

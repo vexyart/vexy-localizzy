@@ -11,10 +11,10 @@ import pytest
 from vexy_localizzy import cli_translate
 from vexy_localizzy.cli_args import csv_paths, csv_strings
 from vexy_localizzy.cli_translate import translate
-from vexy_localizzy.translation_types import TranslationResult
+from vexy_localizzy.translate.types import TranslationResult
 
 try:
-    import vexy_localizzy.abersetz_transport  # noqa: F401
+    import vexy_localizzy.translate.abersetz_transport  # noqa: F401
 
     HAS_ABERSETZ = True
 except ImportError:
@@ -208,7 +208,9 @@ def test_translate_when_endpoint_given_then_models_in_fallback_order(
 def test_translate_when_translation_extra_missing_then_exit_three(
     tmp_path, monkeypatch
 ):
-    monkeypatch.setitem(sys.modules, "vexy_localizzy.abersetz_transport", None)
+    monkeypatch.setitem(
+        sys.modules, "vexy_localizzy.translate.abersetz_transport", None
+    )
     code, _ = run(str(APP_DE), "--target", "de", "--out", str(tmp_path / "x.ts"),
                   "--endpoint", "http://fake.invalid/v1", "--model", "m")  # fmt: skip
     assert code == cli_translate.EXIT_EXTRA == 3

@@ -11,7 +11,7 @@ Pass the retained IDs and fingerprints from that completed selection.
 ```python
 from functools import partial
 from vexy_localizzy.retrieval import retrieval_memory
-from vexy_localizzy.catalog_translation import translate_catalog
+from vexy_localizzy.translate.catalog import translate_catalog
 
 # corpus, embeddings and translation_cache are caller-owned open objects.
 with retrieval_memory(
@@ -80,7 +80,7 @@ required context and seals the template, items, batch bytes and source evidence.
 Do not upgrade the query embedder independently of its document vectors.
 
 ```python
-from vexy_localizzy.frozen_contexts import FrozenContexts, prepare_contexts
+from vexy_localizzy.translate.frozen_contexts import FrozenContexts, prepare_contexts
 
 # Inside the retrieval_memory scope, before closing the embedding environment:
 options = {"plural_forms": plural_forms, "batch_size": 50, "max_batch_bytes": 48000}

@@ -11,7 +11,7 @@ import pytest
 from vexy_localizzy.distillation import DistillationEntry
 from vexy_localizzy.distillation_cache import CachedSelector
 from vexy_localizzy.distillation_run import ClusterEntry, retained_items, run_pass
-from vexy_localizzy.provider_errors import ModelResponse, ProviderUnavailable
+from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 
 def items(count=5):

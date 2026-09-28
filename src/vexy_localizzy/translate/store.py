@@ -1,4 +1,4 @@
-# this_file: src/vexy_localizzy/translation_store.py
+# this_file: src/vexy_localizzy/translate/store.py
 """Atomic SQLite schema and portable identities for translation response caches."""
 
 import hashlib

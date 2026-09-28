@@ -5,7 +5,7 @@ import pytest
 
 from vexy_localizzy.classification import Entry
 from vexy_localizzy.classification_cache import CachedClassifier
-from vexy_localizzy.provider_errors import ModelResponse
+from vexy_localizzy.translate.provider_errors import ModelResponse
 
 
 def classifier(path, request, **kwargs):
