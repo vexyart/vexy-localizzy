@@ -1,0 +1,14 @@
+{
+  "name": "@vexyart/localizzy-icu",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "description": "Structural ICU MessageFormat checks for localization candidates",
+  "license": "Apache-2.0",
+  "engines": { "node": ">=20" },
+  "exports": "./index.mjs",
+  "bin": { "localizzy-icu": "./cli.mjs" },
+  "files": ["index.mjs", "components.mjs", "cli.mjs", "README.md"],
+  "scripts": { "test": "node --test test*.mjs" },
+  "dependencies": { "@messageformat/parser": "5.1.1" }
+}

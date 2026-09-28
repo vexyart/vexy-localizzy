@@ -1,0 +1,21 @@
+// this_file: review/src/Editor.tsx
+import { AlertCircle, Check } from "lucide-react";
+import { language, type Catalog, type Unit } from "./types";
+import { useQuality } from "./useQuality";
+type Props = { catalog: Catalog; unit: Unit | undefined; targets: Record<string, string>; onTargets: (targets: Record<string, string>) => void; reason: string; onReason: (reason: string) => void; dirty: boolean; busy: boolean; onSave: (action: "draft" | "approve", next?: boolean) => void; onReopen: () => void };
+export function Editor(props: Props) {
+  const { unit, catalog } = props; const { quality, suggestions, suggestionError } = useQuality(catalog.id, catalog.revision, unit, props.targets);
+  if (!unit) return <aside className="inspector"><p className="empty">Select a message to review.</p></aside>;
+  return <aside className="inspector" aria-label="Translation editor"><div className="inspector-scroll">
+    <h2 className="context-title">{unit.context || "Message"}</h2>
+    <section className="translation-fields"><label className="field-label">Source · {language(catalog.source_lang)}</label><div className="source-value">{unit.source}</div>{unit.source_plural && <div className="source-value">{unit.source_plural}</div>}
+    <label className="field-label target-heading">Translation · {language(catalog.target_lang)}</label>
+    {Object.entries(props.targets).map(([slot, value], index) => <div className="target-slot" key={slot}>{slot !== "scalar" && <label className="slot-label" htmlFor={`target-${index}`}>{slot.startsWith("variant") ? "Length variant " + (index + 1) : "Plural form " + slot}</label>}<textarea id={`target-${index}`} aria-label={slot === "scalar" ? `Translation · ${language(catalog.target_lang)}` : `Translation ${slot}`} value={value} disabled={props.busy || !unit.editable} dir="auto" onChange={event => props.onTargets({ ...props.targets, [slot]: event.target.value })}/>{unit.max_length !== null && <span className="length-count">{value.length} / {unit.max_length}</span>}</div>)}
+    <p className={`save-state ${props.dirty ? "dirty" : ""}`} role="status"><span className="status-dot"/>{props.busy ? "Saving…" : props.dirty ? "Unsaved changes" : "Saved"}</p></section>
+    <section className="inspector-section"><h3>Quality checks</h3><div className={`quality ${quality.error ? "error" : ""}`} aria-live="polite">{quality.checking ? "Checking…" : quality.error ? <><AlertCircle size={20}/><span>{quality.error}</span></> : quality.findings.length ? quality.findings.map((finding, i) => <p key={i}>{finding.message}</p>) : <><span className="quality-check"><Check size={16}/></span><span>No structural issues</span></>}</div>{quality.error.includes("Catalog changed") && <button onClick={props.onReopen}>Reload saved version</button>}
+    {quality.findings.some(item => item.rule_id === "TARGET-UNCHANGED") && <label className="reason">Reason for approving unchanged text<input disabled={props.busy || !unit.editable} value={props.reason} onChange={event => props.onReason(event.target.value)}/></label>}</section>
+    <section className="inspector-section"><h3>Context</h3><div className="context-copy">{unit.notes.length ? unit.notes.map((note, i) => <p key={i}>{note}</p>) : <p>No additional notes.</p>}{unit.disambiguation && <p>{unit.disambiguation}</p>}{unit.locations.length > 0 && <small>{unit.locations.join(" · ")}</small>}</div></section>
+    <section className="inspector-section"><h3>Suggestions</h3>{suggestionError ? <p className="error" role="alert">Suggestions unavailable: {suggestionError}</p> : suggestions.length ? suggestions.map((item, i) => <div className="suggestion" key={i}><p>{item.source} → {item.target}</p><small>{item.provenance}</small></div>) : <p className="muted">No suggestions for this message.</p>}</section>
+    </div><div className="editor-actions"><div className="save-buttons"><button disabled={props.busy || !unit.editable || !!quality.error} onClick={() => props.onSave("draft")}>Save draft</button><button className="primary" disabled={props.busy || !unit.editable || !!quality.error} onClick={() => props.onSave("approve", true)}>Approve &amp; next</button></div><div className="keyboard-hints"><span><kbd>⌘</kbd> <kbd>S</kbd> Save draft</span><span><kbd>Alt</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd> Previous / next</span></div></div>
+  </aside>;
+}

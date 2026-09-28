@@ -1,4 +1,8 @@
 # Byte-compiled / optimized / DLL files
+src/vexy_localizzy/_version.py
+*.sqlite
+*.sqlite-*
+*.sources/
 __pycache__/
 *.py[codz]
 *$py.class
@@ -216,3 +220,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Review frontend build dependencies
+node_modules/
+review/.vite/

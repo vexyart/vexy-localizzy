@@ -1,0 +1,32 @@
+The bundled browser reviewer uses published React, React DOM, Scheduler,
+DOMPurify, quiht-core and lucide-react. Their license texts are included in
+vexy_localizzy/review_web/THIRD_PARTY_LICENSES.txt and review/public/THIRD_PARTY_LICENSES.txt.
+
+Canonical catalog compatibility types and key/placeholder helpers in
+src/vexy_localizzy/catalog.py and filename planning in
+src/vexy_localizzy/tmx_names.py and literal-token QA contracts in
+src/vexy_localizzy/qa_tokens.py and the explicit compatibility projections in
+src/vexy_localizzy/legacy_pairs.py and the plural/device projection in
+src/vexy_localizzy/apple_resources.py and Fluent projection in
+src/vexy_localizzy/fluent_resources.py are adapted from fl10n, whose project metadata
+identifies FontLab as author and declares the MIT license.
+
+Copyright FontLab
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -1,0 +1,90 @@
+# this_file: pyproject.toml
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vexy-localizzy"
+dynamic = ["version"]
+description = "Traceable translation memories and localization workflows"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = [
+    "fire>=0.7,<1",
+    "langcodes>=3.5,<4",
+    "loguru>=0.7,<1",
+    "lxml>=6.1,<7",
+    "polib>=1.2,<2",
+    "pydantic>=2.12,<3",
+    "tree-sitter>=0.26,<0.27",
+    "tree-sitter-json>=0.24.8,<0.25",
+]
+
+[project.scripts]
+localizzy = "vexy_localizzy.cli:main"
+
+[project.optional-dependencies]
+llm = [
+    "filelock>=3.20,<4",
+    "openai>=2.54,<3",
+]
+sources = [
+    "fluent-syntax==0.19.0",
+    "javaproperties==0.8.2",
+    "language-data>=1.2,<2",
+    "moz-l10n==0.14.2",
+    "openstep-plist>=0.5.2,<0.6",
+]
+embeddings = [
+    "numpy>=2,<3",
+    "uubed==1.0.6",
+]
+clustering = [
+    "numpy>=2,<3",
+    "scikit-learn>=1.9,<2",
+    "threadpoolctl>=3.6,<4",
+]
+translation = [
+    "abersetz==1.0.28",
+    "openai>=2.54,<3",
+]
+review = [
+    "fastapi>=0.135,<1",
+    "filelock>=3.20,<4",
+    "uvicorn>=0.41,<1",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+fallback_version = "0.1.0"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/vexy_localizzy/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vexy_localizzy"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "docs", "icu/*.mjs", "icu/package*.json", "icu/README.md", "icu/LICENSE", "review/src", "review/public", "review/package.json", "review/package-lock.json", "review/index.html", "review/tsconfig.json", "review/vite.config.ts", "README.md", "LICENSE", "NOTICE", "DEPENDENCIES.md", "pyproject.toml", "test.sh"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.7",
+]
