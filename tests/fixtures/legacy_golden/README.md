@@ -21,6 +21,20 @@ No input is FontLab data:
 - `legacy_apps.json` snapshots the fl10n `oss2tmx.APPS` table. The packaged
   `oss_apps.toml` must match it.
 
+## Intentional divergences
+
+The ported language policy departs from the legacy tools in three places, and
+the goldens were edited by hand to match (2026-09-28, review finding L9):
+
+- Script subtags and numeric regions are kept. `po2tmx/*/nested/es_MX.tmx` is
+  tagged `es-419` (from the PO `Language: es-419` header), not `es`.
+- European Portuguese is written `pt-PT`, not `pt`. `po2tmx/*/nested/pt.tmx`
+  is tagged `pt-PT`.
+- Apple `pt.lproj` and `Portuguese.lproj` are Brazilian and become `pt-BR`. No
+  golden input exercises this; `tests/extract/test_legacy_lang.py` covers it.
+
+Regenerating with the legacy scripts undoes these edits; reapply them.
+
 ## Regenerate
 
 Run the scripts with the fl10n virtual environment. Their `uv run -s` shebang

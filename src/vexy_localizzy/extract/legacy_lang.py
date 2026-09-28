@@ -5,6 +5,11 @@ Verbatim port of ``adobe2tmx.norm_lang``/``clean_text``, the ``oss2tmx`` extra
 region and script tables, and ``ts2tmx.stem_lang``. This policy shortens
 default regions and may guess from filenames; the strict extractor in
 ``vexy_localizzy.extract.single`` does neither. Adapted from fl10n; see NOTICE.
+
+Deliberate departures from the legacy tools: script subtags (``sr-Latn``) and
+numeric regions (``es-419``) are kept instead of being dropped; European
+Portuguese is written ``pt-PT`` instead of ``pt``; and Apple's ``pt.lproj``,
+which is Brazilian Portuguese, becomes ``pt-BR``.
 """
 
 import re
@@ -19,7 +24,6 @@ DEFAULT_REGION = {
     "fr": "FR",
     "ja": "JP",
     "es": "ES",
-    "pt": "PT",
     "sv": "SE",
     "da": "DK",
     "nl": "NL",
@@ -67,6 +71,8 @@ LANG_ALIASES = {
     "iw": "he",
 }
 PSEUDO_LANGS = {"zz", "xm", "en-xm", "zz-zz", "en-zz", "x-pseudo"}
+# Apple .lproj names whose meaning differs from the same bare tag elsewhere.
+APPLE_LPROJ = {"pt": "pt-BR"}
 
 # Default regions beyond DEFAULT_REGION, dropped by oss2tmx to shorten codes.
 EXTRA_DEFAULT_REGION = {
@@ -123,7 +129,10 @@ def norm_lang(tag: str | None) -> str | None:
     """Turn Adobe/Apple locale spellings into BCP-47 style ISO codes, or None."""
     if not tag:
         return None
-    t = tag.strip().replace(".lproj", "").replace("_", "-").lower()
+    t = tag.strip().replace("_", "-").lower()
+    if t.endswith(".lproj"):
+        t = t.removesuffix(".lproj")
+        t = APPLE_LPROJ.get(t, t).lower()
     t = LANG_ALIASES.get(t, t)
     if t in PSEUDO_LANGS:
         return None
@@ -131,18 +140,25 @@ def norm_lang(tag: str | None) -> str | None:
     lang = parts[0]
     if not (2 <= len(lang) <= 3 and lang.isalpha()):
         return None
-    if len(parts) == 1:
-        return lang
-    region = parts[1].upper()
-    if region in ("HANS", "HANT"):
-        return "zh-CN" if region == "HANS" else "zh-TW"
+    rest = parts[1:]
+    script = None
+    if rest and len(rest[0]) == 4 and rest[0].isalpha():
+        script, rest = rest[0].title(), rest[1:]
+    region = rest[0].upper() if rest else None
     if region == "XM":
         return None
-    if len(region) != 2 or not region.isalpha():
-        return lang
-    if DEFAULT_REGION.get(lang) == region:
-        return lang
-    return f"{lang}-{region}"
+    if region is not None and not (
+        (len(region) == 2 and region.isalpha())
+        or (len(region) == 3 and region.isdigit())
+    ):
+        region = None
+    if lang == "zh" and script in ("Hans", "Hant"):
+        legacy = "CN" if script == "Hans" else "TW"
+        if region in (None, legacy):
+            return f"zh-{legacy}"
+    if region is not None and DEFAULT_REGION.get(lang) == region:
+        region = None
+    return "-".join(p for p in (lang, script, region) if p)
 
 
 def clean_text(text: str) -> str:

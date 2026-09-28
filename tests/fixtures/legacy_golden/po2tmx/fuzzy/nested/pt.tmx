@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='utf-8'?>
-<tmx version="1.4"><header creationtool="po2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="gettext"/><body><tu tuid="1"><prop type="x-origin">pt.po</prop><tuv xml:lang="en"><seg>Save</seg></tuv><tuv xml:lang="pt"><seg>Guardar</seg></tuv></tu></body></tmx>
+<tmx version="1.4"><header creationtool="po2tmx" creationtoolversion="1.0" segtype="block" adminlang="en" srclang="en" datatype="plaintext" o-tmf="gettext"/><body><tu tuid="1"><prop type="x-origin">pt.po</prop><tuv xml:lang="en"><seg>Save</seg></tuv><tuv xml:lang="pt-PT"><seg>Guardar</seg></tuv></tu></body></tmx>

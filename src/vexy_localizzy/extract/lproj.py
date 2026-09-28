@@ -58,7 +58,7 @@ LANG_NAMES = {
     "japanese": "ja",
     "chinese": "zh-CN",
     "korean": "ko",
-    "portuguese": "pt",
+    "portuguese": "pt-BR",
     "swedish": "sv",
     "danish": "da",
     "norwegian": "nb",
@@ -77,7 +77,7 @@ def lproj_lang(name: str) -> tuple[str | None, bool]:
         return BASE_LANGS[stem], True
     if stem in LANG_NAMES:
         return LANG_NAMES[stem], False
-    return norm_lang(stem), False
+    return norm_lang(stem + ".lproj"), False
 
 
 def domain_for(path: Path, root: Path) -> str:
