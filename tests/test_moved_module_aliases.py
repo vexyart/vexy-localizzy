@@ -74,3 +74,34 @@ def test_cli_package_when_imported_then_submodules_not_shadowed() -> None:
     assert cli.COMMANDS["translate"] is cli.translate.translate
     assert cli.COMMANDS["upgrade"] is cli.upgrade.upgrade
     assert cli.COMMANDS["tm"] is cli.tm.TM_COMMANDS
+
+
+@pytest.mark.parametrize(
+    "statement",
+    [
+        "from vexy_localizzy.corpus import Corpus",
+        "from vexy_localizzy.corpus import exporter, store",
+        "from vexy_localizzy.qa import TextPolicy, check_text, validate_batch",
+    ],
+)
+def test_package_named_like_old_module_when_imported_fresh_then_works(
+    statement: str,
+) -> None:
+    import subprocess
+
+    result = subprocess.run(
+        [sys.executable, "-W", "error::DeprecationWarning", "-c", statement],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_corpus_package_when_unknown_name_then_attribute_error() -> None:
+    import vexy_localizzy.corpus as corpus
+
+    with pytest.raises(AttributeError):
+        corpus.NotAThing  # noqa: B018
+    from vexy_localizzy.corpus.store import Corpus
+
+    assert corpus.Corpus is Corpus

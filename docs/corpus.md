@@ -1,6 +1,7 @@
 ---
 this_file: docs/corpus.md
 ---
+<!-- move-modules: skip (written after the move; names the corpus package) -->
 # Voting corpus
 
 `vexy_localizzy.corpus` builds translation memories whose entries can be traced

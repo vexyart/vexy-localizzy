@@ -172,6 +172,11 @@ GROUPS: dict[str, dict[str, str]] = {
     ),
 }
 
+# Every old dotted path mapped to its new one, across all groups.
+MOVES: dict[str, str] = {
+    old: new for group in GROUPS.values() for old, new in group.items()
+}
+
 # Non-module directories that move with a group (paths relative to the package).
 DIR_MOVES: dict[str, dict[str, str]] = {"review": {"review_web": "review/web"}}
 

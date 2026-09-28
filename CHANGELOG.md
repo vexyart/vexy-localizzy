@@ -39,6 +39,9 @@ this_file: CHANGELOG.md
   imports the new paths.
 - `scripts/move_modules.py` performs the moves and import rewrites
   (idempotent, `--dry-run`, `--consumer DIR` for other repositories).
+- `vexy_localizzy.corpus` is now a package; it re-exports `Corpus` lazily, so
+  `from vexy_localizzy.corpus import Corpus` keeps working. Likewise
+  `vexy_localizzy.qa` re-exports everything the old `qa.py` defined.
 - `review.server.WEB_ROOT` names the shipped frontend. Code that built the path
   from `review_server.__file__` and `review_web` must use it instead.
 
