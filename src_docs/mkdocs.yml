@@ -11,6 +11,7 @@ use_directory_urls: true
 
 theme:
   name: materialx
+  custom_dir: overrides
   font: false
   code:
     fold:
@@ -30,6 +31,15 @@ theme:
     - scheme: default
       primary: black
       accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 markdown_extensions:
   - abbr
@@ -87,3 +97,12 @@ plugins:
       pattern: '^\d+-'
   - awesome-nav:
       filename: nav.yml
+
+# Shared FontLab theme 2026 (fontlab-www-docstheme), served from i.fontlab.com.
+extra_css:
+  - https://i.fontlab.com/fltheme26/1.0.0/components.css
+  - https://i.fontlab.com/fltheme26/1.0.0/theme.css
+
+extra_javascript:
+  - https://i.fontlab.com/fltheme26/1.0.0/basecoat.js
+  - https://i.fontlab.com/fltheme26/1.0.0/theme.js

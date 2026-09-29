@@ -1,0 +1,24 @@
+{# this_file: src_docs/overrides/main.html #}
+{% extends "base.html" %}
+{#-
+  FontLab theme 2026 (fontlab-www-docstheme) on MaterialX for a Vexy product:
+  the shared CDN assets come from mkdocs.yml (extra_css, extra_javascript); this
+  override adds the Vexy global menu and footer web components. Documentation
+  sites keep local menu and search ownership (mobile-menu/mobile-search =
+  materialx), per the theme's starter.
+-#}
+{% block extrahead %}
+  {{ super() }}
+  <script src="https://i.vexy.art/menu/vexy.js" defer></script>
+{% endblock %}
+{% block header %}
+  <vexy-menu site-label="{{ config.site_name | e }}"
+             site-url="{{ config.site_url | e }}"
+             mode="dark"
+             mobile-menu="materialx" mobile-search="materialx"></vexy-menu>
+  {{ super() }}
+{% endblock %}
+{% block footer %}
+  {{ super() }}
+  <vexy-footer mode="dark"></vexy-footer>
+{% endblock %}
