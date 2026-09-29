@@ -14,6 +14,7 @@ from pathlib import Path
 import fire
 from loguru import logger
 
+from vexy_localizzy.cli import sourcefix as _sourcefix
 from vexy_localizzy.cli import tm as _tm
 from vexy_localizzy.cli import translate as _translate
 from vexy_localizzy.cli import upgrade as _upgrade
@@ -101,6 +102,7 @@ def qa(catalog: str, fail_on: str = "major", plural_forms: str | None = None) ->
 
 
 COMMANDS = {
+    "source-fix": _sourcefix.COMMANDS,
     "translate": _translate.translate,
     "upgrade": _upgrade.upgrade,
     "convert": convert,

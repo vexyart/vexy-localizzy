@@ -19,6 +19,8 @@ SYNOPSIS
 GROUPS
     GROUP is one of the following:
 
+     source-fix
+
      tm
 
 COMMANDS
@@ -41,6 +43,93 @@ COMMANDS
 
      inventory
        Inventory all .tmx and .ts XML catalogs recursively under ROOT.
+```
+
+## localizzy source-fix
+
+```text
+NAME
+    localizzy source-fix
+
+SYNOPSIS
+    localizzy source-fix COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     prepare
+       Create an English editing TS and OUT.json snapshot; never overwrite either.
+
+     apply
+       Apply finished English edits; --dry-run prints a diff without writing.
+```
+
+## localizzy source-fix prepare
+
+```text
+NAME
+    localizzy source-fix prepare - Create an English editing TS and OUT.json snapshot; never overwrite either.
+
+SYNOPSIS
+    localizzy source-fix prepare SOURCE OUT ROOT <flags>
+
+DESCRIPTION
+    SOURCE is the original English catalog; OUT must be in the same directory.
+    Edit translation fields in Qt Linguist and mark corrections finished.
+    Plural entries remain unchanged and are not editable through this command.
+
+POSITIONAL ARGUMENTS
+    SOURCE
+        Type: str
+    OUT
+        Type: str
+    ROOT
+        Type: str
+
+FLAGS
+    -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy source-fix apply
+
+```text
+NAME
+    localizzy source-fix apply - Apply finished English edits; --dry-run prints a diff without writing.
+
+SYNOPSIS
+    localizzy source-fix apply MIRROR SOURCE ROOT <flags>
+
+DESCRIPTION
+    Uses MIRROR.json from source-fix prepare. Qt lupdate verifies current source
+    identities. Foreign translations survive unfinished for review; plurals and
+    conflicting or stale source edits are rejected before writes.
+
+POSITIONAL ARGUMENTS
+    MIRROR
+        Type: str
+    SOURCE
+        Type: str
+    ROOT
+        Type: str
+
+FLAGS
+    -d, --dry_run=DRY_RUN
+        Type: bool
+        Default: False
+    -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+    -l, --lupdate=LUPDATE
+        Type: str
+        Default: 'lupdate'
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
 ```
 
 ## localizzy translate

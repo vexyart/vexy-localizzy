@@ -91,6 +91,15 @@ def setup_review(where: Path) -> None:
         shutil.move(str(path), where / path.name)
 
 
+def setup_source_fix(where: Path) -> None:
+    (where / "app.cpp").write_text('void Window::f() { tr("Old"); }\n')
+    (where / "app_en.ts").write_text(
+        '<TS version="2.1" language="en_US"><context>'
+        '<name>Window</name><message><location filename="app.cpp" line="1"/>'
+        '<source>Old</source><translation type="unfinished"/></message></context></TS>'
+    )
+
+
 # command prefix -> (setup, allowed exit codes, outputs that must exist)
 CASES = {
     "translate": (
@@ -108,6 +117,7 @@ CASES = {
     "tm ts2tmx": (setup_ts2tmx, {0}, ["tmx"]),
     "tm tmx2qph": (setup_translate, {0}, ["fontlab_de.qph"]),
     "review": (setup_review, {0}, []),
+    "source-fix": (setup_source_fix, {0}, ["app_en_tofix.ts", "app_en_tofix.ts.json"]),
 }
 
 

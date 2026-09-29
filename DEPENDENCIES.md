@@ -18,6 +18,7 @@ this_file: DEPENDENCIES.md
 | polib 1.2.x | Published gettext parser and serializer, including legacy encodings and obsolete records |
 | Existing ElementTree/polib parsers | Explicit legacy Qt/gettext pair projections; no additional runtime dependency |
 | tree-sitter 0.26.x + tree-sitter-json 0.24.x | Published JSON syntax tree with byte spans for scoped, formatting-preserving resource edits |
+| tree-sitter-cpp 0.23.x | Published C++ grammar for exact literal spans in English source corrections; shares the existing tree-sitter runtime |
 | filelock 3.x (`llm`/`review` extras) | Cross-platform exclusion of simultaneous classification and catalog-review writers |
 | openai 2.54+ (`llm` extra) | Optional bounded transport; preserves provider retry timing for fallbacks |
 | fire 0.7.x | CLI argument parsing and help |
@@ -26,6 +27,12 @@ this_file: DEPENDENCIES.md
 | pytest + pytest-cov + ruff | Behavior tests, coverage and static checks |
 
 SQLite, gzip and atomic file operations use Python's standard library.
+English source correction application also needs Qt's `lupdate` executable
+(Qt Linguist tools). It re-extracts current message contexts and locations before
+planning edits. Preparation and a no-change apply do not need Qt installed.
+Parser usage follows the [Tree-sitter Python API](https://tree-sitter.github.io/py-tree-sitter/).
+Source offsets avoid Point accessors, which reproduced heap corruption locally;
+see [upstream issue 487](https://github.com/tree-sitter/py-tree-sitter/issues/487).
 Selected exports use SQLite's documented [attached databases](https://www.sqlite.org/lang_attach.html)
 for explicit disk staging and window functions for the existing winner policy;
 caller TEMP-table settings are preserved. Classification handoff follows SQLite

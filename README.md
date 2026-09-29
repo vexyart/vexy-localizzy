@@ -56,7 +56,7 @@ uv tool install 'vexy-localizzy[translation,sources]'
 Development: `uv sync --group dev --extra translation --extra sources --extra review`,
 then `./test.sh` (it also needs `npm --prefix review ci` and `npm --prefix icu ci`).
 
-## Seven commands
+## Commands
 
 Translate a catalog from memories. Replace `--memory-only` with
 `--endpoint URL --model NAME` to send the remaining messages to a model:
@@ -108,6 +108,20 @@ Review catalogs in the browser (loopback only):
 localizzy review review.toml
 ```
 
+Edit English wording in Qt Linguist, then apply finished corrections to C++ and
+Qt UI sources and matching messages in sibling TS catalogs:
+
+```sh
+localizzy source-fix prepare app_en.ts app_en_tofix.ts --root .
+```
+
+Preview with `localizzy source-fix apply app_en_tofix.ts app_en.ts --root . --dry-run`;
+omit `--dry-run` to apply. Keep the generated `.ts.json` snapshot. Applying needs
+Qt `lupdate`; all catalogs and the mirror are rebuilt, and existing foreign
+translations are retained and marked unfinished for changed sources.
+See [source corrections](src_docs/md/8-toolkit/formats.md#english-source-corrections)
+for conflict handling and the plural limitation.
+
 `localizzy qa CATALOG` runs the deterministic checks and `localizzy inventory
 ROOT OUT` lists every TMX and TS file. The other `tm` commands (`extract`,
 `po2tmx`, `lproj2tmx`, `adobe2tmx`, `oss2tmx`, `norm`) are in the
@@ -145,6 +159,7 @@ message. See [memories](src_docs/md/8-toolkit/memories.md).
 |---|---|
 | Translate a catalog | `vexy_localizzy.translate.translate_file` |
 | Upgrade a TS catalog | `vexy_localizzy.upgrade.upgrade`, `upgrade_ts` |
+| Correct English sources | `vexy_localizzy.sourcefix.prepare`, `apply` |
 | Read memories | `vexy_localizzy.memory` (`DirectMemory`, `Glossary`) |
 | Load, edit, write catalogs | `vexy_localizzy.formats`, `vexy_localizzy.conversion` |
 | Check text and catalogs | `vexy_localizzy.qa` |

@@ -142,3 +142,74 @@ territory shortening. It only proposes names and reports collisions; it never
 renames files. `localizzy tm norm DIR` applies the plan. Territory shortening is
 a file-naming convention, not a claim that regional translations are
 interchangeable. Historical territory aliases are supplied by the caller.
+
+## English source corrections
+
+`localizzy source-fix` uses Qt Linguist as an English copy editor. It supports
+C++ source and headers (`.cpp`, `.cc`, `.cxx`, `.h`, `.hpp`, `.hxx`, `.mm`, `.c`)
+and Qt Designer `.ui` files. Other source formats produce a conflict before
+writing. It updates active messages by context, exact source, disambiguation,
+message ID and plural status, rather than replacing words globally.
+
+```sh
+localizzy source-fix prepare i18n/app_en.ts i18n/app_en_tofix.ts --root .
+# Open app_en_tofix.ts in Linguist. Edit translation fields, then mark them finished.
+localizzy source-fix apply i18n/app_en_tofix.ts i18n/app_en.ts --root . --dry-run
+localizzy source-fix apply i18n/app_en_tofix.ts i18n/app_en.ts --root .
+```
+
+Preparation refuses to overwrite an existing catalog or its `.ts.json`
+snapshot. Both catalogs must share a directory so their relative source paths
+keep the same meaning. Ordinary translations start identical to their English
+sources and unfinished. Empty, identical and unfinished edits are ignored.
+Keep the snapshot beside the editing catalog; it records the English catalog
+hash and source file hashes. Source and context fields must remain unchanged.
+
+Apply requires Qt `lupdate` on PATH, or `--lupdate /path/to/lupdate`. Current
+extraction verifies message identities and refreshes the source locations used
+for matching, since checked-in TS line numbers may already be stale.
+C++ parsing handles escapes, raw strings and concatenation; comments and spacing
+between concatenated literals remain. XML edits preserve surrounding markup.
+
+The English catalog and every matching active message in sibling `.ts` catalogs
+receive the new source and an `oldsource`. Foreign translation text is retained,
+marked unfinished for review. The English runtime translation is cleared so it
+cannot override the corrected source. Applied mirror translations reset to the
+new source and unfinished; unapplied drafts remain. Other prepared mirrors are
+excluded because they have independent snapshots. Before any writes, native Qt extraction rebuilds every runtime catalog against
+a temporary source overlay. The mirror is then rebuilt from the fresh English
+catalog, retaining other drafts, and the snapshot is refreshed. A rebuild can
+normalize catalog formatting and update locations throughout the files. It uses
+all available source files referenced by the English catalog, including external
+libraries as read-only inputs. Entries that cannot be re-extracted remain active
+with their existing translations; copy editing never authorizes their removal.
+It does not discover newly added files with no
+previous catalog references; run the project extractor to add those first. No
+`.qm` compilation is performed by this command.
+
+Plural entries retain their existing English forms during preparation. Changed
+plural forms are rejected: changing an English plural source and its runtime
+forms requires a separate manual review. Length variants are also unsupported.
+Placeholder changes, key collisions, shared literals with inconsistent edits,
+missing or ambiguous occurrences, and sources outside the supplied root block
+the complete batch. Preparation still includes messages referring to missing or
+external files and reports their file counts; they cannot be applied here.
+
+If the English catalog or a source file being corrected has changed since
+preparation, keep the edited mirror and create a new mirror under a different
+name from freshly extracted catalogs, then transfer the intended edits in
+Linguist. Do not remove the snapshot to bypass a conflict. Unrelated changes to
+foreign translations are read at apply time and preserved.
+
+All outputs, including the rebuilt catalogs, are validated and staged before
+replacements begin. File modes are
+preserved, intervening edits are detected, and handled write failures roll back
+already replaced files. Each individual rename is atomic; the multi-file batch
+is not atomic across a process crash or power loss. Run in a Git working tree
+and inspect the preview and resulting diff. Repeat application without new edits
+writes nothing. Native Qt extraction tests verify resulting text and line
+references; rollback and no-write conflict cases have regression tests.
+
+The metadata and relative location handling follow the
+[Qt TS format](https://doc.qt.io/qt-6/linguist-ts-file-format.html), and extraction
+uses the documented [lupdate interface](https://doc.qt.io/qt-6/linguist-lupdate.html).

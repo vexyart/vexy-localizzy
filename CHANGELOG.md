@@ -5,6 +5,25 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-29: English source corrections through Qt Linguist
+
+- Added `localizzy source-fix prepare` and `apply`, including preview diffs and
+  counts of unfinished edits. A separate editing TS and hash snapshot protect
+  drafts and detect stale source files. Preparation never overwrites either.
+- Apply verifies current Qt message identities with `lupdate`, then uses the
+  published C++ grammar and XML byte offsets to change source literals. Matching
+  sibling TS messages receive the new source and oldsource; foreign translations
+  survive marked unfinished. Applied mirror entries reset for repeatable runs.
+- Rebuilds all runtime catalogs with native Qt against a staged source overlay,
+  then reconstructs the mirror and snapshot from the new baseline. Preserves
+  existing translation text, approvals and unextracted entries.
+- Preserves file modes, drafts and concatenation comments;
+  stages the complete batch and rolls back handled write failures. Rejects
+  ambiguous/shared matches, collisions, changed placeholders and edited plurals.
+  Missing and external sources stay visible in preparation but cannot be edited.
+- Added the tree-sitter-cpp dependency, source-correction documentation, generated
+  CLI help and regression tests, including native Qt extraction and rollback.
+
 ### 2026-09-29: Qt phrase book export
 
 - Added `localizzy tm tmx2qph INPUT OUTPUT --target LANG` using the existing

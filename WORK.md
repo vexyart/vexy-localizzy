@@ -3,6 +3,49 @@ this_file: WORK.md
 ---
 # Work
 
+## 2026-09-29: English copy edits upstream from Qt Linguist
+
+Implemented `source-fix prepare/apply` in `sourcefix/`, with the Fire command
+group, README example and generated CLI reference. Reuses TS XML/splice code and
+tree-sitter with the published tree-sitter-cpp 0.23.4 grammar. Checked official
+Qt TS location and lupdate documentation. A real corpus pass exposed a native
+Point-accessor crash on macOS; byte offsets avoid it (py-tree-sitter issue 487).
+
+Preparation refuses to overwrite the editing mirror or its hash snapshot. Apply
+resolves current identities with Qt, parses literal spans, validates every edit,
+then rebuilds all runtime catalogs against a temporary source overlay before
+committing anything. The mirror is reconstructed from fresh English source text,
+preserving unrelated drafts; the snapshot becomes the next baseline. Foreign
+translations, plural forms and review states survive the rebuild. Existing
+entries that cannot be extracted in this checkout remain active rather than
+being removed. This is a copy-edit operation, not catalog deletion authority.
+All available files referenced by the English catalog are extraction inputs;
+new files with no prior catalog references require normal project extraction.
+Native rebuilds update source locations and can normalize formatting. Significant
+spaces before newlines use XML entities without changing their text value.
+
+Created Proteus `i18n/fontlab_en_tofix_fix.sh` and ran preparation: 10,418 ordinary
+entries, 66 plurals, 698 internal files, 38 external and 16 missing files. Fixed
+the macOS Bash 3 empty-array case found by the first live invocation, before it
+wrote anything. The user approved running live, rebuilding, committing and
+pushing. Applied Bar_Glyph Shapes count to Elements count in bar_glyph.ui and
+all five runtime catalogs, then rebuilt those and the editing mirror. Rebuild
+found 46 additional current strings: all six catalogs now have 10,530 active
+entries, with every previous key retained except the intentional renamed key.
+All existing foreign text, including the user's earlier German edits, survived.
+Repeat application reports zero edits and writes no files.
+
+Verification: baseline 1382 tests passed. Added 39 source-fix regressions and
+one executable README example; final suite 1422 tests (two existing dependency
+deprecation warnings). Sourcefix coverage exceeded 90% before the final whitespace
+regression. Native tests cover C++/UI extraction, multiline locations, repeated
+application, reconstruction with new messages and retained drafts/missing sources.
+Direct live verification checked all six key sets, every existing foreign
+translation, the exact UI change and all source snapshot hashes. Proteus's own
+validator reports 0 errors; each foreign catalog has 47 unfinished entries
+(the corrected message plus 46 new ones). Native lrelease successfully compiled
+all five runtime catalogs into temporary QM files. No FontLab binary was built.
+
 ## 2026-09-29: core TMX to Qt phrase books
 
 Added `memory/qph.py` and `localizzy tm tmx2qph INPUT OUTPUT --target LANG`.
