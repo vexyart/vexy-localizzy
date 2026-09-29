@@ -4,7 +4,7 @@
 # Build or serve the vexy-localizzy book (ProperDocs + MaterialX over MkDocs).
 #
 # Usage:
-#   src_docs/build.sh          # strict build into docs/book
+#   src_docs/build.sh          # strict build into docs/fl1992mk
 #   src_docs/build.sh serve    # local preview on :8000
 #   src_docs/build.sh check    # markdown checks only (no dashes, banned words, headers)
 

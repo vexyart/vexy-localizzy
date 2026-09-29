@@ -16,7 +16,7 @@ this_file: CHANGELOG.md
 - Documentation site: `src_docs/` (ProperDocs + MaterialX over MkDocs, tooling
   in `src_docs/tooling/python`, `src_docs/build.sh`) with a seven-part,
   seventy-chapter book on software localization under `src_docs/md/`, built
-  into `docs/book/`.
+  into `docs/fl1992mk/`.
 
 ### 2026-09-28: review fixes
 
