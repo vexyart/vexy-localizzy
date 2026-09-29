@@ -5,6 +5,19 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-29: fallback original term and the localization book
+
+- Glossary memory: a unit may carry `x-fallback`, the fallback original term
+  (a plain English phrase such as *main stroke* for *stem*). `Term.fallback`
+  and `Term.hint`: a translatable term with an empty target and a fallback is
+  sent to the engine as `(translate the plain phrase: …)`; a term with a target
+  is sent as before. Test in `tests/memory/test_glossary.py`; `docs/memories.md`
+  documents the property.
+- Documentation site: `src_docs/` (ProperDocs + MaterialX over MkDocs, tooling
+  in `src_docs/tooling/python`, `src_docs/build.sh`) with a seven-part,
+  seventy-chapter book on software localization under `src_docs/md/`, built
+  into `docs/book/`.
+
 ### 2026-09-28: review fixes
 
 Fixes for the issue 145 code review. Each finding has a regression test.

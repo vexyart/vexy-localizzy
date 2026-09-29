@@ -53,7 +53,14 @@ class wins, and for an equal class the first file listed wins.
 ## Glossary memory
 
 A glossary TMX has the tuids `term:<id>` with the props `x-term-id`,
-`x-translatable` and `x-status`. Its terms serve two purposes:
+`x-translatable`, `x-status` and, optionally, `x-fallback`. The fallback is
+the *fallback original term*: a short plain-English phrase that says what the
+term means when the term itself will not travel (`stem` carries `main stroke`,
+`overshoot` carries `optical surplus`, `Matchmaker` carries `master matcher`).
+A term whose target is still empty but which carries a fallback is sent to the
+engine as `(translate the plain phrase: main stroke)`, so the model renders the
+plain phrase instead of inventing a term; a term with a target is sent as the
+target. Its terms serve two purposes:
 
 - **Prompt terms.** Each engine batch gets only the terms that occur in its
   messages, matched on word boundaries after tags, single `&` accelerators and

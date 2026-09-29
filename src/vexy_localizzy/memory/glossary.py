@@ -2,8 +2,11 @@
 """Core terminology memory: term selection for prompts and whole-string term hits.
 
 A glossary TMX has tuid ``term:<id>`` with props ``x-term-id``, ``x-category``,
-``x-translatable`` (yes/no) and ``x-status`` (approved/proposed/do-not-translate).
-The TU note is the English definition; the target TUV may carry a translator note.
+``x-translatable`` (yes/no), ``x-status`` (approved/proposed/do-not-translate) and,
+optionally, ``x-fallback``: the fallback original term, a plain English phrase
+to translate when the term itself will not travel (``stem`` carries ``main
+stroke``, ``overshoot`` carries ``optical surplus``). The TU note is the English
+definition; the target TUV may carry a translator note.
 """
 
 import re
@@ -37,6 +40,7 @@ class Term(Record):
     translatable: bool
     note: str | None = None
     target_note: str | None = None
+    fallback: str | None = None
 
     @property
     def rendering(self) -> str:
@@ -44,6 +48,16 @@ class Term(Record):
         if not self.translatable or self.status == "do-not-translate":
             return self.source
         return self.target
+
+    @property
+    def hint(self) -> str:
+        """The prompt rendering: the target when there is one, otherwise the
+        fallback original term marked as such, so the engine translates the
+        plain phrase instead of inventing a term for the empty target."""
+        if self.translatable and self.status != "do-not-translate" and not self.target.strip():
+            if self.fallback:
+                return f"(translate the plain phrase: {self.fallback})"
+        return self.rendering
 
 
 def match_text(text: str) -> str:
@@ -67,6 +81,7 @@ def _term(unit, src, tgt) -> Term:
         translatable=props.get("x-translatable", "yes") != "no",
         note=unit.notes[0] if unit.notes else None,
         target_note=tgt.notes[0] if tgt.notes else None,
+        fallback=props.get("x-fallback") or None,
     )
 
 
@@ -130,7 +145,7 @@ class Glossary:
         if len(found) > limit:
             found.sort(key=lambda t: (-len(t.source), t.source.casefold(), t.source))
             found = found[:limit]
-        selected = {term.source: term.rendering for term in found}
+        selected = {term.source: term.hint for term in found}
         return dict(sorted(selected.items(), key=lambda kv: (kv[0].casefold(), kv[0])))
 
     def whole_match(self, text: str) -> Term | None:

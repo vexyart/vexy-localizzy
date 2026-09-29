@@ -3,6 +3,15 @@ this_file: WORK.md
 ---
 # Work
 
+## 2026-09-29: fl10n issue 147, x-fallback and the book
+
+Added `x-fallback` to the glossary memory (`memory/glossary.py`), one test,
+docs. Set up `src_docs/` with the same ProperDocs and MaterialX tooling as the
+FontLab writing styleguide; wrote the book brief and outline; seven writer
+agents drafted the seven parts; `src_docs/build.sh check` enforces frontmatter,
+no dashes and the banned-word list, and `build` runs `properdocs build
+--strict`. Full test suite: 1372 passed; ruff clean.
+
 ## 2026-09-28 — module consolidation and README (toolchain Steps L9, L10)
 
 Done on branch `consolidate` (git worktree `vexy-localizzy-consolidate`), one

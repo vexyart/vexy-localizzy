@@ -1,0 +1,89 @@
+# this_file: src_docs/mkdocs.yml
+site_name: Localization
+site_description: "A seven-part book on software localization, from the documentation of vexy-localizzy."
+site_url: https://vexyart.github.io/vexy-localizzy/
+site_author: Vexy
+
+docs_dir: md
+site_dir: ../docs/book
+
+use_directory_urls: true
+
+theme:
+  name: materialx
+  font: false
+  code:
+    fold:
+      enabled: true
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.footnote.tooltips
+    - content.tooltips
+  palette:
+    - scheme: default
+      primary: black
+      accent: red
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - meta
+  - tables
+  - toc:
+      permalink: true
+      title: Contents
+      toc_depth: 3
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path:
+        - md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.blocks.caption
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: false
+  - pymdownx.tilde
+  - material.extensions.code_download
+
+plugins:
+  - search:
+      enabled: true
+  - glightbox
+  - strip-number-prefix:
+      enabled: true
+      pattern: '^\d+-'
+  - awesome-nav:
+      filename: nav.yml

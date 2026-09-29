@@ -92,3 +92,41 @@ def test_glossary_load_when_unknown_status_then_term_excluded_not_crash(tmp_path
     glossary = Glossary.load([path], source_lang="en", target_lang="de")
     assert [t.source for t in glossary.terms] == ["kern"]
     assert glossary.excluded == 1
+
+
+def _core(tmp_path: Path, units: str) -> Path:
+    path = tmp_path / "core.tmx"
+    path.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n<tmx version="1.4"><header creationtool="t" '
+        'creationtoolversion="1" segtype="phrase" o-tmf="tmx" adminlang="en" srclang="en" '
+        'datatype="plaintext"/><body>' + units + "</body></tmx>\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_hint_when_target_empty_and_fallback_then_fallback_phrase(tmp_path):
+    core = _core(
+        tmp_path,
+        '<tu tuid="term:stem"><prop type="x-term-id">stem</prop>'
+        '<prop type="x-translatable">yes</prop><prop type="x-fallback">main stroke</prop>'
+        '<prop type="x-status">proposed</prop><tuv xml:lang="en"><seg>stem</seg></tuv>'
+        '<tuv xml:lang="pl"><seg></seg></tuv></tu>'
+        '<tu tuid="term:overshoot"><prop type="x-term-id">overshoot</prop>'
+        '<prop type="x-translatable">yes</prop><prop type="x-fallback">optical surplus</prop>'
+        '<prop type="x-status">approved</prop><tuv xml:lang="en"><seg>overshoot</seg></tuv>'
+        '<tuv xml:lang="pl"><seg>naddatek</seg></tuv></tu>',
+    )
+    glossary = Glossary.load(
+        [core],
+        source_lang="en",
+        target_lang="pl",
+        statuses=frozenset({"approved", "proposed"}),
+    )
+    by_id = {t.term_id: t for t in glossary.terms}
+    assert by_id["stem"].fallback == "main stroke"
+    assert by_id["overshoot"].hint == "naddatek", "a real target wins over the fallback"
+    assert glossary.relevant(["Stem overshoot"]) == {
+        "overshoot": "naddatek",
+        "stem": "(translate the plain phrase: main stroke)",
+    }

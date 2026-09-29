@@ -1,0 +1,24 @@
+# this_file: src_docs/md/nav.yml
+nav:
+  - Home: index.md
+  - Foundations:
+      - 1-foundations/index.md
+      - 1-foundations/*.md
+  - Engineering:
+      - 2-engineering/index.md
+      - 2-engineering/*.md
+  - Formats:
+      - 3-formats/index.md
+      - 3-formats/*.md
+  - Terminology:
+      - 4-terminology/index.md
+      - 4-terminology/*.md
+  - Interface:
+      - 5-interface/index.md
+      - 5-interface/*.md
+  - Machine translation:
+      - 6-machine-translation/index.md
+      - 6-machine-translation/*.md
+  - Process:
+      - 7-process/index.md
+      - 7-process/*.md
