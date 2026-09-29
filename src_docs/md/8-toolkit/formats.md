@@ -213,3 +213,8 @@ references; rollback and no-write conflict cases have regression tests.
 The metadata and relative location handling follow the
 [Qt TS format](https://doc.qt.io/qt-6/linguist-ts-file-format.html), and extraction
 uses the documented [lupdate interface](https://doc.qt.io/qt-6/linguist-lupdate.html).
+
+Source correction commands print their intent and progress to stderr, including
+the current catalog and elapsed time. Slow stages emit a heartbeat every five
+seconds. Preview diffs remain on stdout. Ctrl+C exits with status 130 and reports
+whether original files were untouched, restored, or already written.

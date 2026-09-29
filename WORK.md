@@ -3,6 +3,18 @@ this_file: WORK.md
 ---
 # Work
 
+## 2026-09-29: source-fix feedback and explicit dispatch
+
+Added flushed stage/elapsed-time messages and a five-second heartbeat on stderr,
+with phase-aware Ctrl+C exit 130. Library calls stay silent. The Proteus wrapper
+now shows help with no arguments and requires prepare, preview or apply. Preview
+forces dry-run even if conflicting options are supplied. No new dependencies.
+
+Verification: 1432 Python tests passed (two existing dependency warnings), Ruff
+passed, and three Bash-wrapper regression tests passed. Live FontLab preview
+reported zero corrections; all catalog and snapshot hashes stayed unchanged.
+Existing unrelated working-tree edits were preserved.
+
 ## 2026-09-29: English copy edits upstream from Qt Linguist
 
 Implemented `source-fix prepare/apply` in `sourcefix/`, with the Fire command

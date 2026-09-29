@@ -11,6 +11,7 @@ from pathlib import Path
 
 from vexy_localizzy.formats import ts_xml
 from vexy_localizzy.sourcefix.catalog import Catalog, active, key
+from vexy_localizzy.sourcefix.progress import report
 from vexy_localizzy.sourcefix.refresh_merge import (
     protect_line_spaces,
     retain_baseline,
@@ -109,6 +110,7 @@ def rebuild(
     as active baseline entries; a partial checkout is not deletion authority.
     Existing translations and approvals survive exactly. No original changes here.
     """
+    report("Preparing full catalog rebuild in a temporary source tree")
     root = Path(state["root"])
     english, editing = catalogs[:2]
     files = {p for refs in english.locations().values() for p, _ in refs if p.is_file()}
@@ -125,6 +127,7 @@ def rebuild(
         for catalog in catalogs:
             if catalog is editing:
                 continue
+            report(f"Preparing {catalog.path.name} for Qt lupdate")
             prepared = Catalog(catalog.path, outputs.get(catalog.path, catalog.raw))
             target = temp / catalog.path.name
             target.write_bytes(_locations(prepared, catalog.path))
@@ -153,23 +156,28 @@ def rebuild(
             "-ts",
             *(str(path) for _, path, _ in staged),
         ]
+        report(f"Running Qt lupdate: {len(files)} source files, {len(staged)} catalogs")
         result = subprocess.run(
             command, cwd=root, capture_output=True, text=True, timeout=120
         )
         if result.returncode:
             raise ValueError(f"Catalog rebuild failed before writes: {result.stderr}")
         for catalog, path, previous in staged:
+            report(f"Merging rebuilt {catalog.path.name} and preserving translations")
             merged = Catalog(path, retain_baseline(Catalog(path), previous))
             verify_translations(previous, merged)
             outputs[catalog.path] = _locations(merged, catalog.path, overlay, root)
+    report(f"Rebuilding {editing.path.name} from the new English baseline")
     rebuilt = Catalog(english.path, outputs[english.path])
     prior_mirror = Catalog(editing.path, outputs.get(editing.path, editing.raw))
     outputs[editing.path] = _mirror(rebuilt, prior_mirror)
     for catalog in catalogs:
+        report(f"Preserving significant whitespace in {catalog.path.name}")
         outputs[catalog.path] = protect_line_spaces(
             Catalog(catalog.path, outputs[catalog.path])
         )
     # Every new source key becomes the next round's baseline and file snapshot.
+    report("Refreshing source snapshot")
     state["files"], external, missing = {}, set(), set()
     from vexy_localizzy.sourcefix.files import digest
 

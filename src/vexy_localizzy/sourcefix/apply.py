@@ -17,6 +17,7 @@ from vexy_localizzy.sourcefix.catalog import (
 )
 from vexy_localizzy.sourcefix.files import commit, confined, digest
 from vexy_localizzy.sourcefix.prepare import state_bytes, state_path
+from vexy_localizzy.sourcefix.progress import report
 from vexy_localizzy.sourcefix.source import plan_sources
 
 
@@ -112,9 +113,11 @@ def apply(
         raise ValueError(
             "Preparation snapshot does not belong to this source, root and mirror"
         )
+    report(f"Reading {source_path.name}")
     original = Catalog(source_path)
     if digest(original.raw) != state["source_sha256"]:
         raise ValueError(f"English catalog changed since preparation: {source_path}")
+    report(f"Reading {mirror_path.name}")
     editing = Catalog(mirror_path)
     edits = corrections(original, editing)
     unfinished = sum(
@@ -125,6 +128,12 @@ def apply(
         and message.find("translation").get("type") == "unfinished"
         and ts_xml.text(message.find("translation"), "") not in {"", identity[1]}
     )
+    report(
+        f"Found {len(edits)} finished correction(s); skipping {unfinished} unfinished edit(s)"
+    )
+    if verbose:
+        for identity, new in edits.items():
+            report(f"{identity[0]}: {identity[1]!r} -> {new!r}")
     if not edits:
         return {
             "edits": 0,
@@ -133,6 +142,7 @@ def apply(
             "dry_run": dry_run,
             "diff": "",
         }
+    report("Resolving corrections against current sources with Qt lupdate")
     outputs, originals, shifts = plan_sources(original, edits, state, lupdate)
     originals.update(
         {source_path: original.raw, mirror_path: editing.raw, snapshot: state_raw}
@@ -142,8 +152,10 @@ def apply(
         path = confined(path, root_path)
         if path in {source_path, mirror_path} or state_path(path).exists():
             continue  # Other editing mirrors must keep their own snapshot.
+        report(f"Reading {path.name}")
         catalogs.append(Catalog(path))
     for catalog in catalogs:
+        report(f"Staging corrections in {catalog.path.name}")
         originals[catalog.path] = catalog.raw
         # Resolve/rebase while old identities still correspond to locations.
         rebase_locations(catalog, shifts)
@@ -157,6 +169,7 @@ def apply(
     refresh.rebuild(outputs, catalogs, state, lupdate, originals)
     rebuilt_counts = {}
     for catalog in catalogs:
+        report(f"Validating rebuilt {catalog.path.name}")
         fresh = Catalog(catalog.path, outputs.get(catalog.path, catalog.raw))
         rebuilt_counts[catalog.path.name] = {
             "active": len(fresh.index),
@@ -170,6 +183,7 @@ def apply(
     outputs[snapshot] = state_bytes(state)
     diff = ""
     if dry_run:
+        report("Generating preview diff; no files will be written")
         diff = "".join(
             "".join(
                 difflib.unified_diff(

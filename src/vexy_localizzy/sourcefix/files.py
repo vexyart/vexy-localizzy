@@ -8,6 +8,7 @@ import tempfile
 from pathlib import Path
 
 from vexy_localizzy.formats.document import atomic_write
+from vexy_localizzy.sourcefix.progress import report
 
 
 def digest(raw: bytes) -> str:
@@ -27,6 +28,7 @@ def commit(outputs: dict[Path, bytes], originals: dict[Path, bytes | None]) -> N
     Each replacement is atomic; the batch is not power-loss atomic. Originals
     remain in memory until the complete batch has succeeded.
     """
+    report(f"Staging {len(outputs)} output files on disk")
     staged = {}
     replaced = []
     modes = {}
@@ -40,20 +42,28 @@ def commit(outputs: dict[Path, bytes], originals: dict[Path, bytes | None]) -> N
                 stream.flush()
                 os.fsync(stream.fileno())
             staged[path].chmod(modes[path])
+        report("Checking originals for concurrent edits before writing")
         for path, original in originals.items():
             current = path.read_bytes() if path.exists() else None
             if current != original:
                 raise ValueError(f"File changed while preparing edits: {path}")
+        report(f"Writing {len(staged)} validated files", state="writing")
         for path, temporary in staged.items():
             os.replace(temporary, path)
             replaced.append(path)
+        report("All files written", state="committed")
     except BaseException:
+        report(
+            "Restoring originals after an interrupted or failed write",
+            state="restoring",
+        )
         for path in reversed(replaced):
             if originals[path] is None:
                 path.unlink()
             else:
                 atomic_write(path, originals[path])
                 path.chmod(modes[path])
+        report("Originals restored", state="restored")
         raise
     finally:
         for temporary in staged.values():

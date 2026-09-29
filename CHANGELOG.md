@@ -5,6 +5,14 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-29: visible source correction progress
+
+- Source-fix commands explain their intent before work, report each catalog and
+  elapsed time, and emit a heartbeat during slow stages. Library calls remain silent.
+- Ctrl+C exits cleanly with status 130 and reports the actual write/rollback state.
+- The Proteus wrapper requires an explicit prepare, preview or apply operation;
+  no arguments shows help. Preview always enforces dry-run.
+
 ### 2026-09-29: English source corrections through Qt Linguist
 
 - Added `localizzy source-fix prepare` and `apply`, including preview diffs and

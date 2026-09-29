@@ -58,7 +58,7 @@ COMMANDS
     COMMAND is one of the following:
 
      prepare
-       Create an English editing TS and OUT.json snapshot; never overwrite either.
+       Create the Linguist mirror and snapshot; refuse to overwrite existing work.
 
      apply
        Apply finished English edits; --dry-run prints a diff without writing.
@@ -68,15 +68,13 @@ COMMANDS
 
 ```text
 NAME
-    localizzy source-fix prepare - Create an English editing TS and OUT.json snapshot; never overwrite either.
+    localizzy source-fix prepare - Create the Linguist mirror and snapshot; refuse to overwrite existing work.
 
 SYNOPSIS
     localizzy source-fix prepare SOURCE OUT ROOT <flags>
 
 DESCRIPTION
-    SOURCE is the original English catalog; OUT must be in the same directory.
-    Edit translation fields in Qt Linguist and mark corrections finished.
-    Plural entries remain unchanged and are not editable through this command.
+    Create the Linguist mirror and snapshot; refuse to overwrite existing work.
 
 POSITIONAL ARGUMENTS
     SOURCE

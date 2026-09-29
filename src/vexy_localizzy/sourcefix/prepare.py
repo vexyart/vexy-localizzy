@@ -7,6 +7,7 @@ from pathlib import Path
 from vexy_localizzy.formats import ts_xml
 from vexy_localizzy.sourcefix.catalog import Catalog, active
 from vexy_localizzy.sourcefix.files import commit, confined, digest
+from vexy_localizzy.sourcefix.progress import report
 
 
 def state_path(mirror: Path) -> Path:
@@ -37,6 +38,7 @@ def prepare(source: str, out: str, root: str, verbose: bool = False) -> dict:
             raise FileExistsError(
                 f"Refusing to overwrite existing editing work: {path}"
             )
+    report(f"Reading {source_path.name} and collecting source snapshots")
     catalog = Catalog(source_path)
     language = (
         catalog.tree.getroot().get("language", "").replace("-", "_").split("_")[0]
