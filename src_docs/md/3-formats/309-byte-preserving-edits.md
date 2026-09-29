@@ -113,6 +113,6 @@ Step 5 is where the other steps pay off. A second reader has to see the edits to
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 2.5.2)
 - `WORK.md` and `scripts/issue146.py` in the fl10n repository
-- `docs/formats.md`, `docs/memories.md`, `docs/upgrade.md`, `WORK.md` and `src/vexy_localizzy/formats/ts_splice.py` in the vexy-localizzy repository
-- `src_docs/md/localization/memories.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/memories.md](../8-toolkit/memories.md), [docs/upgrade.md](../8-toolkit/upgrade.md), `WORK.md` and `src/vexy_localizzy/formats/ts_splice.py` in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository
 - A local edit of `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` through `lxml` and through `formats.ts`, recorded for this chapter

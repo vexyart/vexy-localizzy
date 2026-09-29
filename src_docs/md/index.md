@@ -17,7 +17,7 @@ French and Polish. The book documents the reasoning behind
 toolkit that grew out of that work, but it is written for any team that ships
 text.
 
-## The seven parts
+## The seven parts, and the toolkit
 
 1. **[Foundations](1-foundations/index.md).** Locales, encodings, formats,
    plurals, scripts, space and cost: the facts every other part assumes.
@@ -41,5 +41,25 @@ text.
    quality gate, linguistic quality assurance, pseudo-localization, review tools,
    vendors, content beyond the catalog, release and provenance.
 
+8. **[The toolkit](8-toolkit/index.md).** The reference documentation of the
+   vexy-localizzy package: commands, memories, upgrades, formats, QA, extraction,
+   review and the corpus.
+
 Each part opens with a short chapter on what it covers and how its chapters
 connect. Chapters end with the sources they drew on.
+
+## Companion sites
+
+- **[FontLab writing styleguide](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/).**
+  The house rules the worked examples come from: the
+  [localization principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/),
+  the [translation memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/),
+  the [glossary](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/glossary/) and the
+  [language guides](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/)
+  for German, Spanish, French and Polish. Chapters cite its pages directly.
+- **[abersetz](https://code.twardoch.com/abersetz/).** The translation engine
+  underneath vexy-localizzy: engines, providers, chunking and vocabulary
+  hints, with its own [CLI](https://code.twardoch.com/abersetz/cli.html) and
+  [Python API](https://code.twardoch.com/abersetz/api.html).
+- **[vexy-localizzy on GitHub](https://github.com/vexyart/vexy-localizzy).**
+  Source, issues and releases of the package this site documents.

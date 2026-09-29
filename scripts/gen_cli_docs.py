@@ -1,14 +1,14 @@
 #!/usr/bin/env -S uv run -s
 # this_file: scripts/gen_cli_docs.py
-"""Generate docs/cli.md from the ``localizzy … --help`` output of every command.
+"""Generate src_docs/md/8-toolkit/cli.md from the ``localizzy … --help`` output of every command.
 
 The command list comes from ``vexy_localizzy.cli.COMMANDS``, so new commands
 appear without editing this script. Help is rendered in-process by Fire, which
 writes plain text to stderr (without a pager) when it is not a terminal. ``--check`` exits 1 when
-docs/cli.md is stale; tests/test_docs_cli.py runs the same comparison.
+src_docs/md/8-toolkit/cli.md is stale; tests/test_docs_cli.py runs the same comparison.
 
 Usage:
-    uv run scripts/gen_cli_docs.py          # rewrite docs/cli.md
+    uv run scripts/gen_cli_docs.py          # rewrite src_docs/md/8-toolkit/cli.md
     uv run scripts/gen_cli_docs.py --check  # verify only
 """
 
@@ -22,10 +22,10 @@ import fire
 
 from vexy_localizzy.cli import COMMANDS
 
-DOC = Path(__file__).resolve().parent.parent / "docs" / "cli.md"
+DOC = Path(__file__).resolve().parent.parent / "src_docs" / "md" / "8-toolkit" / "cli.md"
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 HEADER = """---
-this_file: docs/cli.md
+this_file: src_docs/md/8-toolkit/cli.md
 ---
 # Command-line reference
 
@@ -62,7 +62,7 @@ def help_text(path: tuple[str, ...]) -> str:
 
 
 def render() -> str:
-    """The full docs/cli.md text."""
+    """The full src_docs/md/8-toolkit/cli.md text."""
     sections = [HEADER, "## localizzy\n", "```text", help_text(()), "```\n"]
     for path in command_paths(COMMANDS):
         sections += [

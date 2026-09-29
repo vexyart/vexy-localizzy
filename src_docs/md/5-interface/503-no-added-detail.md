@@ -85,4 +85,4 @@ Machine drafts need these checks more than human ones. A model given a glossary 
 - `data-fontlab-cpp/i18n/review/2026-09-28-issue133-de.json`, `-es.json` and `-fr.json` in the fl10n repository
 - `data-fontlab-cpp/i18n/review/2026-09-28-de-actions.json`, `2026-09-28-de-runtime-glyphs.json`, `2026-09-28-de-lookups-measurements.json` and `2026-09-28-de-window-properties.json` in the fl10n repository
 - `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts` and `fontlab_fr.ts` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `quality.md` and `de.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) in the vexy-fontlab-writing-styleguide repository

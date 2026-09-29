@@ -128,5 +128,5 @@ The Android file held English values in a single column. PO is bilingual, so the
 
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `spec/03.md` and `docs/formats/json.md` in the fl10n repository
-- `docs/formats.md`, `src/vexy_localizzy/catalog.py`, `src/vexy_localizzy/conversion.py`, `src/vexy_localizzy/formats/po.py` and `src/vexy_localizzy/formats/xliff2.py` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), `src/vexy_localizzy/catalog.py`, `src/vexy_localizzy/conversion.py`, `src/vexy_localizzy/formats/po.py` and `src/vexy_localizzy/formats/xliff2.py` in the vexy-localizzy repository
 - A local run of `localizzy convert` on a two-message Android resource, recorded for this chapter

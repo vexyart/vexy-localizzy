@@ -75,4 +75,4 @@ Right-to-left defects can be found long before an Arabic or Hebrew translation e
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 11, right-to-left support)
 - `research/01-foundations-of-software-localization.md`, `research/02-localizing-qt-cpp-applications.md` and `research/03-localizing-web-javascript-applications.md` in the fl10n repository
 - `src/fl10n/engines/pseudo.py` in the fl10n repository
-- `src_docs/md/global/bidirectional-text.md` and `src_docs/md/localization/runtime-review.md` in the vexy-fontlab-writing-styleguide repository
+- [global/bidirectional-text](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/global/bidirectional-text/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository

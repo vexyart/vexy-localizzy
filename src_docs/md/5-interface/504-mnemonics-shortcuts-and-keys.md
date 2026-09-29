@@ -99,5 +99,5 @@ A script cannot see letters in menus assembled at run time, cannot tell whether 
 - `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
 - `data-fontlab-cpp/i18n/source-review/possible-bugs-2026-09-28.md` (B-002) in the fl10n repository
 - `Proteus/workspace2/mainwindow.ui` (menu bar order) in the FontLab application source
-- `src_docs/md/localization/ui-strings.md`, `quality.md`, `de.md`, `es.md`, `fr.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
-- `docs/quality.md` in the vexy-localizzy repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md) in the vexy-localizzy repository

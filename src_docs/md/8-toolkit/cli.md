@@ -1,5 +1,5 @@
 ---
-this_file: docs/cli.md
+this_file: src_docs/md/8-toolkit/cli.md
 ---
 # Command-line reference
 

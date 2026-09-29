@@ -1,11 +1,11 @@
 ---
-this_file: docs/design/review-fidelity.md
+this_file: src_docs/md/8-toolkit/design/review-fidelity.md
 ---
 # Reviewer visual verification
 
-Reference: [review-concept.png](review-concept.png). Final primary render:
-[review-desktop.png](review-desktop.png), 1536 × 1024 at device scale 1.
-[Laptop](review-laptop.png): 1280 × 800. [Mobile](review-mobile.png): 390 × 844,
+Reference: [review-concept.png](../../assets/review/review-concept.png). Final primary render:
+[review-desktop.png](../../assets/review/review-desktop.png), 1536 × 1024 at device scale 1.
+[Laptop](../../assets/review/review-laptop.png): 1280 × 800. [Mobile](../../assets/review/review-mobile.png): 390 × 844,
 full-page capture. The in-app browser returned unavailable and the connected
 browser inventory was empty. Verification used Playwright with installed Chrome.
 The concept and the final desktop/mobile images were directly inspected with

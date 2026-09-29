@@ -1,5 +1,5 @@
 ---
-this_file: docs/corpus.md
+this_file: src_docs/md/8-toolkit/corpus.md
 ---
 <!-- move-modules: skip (written after the move; names the corpus package) -->
 # Voting corpus

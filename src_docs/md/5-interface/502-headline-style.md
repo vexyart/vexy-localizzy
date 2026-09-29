@@ -88,4 +88,4 @@ Record the compressions that recur. A catalog with one hundred conditions of the
 - `issues/133.md` in the fl10n repository
 - `data-fontlab-cpp/i18n/review/2026-09-28-issue133-de.json`, `-es.json` and `-fr.json` in the fl10n repository
 - `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts` and `fontlab_fr.ts` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `quality.md`, `de.md`, `es.md` and `fr.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/) and [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) in the vexy-fontlab-writing-styleguide repository

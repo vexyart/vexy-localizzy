@@ -109,4 +109,4 @@ vexy-localizzy adds a stronger guarantee for PO files that are edited rather tha
 - GNU gettext command help: `msgmerge --help`, `msgfmt --help`, `msginit --help`, `msgattrib --help`, `msgcat --help`
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `docs/formats/po.md`, `docs/formats/ts.md` and `src/fl10n/cldr.py` in the fl10n repository
-- `docs/formats.md`, `docs/memories.md`, `docs/extraction.md`, `WORK.md` and `tests/fixtures/legacy_golden/inputs/po/fr.po` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/memories.md](../8-toolkit/memories.md), [docs/extraction.md](../8-toolkit/extraction.md), `WORK.md` and `tests/fixtures/legacy_golden/inputs/po/fr.po` in the vexy-localizzy repository

@@ -120,4 +120,4 @@ Two compiler-side guards complement the audit. Defining `QT_NO_CAST_FROM_ASCII` 
 
 - `research/02-localizing-qt-cpp-applications.md`, `research/06-tldr.md` and `research/01-foundations-of-software-localization.md` in the fl10n repository
 - `spec/02.md`, `docs/commands/scan.md` and `src/fl10n/engines/scan.py` in the fl10n repository
-- `src_docs/md/localization/ui-strings.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) in the vexy-fontlab-writing-styleguide repository

@@ -79,8 +79,8 @@ When a term decision changes, push it to the core memory the same day, regenerat
 
 ## Sources
 
-- `docs/memories.md` in the vexy-localizzy repository (glossary memory, prompt terms, term hits)
-- `src_docs/md/localization/memories.md`, `quality.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository (glossary memory, prompt terms, term hits)
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - `issues/146.md` in the fl10n repository (the Polish terminology update)
 - `WORK.md` and `CHANGELOG.md` in the fl10n repository (issue 146: rule families, review findings, verification)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.2: glossary hits in the context bundle)

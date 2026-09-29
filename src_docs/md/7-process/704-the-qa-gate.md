@@ -109,6 +109,6 @@ That is the division of labor to design for. The FontLab guide puts it in one se
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7 and 4.10)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.4.5)
 - `spec/05.md` in the fl10n repository (sections 5.1, 5.4 and 5.5)
-- `docs/quality.md` and `docs/translation.md` in the vexy-localizzy repository, and its `src/vexy_localizzy/qa/` package
-- `src_docs/md/localization/quality.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md) and [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository, and its `src/vexy_localizzy/qa/` package
+- [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/README.md` and `WORK.md` in the fl10n repository (issue 146 entry)

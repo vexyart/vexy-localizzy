@@ -109,5 +109,5 @@ The 278 misses were mostly core terms, which by design live only in the glossary
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapters 11 and 12)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 2.5.2 and the terminology section of chapter 5)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3)
-- `docs/formats.md`, `docs/memories.md`, `WORK.md` and `tests/fixtures/legacy_golden/oss2tmx/synth-ts/de.tmx` in the vexy-localizzy repository
-- `glossary/schema.md`, `src_docs/md/localization/memories.md`, `src_docs/md/localization/principles.md` and `localization/tm/de-core.tmx` in the vexy-fontlab-writing-styleguide repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/memories.md](../8-toolkit/memories.md), `WORK.md` and `tests/fixtures/legacy_golden/oss2tmx/synth-ts/de.tmx` in the vexy-localizzy repository
+- [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) and `localization/tm/de-core.tmx` in the vexy-fontlab-writing-styleguide repository

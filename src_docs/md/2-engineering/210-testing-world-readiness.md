@@ -85,4 +85,4 @@ Two instructions from the review make these tests trustworthy. Record the expect
 - `research/01-foundations-of-software-localization.md` and `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository
 - `spec/05.md`, `docs/commands/pseudo.md`, `docs/getting-started.md`, `src/fl10n/cli.py` and `src/fl10n/engines/pseudo.py` in the fl10n repository
 - `lrelease -help` output, Qt Linguist tools 6.11.2
-- `src_docs/md/localization/runtime-review.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository

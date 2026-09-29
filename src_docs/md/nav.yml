@@ -22,3 +22,22 @@ nav:
   - Process:
       - 7-process/index.md
       - 7-process/*.md
+  - Toolkit:
+      - 8-toolkit/index.md
+      - 8-toolkit/cli.md
+      - 8-toolkit/memories.md
+      - 8-toolkit/upgrade.md
+      - 8-toolkit/formats.md
+      - 8-toolkit/translation.md
+      - 8-toolkit/quality.md
+      - 8-toolkit/extraction.md
+      - 8-toolkit/legacy-sources.md
+      - 8-toolkit/review.md
+      - 8-toolkit/corpus.md
+      - Experimental:
+          - 8-toolkit/classification.md
+          - 8-toolkit/distillation.md
+          - 8-toolkit/retrieval.md
+      - Reviewer design:
+          - 8-toolkit/design/review.md
+          - 8-toolkit/design/review-fidelity.md

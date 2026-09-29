@@ -114,6 +114,6 @@ A translation pipeline can use the property too. When a target language has no a
 ## Sources
 
 - `issues/146.md` and `issues/147.md` in the fl10n repository
-- `glossary/schema.md`, `glossary/terms/overshoot.yaml`, `glossary/terms/stem.yaml`, `scripts/check_terms.py`, `scripts/coretm.py` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
-- `src_docs/md/localization/pl.md` and `src_docs/md/localization/de.md` in the vexy-fontlab-writing-styleguide repository
+- [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md), `glossary/terms/overshoot.yaml`, `glossary/terms/stem.yaml`, `scripts/check_terms.py`, `scripts/coretm.py` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
+- [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) and [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/2026-09-29-issue-146.json` in the fl10n repository

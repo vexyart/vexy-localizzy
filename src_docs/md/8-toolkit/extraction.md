@@ -1,5 +1,5 @@
 ---
-this_file: docs/extraction.md
+this_file: src_docs/md/8-toolkit/extraction.md
 ---
 # Extract translation-memory pairs
 
@@ -57,8 +57,8 @@ Input format normally comes from the extension; `--source_format=po` (or `ts`,
 `strings`, `stringsdict`, `loctable`, `json`, `ftl`, `properties`, `mozilla-properties`, `dtd`) overrides it explicitly. Fuzzy selection applies
 only to PO. Bilingual catalogs do not accept a separate reference source.
 
-The output path is required. Output aliases of either input—including symbolic
-and hard links—are rejected. Extraction and XML serialization finish before an
+The output path is required. Output aliases of either input, including symbolic
+and hard links, are rejected. Extraction and XML serialization finish before an
 atomic output replacement; parsing failures or forbidden XML characters preserve
 an existing output. Invalid text is rejected rather than silently sanitized.
 The command handles one catalog pair at a time. Application discovery, language

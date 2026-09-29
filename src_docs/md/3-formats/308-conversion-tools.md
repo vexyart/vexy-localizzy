@@ -96,5 +96,5 @@ Three of the seven are changes, and all three are defensible: a duplicate messag
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `research-draft/317-cla.md` in the fl10n repository
 - `spec/03.md` in the fl10n repository
-- `docs/formats.md`, `docs/extraction.md`, `WORK.md` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/extraction.md](../8-toolkit/extraction.md), `WORK.md` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository
 - `lconvert -help` and a local round trip with `lconvert` from Qt tools 6.11.2, recorded for this chapter

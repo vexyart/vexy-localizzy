@@ -114,4 +114,4 @@ The next time a catalog is upgraded, the project memory supplies the new strings
 - `data-fontlab-cpp/i18n/review/README.md`, `2026-09-28-de-consistency.json`, `2026-09-28-issue133-de.json`, `2026-09-28-de-properties-tools.json` and `2026-09-29-issue-146.json` in the fl10n repository
 - `data-fontlab-cpp/i18n/fontlab_de.ts` and `data-fontlab-cpp/i18n/retired/` in the fl10n repository
 - `CHANGELOG.md`, `issues/133.md` and `issues/146.md` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/memories.md`, `src_docs/md/localization/de.md` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository

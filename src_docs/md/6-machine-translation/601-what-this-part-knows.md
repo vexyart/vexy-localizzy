@@ -41,5 +41,5 @@ The worked examples come from the FontLab localization. Its German, Spanish and 
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository
 - `spec/04.md` and `spec/05.md` in the fl10n repository
 - `WORK.md` and `CHANGELOG.md` in the fl10n repository (issues 145 and 146)
-- `src_docs/md/localization/memories.md` in the vexy-fontlab-writing-styleguide repository
-- `README.md` and `docs/memories.md` in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository
+- `README.md` and [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository

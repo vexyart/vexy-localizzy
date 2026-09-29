@@ -73,4 +73,4 @@ Two conclusions follow, and they are this book's reasoning rather than figures f
 - `spec/04.md` in the fl10n repository (sections 4.3, 4.5 and 4.6)
 - `scripts/shard_ts.py` and `src/fl10n/engines/localize.py` in the fl10n repository
 - `WORK.md` in the fl10n repository (issue 145)
-- `docs/translation.md` and `docs/memories.md`, and `src/vexy_localizzy/translate/batches.py`, in the vexy-localizzy repository
+- [docs/translation.md](../8-toolkit/translation.md) and [docs/memories.md](../8-toolkit/memories.md), and `src/vexy_localizzy/translate/batches.py`, in the vexy-localizzy repository

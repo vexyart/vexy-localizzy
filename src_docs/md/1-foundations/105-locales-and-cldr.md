@@ -100,4 +100,4 @@ Now change one setting. A colleague in the same office prefers English menus but
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: the anatomy of locale identifiers)
 - `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3: CLDR and `Intl`)
 - `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (section 2.3.4: loading the right language)
-- `src_docs/md/localization/pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

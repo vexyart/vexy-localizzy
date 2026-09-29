@@ -139,4 +139,4 @@ The FontLab catalogs pass the same gates at scale: about ten thousand five hundr
 
 - `research/02-localizing-qt-cpp-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `spec/03.md`, `docs/formats/ts.md` and `WORK.md` in the fl10n repository
-- `docs/formats.md`, `docs/upgrade.md`, `src/vexy_localizzy/formats/qt_numerus.py` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/upgrade.md](../8-toolkit/upgrade.md), `src/vexy_localizzy/formats/qt_numerus.py` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository

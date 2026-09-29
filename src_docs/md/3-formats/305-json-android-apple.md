@@ -96,4 +96,4 @@ vexy-localizzy implements steps 1 to 5 in its Android adapter and records the li
 - `research/03-localizing-web-javascript-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `research-draft/310-gemi.md` and `research-draft/317-cla.md` in the fl10n repository
 - `docs/formats/json.md` in the fl10n repository
-- `docs/formats.md`, `docs/extraction.md`, `docs/legacy-sources.md`, `WORK.md`, `tests/test_android_formats.py` and `tests/test_i18next_formats.py` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), [docs/extraction.md](../8-toolkit/extraction.md), [docs/legacy-sources.md](../8-toolkit/legacy-sources.md), `WORK.md`, `tests/test_android_formats.py` and `tests/test_i18next_formats.py` in the vexy-localizzy repository

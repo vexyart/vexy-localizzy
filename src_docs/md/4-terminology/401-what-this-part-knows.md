@@ -44,5 +44,5 @@ Read [402](402-terminology-work.md) and [403](403-a-glossary-schema.md) first if
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.4: terminology)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: terminology and localization)
 - `issues/133.md`, `issues/146.md` and `issues/147.md` in the fl10n repository
-- `src_docs/md/localization/principles.md` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
-- `docs/memories.md` in the vexy-localizzy repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
+- [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository

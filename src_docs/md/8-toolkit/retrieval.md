@@ -1,5 +1,5 @@
 ---
-this_file: docs/retrieval.md
+this_file: src_docs/md/8-toolkit/retrieval.md
 ---
 # Retrieval for translation
 

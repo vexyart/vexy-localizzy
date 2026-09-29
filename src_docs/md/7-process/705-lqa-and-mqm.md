@@ -91,5 +91,5 @@ The FontLab guide adds one more distinction that keeps sign-off honest: acceptin
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: levels of localization; chapter 4: LQA stages, MQM and DQF, the LISA QA model, error severity)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 11: the world-ready approach to testing, localization testing)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.3)
-- `src_docs/md/localization/quality.md` and `runtime-review.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/2026-09-28-metrics.json` in the fl10n repository

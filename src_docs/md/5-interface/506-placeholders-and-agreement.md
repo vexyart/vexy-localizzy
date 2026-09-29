@@ -66,5 +66,5 @@ Tools check the mechanics and nothing else. vexy-localizzy's default Qt policy r
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3: variables, concatenated strings and problematic strings)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 7: string handling and UI controls)
 - `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
-- `src_docs/md/localization/ui-strings.md`, `message-contracts.md`, `principles.md`, `de.md`, `es.md` and `fr.md` in the vexy-fontlab-writing-styleguide repository
-- `docs/quality.md` in the vexy-localizzy repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/), [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/) and [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md) in the vexy-localizzy repository

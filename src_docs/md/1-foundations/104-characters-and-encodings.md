@@ -42,7 +42,7 @@ Unicode encodes many accented letters twice. *à* exists as a single precomposed
 
 To a reader the two spellings are identical. To a program they are different strings of different lengths, and they compare unequal. Normalization converts text to one agreed form. The form that composes where it can is called NFC, and it is the one localization data should use. The FontLab interface-strings guide in the writing styleguide states the rule directly: type diacritics as precomposed characters (NFC), because decomposed forms and presentation ligatures such as *ﬁ* and *ﬂ* break search, sorting and glyph lookup.
 
-Normalization is also where a toolkit has to be honest about what it compares. vexy-localizzy's memory lookup documents its choice in `docs/memories.md`: sources match verbatim, and only NFC and the conversion of Windows line endings to Unix line endings are applied before comparison, so case, spacing, punctuation, accelerators and placeholders all count. Its fuzzy matcher for catalog upgrades, described in `docs/upgrade.md`, is looser by design and also folds case and whitespace. The difference is deliberate: an exact match may be reused without review, so it must not treat two strings as equal unless a reader would.
+Normalization is also where a toolkit has to be honest about what it compares. vexy-localizzy's memory lookup documents its choice in [its memories page](../8-toolkit/memories.md): sources match verbatim, and only NFC and the conversion of Windows line endings to Unix line endings are applied before comparison, so case, spacing, punctuation, accelerators and placeholders all count. Its fuzzy matcher for catalog upgrades, described in [its upgrade page](../8-toolkit/upgrade.md), is looser by design and also folds case and whitespace. The difference is deliberate: an exact match may be reused without review, so it must not treat two strings as equal unless a reader would.
 
 ## What a string is, and how long
 
@@ -102,5 +102,5 @@ The same word shows the older failure too. Written in UTF-8 and read as Windows-
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 3: Unicode, encoding forms, surrogate pairs, precomposed characters, byte-order marks)
 - Johann Roturier, *Localizing Apps*, 2015 (section 2.3: encodings)
 - `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3.3 and the staged Qt migration)
-- `src_docs/md/localization/ui-strings.md` and `src_docs/md/localization/pl.md` in the vexy-fontlab-writing-styleguide repository
-- `docs/memories.md` and `docs/upgrade.md` in the vexy-localizzy repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
+- [docs/memories.md](../8-toolkit/memories.md) and [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

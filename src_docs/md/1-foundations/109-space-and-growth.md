@@ -94,4 +94,4 @@ The page adds a limit that is easy to forget. Pseudo-localization proves that a 
 - `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.5)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.2: pseudo-localization)
 - `data-fontlab-cpp/i18n/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository, measured for this chapter
-- `src_docs/md/localization/principles.md`, `runtime-review.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

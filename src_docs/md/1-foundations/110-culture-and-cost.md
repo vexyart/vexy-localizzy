@@ -102,5 +102,5 @@ Then add up the work, not the words: the review hours for terminology, the engin
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 5: culture in localization)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 1: the hidden costs of retrofitting)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.5 and 5.6)
-- `src_docs/md/localization/principles.md`, `ui-strings.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - `README.md` in the vexy-localizzy repository

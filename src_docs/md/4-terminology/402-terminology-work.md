@@ -84,4 +84,4 @@ The procedure is deliberately boring. The judgment happens in step 3; the rest e
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (sections 5.4.1 to 5.4.3)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: terminology and localization)
 - `issues/133.md` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/memories.md`, `glossary/terms/layers.yaml` and `glossary/terms/masks.yaml` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), `glossary/terms/layers.yaml` and `glossary/terms/masks.yaml` in the vexy-fontlab-writing-styleguide repository

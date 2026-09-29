@@ -5,6 +5,14 @@ this_file: WORK.md
 
 ## 2026-09-29: fl10n issue 147, x-fallback and the book
 
+Later the same day: `docs/` reduced to the built site only. The thirteen
+package pages and the two reviewer design notes moved into `src_docs/md/8-toolkit/`
+as Part 8 (explicit order in `nav.yml`), review screenshots into
+`src_docs/md/assets/review/`, CLI doc generator and its test repointed. Chapter
+sources now link to fontlab.dev styleguide pages and to the toolkit pages;
+abersetz linked from the home page, toolkit index, memories, translation and
+README. Strict build: 94 files, 0 problems, 0 warnings; `test_docs_cli` passes.
+
 Added `x-fallback` to the glossary memory (`memory/glossary.py`), one test,
 docs. Set up `src_docs/` with the same ProperDocs and MaterialX tooling as the
 FontLab writing styleguide; wrote the book brief and outline; seven writer

@@ -80,4 +80,4 @@ The translator's contribution is the observation and the evidence. The decision 
 - `data-fontlab-cpp/i18n/review/2026-09-28-fr-text-element-delete.json` in the fl10n repository
 - `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
 - `Proteus/workspace2/dlgsetinterpolation.cpp` in the FontLab application source
-- `src_docs/md/localization/ui-strings.md`, `principles.md`, `quality.md`, `de.md` and `fr.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) and [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) in the vexy-fontlab-writing-styleguide repository

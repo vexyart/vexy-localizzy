@@ -98,6 +98,6 @@ The same message in Polish gets *Pędzel mocy* from the Polish core memory. Noth
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 11: translation memory tools, segmentation, fuzzy matching; chapter 12: reference materials)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.3: translation memory)
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/memories.md` and `scripts/check_tm.py` in the vexy-fontlab-writing-styleguide repository
-- `docs/memories.md` in the vexy-localizzy repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and `scripts/check_tm.py` in the vexy-fontlab-writing-styleguide repository
+- [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository
 - `CHANGELOG.md` in the fl10n repository

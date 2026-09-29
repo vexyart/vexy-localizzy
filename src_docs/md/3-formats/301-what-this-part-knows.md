@@ -45,4 +45,4 @@ The examples come from two projects. `fl10n` is the engineering specification an
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapters 3 and 4)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - `spec/03.md` in the fl10n repository
-- `README.md`, `docs/formats.md` and `docs/upgrade.md` in the vexy-localizzy repository
+- `README.md`, [docs/formats.md](../8-toolkit/formats.md) and [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

@@ -1,21 +1,22 @@
 ---
-this_file: docs/translation.md
+this_file: src_docs/md/8-toolkit/translation.md
 ---
 # Translation batches and cache
 
-Install `vexy-localizzy[translation]` for the published abersetz 1.0.28 engine
+Install `vexy-localizzy[translation]` for the published [abersetz](https://code.twardoch.com/abersetz/) 1.0.28 engine
 and OpenAI-compatible SDK. The optional dependency has a larger transitive install
 than the core toolkit. Credentials, endpoint, model choices and project guidance
 belong to the calling application.
 
-`TranslationBatch` contains source/target locales, 1–100 distinct message IDs,
+`TranslationBatch` contains source/target locales, 1 to 100 distinct message IDs,
 exact source strings, context, comments, notes and optional form descriptions.
 Include glossary terms, style guidance and retrieved source/target examples with
 compact provenance. Every field participates in cache identity; changing a
 reference's provenance, style or plural context invalidates reuse.
 
 `abersetz_transport.translate_batch(batch, model, base_url=..., api_key=...)`
-uses abersetz's prompt construction, terminology/examples and output extraction.
+uses abersetz's prompt construction, terminology/examples and output extraction
+(see the [abersetz Python API](https://code.twardoch.com/abersetz/api.html)).
 A small subclass invokes the published single-attempt implementation beneath its
 Tenacity wrapper. The SDK also has retries disabled. The caller can immediately
 try another provider on quota, connection or server failures. The adapter records
@@ -145,6 +146,6 @@ validation through `qa.check_text`. Structural HTML validation and native target
 traversal are available through `qa.check_text` and `qa.catalog.scalar_targets`.
 Consumers retain their own locale rules and choices about which states to check.
 
-The abersetz adapter accepts `temperature` (default `0.2`, finite range 0–2).
+The abersetz adapter accepts `temperature` (default `0.2`, finite range 0 to 2).
 When overriding it, include the value with `TRANSPORT_ID` in the cache
 `engine_identity`; changed generation settings must not reuse earlier output.

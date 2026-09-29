@@ -95,6 +95,6 @@ Accelerators sit halfway between the two worlds: the gate can count them, but ch
 
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.5)
 - `spec/04.md` in the fl10n repository (section 4.4)
-- `docs/quality.md`, `docs/memories.md`, `docs/translation.md` and `docs/review.md` in the vexy-localizzy repository
-- `src_docs/md/localization/message-contracts.md` and `quality.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md), [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
+- [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
 - `CHANGELOG.md` in the fl10n repository (issue 145: the Polish plural and markup gates)

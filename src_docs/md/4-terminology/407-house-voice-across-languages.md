@@ -93,6 +93,6 @@ Voice is a reason to choose a word, never a reason to change a meaning. Four che
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: terminology setup and target audience)
 - `issues/133.md`, `issues/146.md` and `issues/147.md` in the fl10n repository
 - `data-fontlab-cpp/i18n/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/de.md`, `src_docs/md/localization/es.md` and `src_docs/md/localization/fr.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/) and [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/de-core.tmx`, `es-core.tmx`, `fr-core.tmx` and `pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - `tools/house-rules.md` in the vexy-fontlab-writing-skills repository (rule H14)

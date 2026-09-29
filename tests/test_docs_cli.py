@@ -1,5 +1,5 @@
 # this_file: tests/test_docs_cli.py
-"""docs/cli.md matches the current ``localizzy … --help`` output."""
+"""src_docs/md/8-toolkit/cli.md matches the current ``localizzy … --help`` output."""
 
 import importlib.util
 from pathlib import Path
@@ -12,7 +12,7 @@ spec.loader.exec_module(gen)
 
 def test_cli_doc_when_generated_then_matches_committed_file() -> None:
     assert gen.DOC.read_text(encoding="utf-8") == gen.render(), (
-        "docs/cli.md is stale; run: uv run scripts/gen_cli_docs.py"
+        "src_docs/md/8-toolkit/cli.md is stale; run: uv run scripts/gen_cli_docs.py"
     )
 
 

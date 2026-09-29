@@ -82,4 +82,4 @@ What version control does not replace is measurement. Research/05 lists the indi
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.5.1, 5.5.3 and 5.5.4)
 - `spec/07.md` in the fl10n repository (section 7.6)
 - `issues/146.md`, `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 146 entries)
-- `src_docs/md/localization/handoff.md` and `quality.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/handoff](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/handoff/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository

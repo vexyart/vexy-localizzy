@@ -108,5 +108,5 @@ A model can also help with context rather than receive it. The FontLab guide lis
 - `issues/133.md` in the fl10n repository (the founder's German review remarks)
 - `WORK.md` and `CHANGELOG.md` in the fl10n repository (issue 145: the Polish catalog)
 - `scripts/shard_ts.py` in the fl10n repository
-- `docs/translation.md` in the vexy-localizzy repository
-- `src_docs/md/localization/memories.md`, `message-contracts.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

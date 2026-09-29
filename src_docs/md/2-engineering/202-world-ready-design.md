@@ -103,4 +103,4 @@ The toolkit behind this book follows the same line from the other side. The fl10
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 2, designing a world-ready program; chapter 7, isolating localizable resources)
 - `research/01-foundations-of-software-localization.md` in the fl10n repository
 - `spec/02.md` in the fl10n repository
-- `src_docs/md/localization/ui-strings.md` and `src_docs/md/localization/runtime-review.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository

@@ -82,4 +82,4 @@ Two things stay constant through all four steps. Someone has to decide what each
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 2: emergence of localization, software, web and mobile; chapter 3: waterfall and continuous workflows)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.1)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4 and 5.7)
-- `src_docs/md/localization/pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

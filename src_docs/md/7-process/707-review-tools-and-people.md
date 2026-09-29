@@ -77,6 +77,6 @@ The rotation only works if each reader leaves evidence the next can use: the rea
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: roles and responsibilities)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.5.4)
 - `spec/05.md` in the fl10n repository (section 5.3)
-- `docs/review.md`, `docs/design/review.md` and `docs/design/review-fidelity.md` in the vexy-localizzy repository
-- `src_docs/md/localization/quality.md` and `principles.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/review.md](../8-toolkit/review.md), [docs/design/review.md](../8-toolkit/design/review.md) and [docs/design/review-fidelity.md](../8-toolkit/design/review-fidelity.md) in the vexy-localizzy repository
+- [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository
 - `issues/133.md`, `issues/146.md`, `CHANGELOG.md` and `WORK.md` in the fl10n repository

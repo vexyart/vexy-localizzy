@@ -80,4 +80,4 @@ None of these steps involves a translation choice. Together they decide whether 
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: text direction and layout)
 - `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.5)
 - `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (right-to-left pitfalls and fonts)
-- `src_docs/md/localization/pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

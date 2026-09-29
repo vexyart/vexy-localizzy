@@ -1,5 +1,5 @@
 ---
-this_file: docs/design/review.md
+this_file: src_docs/md/8-toolkit/design/review.md
 ---
 # Review design contract
 
@@ -19,7 +19,7 @@ teal selection (#e3f3f5), green approval (#168b49), amber unsaved (#f5a623).
 There are no gradients, photography, raster UI assets or decorative overlays.
 Use system sans throughout: 24 px wordmark; 22 px panel headings; 20 px section
 headings; 16 px body, controls and rows; 14 px statuses/captions. Controls have
-6 px corners, 1 px borders and clear focus rings. Main gutters are 20–26 px.
+6 px corners, 1 px borders and clear focus rings. Main gutters are 20 to 26 px.
 
 Allowed visible primary copy: Localizzy, Translation review, Sample · Polish,
 Export TS, Messages, Search source or translation, Unreviewed only, 2 of 8
@@ -30,7 +30,7 @@ the file dialog., Suggestions, Open → Otwórz, Memory · sample:1, Save draft,
 Approve & next, Previous / next. Other message rows and their contexts/states
 come from the sample catalog. Runtime text changes reflect actual saved data.
 
-Icons: lucide search/chevron/arrows, 16–20 px, thin outline, muted color;
+Icons: lucide search/chevron/arrows, 16 to 20 px, thin outline, muted color;
 approval uses a white tick on green; state dots are solid circles. Wordmark is
 plain text. The preview dialog is rendered from real synthetic Qt XML.
 

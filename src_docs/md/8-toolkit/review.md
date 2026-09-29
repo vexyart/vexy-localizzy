@@ -1,5 +1,5 @@
 ---
-this_file: docs/review.md
+this_file: src_docs/md/8-toolkit/review.md
 ---
 # Browser catalog review
 

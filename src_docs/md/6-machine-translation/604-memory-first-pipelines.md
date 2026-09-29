@@ -84,5 +84,5 @@ The lesson for planning is that the first catalog in a new language is the expen
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.2 and 4.6)
 - `spec/04.md` in the fl10n repository (sections 4.2 and 4.6)
 - `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 145)
-- `README.md`, `docs/memories.md`, `docs/translation.md` and `docs/retrieval.md` in the vexy-localizzy repository
-- `src_docs/md/localization/memories.md` in the vexy-fontlab-writing-styleguide repository
+- `README.md`, [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md) and [docs/retrieval.md](../8-toolkit/retrieval.md) in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

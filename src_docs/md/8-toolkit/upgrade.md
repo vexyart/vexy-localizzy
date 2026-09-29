@@ -1,5 +1,5 @@
 ---
-this_file: docs/upgrade.md
+this_file: src_docs/md/8-toolkit/upgrade.md
 ---
 # Upgrading a Qt catalog
 
@@ -59,8 +59,8 @@ message's fuzzy pairing therefore cannot take a later message's exact partner.
 | 8 | `memory_term` / `memory_source` | whole-string glossary term, then direct-memory `source` hit | finished if the class is in `--finish-on` |
 | 9 | `machine` | engine translation; each batch prompt carries only its own glossary terms | unfinished |
 | 10 | `pending` / `untranslated` | engine failed / no engine | unfinished, empty |
-| – | `excluded_empty` | empty source | FRESH bytes untouched |
-| – | `excluded_vanished` | FRESH message is vanished or obsolete | FRESH bytes untouched |
+| none | `excluded_empty` | empty source | FRESH bytes untouched |
+| none | `excluded_vanished` | FRESH message is vanished or obsolete | FRESH bytes untouched |
 
 - Tiers 1, 3, 5, 6 and 7 consume their APPROVED candidate, so no APPROVED
   message is ported twice. When a port would drop reviewed plural forms,
@@ -138,7 +138,7 @@ and messages that were already vanished or obsolete.
 | `memories` | `summary()` of each memory, tagged `role`: `direct` or `glossary` |
 | `options` | `UpgradeOptions`, plus whether an engine ran |
 | `counts` | one key per category, plus `retired_active`, `retired_obsolete` and `unfilled` |
-| `messages` | `fresh_ordinal`, `context`, `source`, `category`, `state` (`finished`, `unfinished` or `untouched`), `filled`, `approved_ordinal`, `approved_source` (tiers 5–7), `similarity`, `memory`, `tuids`, `glossary_terms`, `model` |
+| `messages` | `fresh_ordinal`, `context`, `source`, `category`, `state` (`finished`, `unfinished` or `untouched`), `filled`, `approved_ordinal`, `approved_source` (tiers 5 to 7), `similarity`, `memory`, `tuids`, `glossary_terms`, `model` |
 | `retired_ordinals` | the APPROVED ordinals written to RETIRED |
 | `invariants` | `every_fresh_classified`, `approved_consumed_or_retired` |
 

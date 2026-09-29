@@ -17,6 +17,14 @@ this_file: CHANGELOG.md
   in `src_docs/tooling/python`, `src_docs/build.sh`) with a seven-part,
   seventy-chapter book on software localization under `src_docs/md/`, built
   into `docs/fl1992mk/`.
+- Package documentation moved from `docs/*.md` and `docs/design/` into the
+  site as Part 8, `src_docs/md/8-toolkit/` (screenshots under
+  `src_docs/md/assets/review/`); `docs/` now holds only the built site in
+  `fl1992mk/`. `scripts/gen_cli_docs.py` and `tests/test_docs_cli.py` follow
+  the new path. Chapter source lists link to the published pages of the
+  FontLab writing styleguide (fontlab.dev) and to the toolkit pages; the home
+  page, the toolkit index, the memories and translation pages and the README
+  link to the styleguide and to abersetz (code.twardoch.com/abersetz).
 
 ### 2026-09-28: review fixes
 

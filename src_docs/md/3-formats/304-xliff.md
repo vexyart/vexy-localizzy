@@ -116,4 +116,4 @@ vexy-localizzy's XLIFF adapter was checked against the two XLIFF catalogs the fl
 - `research-draft/310-gemi.md` and `research-draft/317-cla.md` in the fl10n repository
 - `docs/formats/xliff.md` in the fl10n repository
 - A local test of `lconvert` (Qt 5.15.19 and Qt tools 6.11.2) on `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` from the vexy-localizzy repository
-- `docs/formats.md`, `WORK.md`, `src/vexy_localizzy/formats/xliff2.py`, `tests/test_xliff2.py` and `tests/test_xliff_formats.py` in the vexy-localizzy repository
+- [docs/formats.md](../8-toolkit/formats.md), `WORK.md`, `src/vexy_localizzy/formats/xliff2.py`, `tests/test_xliff2.py` and `tests/test_xliff_formats.py` in the vexy-localizzy repository

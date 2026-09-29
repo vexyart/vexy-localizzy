@@ -1,5 +1,5 @@
 ---
-this_file: docs/quality.md
+this_file: src_docs/md/8-toolkit/quality.md
 ---
 # Translation content QA
 

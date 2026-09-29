@@ -83,7 +83,7 @@ The retired German file still contains "Descender to UPM" with its reviewed tran
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4.1, 5.4.4 and 5.4.5)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.9, KDE and GNOME)
 - `spec/07.md` in the fl10n repository (sections 7.5 and 7.6)
-- `docs/upgrade.md` in the vexy-localizzy repository
+- [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository
 - `issues/146.md`, `CHANGELOG.md`, `WORK.md` and `scripts/diff_ts.py` in the fl10n repository
 - `data-fontlab-cpp/i18n/review/README.md`, `2026-09-28-de-consistency.json` and `2026-09-29-issue-146.json` in the fl10n repository
 - `.fl10n/diff/de.json` and `data-fontlab-cpp/i18n/retired/` in the fl10n repository

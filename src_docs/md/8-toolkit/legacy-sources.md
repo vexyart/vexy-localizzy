@@ -1,5 +1,5 @@
 ---
-this_file: docs/legacy-sources.md
+this_file: src_docs/md/8-toolkit/legacy-sources.md
 ---
 # Legacy source projections
 

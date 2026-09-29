@@ -99,7 +99,7 @@ localizzy review review.toml
 `localizzy qa CATALOG` runs the deterministic checks and `localizzy inventory
 ROOT OUT` lists every TMX and TS file. The other `tm` commands (`extract`,
 `po2tmx`, `lproj2tmx`, `adobe2tmx`, `oss2tmx`, `norm`) are in the
-[CLI reference](docs/cli.md).
+[CLI reference](src_docs/md/8-toolkit/cli.md).
 
 ## Memories
 
@@ -112,7 +112,7 @@ placeholder QA gate first. Catalog and memory tags rarely agree (`de_DE` and
 `de`, `es_MX` and `es-419`), so the memory language is the exact tag, else the
 only or the closest variant; a tie is an error, and `--memory-lang` decides.
 Each run writes a provenance sidecar, `OUT.localizzy.json`, with one row per
-message. See [memories](docs/memories.md).
+message. See [memories](src_docs/md/8-toolkit/memories.md).
 
 ## Guarantees
 
@@ -141,19 +141,35 @@ message. See [memories](docs/memories.md).
 
 ## Documentation
 
-- [CLI reference](docs/cli.md): every command's `--help`.
-- [Memories](docs/memories.md): translate with direct and glossary memories.
-- [Upgrade](docs/upgrade.md): tiers, element ownership, RETIRED and the report.
-- [Formats](docs/formats.md): what each catalog adapter keeps and refuses.
-- [Translation](docs/translation.md): batches, cache, retries and validation.
-- [Quality](docs/quality.md): the deterministic QA checks.
-- [Extraction](docs/extraction.md): `tm extract` and the legacy tree converters.
-- [Legacy sources](docs/legacy-sources.md): source projections for extraction.
-- [Review](docs/review.md): the browser reviewer.
-- [Corpus](docs/corpus.md): inventory, weighted votes, import and export.
+The book and the package documentation are published as one site at
+[fontlab.dev/vexy-localizzy/fl1992mk](https://fontlab.dev/vexy-localizzy/fl1992mk/)
+(mirror: [vexy.dev/vexy-localizzy/fl1992mk](https://vexy.dev/vexy-localizzy/fl1992mk/)).
+The source is `src_docs/md`; `docs/fl1992mk` is the build output. The
+[toolkit part](https://fontlab.dev/vexy-localizzy/fl1992mk/toolkit/) holds these pages:
+
+- [CLI reference](src_docs/md/8-toolkit/cli.md): every command's `--help`.
+- [Memories](src_docs/md/8-toolkit/memories.md): translate with direct and glossary memories.
+- [Upgrade](src_docs/md/8-toolkit/upgrade.md): tiers, element ownership, RETIRED and the report.
+- [Formats](src_docs/md/8-toolkit/formats.md): what each catalog adapter keeps and refuses.
+- [Translation](src_docs/md/8-toolkit/translation.md): batches, cache, retries and validation.
+- [Quality](src_docs/md/8-toolkit/quality.md): the deterministic QA checks.
+- [Extraction](src_docs/md/8-toolkit/extraction.md): `tm extract` and the legacy tree converters.
+- [Legacy sources](src_docs/md/8-toolkit/legacy-sources.md): source projections for extraction.
+- [Review](src_docs/md/8-toolkit/review.md): the browser reviewer.
+- [Corpus](src_docs/md/8-toolkit/corpus.md): inventory, weighted votes, import and export.
+
+## Related documentation
+
+- [abersetz](https://code.twardoch.com/abersetz/): the translation engine
+  (its [Python API](https://code.twardoch.com/abersetz/api.html) is what
+  `vexy_localizzy.translate.abersetz_transport` calls).
+- [FontLab writing styleguide](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/):
+  the [localization principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/),
+  the [memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/)
+  that this package reads, and the [glossary](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/glossary/).
 
 ## Experimental
 
 Research code lives in `vexy_localizzy.experimental` and is outside the supported
-CLI: see [classification](docs/classification.md),
-[distillation](docs/distillation.md) and [retrieval](docs/retrieval.md).
+CLI: see [classification](src_docs/md/8-toolkit/classification.md),
+[distillation](src_docs/md/8-toolkit/distillation.md) and [retrieval](src_docs/md/8-toolkit/retrieval.md).

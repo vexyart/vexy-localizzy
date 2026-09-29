@@ -71,5 +71,5 @@ Whichever rule a team adopts, it needs its own evidence. The research corpus rec
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7 and 4.9)
 - `research/06-tldr.md` in the fl10n repository (chapter 4 summary)
 - `spec/05.md` in the fl10n repository (sections 5.1 and 5.5)
-- `docs/quality.md` and `docs/translation.md` in the vexy-localizzy repository
-- `src_docs/md/localization/quality.md` and `memories.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md) and [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository
+- [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

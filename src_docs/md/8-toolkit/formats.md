@@ -1,5 +1,5 @@
 ---
-this_file: docs/formats.md
+this_file: src_docs/md/8-toolkit/formats.md
 ---
 # Catalog formats
 
@@ -25,7 +25,7 @@ checks to an in-memory catalog.
 
 Complete ICU message strings stay literal when exported to TS, because Qt does
 not evaluate ICU syntax. The loss report records the removal of parsed ICU
-metadata. The optional [Node structural checker](../icu/README.md) and its
+metadata. The optional [Node structural checker](https://github.com/vexyart/vexy-localizzy/tree/main/icu) and its
 Python cache-validation bridge check complete ICU strings, separately from
 brace-format checks.
 

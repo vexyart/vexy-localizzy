@@ -108,5 +108,5 @@ One defect remains, and it belongs to the source, not the translation: *glyphs* 
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: number, date and currency formatting)
 - `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3.3: `Intl`)
 - `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (localized numerals with `%L1`)
-- `src_docs/md/localization/principles.md`, `fr.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - Output of `Intl.NumberFormat` and `Intl.DateTimeFormat` in Node.js 26.8.2, run for this chapter

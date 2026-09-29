@@ -81,5 +81,5 @@ Both protect the brand. They differ on whether *account* is part of a service na
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.4.1: why terminology matters)
 - `issues/133.md`, `issues/146.md` and `issues/147.md` in the fl10n repository
 - `data-fontlab-cpp/i18n/fontlab_pl.ts` in the fl10n repository
-- `glossary/schema.md` and `src_docs/md/localization/principles.md` in the vexy-fontlab-writing-styleguide repository
+- [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md) and [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/de-core.tmx`, `es-core.tmx`, `fr-core.tmx` and `pl-core.tmx` in the vexy-fontlab-writing-styleguide repository

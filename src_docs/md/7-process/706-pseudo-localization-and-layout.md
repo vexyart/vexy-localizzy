@@ -101,6 +101,6 @@ Keep the failures pseudo-localization finds, and rerun their cases after each re
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7.1 and 4.7.2)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.4.2)
 - `spec/05.md` in the fl10n repository (section 5.2)
-- `docs/review.md` in the vexy-localizzy repository
-- `src_docs/md/localization/runtime-review.md` and `quality.md` in the vexy-fontlab-writing-styleguide repository
+- [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
+- [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository (issue 133 and audit limits)

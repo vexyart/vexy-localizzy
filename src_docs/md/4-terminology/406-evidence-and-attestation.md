@@ -94,7 +94,7 @@ A reviewer has to choose a Polish term for *stroke cap*, the shape at the open e
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: introduction, terminology reference materials, operating environment glossaries)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.3: LLM-as-judge and the MQM framework)
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/memories.md`, `src_docs/md/localization/pl.md` and `src_docs/md/localization/es.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) and [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/) in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/pl-core.tmx` and `localization/tm/fr-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/2026-09-28-de-consistency.json` and `issues/146.md` in the fl10n repository
-- `docs/corpus.md` and `docs/retrieval.md` in the vexy-localizzy repository
+- [docs/corpus.md](../8-toolkit/corpus.md) and [docs/retrieval.md](../8-toolkit/retrieval.md) in the vexy-localizzy repository

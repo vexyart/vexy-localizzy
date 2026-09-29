@@ -42,5 +42,5 @@ The reader knows what a catalog, a context and a placeholder are ([Part 2](../2-
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3)
 - `issues/133.md` and `issues/146.md` in the fl10n repository
-- `src_docs/md/localization/principles.md`, `ui-strings.md`, `quality.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
-- `docs/quality.md` and `docs/review.md` in the vexy-localizzy repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
+- [docs/quality.md](../8-toolkit/quality.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository

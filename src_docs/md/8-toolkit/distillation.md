@@ -1,5 +1,5 @@
 ---
-this_file: docs/distillation.md
+this_file: src_docs/md/8-toolkit/distillation.md
 ---
 # Resumable distillation passes
 

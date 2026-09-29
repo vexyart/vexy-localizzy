@@ -90,5 +90,5 @@ A reader of a catalog, whether a reviewer, an auditor or the next engineer, shou
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: overt and covert machine translation; neural translation engines and language models compared)
 - `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.6: open-weight models for on-premises use)
 - `WORK.md` in the fl10n repository (issue 145: per-shard provenance)
-- `README.md`, `docs/memories.md`, `docs/translation.md`, `docs/retrieval.md` and `docs/review.md` in the vexy-localizzy repository
-- `src_docs/md/localization/memories.md` and `pl.md` in the vexy-fontlab-writing-styleguide repository
+- `README.md`, [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md), [docs/retrieval.md](../8-toolkit/retrieval.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

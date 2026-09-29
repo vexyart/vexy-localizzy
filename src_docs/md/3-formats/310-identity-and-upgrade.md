@@ -88,5 +88,5 @@ The exit code carries the result for automation: 0 when every active message has
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 4, processing updates)
 - `research/02-localizing-qt-cpp-applications.md` and `research/03-localizing-web-javascript-applications.md` in the fl10n repository
 - `WORK.md` in the fl10n repository
-- `README.md`, `docs/upgrade.md`, `docs/cli.md` and `WORK.md` in the vexy-localizzy repository
-- `src_docs/md/localization/memories.md` in the vexy-fontlab-writing-styleguide repository
+- `README.md`, [docs/upgrade.md](../8-toolkit/upgrade.md), [docs/cli.md](../8-toolkit/cli.md) and `WORK.md` in the vexy-localizzy repository
+- [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

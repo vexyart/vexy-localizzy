@@ -84,7 +84,7 @@ Uren, Howard and Perinotti (1993) observed that last-minute changes were hard to
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: time and accuracy)
 - `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4 and 5.7)
 - `spec/07.md` in the fl10n repository (sections 7.1, 7.3 and 7.6)
-- `docs/upgrade.md` in the vexy-localizzy repository
+- [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository
 - `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 145 entries)
 - `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
-- `src_docs/md/localization/quality.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository

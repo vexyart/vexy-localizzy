@@ -74,6 +74,6 @@ The German Help Panel review covered all 115 articles and changed 114, while kee
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 7: help evaluation and test-compiling; chapter 9: desktop publishing preparation; chapter 10: graphics and screen captures; chapter 13: word counts for HTML; chapter 14: dependencies and sequence)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 12: pseudo-localization of graphics, audio and content)
-- `src_docs/md/localization/content-workflow.md` and `quality.md` in the vexy-fontlab-writing-styleguide repository
+- [localization/content-workflow](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/content-workflow/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
 - `data-fontlab-cpp/i18n/review/help/2026-09-28-de-welcome.json` and `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
 - `CHANGELOG.md` in the fl10n repository (issue 145 entry, the JSON help translation script)

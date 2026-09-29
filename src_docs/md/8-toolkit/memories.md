@@ -1,5 +1,5 @@
 ---
-this_file: docs/memories.md
+this_file: src_docs/md/8-toolkit/memories.md
 ---
 # Translating with memories
 
@@ -53,7 +53,11 @@ class wins, and for an equal class the first file listed wins.
 ## Glossary memory
 
 A glossary TMX has the tuids `term:<id>` with the props `x-term-id`,
-`x-translatable`, `x-status` and, optionally, `x-fallback`. The fallback is
+`x-translatable`, `x-status` and, optionally, `x-fallback`; the FontLab
+[core memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/)
+are the reference files, built from the
+[glossary](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/glossary/)
+of the writing styleguide. The fallback is
 the *fallback original term*: a short plain-English phrase that says what the
 term means when the term itself will not travel (`stem` carries `main stroke`,
 `overshoot` carries `optical surplus`, `Matchmaker` carries `master matcher`).
@@ -159,7 +163,7 @@ catalogs carry no extra diff.
 ## Engine and cache
 
 `--endpoint URL --model M [--fallback-models a,b]` sends the remaining messages
-through abersetz to an OpenAI-compatible endpoint. The API key is read from the
+through [abersetz](https://code.twardoch.com/abersetz/) to an OpenAI-compatible endpoint. The API key is read from the
 variable named by `--api-key-env` (default `OPENAI_API_KEY`). Batches are cached
 in `--cache` (default `.localizzy/translation-cache.sqlite` next to the output).
 The cache key includes the endpoint, the abersetz transport version, the

@@ -85,5 +85,5 @@ A reviewer decides that Polish should say *hintować* and *hintowy*. The procedu
 - `issues/133.md` and `issues/146.md` in the fl10n repository
 - `data-fontlab-cpp/i18n/fontlab_pl.ts` and `data-fontlab-cpp/i18n/review/2026-09-29-issue-146.json` in the fl10n repository
 - Commit `1a9825a` in the fl10n repository ("Issue 146: review fixes, genitive plural stems, idempotent feature-code rule")
-- `src_docs/md/localization/principles.md`, `src_docs/md/localization/pl.md`, `src_docs/md/localization/memories.md` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
+- [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/de-core.tmx`, `es-core.tmx` and `fr-core.tmx` in the vexy-fontlab-writing-styleguide repository
