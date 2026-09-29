@@ -62,23 +62,34 @@ def corrections(source: Catalog, mirror: Catalog) -> dict[Key, str]:
 
 
 def _update_catalog(
-    catalog: Catalog, edits: dict[Key, str], *, mirror: bool, english: bool
+    catalog: Catalog,
+    edits: dict[Key, str],
+    *,
+    mirror: bool,
+    english: bool,
+    applied: set[Key] = frozenset(),
 ) -> None:
+    # A correction already present in both source and catalog leaves a stale
+    # message behind. Qt found the new wording where the catalog placed the old,
+    # which is deletion authority the rebuild otherwise lacks: retire it here.
+    edits = {k: new for k, new in edits.items() if k in catalog.index}
+    for identity in [
+        k
+        for k, new in edits.items()
+        if k in applied and (k[0], new, *k[2:]) in catalog.index
+    ]:
+        ts_xml.ensure_translation(catalog.index[identity], "").set("type", "vanished")
+        del edits[identity]
     # Check all destinations before mutating, including swaps and chains.
     for identity, new in edits.items():
-        if identity not in catalog.index:
-            continue
         destination = (identity[0], new, *identity[2:])
         if destination in catalog.index and destination != identity:
             raise ValueError(f"Message key collision in {catalog.path}: {destination}")
-    destinations = [
-        (k[0], new, *k[2:]) for k, new in edits.items() if k in catalog.index
-    ]
+    destinations = [(k[0], new, *k[2:]) for k, new in edits.items()]
     if len(set(destinations)) != len(destinations):
         raise ValueError(f"Correction key collision in {catalog.path}")
     for identity, new in edits.items():
-        if identity in catalog.index:
-            replace_source(catalog.index[identity], new, mirror=mirror, english=english)
+        replace_source(catalog.index[identity], new, mirror=mirror, english=english)
 
 
 def apply(
@@ -88,8 +99,12 @@ def apply(
     dry_run: bool = False,
     verbose: bool = False,
     lupdate: str = "lupdate",
+    rebuild: bool = False,
 ) -> dict:
     """Upstream finished English edits into sources and sibling TS catalogs.
+
+    With --rebuild the catalogs, mirror and snapshot are refreshed against the
+    current sources even when no correction is finished.
 
     Use --dry-run to return a unified diff without writing. Empty, identical and
     unfinished translations are skipped. C++/headers and Qt UI XML are supported;
@@ -134,7 +149,7 @@ def apply(
     if verbose:
         for identity, new in edits.items():
             report(f"{identity[0]}: {identity[1]!r} -> {new!r}")
-    if not edits:
+    if not edits and not rebuild:
         return {
             "edits": 0,
             "unfinished_edits": unfinished,
@@ -142,8 +157,17 @@ def apply(
             "dry_run": dry_run,
             "diff": "",
         }
-    report("Resolving corrections against current sources with Qt lupdate")
-    outputs, originals, shifts = plan_sources(original, edits, state, lupdate)
+    outputs, originals, shifts, applied = {}, {}, {}, set()
+    if edits:
+        report("Resolving corrections against current sources with Qt lupdate")
+        outputs, originals, shifts, applied = plan_sources(
+            original, edits, state, lupdate
+        )
+    for identity in sorted(applied):
+        report(
+            f"Source already reads {edits[identity]!r} for {identity[0]}: {identity[1]!r}; "
+            "updating catalogs only"
+        )
     originals.update(
         {source_path: original.raw, mirror_path: editing.raw, snapshot: state_raw}
     )
@@ -160,7 +184,11 @@ def apply(
         # Resolve/rebase while old identities still correspond to locations.
         rebase_locations(catalog, shifts)
         _update_catalog(
-            catalog, edits, mirror=catalog is editing, english=catalog is original
+            catalog,
+            edits,
+            mirror=catalog is editing,
+            english=catalog is original,
+            applied=applied,
         )
         raw = catalog.render()
         Catalog(catalog.path, raw)  # Parse outputs and reject duplicate keys.
@@ -201,6 +229,7 @@ def apply(
     return {
         "edits": len(edits),
         "unfinished_edits": unfinished,
+        "already_in_source": len(applied),
         "rebuilt_catalogs": rebuilt_counts,
         "files": [str(p) for p in outputs],
         "dry_run": dry_run,

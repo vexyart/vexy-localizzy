@@ -250,3 +250,48 @@ def test_apply_when_plural_untouched_then_not_a_correction(project):
     tree.write(str(mirror), encoding="utf-8")
     with pytest.raises(ValueError, match="plural"):
         run(project)
+
+
+def test_apply_when_source_already_corrected_then_catalogs_only(project, monkeypatch):
+    root, code, en, de, mirror = project
+    code.write_text('void Window::f() { tr("New"); }\n')
+    snapshot = Path(str(mirror) + ".json")
+    prepare_state = snapshot.read_text().replace(
+        __import__("vexy_localizzy.sourcefix.files", fromlist=["digest"]).digest(
+            b'void Window::f() { tr("Old"); }\n'
+        ),
+        __import__("vexy_localizzy.sourcefix.files", fromlist=["digest"]).digest(
+            code.read_bytes()
+        ),
+    )
+    snapshot.write_text(prepare_state)
+    monkeypatch.setattr(
+        "vexy_localizzy.sourcefix.source.current_locations",
+        lambda paths, root, tool: {("Window", "New", "", "", "no"): [(code, 1)]},
+    )
+    edit(mirror)
+    result = run(project)
+    assert result["edits"] == 1
+    assert result["already_in_source"] == 1
+    assert code.read_text() == 'void Window::f() { tr("New"); }\n', "No source write"
+    assert str(code) not in result["files"]
+    for catalog_path in (en, de):
+        tree = etree.parse(str(catalog_path))
+        assert tree.findtext(".//source") == "New"
+        assert tree.findtext(".//oldsource") == "Old"
+
+
+def test_apply_when_identity_vanished_then_lists_all_with_hint(project, monkeypatch):
+    monkeypatch.setattr(
+        "vexy_localizzy.sourcefix.source.current_locations",
+        lambda paths, root, tool: {},
+    )
+    edit(project[-1])
+    before = project[1].read_bytes()
+    with pytest.raises(ValueError) as excinfo:
+        run(project)
+    text = str(excinfo.value)
+    assert "1 source identity" in text
+    assert "Window: 'Old' (" in text and "window.cpp:1" in text
+    assert "Regenerate it with Qt lupdate" in text
+    assert project[1].read_bytes() == before

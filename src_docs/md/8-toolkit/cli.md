@@ -103,6 +103,9 @@ SYNOPSIS
     localizzy source-fix apply MIRROR SOURCE ROOT <flags>
 
 DESCRIPTION
+    --rebuild refreshes catalogs, mirror and snapshot from current sources even
+    without finished corrections, retiring messages Qt no longer extracts.
+
     Uses MIRROR.json from source-fix prepare. Qt lupdate verifies current source
     identities. Foreign translations survive unfinished for review; plurals and
     conflicting or stale source edits are rejected before writes.
@@ -125,6 +128,9 @@ FLAGS
     -l, --lupdate=LUPDATE
         Type: str
         Default: 'lupdate'
+    -r, --rebuild=REBUILD
+        Type: bool
+        Default: False
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS

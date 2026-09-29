@@ -116,7 +116,8 @@ localizzy source-fix prepare app_en.ts app_en_tofix.ts --root .
 ```
 
 Preview with `localizzy source-fix apply app_en_tofix.ts app_en.ts --root . --dry-run`;
-omit `--dry-run` to apply. Keep the generated `.ts.json` snapshot. Applying needs
+omit `--dry-run` to apply; add `--rebuild` to refresh catalogs and the mirror
+from current sources without finished corrections. Keep the generated `.ts.json` snapshot. Applying needs
 Qt `lupdate`; all catalogs and the mirror are rebuilt, and existing foreign
 translations are retained and marked unfinished for changed sources.
 See [source corrections](src_docs/md/8-toolkit/formats.md#english-source-corrections)

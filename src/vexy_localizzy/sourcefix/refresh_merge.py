@@ -4,6 +4,7 @@
 import copy
 import re
 from dataclasses import replace
+from pathlib import Path
 
 from lxml import etree
 
@@ -11,17 +12,30 @@ from vexy_localizzy.formats import ts_splice, ts_xml
 from vexy_localizzy.sourcefix.catalog import Catalog, active, key
 
 
-def retain_baseline(fresh: Catalog, previous: Catalog) -> bytes:
-    """Restore unextracted active entries; Qt extraction is not deletion authority."""
+def retain_baseline(
+    fresh: Catalog, previous: Catalog, extracted: set[Path] = frozenset()
+) -> bytes:
+    """Restore unextracted active entries; a partial checkout is not deletion authority.
+
+    A message whose every referenced file was extracted and which Qt no longer
+    finds is stale: the fresh catalog keeps it as vanished rather than active.
+    """
     by_key = {key(context, msg): msg for context, msg in fresh.records}
     contexts = {
         context.findtext("name"): context
         for context in fresh.tree.getroot().findall("context")
     }
+    refs = previous.locations()
     for context, message in previous.records:
         identity = key(context, message)
         if not active(message):
             continue
+        files = {path for path, _ in refs[identity]}
+        if files and files <= extracted and identity not in fresh.index:
+            # Refuted by extraction of every source it cites. Qt drops untranslated
+            # vanished entries, so retire a copy here to keep translation memory.
+            message = copy.deepcopy(message)
+            ts_xml.ensure_translation(message, "").set("type", "vanished")
         if identity in fresh.index:
             updated = fresh.index[identity]
             for name in ("translation", "oldsource", "translatorcomment"):
@@ -65,9 +79,14 @@ def _texts(node):
 
 def verify_translations(previous: Catalog, fresh: Catalog) -> None:
     """Native refresh must preserve every existing translation, including plurals."""
+    retired = {key(c, m): m for c, m in fresh.records if not active(m)}
     for identity, message in previous.index.items():
         updated = fresh.index.get(identity)
         if updated is None:
+            if identity in retired and _texts(
+                retired[identity].find("translation")
+            ) == _texts(message.find("translation")):
+                continue  # Retired by extraction with its translation intact.
             raise ValueError(f"Rebuild lost an existing message: {identity}")
         old_target, new_target = (
             message.find("translation"),

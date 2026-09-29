@@ -5,6 +5,24 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-30: stale English catalogs during source-fix apply
+
+- A correction whose new wording already sits in the source (the catalog was
+  not regenerated after an earlier edit) no longer aborts apply. The source is
+  left alone and the catalogs are updated, so the rebuild keeps foreign
+  translations attached as `oldsource` drafts. When the catalogs already hold
+  the corrected message too, the stale original is marked `vanished` in every
+  catalog instead of raising a key collision. The result reports
+  `already_in_source`.
+- The catalog rebuild now retires a message when every source file it cites
+  was extracted and Qt no longer finds it, keeping the text as `vanished`.
+  Messages citing missing or unreadable files are still retained.
+- `source-fix apply --rebuild` refreshes catalogs, mirror and snapshot from the
+  current sources even without finished corrections.
+- Identities that Qt lupdate cannot find at all are now listed together with
+  their catalog locations and a hint to regenerate the English catalog and
+  re-run prepare, instead of failing on the first tuple.
+
 ### 2026-09-29: visible source correction progress
 
 - Source-fix commands explain their intent before work, report each catalog and

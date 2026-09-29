@@ -164,7 +164,7 @@ def rebuild(
             raise ValueError(f"Catalog rebuild failed before writes: {result.stderr}")
         for catalog, path, previous in staged:
             report(f"Merging rebuilt {catalog.path.name} and preserving translations")
-            merged = Catalog(path, retain_baseline(Catalog(path), previous))
+            merged = Catalog(path, retain_baseline(Catalog(path), previous, files))
             verify_translations(previous, merged)
             outputs[catalog.path] = _locations(merged, catalog.path, overlay, root)
     report(f"Rebuilding {editing.path.name} from the new English baseline")

@@ -9,16 +9,46 @@ from vexy_localizzy.sourcefix.extract import current_locations
 from vexy_localizzy.sourcefix.files import confined, digest
 from vexy_localizzy.sourcefix.literals import literals, replacement
 
+STALE_HINT = (
+    "The English catalog no longer matches the sources. Regenerate it with Qt "
+    "lupdate, then run source-fix prepare again and re-enter the corrections."
+)
+
+
+def _describe(identity: Key, refs: list[tuple[Path, int | None]]) -> str:
+    places = ", ".join(f"{p}:{n}" if n is not None else str(p) for p, n in refs)
+    return f"{identity[0]}: {identity[1]!r} ({places})"
+
+
+def already_applied(
+    edits: dict[Key, str], current: dict[Key, list[tuple[Path, int | None]]]
+) -> set[Key]:
+    """Identities absent from extraction whose corrected wording already exists."""
+    return {
+        identity
+        for identity, new in edits.items()
+        if not current.get(identity) and current.get((identity[0], new, *identity[2:]))
+    }
+
 
 def plan_sources(
     catalog: Catalog, edits: dict[Key, str], state: dict, lupdate: str
-) -> tuple[dict, dict, dict]:
-    """Resolve every location, check shared literals and return bytes plus line shifts."""
+) -> tuple[dict, dict, dict, set[Key]]:
+    """Resolve every location, check shared literals and return bytes plus line shifts.
+
+    Corrections whose new wording already sits in the source are returned as the
+    fourth item and skipped for source writes; catalogs still record them so the
+    rebuild keeps foreign translations attached instead of retiring the message.
+    """
     locations = catalog.locations()
+    unlocated = [identity for identity in edits if not locations[identity]]
+    if unlocated:
+        listing = "\n".join(
+            f"  {identity[0]}: {identity[1]!r}" for identity in unlocated
+        )
+        raise ValueError(f"No source locations for:\n{listing}\n{STALE_HINT}")
     pending = defaultdict(list)
     for identity, new in edits.items():
-        if not locations[identity]:
-            raise ValueError(f"No source locations for {identity}")
         for path, line in locations[identity]:
             pending[path].append((identity, new, line))
     outputs, originals, shifts = {}, {}, {}
@@ -31,15 +61,27 @@ def plan_sources(
         originals[path] = path.read_bytes()
         if digest(originals[path]) != state["files"].get(str(path)):
             raise ValueError(f"Source changed since preparation: {path}")
+    stale = catalog.locations()
     locations = current_locations(set(pending), Path(state["root"]), lupdate)
-    for identity in edits:
-        if not locations.get(identity):
-            raise ValueError(
-                f"Current Qt extraction cannot find source identity: {identity}"
-            )
+    applied = already_applied(edits, locations)
+    missing = [
+        identity
+        for identity in edits
+        if identity not in applied and not locations.get(identity)
+    ]
+    if missing:
+        listing = "\n".join(f"  {_describe(k, stale[k])}" for k in missing)
+        raise ValueError(
+            f"Current Qt extraction cannot find {len(missing)} source identity(ies):\n"
+            f"{listing}\n{STALE_HINT}"
+        )
     for path, requests in pending.items():
         raw = originals[path]
-        requested = {identity: new for identity, new, _ in requests}
+        requested = {
+            identity: new for identity, new, _ in requests if identity not in applied
+        }
+        if not requested:
+            continue
         requests = [
             (identity, new, n)
             for identity, new in requested.items()
@@ -88,4 +130,4 @@ def plan_sources(
         outputs[path] = b"".join(pieces)
         literals(path, outputs[path])  # XML well-formedness and parser smoke gate.
         shifts[path] = movements
-    return outputs, originals, shifts
+    return outputs, originals, shifts, applied

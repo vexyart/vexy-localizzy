@@ -13,8 +13,12 @@ def apply(
     dry_run: bool = False,
     verbose: bool = False,
     lupdate: str = "lupdate",
+    rebuild: bool = False,
 ) -> dict:
     """Apply finished English edits; --dry-run prints a diff without writing.
+
+    --rebuild refreshes catalogs, mirror and snapshot from current sources even
+    without finished corrections, retiring messages Qt no longer extracts.
 
     Uses MIRROR.json from source-fix prepare. Qt lupdate verifies current source
     identities. Foreign translations survive unfinished for review; plurals and
@@ -33,7 +37,13 @@ def apply(
             else "Files will be written only after staging and validation finish."
         )
         result = apply_edits(
-            mirror, source, root, dry_run=dry_run, verbose=verbose, lupdate=lupdate
+            mirror,
+            source,
+            root,
+            dry_run=dry_run,
+            verbose=verbose,
+            lupdate=lupdate,
+            rebuild=rebuild,
         )
         diff = result.pop("diff")
         if diff:
