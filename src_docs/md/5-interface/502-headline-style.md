@@ -65,6 +65,29 @@ Look at what the German kept. The English says *new* and *narrower*, and *narrow
 
 The Spanish result also shows that languages compress differently. Spanish headline style tolerates a missing article more readily than a missing verb in a comparison, so the reviewer kept *es*. The rule is to compress as far as the target language compresses naturally in labels, not to match the English word count.
 
+## Compact forms chosen for a product
+
+The later German FontLab review makes the command shorter than an ordinary
+infinitive: *Achse hinzufügen* becomes **Achse hinzu**, *Master abgleichen*
+becomes **Master synchron**, and *In den Papierkorb verschieben* becomes
+**In den Papierkorb**. This is a house choice for compact controls, including
+menus, titles and history labels. A complete sentence still uses *hinzufügen*;
+a sentence quoting the button uses its exact short label.
+
+The screen supplies context: *Kerning-Werte runden auf* becomes **Werte runden
+auf** in the kerning dialog, and *Vektorisierungstoleranz* becomes **Toleranz**
+in the tracing dialog. Short modifier hints use **Alt: alle Paletten speichern**
+or **+Alt: Schleife erzeugen**. A slash can join clear alternatives, **Glyphe /
+Paar**, or shared endings, **Ober-/Unterlänge**. Keep direction, negation,
+quantities and conditions explicit wherever the surrounding control cannot
+supply them. Do not treat these examples as replacements across every language.
+
+Read the grammatical role too. **Glatt** names a state; **Glätten** commands
+an action. **Umbruch** names a setting. Shortening one plural form is incomplete:
+review every form, even when only the singular appears in the diff. A compact
+label such as **vorläufig installieren** does not supply the exact lifetime
+that explanatory help may need to state.
+
 ## Where compression stops
 
 A few limits keep headline style from turning into cipher, and one check confirms the result.

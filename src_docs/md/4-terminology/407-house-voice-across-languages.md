@@ -16,7 +16,7 @@ The first rule is permission. Terms may be funny, and a funny term is often a be
 - **True Fill** became *Pełna krasa*, from the idiom *w pełnej krasie*, "in all its glory". The earlier *Prawdziwe wypełnienie*, "true filling", was a literal translation that said nothing a user could picture.
 - **Dream Up**, a generation feature, became *wyczaruj*, "conjure it up".
 
-The core memory note on *Pełna krasa* adds an invitation: it is a concise idiom, and similar solutions are worth finding in other languages. At the time of writing, German, Spanish and French still render True Fill literally, as *Echte Füllung*, *Relleno real* and *Remplissage réel*, and keep *Matchmaker* and *Dream Up* in English. Those are not errors; they are the obvious places where a native reviewer with a good idiom could improve the product.
+The core memory note on *Pełna krasa* adds an invitation: it is a concise idiom, and similar solutions are worth finding in other languages. At the time of writing, German, Spanish and French still render True Fill literally, as *Echte Füllung*, *Relleno real* and *Remplissage réel*, and keep *Dream Up* in English. The later German review names Matchmaker **Synchronsprecher**, a dubbing actor: it builds the joke around *synchron* and matching masters. Spanish and French still keep *Matchmaker* in this comparison. Those are not errors; they are the obvious places where a native reviewer with a good idiom could improve the product.
 
 Humor has one condition, stated in the house writing rules: the information must remain true when the joke is missed. A user who does not catch the idiom in *Pełna krasa* still reads "full", which is what the preview shows. A user who does not know the word *swat* still sees it on a tool with a tooltip. A joke that becomes a riddle fails the condition.
 
@@ -87,6 +87,14 @@ Voice is a reason to choose a word, never a reason to change a meaning. Four che
 2. **Survives a missed joke.** The label must be understandable to someone who does not get the reference.
 3. **One name everywhere.** A playful name is still a term. *Pędzel mocy* is the same in the toolbar, the menu, the preferences, the help and the marketing page.
 4. **Register by surface.** Names can be playful. Error messages, license terms and destructive confirmations stay literal.
+
+## A label can demonstrate its meaning
+
+German **Leer zeichen getrennt** and **Komma,getrennt** are the reviewed
+copy-text labels for space-separated and comma-separated output. The spelling
+illustrates the separator. Preserve the joke in those controls, while keeping
+ordinary *Leerzeichen* elsewhere. A local device is not a new spelling rule,
+and a misspelling such as *under* for *unter* is not the same kind of evidence.
 
 ## Sources
 

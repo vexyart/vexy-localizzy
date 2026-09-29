@@ -21,11 +21,26 @@ The rules in this part are meant to hold for any language. Each language still h
 
 German gives a translator two freedoms that must both be restrained: any speaker can form a compound, and any sentence can be spelled out in full. [502](502-headline-style.md) and [503](503-no-added-detail.md) describe the restraint. Headline style drops articles and the verb *sein* from compact labels (*Wenn Maske aktiv*), conversions drop their verb (*Pinsel zu Konturen*), and compounds do not add specificity (*Paar*, not *Kerningpaar*).
 
-The compound rule has a second half, about spelling. In fl10n issue 133 the founder set it out: German compounds may be written as one word when they form naturally from native words, but when a part is an English word thinly loaned, it takes a hyphen. So *Glyphenfenster* and *Dicktenausdruck* are closed, while *Kerning-Klasse*, *Demo-Modus*, *Stil-Gruppe*, *Master-Dickten*, *Code-Editor* and *Element-Referenz* are hyphenated. The test is whether a native reader sees one word or a borrowed word with a suffix. The rule applies retroactively: the consistency pass changed *Kerningpaar* to *Kerning-Paar* throughout, and the current catalog has no closed form left.
+The compound rule has a second half, about spelling. In fl10n issue 133 the founder set it out: German compounds may be written as one word when they form naturally from native words, but when a part is an English word thinly loaned, it takes a hyphen. Ordinary compounds such as *Dateiname* and *Dicktenausdruck* are closed, while *Kerning-Klasse*, *Demo-Modus*, *Stil-Gruppe*, *Master-Dickten*, *Code-Editor* and *Element-Referenz* are hyphenated. The later German UI review adds a house convention for named tools and windows: *Glyphen-Fenster*, *Schrift-Fenster*, *Kontur-Werkzeug* and other *-Werkzeug* names. That convention takes precedence over the general native-compound test; it does not hyphenate every compound. The rule applies retroactively: the consistency pass changed *Kerningpaar* to *Kerning-Paar* throughout, and the current catalog has no closed form left.
 
 German distinguishes concepts that English merges, and the review chose a word for each. Advance width is *Dickte*, the geometric width of a box *Breite*, the width axis *Weite*, tracking *Laufweite*. For variation axes, *Stärke* and *Weite* suffice where context is clear, with *Strichstärke* and *Schriftweite* only where the short form would be ambiguous. Units per em is *Geviertauflösung*, the resolution of the em square, after the founder rejected *Kegelauflösung*, the resolution of the type body.
 
-Two smaller German facts cause frequent defects. The founder's remark on smart filters wrote *Schlauer Filter hinzufügen*; the catalog has *Schlauer Filter* as the feature name and *Schlauen Filter hinzufügen* for the command, because the object of *hinzufügen* is accusative. A rule about a word never suspends the grammar around it. And uppercasing *ß* gives *SS* or *ẞ*, so code must never uppercase a translated string.
+The later review separates **Stärke** (font weight), **Strichdicke** (stroke
+thickness) and **Stammstärke** (stem thickness or width). Bare *Thickness*
+takes its translation from the object being measured. Generic thickness is
+*Dicke*, weight class *Stärkenklasse*, and the standard measurement
+*Standardstammstärke*. The short command names the object, *Standardstamm hinzu*.
+
+Matching uses a family: **Master synchron**, **Master synchronisieren**,
+**synchrone Master**, **Autosynchronisierung**, **Synchrones Arbeiten** and
+**Synchrone Verschiebungen**. **Synchronsprecher** is the playful Matchmaker
+name. The technical requirement remains *Master-Kompatibilität*; the shared
+word family does not turn the operation into network synchronization.
+**Erneut** repeats the last command; it must remain distinct from Redo and
+*Text wiederholen*. **Umwandeln**, **balancieren**, **Kontur brechen** and
+**Auto-Zurichtung** are other reviewed action choices.
+
+Two smaller German facts cause frequent defects. The founder's remark on smart filters wrote *Schlauer Filter hinzufügen*; the feature name is *Schlauer Filter*, while the compact command now reads *Schlauen Filter hinzu*. The object remains accusative even when the verb is shortened. A rule about a word never suspends the grammar around it. And uppercasing *ß* gives *SS* or *ẞ*, so code must never uppercase a translated string.
 
 ## Spanish: one catalog for a continent
 

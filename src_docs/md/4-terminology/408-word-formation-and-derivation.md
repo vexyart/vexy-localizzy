@@ -25,7 +25,13 @@ The rule holds for the adjectives of the house vocabulary too. *Smart* is an adj
 
 A compound can be shorter, more natural and easier to derive from than a phrase. Polish *autowarstwa* for *auto layer* replaced *warstwa automatyczna*: one word instead of two, and it inflects as one (*Utwórz autowarstwy*, *przepisy autowarstw*). German made the same move with *Auto-Ebene* instead of *Ebenenautomatik*, and *Dezimalkoordinaten* instead of *Koordinaten mit Nachkommastellen*.
 
-German also shows that compounds need an orthographic rule. The founder's rule in issue 133: native compounds are written closed when they form naturally from native words (*Glyphenfenster*, *Dicktenausdruck*), and compounds whose first part is a thinly loaned English word take a hyphen (*Kerning-Klasse*, *Demo-Modus*, *Master-Dickten*, *Stil-Gruppe*, *Code-Editor*, *Element-Referenz*). The test, as the FontLab principles phrase it for every language: would a native reader see one word, or a borrowed word with a suffix? Other languages apply their own orthography to the same question. Polish writes prefixed forms closed, *autowarstwa*, *superholowanie*; Spanish and French build phrases with *de* rather than compounds.
+German also shows that compounds need an orthographic rule. The founder's rule in issue 133: native compounds are written closed when they form naturally from native words (*Dateiname*, *Dicktenausdruck*), and compounds whose first part is a thinly loaned English word take a hyphen (*Kerning-Klasse*, *Demo-Modus*, *Master-Dickten*, *Stil-Gruppe*, *Code-Editor*, *Element-Referenz*). The test, as the FontLab principles phrase it for every language: would a native reader see one word, or a borrowed word with a suffix? Other languages apply their own orthography to the same question. Polish writes prefixed forms closed, *autowarstwa*, *superholowanie*; Spanish and French build phrases with *de* rather than compounds.
+
+The later German review records **Synchronsprecher**, **synchron** and
+**synchronisieren** together: a tool, a compact state or command, and a prose
+verb. It also chooses **Glyphen-Fenster**, **Schrift-Fenster** and
+**Kontur-Werkzeug** as named UI compounds. Record those house spellings beside
+the general compound rule so a later consistency pass does not undo them.
 
 ## Collective nouns and eponyms
 

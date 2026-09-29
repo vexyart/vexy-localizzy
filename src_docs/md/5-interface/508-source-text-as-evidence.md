@@ -62,6 +62,22 @@ A behavior translation is therefore a debt with a trigger. It is correct only wh
 
 The same review shows the opposite risk. The French correction for *Remove stroke* is in its ledger, dated 28 September 2026. On 29 September the French catalog in the application repository read *Supprimer le trait* again, the pre-correction text, while the German and Spanish kept their behavior-based renderings. A correction that exists only in a ledger is not a correction. The ledger chain is what lets someone find out which later step lost it ([410](../4-terminology/410-ledgers-and-decisions.md)).
 
+## Read a catalog diff as evidence
+
+Separate translation edits from XML formatting, source-location updates,
+added messages and changed lookup keys. Compare each message by context,
+source, disambiguation and numerus identity; compare each plural form's text
+separately from indentation. A large diff need not contain many language edits.
+
+Then separate recurring preferences from local choices and unresolved defects.
+A repeated *hinzufügen* to *hinzu* change supports a compact-command rule.
+The two separator jokes belong to their copy-text controls. One changed plural
+form does not establish that the whole message is consistent, and an apparent
+typo does not become approved spelling. Retain the original before/after record
+and the reason for adopting, limiting or declining each pattern. Update the
+canonical term memory and guides before regenerating portable tables and
+phrase books; a new phrase book alone cannot teach a prose rule.
+
 ## Filing the defect
 
 A source defect goes to its owner as a separate record, not as a comment inside the translation. The FontLab review keeps these under `data-fontlab-cpp/i18n/source-review/` in fl10n, each with a verdict, a severity, the file and line, and a suggested fix. The quality specification keeps the categories apart: a string that should never have been translatable is a source defect, a clipped label the translator could not see is a layout defect, and a mnemonic that collides with a runtime-inserted item is an engineering defect ([504](504-mnemonics-shortcuts-and-keys.md)). Esselink (2000) describes one more category that still applies: debugging messages that reach the string table are better left in English, so that developers can read a bug report from any locale, and the publisher should decide this rather than the translator.

@@ -2316,6 +2316,17 @@
   </a>
   
 </li>
+
+        <li class="md-nav__item">
+  <a href="#read-a-catalog-diff-as-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Read a catalog diff as evidence
+
+    </span>
+  </a>
+
+</li>
       
         <li class="md-nav__item">
   <a href="#filing-the-defect" class="md-nav__link">
@@ -3833,6 +3844,17 @@
   </a>
   
 </li>
+
+        <li class="md-nav__item">
+  <a href="#read-a-catalog-diff-as-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Read a catalog diff as evidence
+
+    </span>
+  </a>
+
+</li>
       
         <li class="md-nav__item">
   <a href="#filing-the-defect" class="md-nav__link">
@@ -3931,6 +3953,19 @@
 <p>The fix landed. By 29 September 2026 the dialog's source attached <em>X position</em> to the X field. From that moment, the behavior-based translations were wrong: each catalog now had <em>Y position</em> translated as <em>X-Position</em>. The update pulled from the application repository brought catalogs that matched the corrected source, and fl10n issue 146 records the decision in one line: the approved German and Spanish catalogs had X and Y swapped, the new files have them right, keep the new values. All four catalogs, including the Polish draft, now translate <em>X position</em> as X.</p>
 <p>A behavior translation is therefore a debt with a trigger. It is correct only while the source defect exists, and it becomes a new defect the day the source is fixed. Three habits keep the debt from being forgotten. Record the exception in the ledger with the ID of the source defect it depends on. Limit it to the affected message IDs, so a later search finds exactly those. And when a source fix lands, search the ledgers for that defect ID before accepting the new catalog, as the X and Y case was handled.</p>
 <p>The same review shows the opposite risk. The French correction for <em>Remove stroke</em> is in its ledger, dated 28 September 2026. On 29 September the French catalog in the application repository read <em>Supprimer le trait</em> again, the pre-correction text, while the German and Spanish kept their behavior-based renderings. A correction that exists only in a ledger is not a correction. The ledger chain is what lets someone find out which later step lost it (<a href="../../terminology/ledgers-and-decisions/">410</a>).</p>
+<h2 id="read-a-catalog-diff-as-evidence">Read a catalog diff as evidence<a class="headerlink" href="#read-a-catalog-diff-as-evidence" title="Permanent link">¶</a></h2>
+<p>Separate translation edits from XML formatting, source-location updates,
+added messages and changed lookup keys. Compare each message by context,
+source, disambiguation and numerus identity; compare each plural form's text
+separately from indentation. A large diff need not contain many language edits.</p>
+<p>Then separate recurring preferences from local choices and unresolved defects.
+A repeated <em>hinzufügen</em> to <em>hinzu</em> change supports a compact-command rule.
+The two separator jokes belong to their copy-text controls. One changed plural
+form does not establish that the whole message is consistent, and an apparent
+typo does not become approved spelling. Retain the original before/after record
+and the reason for adopting, limiting or declining each pattern. Update the
+canonical term memory and guides before regenerating portable tables and
+phrase books; a new phrase book alone cannot teach a prose rule.</p>
 <h2 id="filing-the-defect">Filing the defect<a class="headerlink" href="#filing-the-defect" title="Permanent link">¶</a></h2>
 <p>A source defect goes to its owner as a separate record, not as a comment inside the translation. The FontLab review keeps these under <code>data-fontlab-cpp/i18n/source-review/</code> in fl10n, each with a verdict, a severity, the file and line, and a suggested fix. The quality specification keeps the categories apart: a string that should never have been translatable is a source defect, a clipped label the translator could not see is a layout defect, and a mnemonic that collides with a runtime-inserted item is an engineering defect (<a href="../mnemonics-shortcuts-and-keys/">504</a>). Esselink (2000) describes one more category that still applies: debugging messages that reach the string table are better left in English, so that developers can read a bug report from any locale, and the publisher should decide this rather than the translator.</p>
 <p>Some source defects are invisible in English. The review found a menu handler that compared a translated label with the English word <em>unlink</em> to decide what to do, which made the command misbehave in every localized build. Only a translator or localization reviewer is likely to notice such code, because only they see the label change. Uren, Howard and Perinotti (1993) describe the related older problem of text that never reached the resource files, and suggest running the program with every message replaced by a row of x's so that English leftovers stand out. The FontLab string audit states the modern version plainly: a complete catalog is not evidence that the interface source is fully covered.</p>

@@ -36,7 +36,7 @@ A FontLab mask is a layer. The translator knows this, and the German *Maskeneben
 
 Product knowledge can also produce detail that is not just redundant but wrong. *Also references* was translated as *Auch referenzierende Glyphen*, also referencing glyphs. In FontLab, a reference is an element linked between glyphs or masters, which the founder compared to hard links in a file system. References are elements, not glyphs. The translator filled the English noun with the object they assumed it meant, and the assumption was wrong. The noun in the source was the safer choice all along.
 
-The opposite temptation affects named operations. FontLab's *Oblique* applies a slant with a specific set of optical corrections. Translating it as German *Schrägstellen* (slanting) replaces a named operation with a generic verb, removing the specificity that the name carried. Issue 133 kept *Oblique* in German for this reason. The rule is the same: the translation must say exactly as much as the source. When the source uses a proper name, the name is the detail.
+The opposite temptation affects named operations. FontLab's *Oblique* applies a slant with a specific set of optical corrections. Translating it as German *Schrägstellen* (slanting) replaces a named operation with a generic verb, removing the specificity that the name carried. Issue 133 kept *Oblique* in German for this reason. The rule protects meaning: the translation and its visible context together must preserve the distinction. When the source uses a proper name, the name is the detail.
 
 Two situations do justify a longer target, and neither is added detail.
 
@@ -55,7 +55,7 @@ FontLab will unlink those references.    -> FontLab trennt diese Referenzen.
 Element references                       -> Element-Referenzen
 ```
 
-Where the source says *references*, the target says *Referenzen*. Where the source says *element references*, the target says *Element-Referenzen*, hyphenated because *Element* is used here as a loaned compound part (the hyphenation rule belongs to [509](509-language-portraits.md)). Before the consistency pass, the second line read *FontLab trennt diese Elementreferenzen*: the source said *references*, and the translation promoted it.
+The full term is *Element-Referenz*. The later German review also uses *Referenzen* for *Element References* in the element menu: visible context can supply the noun even when the English repeats it. Keep *Element-Referenz* in text that must stand alone. The hyphenation rule belongs to [509](509-language-portraits.md). Before the consistency pass, the second line read *FontLab trennt diese Elementreferenzen*: the source said *references*, and the translation promoted it.
 
 The ledgers show where the long forms came from, and it was not the first translator. The original catalog said *Paar entfernen*, *Auch Referenzen* and *FontLab löst diese Referenzen*. The first review pass of September 2026 changed them to *Kerningpaar entfernen*, *Auch referenzierende Glyphen* and *FontLab trennt diese Elementreferenzen*, each time with a plausible reason: the button removes a pair in the kerning area; *Referenzen* alone would leave open which way the reference points. The consistency pass of issue 133 returned the first two to their original wording and kept only the better verb in the third. A reviewer who knows the product is exactly the person most likely to add detail, and only a ledger that follows a string through every change makes the round trip visible.
 
