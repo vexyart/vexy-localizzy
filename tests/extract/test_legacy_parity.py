@@ -235,6 +235,7 @@ def test_tm_commands_when_listed_then_expected_names():
     from vexy_localizzy.extract.single import extract
 
     assert list(cli_tm.TM_COMMANDS) == [
+        "tmx2qph",
         "build_ui",
         "ts2tmx",
         "po2tmx",

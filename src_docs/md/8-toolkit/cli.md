@@ -345,6 +345,9 @@ SYNOPSIS
 COMMANDS
     COMMAND is one of the following:
 
+     tmx2qph
+       Convert a TMX file to a Qt phrase book, retaining every pair in input order.
+
      build_ui
        Build a project memory (every finished message) from a Qt .ts catalog.
 
@@ -368,6 +371,45 @@ COMMANDS
 
      extract
        Extract selected TMX pairs from bilingual, paired or multilingual resources.
+```
+
+## localizzy tm tmx2qph
+
+```text
+NAME
+    localizzy tm tmx2qph - Convert a TMX file to a Qt phrase book, retaining every pair in input order.
+
+SYNOPSIS
+    localizzy tm tmx2qph INPUT OUTPUT TARGET <flags>
+
+DESCRIPTION
+    Convert a TMX file to a Qt phrase book, retaining every pair in input order.
+
+POSITIONAL ARGUMENTS
+    INPUT
+        Type: str
+        source TMX (or .tmx.gz) file.
+    OUTPUT
+        Type: str
+        destination .qph file, atomically replaced after validation.
+    TARGET
+        Type: str
+        exact target language tag, for example de or es-419.
+
+FLAGS
+    -s, --src_lang=SRC_LANG
+        Type: str
+        Default: 'en'
+        exact source language tag (default en).
+    -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+        log the input, language pair and output count.
+
+        Notes and x-status become definitions. Proposed and identical translations are retained; Qt does not enforce review status. Other TMX properties are not exported. Missing, duplicate, empty or inline-marked segments fail explicitly, preserving an existing output. No translations are invented.
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
 ```
 
 ## localizzy tm build_ui

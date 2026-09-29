@@ -11,6 +11,7 @@ from importlib import import_module
 from pathlib import Path
 
 from vexy_localizzy.extract.single import extract
+from vexy_localizzy.memory.qph import tmx2qph
 
 
 def _run(module: str, *args: object, **kwargs: object) -> dict:
@@ -166,6 +167,7 @@ def build_ui(
 
 
 TM_COMMANDS = {
+    "tmx2qph": tmx2qph,
     "build_ui": build_ui,
     "ts2tmx": ts2tmx,
     "po2tmx": po2tmx,

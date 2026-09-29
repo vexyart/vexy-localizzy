@@ -5,6 +5,14 @@ this_file: CHANGELOG.md
 
 ## Unreleased
 
+### 2026-09-29: Qt phrase book export
+
+- Added `localizzy tm tmx2qph INPUT OUTPUT --target LANG` using the existing
+  TMX reader and lxml. Preserves literal text, order, identical translations,
+  notes and review status; writes Qt language attributes and the QPH doctype.
+  Rejects missing, ambiguous, empty and inline-marked segments before replacing
+  output. Includes nine regression tests and generated CLI documentation.
+
 ### 2026-09-29: fallback original term and the localization book
 
 - Glossary memory: a unit may carry `x-fallback`, the fallback original term

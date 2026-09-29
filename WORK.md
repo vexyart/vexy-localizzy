@@ -3,6 +3,32 @@ this_file: WORK.md
 ---
 # Work
 
+## 2026-09-29: core TMX to Qt phrase books
+
+Added `memory/qph.py` and `localizzy tm tmx2qph INPUT OUTPUT --target LANG`.
+Reuses the existing TMX reader and lxml; no new dependencies. Format verified
+against Qt's `qttools/src/linguist/linguist/phrase.cpp` and the
+[Qt Linguist manual](https://doc.qt.io/qt-6/linguist-reusing-translations.html).
+Exports exact source/target text in input order, all unit/segment notes and
+x-status as definitions. Proposed entries remain included, with their status
+visible; Qt has no review-status enforcement for phrase books. Rejects lossy
+inline conversion, empty/missing/duplicate segments and input/output identity.
+Writes atomically after validating the complete memory. README and generated
+CLI reference updated, including executable README coverage.
+
+Ran the CLI on the styleguide's `localization/tm/*-core.tmx`, producing
+`fontlab/Proteus/i18n/fontlab_{de,es,fr,pl}.qph`: 222, 222, 222 and 231 phrases.
+Spanish retains its es-419 locale as the Qt tag es_419. Independent stdlib XML
+comparison verified all 897 pairs, definitions, statuses and language attributes
+against the original TMX files. Source memories were not changed.
+
+Verification: baseline 1372 tests passed; nine new exporter regression tests
+first failed on the absent module, then passed. Final full Python suite:
+1382 passed, two existing dependency deprecation warnings. Ruff lint passes;
+changed Python files pass formatting. Repository-wide format check reports
+pre-existing formatting in `scripts/gen_cli_docs.py` and `memory/glossary.py`;
+those unrelated files were left unchanged. `git diff --check` passes.
+
 ## 2026-09-29: fl10n issue 147, x-fallback and the book
 
 Later the same day: `docs/` reduced to the built site only. The thirteen

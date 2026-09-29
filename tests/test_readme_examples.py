@@ -106,6 +106,7 @@ CASES = {
     "convert": (setup_convert, {0}, ["de.json"]),
     "tm build-ui": (setup_build_ui, {0}, ["de-ui.tmx"]),
     "tm ts2tmx": (setup_ts2tmx, {0}, ["tmx"]),
+    "tm tmx2qph": (setup_translate, {0}, ["fontlab_de.qph"]),
     "review": (setup_review, {0}, []),
 }
 
@@ -117,7 +118,7 @@ def _case(example: str) -> str:
     return key
 
 
-def test_readme_when_parsed_then_has_exactly_the_six_commands() -> None:
+def test_readme_when_parsed_then_has_exactly_the_documented_commands() -> None:
     assert sorted(_case(example) for example in EXAMPLES) == sorted(CASES)
 
 

@@ -56,7 +56,7 @@ uv tool install 'vexy-localizzy[translation,sources]'
 Development: `uv sync --group dev --extra translation --extra sources --extra review`,
 then `./test.sh` (it also needs `npm --prefix review ci` and `npm --prefix icu ci`).
 
-## Six commands
+## Seven commands
 
 Translate a catalog from memories. Replace `--memory-only` with
 `--endpoint URL --model NAME` to send the remaining messages to a model:
@@ -89,6 +89,18 @@ Turn a tree of Qt catalogs into TMX with the legacy language policy:
 ```sh
 localizzy tm ts2tmx translations/ --output tmx/
 ```
+
+Export a core TMX memory as a Qt Linguist phrase book:
+
+```sh
+localizzy tm tmx2qph de-core.tmx fontlab_de.qph --target de
+```
+
+This preserves every source/target pair, including proposed and identical
+translations. Definitions contain the review status and all unit/segment notes;
+Qt does not enforce review status. Use the exact TMX target tag (for example
+`--target es-419`). Missing, empty, duplicate or inline-marked segments fail
+without replacing the output. Other TMX properties are not exported.
 
 Review catalogs in the browser (loopback only):
 
