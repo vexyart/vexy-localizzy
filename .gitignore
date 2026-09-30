@@ -224,3 +224,6 @@ __marimo__/
 # Review frontend build dependencies
 node_modules/
 review/.vite/
+
+# Local agent state
+.omc/
