@@ -1,11 +1,11 @@
 # this_file: src_docs/mkdocs.yml
 site_name: Localization
 site_description: "A seven-part book on software localization, from the documentation of vexy-localizzy."
-site_url: https://fontlab.dev/vexy-localizzy/fl1992mk/
+site_url: https://fontlab.dev/vexy-localizzy/
 site_author: Vexy
 
 docs_dir: md
-site_dir: ../docs/fl1992mk
+site_dir: ../docs/
 
 use_directory_urls: true
 
