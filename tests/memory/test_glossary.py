@@ -36,7 +36,7 @@ def test_relevant_when_tags_then_matches(glossary):
 
 
 def test_relevant_when_do_not_translate_then_maps_to_itself(glossary):
-    assert glossary.relevant(["About FontLab"]) == {"FontLab": "FontLab"}
+    assert glossary.relevant(["About DemoApp"]) == {"DemoApp": "DemoApp"}
 
 
 def test_relevant_when_proposed_then_excluded_by_default(glossary):
@@ -51,12 +51,12 @@ def test_relevant_when_proposed_then_excluded_by_default(glossary):
 
 
 def test_relevant_when_over_limit_then_longest_kept_in_casefold_order(glossary):
-    texts = ["Add kerning class to FontLab glyph"]
+    texts = ["Add kerning class to DemoApp glyph"]
     everything = glossary.relevant(texts)
-    assert list(everything) == ["class", "FontLab", "glyph", "kerning", "kerning class"]
+    assert list(everything) == ["class", "DemoApp", "glyph", "kerning", "kerning class"]
     limited = glossary.relevant(texts, limit=2)
-    # "FontLab" and "kerning" tie on length; the casefolded source breaks the tie.
-    assert list(limited) == ["FontLab", "kerning class"], limited
+    # "DemoApp" and "kerning" tie on length; the casefolded source breaks the tie.
+    assert list(limited) == ["DemoApp", "kerning class"], limited
     assert list(glossary.relevant(texts, limit=1)) == ["kerning class"]
     assert glossary.relevant(list(reversed(texts * 2)), limit=2) == limited
 

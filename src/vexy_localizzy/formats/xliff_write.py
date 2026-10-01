@@ -102,8 +102,8 @@ def add_metadata(node: etree._Element, unit: Unit, ns: str) -> None:
     for note in unit.notes:
         etree.SubElement(node, ns + "note").text = note
     values = {
-        "x-fl10n-context": unit.context,
-        "x-fl10n-disambiguation": unit.disambiguation,
+        "x-localizzy-context": unit.context,
+        "x-localizzy-disambiguation": unit.disambiguation,
         "x-localizzy-source-plural": unit.source_plural,
     }
     if unit.plural is not None:

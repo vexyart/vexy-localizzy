@@ -5,7 +5,7 @@ Planning rules live in ``vexy_localizzy.memory.names`` (CLDR via ``langcodes`` a
 ``language_data``, needs the ``sources`` extra): canonicalize, drop a redundant
 script, drop the most-populous territory, lowercase. Invalid stems are left
 alone, collisions are reported and nothing is ever overwritten. Ported from
-fl10n ``tools/tmxnorm.py``.
+the earlier ``tmxnorm`` script; see NOTICE.
 """
 
 import sys

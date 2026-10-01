@@ -50,7 +50,7 @@ For tutorials, the same guide asks reviewers to check captions and narration whi
 
 ## A worked example: help that names a menu path
 
-FontLab ships two kinds of help outside its Qt catalog: the Help Panel, 115 articles in a JSON file per language, and 51 welcome tips, each a title and a body. For the Polish edition in issue 145, both were translated separately from the catalog by a script that resumes by English key, checks markup, placeholders, Markdown links and code spans in every item, rejects a batch with major or critical findings, and writes the target only when every item is complete.
+FontLab ships two kinds of help outside its Qt catalog: the Help Panel, 115 articles in a JSON file per language, and 51 welcome tips, each a title and a body. For the Polish edition, both were translated separately from the catalog by a script that resumes by English key, checks markup, placeholders, Markdown links and code spans in every item, rejects a batch with major or critical findings, and writes the target only when every item is complete.
 
 The German welcome-tip review records one change that shows the dependency on the interface. The tip explains how to add a guide through two nodes. The record, with the unchanged title omitted, reads:
 
@@ -75,5 +75,5 @@ The German Help Panel review covered all 115 articles and changed 114, while kee
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 7: help evaluation and test-compiling; chapter 9: desktop publishing preparation; chapter 10: graphics and screen captures; chapter 13: word counts for HTML; chapter 14: dependencies and sequence)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 12: pseudo-localization of graphics, audio and content)
 - [localization/content-workflow](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/content-workflow/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/help/2026-09-28-de-welcome.json` and `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
-- `CHANGELOG.md` in the fl10n repository (issue 145 entry, the JSON help translation script)
+- The German welcome tips review ledger (28 September 2026) and the review ledger directory README of the FontLab localization project
+- The changelog of the FontLab localization project (the Polish localization entry, the JSON help translation script)

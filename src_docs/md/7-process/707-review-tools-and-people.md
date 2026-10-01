@@ -10,7 +10,7 @@ A reviewer looking at the German word *Breite* in a spreadsheet cell cannot tell
 
 Esselink (2000) insisted that linguistic review happen in the running application, because dialogs shown in a resource editor are not the dialogs users see. Dynamic dialogs show one set of options in the editor and several in the product, and a word such as *copy* can be translated as a noun in the resource file and used as a verb at runtime. Jiménez-Crespo (2024) describes the tools that grew out of that problem: visual, "in-context" localization tools that show each string in its final interface, so that expansion, hot-key collisions and concatenation become visible while translating. He also notes where they are missing. In video-game localization translators often work from spreadsheets without the game, and he quotes Bernal-Merino's description of the result as "an error-prone guesswork exercise".
 
-The fl10n specification lists what a reviewer needs for each message, and the vexy-localizzy browser reviewer implements most of it:
+The toolkit design lists what a reviewer needs for each message, and the vexy-localizzy browser reviewer implements most of it:
 
 | On screen | Why the reviewer needs it |
 |---|---|
@@ -41,7 +41,7 @@ vexy-localizzy keeps two actions. **Save draft** stores the edit and leaves the 
 }
 ```
 
-The fl10n specification, written earlier, had Save set the state to `translated` and made Approve the only route to `approved`. The implementation is stricter on one point: a saved draft is still `needs_review`, so "someone typed here" never looks like "someone checked this". The requirement of a reason for approving unchanged text closes a gap the specification left open. Without it, a reviewer could approve a whole list of untouched machine drafts with one keystroke each and leave no trace of whether anything was read.
+The original toolkit specification, written earlier, had Save set the state to `translated` and made Approve the only route to `approved`. The implementation is stricter on one point: a saved draft is still `needs_review`, so "someone typed here" never looks like "someone checked this". The requirement of a reason for approving unchanged text closes a gap the specification left open. Without it, a reviewer could approve a whole list of untouched machine drafts with one keystroke each and leave no trace of whether anything was read.
 
 Two reviewers on one catalog will eventually collide. Each save carries the revision the reviewer loaded, and the server checks it while holding a file lock. A stale revision is refused with a conflict rather than silently overwriting the other person's work, and the reviewer's draft is kept so it can be reconciled after reloading. The journal records each edit's intent with old and new hashes before the catalog is replaced, then a completion marker, so an interrupted save can be recognized on reopening. This is the same discipline chapter [703](703-branches-and-merges.md) asks of automated edits: change a message only while it is still the text you saw.
 
@@ -60,11 +60,11 @@ The FontLab writing guide turns this into assignment rules. Assign reviewers by 
 Rotation means that a translation is read by more than one kind of reader before it ships, and that no reader's blind spot becomes the catalog's. The FontLab localization of 2026 shows a rotation with four kinds of reader.
 
 1. **An engine drafts.** New or unmatched messages get machine translations, marked unfinished.
-2. **A model reviews.** A script sends messages with the language's style sheet and glossary to a model, which returns candidate corrections. For French in issue 145, the full catalog went through this reviewer.
+2. **A model reviews.** A script sends messages with the language's style sheet and glossary to a model, which returns candidate corrections. For French in September 2026, the full catalog went through this reviewer.
 3. **A reviewer decides.** A saved candidate is not accepted work; each one needs a contextual decision. Accepted candidates are applied only through a second script that checks the live text still matches what the model saw, compares placeholders and punctuation against the English, and writes an exact ledger. In the French pass, 1,182 corrections were applied and 17 proposed expansions of the abbreviation PPM were rejected.
-4. **The founder reads the result.** Issues 133 and 146 are review remarks written as rules and examples: one meaning gets one translation, keep the compression of headline-style labels, do not add specificity. Issue 146 gives each correction as a context and source, then, per language, the current target followed by the target it should have.
+4. **The founder reads the result.** The founder's review and the update of 29 September 2026 are review remarks written as rules and examples: one meaning gets one translation, keep the compression of headline-style labels, do not add specificity. The update gives each correction as a context and source, then, per language, the current target followed by the target it should have.
 
-A fifth reader appears when the corrections are applied by rule rather than one at a time. After the Polish terminology update in issue 146, an independent review pass found a rule that doubled a word on a second run and a plural form the pattern had missed. Chapter [704](704-the-qa-gate.md) tells that story in full.
+A fifth reader appears when the corrections are applied by rule rather than one at a time. After the Polish terminology update of 29 September 2026, an independent review pass found a rule that doubled a word on a second run and a plural form the pattern had missed. Chapter [704](704-the-qa-gate.md) tells that story in full.
 
 Research/05 proposes rotating models as well as people: track the human approval rate for each pair of locale and model, and replace the model when the rate stays below about seventy percent. The same logic applies to human reviewers without the number. If one reviewer's approvals keep being overturned by the next pass, the rotation has found something, either in the reviewer's brief or in the reviewer.
 
@@ -75,8 +75,6 @@ The rotation only works if each reader leaves evidence the next can use: the rea
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: linguistic testing in the running application, testing team setup, test management)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: localization technologies, agents in the localization process)
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: roles and responsibilities)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.5.4)
-- `spec/05.md` in the fl10n repository (section 5.3)
 - [docs/review.md](../8-toolkit/review.md), [docs/design/review.md](../8-toolkit/design/review.md) and [docs/design/review-fidelity.md](../8-toolkit/design/review-fidelity.md) in the vexy-localizzy repository
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository
-- `issues/133.md`, `issues/146.md`, `CHANGELOG.md` and `WORK.md` in the fl10n repository
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026), the founder's update of 29 September 2026, and the changelog and work log of the FontLab localization project

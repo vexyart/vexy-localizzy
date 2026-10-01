@@ -16,7 +16,7 @@ The FontLab quality specification classifies this as an accuracy error, under th
 
 ## The rule, in both directions
 
-The founder's instruction in fl10n issue 133 was short: if the context makes clear that a pair is a kerning pair, translate *pair* as *Paar*, not *Kerningpaar*, and do not add specificity where the original had none, especially in compounds. The principles then stated the other half, which is easy to forget: do not drop a distinction the English keeps either.
+The founder's instruction in the review of the German, Spanish and French catalogs was short: if the context makes clear that a pair is a kerning pair, translate *pair* as *Paar*, not *Kerningpaar*, and do not add specificity where the original had none, especially in compounds. The principles then stated the other half, which is easy to forget: do not drop a distinction the English keeps either.
 
 | English | Added or lost detail | Reviewed rendering |
 |---|---|---|
@@ -36,7 +36,7 @@ A FontLab mask is a layer. The translator knows this, and the German *Maskeneben
 
 Product knowledge can also produce detail that is not just redundant but wrong. *Also references* was translated as *Auch referenzierende Glyphen*, also referencing glyphs. In FontLab, a reference is an element linked between glyphs or masters, which the founder compared to hard links in a file system. References are elements, not glyphs. The translator filled the English noun with the object they assumed it meant, and the assumption was wrong. The noun in the source was the safer choice all along.
 
-The opposite temptation affects named operations. FontLab's *Oblique* applies a slant with a specific set of optical corrections. Translating it as German *Schrägstellen* (slanting) replaces a named operation with a generic verb, removing the specificity that the name carried. Issue 133 kept *Oblique* in German for this reason. The rule protects meaning: the translation and its visible context together must preserve the distinction. When the source uses a proper name, the name is the detail.
+The opposite temptation affects named operations. FontLab's *Oblique* applies a slant with a specific set of optical corrections. Translating it as German *Schrägstellen* (slanting) replaces a named operation with a generic verb, removing the specificity that the name carried. The founder's review kept *Oblique* in German for this reason. The rule protects meaning: the translation and its visible context together must preserve the distinction. When the source uses a proper name, the name is the detail.
 
 Two situations do justify a longer target, and neither is added detail.
 
@@ -45,7 +45,7 @@ Two situations do justify a longer target, and neither is added detail.
 
 ## Worked example: one noun across a catalog
 
-The founder's remarks on *reference* in issue 133 amount to a small procedure, and it generalizes to any term that a catalog has inflated.
+The founder's remarks on *reference* in the same review amount to a small procedure, and it generalizes to any term that a catalog has inflated.
 
 Start from the concept, not the string. Search the catalog for every translation that contains the target words used for references, including the inflated forms (*Elementreferenz*, *referenzierend*), and read each source. Classify each hit by what the English says:
 
@@ -57,7 +57,7 @@ Element references                       -> Element-Referenzen
 
 The full term is *Element-Referenz*. The later German review also uses *Referenzen* for *Element References* in the element menu: visible context can supply the noun even when the English repeats it. Keep *Element-Referenz* in text that must stand alone. The hyphenation rule belongs to [509](509-language-portraits.md). Before the consistency pass, the second line read *FontLab trennt diese Elementreferenzen*: the source said *references*, and the translation promoted it.
 
-The ledgers show where the long forms came from, and it was not the first translator. The original catalog said *Paar entfernen*, *Auch Referenzen* and *FontLab löst diese Referenzen*. The first review pass of September 2026 changed them to *Kerningpaar entfernen*, *Auch referenzierende Glyphen* and *FontLab trennt diese Elementreferenzen*, each time with a plausible reason: the button removes a pair in the kerning area; *Referenzen* alone would leave open which way the reference points. The consistency pass of issue 133 returned the first two to their original wording and kept only the better verb in the third. A reviewer who knows the product is exactly the person most likely to add detail, and only a ledger that follows a string through every change makes the round trip visible.
+The ledgers show where the long forms came from, and it was not the first translator. The original catalog said *Paar entfernen*, *Auch Referenzen* and *FontLab löst diese Referenzen*. The first review pass of September 2026 changed them to *Kerningpaar entfernen*, *Auch referenzierende Glyphen* and *FontLab trennt diese Elementreferenzen*, each time with a plausible reason: the button removes a pair in the kerning area; *Referenzen* alone would leave open which way the reference points. The consistency pass of the founder's review returned the first two to their original wording and kept only the better verb in the third. A reviewer who knows the product is exactly the person most likely to add detail, and only a ledger that follows a string through every change makes the round trip visible.
 
 Then check the other languages. The French catalog reads *Inclure les références* and *FontLab déliera ces références*, the Spanish *También referencias* and *FontLab desvinculará esas referencias*: all three follow the source's level of detail. Record the decision in the core memory so the next catalog cannot reintroduce the long form ([410](../4-terminology/410-ledgers-and-decisions.md)).
 
@@ -81,8 +81,8 @@ Machine drafts need these checks more than human ones. A model given a glossary 
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3: language guidelines)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 9)
-- `issues/133.md` in the fl10n repository
-- `data-fontlab-cpp/i18n/review/2026-09-28-issue133-de.json`, `-es.json` and `-fr.json` in the fl10n repository
-- `data-fontlab-cpp/i18n/review/2026-09-28-de-actions.json`, `2026-09-28-de-runtime-glyphs.json`, `2026-09-28-de-lookups-measurements.json` and `2026-09-28-de-window-properties.json` in the fl10n repository
-- `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts` and `fontlab_fr.ts` in the fl10n repository
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026), in the FontLab localization project
+- The review ledgers of the founder's review for German, Spanish and French (28 September 2026)
+- The German review ledgers for actions, runtime glyphs, lookups and measurements, and window properties (28 September 2026)
+- The FontLab 9 interface catalogs for German, Spanish and French (`fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts`)
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) in the vexy-fontlab-writing-styleguide repository

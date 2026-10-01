@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EmptyLabelDialog</class>
+ <widget class="QDialog" name="EmptyLabelDialog">
+  <widget class="QLabel" name="emptyLabel">
+   <property name="text">
+    <string>   </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="goodLabel">
+   <property name="text">
+    <string>Glyph Name</string>
+   </property>
+  </widget>
+ </widget>
+</ui>

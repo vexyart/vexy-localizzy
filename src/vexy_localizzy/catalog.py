@@ -1,5 +1,5 @@
 # this_file: src/vexy_localizzy/catalog.py
-"""Versioned catalog types; compatibility fields adapted from fl10n (see NOTICE)."""
+"""Versioned catalog types; compatibility fields adapted from earlier tooling (see NOTICE)."""
 
 import hashlib
 import re
@@ -15,8 +15,9 @@ UnitState = Literal[
     "untranslated", "needs_review", "translated", "approved", "vanished"
 ]
 Severity = Literal["info", "minor", "major", "critical"]
+# "fl10n" is the legacy name of "localizzy" in catalog JSON written before 1.1.
 OriginFormat = Literal[
-    "ts", "po", "xliff", "json", "android", "fl10n", "tmx", "i18next"
+    "ts", "po", "xliff", "json", "android", "localizzy", "fl10n", "tmx", "i18next"
 ]
 
 
@@ -80,7 +81,7 @@ class Catalog(Record):
     source_lang: str
     target_lang: str | None = None
     units: list[Unit] = Field(default_factory=list)
-    origin_format: OriginFormat = "fl10n"
+    origin_format: OriginFormat = "localizzy"
     document: SourceDocument | None = None
 
 

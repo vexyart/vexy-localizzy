@@ -98,6 +98,4 @@ Now change one setting. A colleague in the same office prefers English menus but
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 4: locale variables, casing, sorting and string comparison)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 2, box 2.1: locales)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: the anatomy of locale identifiers)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3: CLDR and `Intl`)
-- `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (section 2.3.4: loading the right language)
 - [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

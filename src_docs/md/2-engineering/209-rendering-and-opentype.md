@@ -80,5 +80,4 @@ Check the unit, not only the picture. The FontLab guide asks reviewers to test c
 
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 5, complex scripts, displaying text and fonts; chapter 11, recognizing problems; chapter 20, OpenType fonts)
 - Sandra Martin O'Donnell, *Programming for the World: A Guide to Internationalization*, 1994 (chapter 7, fonts and display)
-- `research/01-foundations-of-software-localization.md` and `research/02-localizing-qt-cpp-applications.md` in the fl10n repository
 - [global/scripts-and-typography](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/global/scripts-and-typography/), [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) and [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) in the vexy-fontlab-writing-styleguide repository

@@ -30,7 +30,7 @@ The part also draws a line that the older literature drew less sharply. Some def
 
 ## How the examples work
 
-The worked examples come mostly from the FontLab 9 review of 2026: catalogs of about 10,500 messages per language, the German reviewed in full, the Spanish in part and the French in targeted passes, with disputed strings checked against the application's source code, and a first Polish catalog generated as a machine draft awaiting native review. The founder's review remarks (fl10n issues 133 and 146) supplied many of the rules, and the exact before-and-after ledgers record how they were applied. The examples are there because they are concrete and checkable, not because the rules belong to one product. Every chapter states the general problem first, from the published literature, and then shows one case.
+The worked examples come mostly from the FontLab 9 review of 2026: catalogs of about 10,500 messages per language, the German reviewed in full, the Spanish in part and the French in targeted passes, with disputed strings checked against the application's source code, and a first Polish catalog generated as a machine draft awaiting native review. The founder's review remarks, on the German, Spanish and French catalogs and in the update of 29 September 2026, supplied many of the rules, and the exact before-and-after ledgers record how they were applied. The examples are there because they are concrete and checkable, not because the rules belong to one product. Every chapter states the general problem first, from the published literature, and then shows one case.
 
 Where vexy-localizzy helps, with structural checks or its browser preview of Qt forms, the chapters say so briefly. Neither replaces a reviewer who knows the language.
 
@@ -41,6 +41,6 @@ The reader knows what a catalog, a context and a placeholder are ([Part 2](../2-
 ## Sources
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3)
-- `issues/133.md` and `issues/146.md` in the fl10n repository
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026) and the founder's update of 29 September 2026, in the FontLab localization project
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/quality.md](../8-toolkit/quality.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository

@@ -38,11 +38,10 @@ You should know why strings are externalized and what a message key is; [Part 2]
 
 ## Where the examples come from
 
-The examples come from two projects. `fl10n` is the engineering specification and toolchain for the FontLab localization, whose catalogs hold about ten thousand five hundred messages per language in German, Spanish, French and Polish. `vexy-localizzy` is the Python toolkit that grew out of it: format adapters for TS, PO, XLIFF, Android, i18next and TMX, a canonical JSON catalog, a splice writer that edits `.ts` files without rewriting them, and an upgrade command that ports reviewed translations onto a fresh catalog. Where the specification and the toolkit made different decisions, the chapters say so, because the difference is usually the lesson.
+The examples come from two projects. The FontLab localization project began with its own engineering specification and toolchain, and its catalogs hold about ten thousand five hundred messages per language in German, Spanish, French and Polish. `vexy-localizzy` is the Python toolkit that grew out of it: format adapters for TS, PO, XLIFF, Android, i18next and TMX, a canonical JSON catalog, a splice writer that edits `.ts` files without rewriting them, and an upgrade command that ports reviewed translations onto a fresh catalog. Where the specification and the toolkit made different decisions, the chapters say so, because the difference is usually the lesson.
 
 ## Sources
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapters 3 and 4)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `spec/03.md` in the fl10n repository
+- [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - `README.md`, [docs/formats.md](../8-toolkit/formats.md) and [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

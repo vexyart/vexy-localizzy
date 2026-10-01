@@ -21,6 +21,14 @@ GROUPS
 
      source-fix
 
+     shard
+
+     editorial
+
+     project
+
+     qt
+
      tm
 
 COMMANDS
@@ -38,11 +46,29 @@ COMMANDS
      qa
        Run the deterministic content checks on a catalog; exit 1 on blocking findings.
 
+     pseudo
+       Write a pseudo-localized copy of CATALOG to OUT (format from OUT's suffix).
+
      review
-       Serve configured catalogs with the optional review UI and API.
+       Serve catalogs with the optional review UI and API.
 
      inventory
        Inventory all .tmx and .ts XML catalogs recursively under ROOT.
+
+     vocab
+       Inspect a vocabulary corpus at PATH: stats, list, validate, export or compare.
+
+     doctor
+       Report platform, Python, external tools and optional extras; install nothing.
+
+     init
+       Write a starter localizzy.toml under ROOT; an existing file is kept unless --force.
+
+     diff
+       Compare approved catalog OLD with fresh catalog NEW; print a Markdown report.
+
+     translate_json
+       Translate flat JSON file SOURCE ({key: Markdown text}) into --target at --out.
 ```
 
 ## localizzy source-fix
@@ -353,19 +379,91 @@ SYNOPSIS
     localizzy qa CATALOG <flags>
 
 DESCRIPTION
-    Run the deterministic content checks on a catalog; exit 1 on blocking findings.
+    --plural-forms 0,1,2 names the required native forms; ``auto`` derives them
+    from the target language. --layers pofilter,qe,judge adds the optional
+    layers (the judge needs --endpoint and --model). --format table, json or
+    sarif renders the findings, to --out when given; without --format the
+    result is one JSON object.
 
 POSITIONAL ARGUMENTS
     CATALOG
         Type: str
 
 FLAGS
-    -f, --fail_on=FAIL_ON
+    --fail_on=FAIL_ON
         Type: str
         Default: 'major'
     -p, --plural_forms=PLURAL_FORMS
         Type: Optional[str | None]
         Default: None
+    -l, --layers=LAYERS
+        Type: Optional[str | None]
+        Default: None
+    --format=FORMAT
+        Type: Optional[str | None]
+        Default: None
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    -e, --endpoint=ENDPOINT
+        Type: Optional[str | None]
+        Default: None
+    --model=MODEL
+        Type: Optional[str | None]
+        Default: None
+    -a, --api_key_env=API_KEY_ENV
+        Type: str
+        Default: 'OPENAI_API_KEY'
+    -j, --judge_sample=JUDGE_SAMPLE
+        Type: float
+        Default: 0.1
+    --mqm_threshold=MQM_THRESHOLD
+        Type: int
+        Default: 80
+    -q, --qe_threshold=QE_THRESHOLD
+        Type: float
+        Default: 0.7
+    -b, --brand_terms=BRAND_TERMS
+        Type: Optional[str | None]
+        Default: None
+    -i, --ignore_keys=IGNORE_KEYS
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy pseudo
+
+```text
+NAME
+    localizzy pseudo - Write a pseudo-localized copy of CATALOG to OUT (format from OUT's suffix).
+
+SYNOPSIS
+    localizzy pseudo CATALOG OUT <flags>
+
+DESCRIPTION
+    --mode accent wraps and accents the text and pads it by --expansion of its
+    length; bracket uses plain brackets; rtl wraps the unchanged text in
+    right-to-left marks. Placeholders, tags and accelerators are never changed.
+
+POSITIONAL ARGUMENTS
+    CATALOG
+        Type: str
+    OUT
+        Type: str
+
+FLAGS
+    -e, --expansion=EXPANSION
+        Type: float
+        Default: 0.4
+    -m, --mode=MODE
+        Type: str
+        Default: 'accent'
+    -a, --allow_loss=ALLOW_LOSS
+        Type: bool
+        Default: False
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
@@ -375,13 +473,15 @@ NOTES
 
 ```text
 NAME
-    localizzy review - Serve configured catalogs with the optional review UI and API.
+    localizzy review - Serve catalogs with the optional review UI and API.
 
 SYNOPSIS
     localizzy review CONFIG <flags>
 
 DESCRIPTION
-    Serve configured catalogs with the optional review UI and API.
+    CONFIG is a review TOML, or a .ts/.json catalog that is first imported into
+    a resumable workspace (default CONFIG.review; --workspace overrides it and
+    --ui-files a.ui,b.ui adds form previews). The source catalog is never edited.
 
 POSITIONAL ARGUMENTS
     CONFIG
@@ -392,6 +492,15 @@ FLAGS
         Type: int
         Default: 8765
     -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+    -w, --workspace=WORKSPACE
+        Type: Optional[str | None]
+        Default: None
+    -u, --ui_files=UI_FILES
+        Type: Optional[str | None]
+        Default: None
+    -o, --open_browser=OPEN_BROWSER
         Type: bool
         Default: False
 
@@ -426,6 +535,825 @@ NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
 ```
 
+## localizzy vocab
+
+```text
+NAME
+    localizzy vocab - Inspect a vocabulary corpus at PATH: stats, list, validate, export or compare.
+
+SYNOPSIS
+    localizzy vocab ACTION PATH <flags>
+
+DESCRIPTION
+    ``validate`` exits 1 when an entry lacks context or an ICU plural lacks
+    ``other``. ``export`` writes canonical catalog JSON to --out; --locale
+    selects the target language of ``list`` and ``export``. --flat exports a flat
+    {key: text} JSON file, the input of ``translate_json``. ``compare`` scores
+    the --candidate (a catalog, or a flat {key: translation} JSON file) against
+    the --locale references and exits 1 when the exact-match rate is below
+    --min-exact.
+
+POSITIONAL ARGUMENTS
+    ACTION
+        Type: str
+    PATH
+        Type: str
+
+FLAGS
+    -l, --locale=LOCALE
+        Type: Optional[str | None]
+        Default: None
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    --format=FORMAT
+        Type: str
+        Default: 'table'
+    -c, --candidate=CANDIDATE
+        Type: Optional[str | None]
+        Default: None
+    -m, --min_exact=MIN_EXACT
+        Type: Optional[float | None]
+        Default: None
+    --flat=FLAT
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy doctor
+
+```text
+NAME
+    localizzy doctor - Report platform, Python, external tools and optional extras; install nothing.
+
+SYNOPSIS
+    localizzy doctor -
+
+DESCRIPTION
+    Report platform, Python, external tools and optional extras; install nothing.
+```
+
+## localizzy init
+
+```text
+NAME
+    localizzy init - Write a starter localizzy.toml under ROOT; an existing file is kept unless --force.
+
+SYNOPSIS
+    localizzy init <flags>
+
+DESCRIPTION
+    Write a starter localizzy.toml under ROOT; an existing file is kept unless --force.
+
+FLAGS
+    -r, --root=ROOT
+        Type: str
+        Default: '.'
+    -f, --force=FORCE
+        Type: bool
+        Default: False
+```
+
+## localizzy diff
+
+```text
+NAME
+    localizzy diff - Compare approved catalog OLD with fresh catalog NEW; print a Markdown report.
+
+SYNOPSIS
+    localizzy diff OLD NEW <flags>
+
+DESCRIPTION
+    Messages pair as ``localizzy upgrade`` pairs them (message id, else context,
+    source and comment). --report also writes the full report as JSON. Returns
+    the counts. A --report that is OLD or NEW is refused.
+
+POSITIONAL ARGUMENTS
+    OLD
+        Type: str
+    NEW
+        Type: str
+
+FLAGS
+    -r, --report=REPORT
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy shard
+
+```text
+NAME
+    localizzy shard
+
+SYNOPSIS
+    localizzy shard COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     split
+       Split catalog SOURCE into --parts shards in OUT_DIR, keeping contexts whole.
+
+     merge
+       Fill the --target template of SOURCE from translated SHARDS into --out.
+```
+
+## localizzy shard split
+
+```text
+NAME
+    localizzy shard split - Split catalog SOURCE into --parts shards in OUT_DIR, keeping contexts whole.
+
+SYNOPSIS
+    localizzy shard split SOURCE OUT_DIR <flags>
+
+DESCRIPTION
+    OUT_DIR holding shards of SOURCE (<stem>-shard*.ts) is refused unless
+    --force, which first removes the earlier <stem>-shard<N>.ts files.
+
+POSITIONAL ARGUMENTS
+    SOURCE
+        Type: str
+    OUT_DIR
+        Type: str
+
+FLAGS
+    -p, --parts=PARTS
+        Type: int
+        Default: 4
+    -f, --force=FORCE
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy shard merge
+
+```text
+NAME
+    localizzy shard merge - Fill the --target template of SOURCE from translated SHARDS into --out.
+
+SYNOPSIS
+    localizzy shard merge SOURCE SHARDS TARGET PLURAL_COUNT OUT <flags>
+
+DESCRIPTION
+    SHARDS is comma-separated. An existing --out is refused unless --force; an
+    --out that is an input, or a shard in another language, is refused. Exits 1 when a message stays unfilled; the catalog is still written.
+
+POSITIONAL ARGUMENTS
+    SOURCE
+        Type: str
+    SHARDS
+        Type: str
+    TARGET
+        Type: str
+    PLURAL_COUNT
+        Type: int
+    OUT
+        Type: str
+
+FLAGS
+    -f, --force=FORCE
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy translate_json
+
+```text
+NAME
+    localizzy translate_json - Translate flat JSON file SOURCE ({key: Markdown text}) into --target at --out.
+
+SYNOPSIS
+    localizzy translate_json SOURCE TARGET OUT <flags>
+
+DESCRIPTION
+    --titles: the keys are English titles and are translated too. --product
+    describes what the texts document (default: a software application).
+    --glossary-memory a.tmx,b.tmx adds the terms each batch mentions. Resume is
+    by English key; provenance goes to OUT's ``.localizzy.json`` sidecar. Exits
+    1, leaving --out untouched, until every item is translated; finished batches
+    are kept in OUT's ``.partial.json`` after each batch. Ctrl+C exits 130. An
+    --out (or its sidecar or partial file) that is an input is refused.
+
+POSITIONAL ARGUMENTS
+    SOURCE
+        Type: str
+    TARGET
+        Type: str
+    OUT
+        Type: str
+
+FLAGS
+    -e, --endpoint=ENDPOINT
+        Type: Optional[str | None]
+        Default: None
+    -m, --model=MODEL
+        Type: Optional[str | None]
+        Default: None
+    -a, --api_key_env=API_KEY_ENV
+        Type: str
+        Default: 'OPENAI_API_KEY'
+    --temperature=TEMPERATURE
+        Type: float
+        Default: 0.2
+    --timeout=TIMEOUT
+        Type: float
+        Default: 120
+    --style_file=STYLE_FILE
+        Type: Optional[str | None]
+        Default: None
+    --glossary_memory=GLOSSARY_MEMORY
+        Type: Optional[str | None]
+        Default: None
+    --glossary_status=GLOSSARY_STATUS
+        Type: str
+        Default: 'approved,do-not-translate'
+    --source_lang=SOURCE_LANG
+        Type: str
+        Default: 'en'
+    -p, --product=PRODUCT
+        Type: Optional[str | None]
+        Default: None
+    --titles=TITLES
+        Type: bool
+        Default: False
+    -b, --batch_size=BATCH_SIZE
+        Type: int
+        Default: 5
+    -w, --workers=WORKERS
+        Type: int
+        Default: 3
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy editorial
+
+```text
+NAME
+    localizzy editorial
+
+SYNOPSIS
+    localizzy editorial COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     review
+       Ask a model to review the --target translation in CATALOG; append proposals to OUT.
+
+     apply
+       Apply accepted CANDIDATES (from ``review``) to CATALOG and write LEDGER.
+```
+
+## localizzy editorial review
+
+```text
+NAME
+    localizzy editorial review - Ask a model to review the --target translation in CATALOG; append proposals to OUT.
+
+SYNOPSIS
+    localizzy editorial review CATALOG TARGET OUT <flags>
+
+DESCRIPTION
+    The catalog is never edited. CATALOG is a Qt .ts file, or a translated JSON
+    file with --source-json naming the English one. --product describes the
+    application in a phrase ("a professional font editor"); --style-file is the
+    language style sheet; --glossary-memory lists TMX memories, comma-separated,
+    whose approved and do-not-translate terms are sent with each batch.
+    --endpoint and --model are required; the key comes from --api-key-env.
+    --timeout defaults to 300 seconds because a batch of 40 messages returns
+    long corrected texts. Re-running skips batches already in OUT unless the
+    items, model, prompt, style sheet or glossary terms changed. Messages with
+    length variants are not reviewed (``apply`` cannot write them); they are
+    counted under left_out. --limit reviews only the first N pending batches.
+
+POSITIONAL ARGUMENTS
+    CATALOG
+        Type: str
+    TARGET
+        Type: str
+    OUT
+        Type: str
+
+FLAGS
+    -m, --model=MODEL
+        Type: Optional[str | None]
+        Default: None
+    -e, --endpoint=ENDPOINT
+        Type: Optional[str | None]
+        Default: None
+    --style_file=STYLE_FILE
+        Type: Optional[str | None]
+        Default: None
+    -g, --glossary_memory=GLOSSARY_MEMORY
+        Type: Optional[str | None]
+        Default: None
+    -p, --product=PRODUCT
+        Type: str
+        Default: 'a desktop application'
+    --source_json=SOURCE_JSON
+        Type: Optional[str | None]
+        Default: None
+    -a, --api_key_env=API_KEY_ENV
+        Type: str
+        Default: 'OPENAI_API_KEY'
+    --temperature=TEMPERATURE
+        Type: float
+        Default: 0.2
+    --timeout=TIMEOUT
+        Type: float
+        Default: 300
+    -w, --workers=WORKERS
+        Type: int
+        Default: 4
+    -b, --batch_size=BATCH_SIZE
+        Type: int
+        Default: 40
+    -l, --limit=LIMIT
+        Type: int
+        Default: 0
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy editorial apply
+
+```text
+NAME
+    localizzy editorial apply - Apply accepted CANDIDATES (from ``review``) to CATALOG and write LEDGER.
+
+SYNOPSIS
+    localizzy editorial apply CATALOG TARGET CANDIDATES LEDGER <flags>
+
+DESCRIPTION
+    A correction lands only while CATALOG still holds the English source and
+    translation the reviewer saw, and only if it keeps the source's
+    placeholders, tags, trailing ellipsis or colon, surrounding whitespace,
+    newlines and the translation's accelerator count. Stale and refused
+    candidates are listed in the ledger; corrections already in the catalog
+    count as already_applied. --severity and --family filter
+    (comma-separated); --reject-ids names a file with one id per line to leave
+    unchanged; --allow-markup-changes lets markup-family corrections change
+    tags (nothing else). Qt messages keep their state unless --finish says a
+    human accepted the candidates. --target is recorded as each change's
+    language. The catalog and LEDGER are written together or not at all; an
+    existing LEDGER is refused unless --force. --dry-run writes nothing.
+
+POSITIONAL ARGUMENTS
+    CATALOG
+        Type: str
+    TARGET
+        Type: str
+    CANDIDATES
+        Type: str
+    LEDGER
+        Type: str
+
+FLAGS
+    --source_json=SOURCE_JSON
+        Type: Optional[str | None]
+        Default: None
+    --severity=SEVERITY
+        Type: str
+        Default: 'critical,major,minor'
+    --family=FAMILY
+        Type: str
+        Default: 'accuracy,terminology,conventions,locale,style,compliance,ma...
+    -r, --reject_ids=REJECT_IDS
+        Type: Optional[str | None]
+        Default: None
+    --scope=SCOPE
+        Type: Optional[str | None]
+        Default: None
+    -d, --dry_run=DRY_RUN
+        Type: bool
+        Default: False
+    -a, --allow_markup_changes=ALLOW_MARKUP_CHANGES
+        Type: bool
+        Default: False
+    --finish=FINISH
+        Type: bool
+        Default: False
+    --force=FORCE
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy project
+
+```text
+NAME
+    localizzy project
+
+SYNOPSIS
+    localizzy project COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     upgrade
+       Port the approved catalog of CODE onto the fresh lupdate output.
+
+     translate
+       Fill the catalog of CODE from its memories, then the engine.
+
+     build_ui
+       Rebuild the project memory of CODE from its approved catalog.
+```
+
+## localizzy project upgrade
+
+```text
+NAME
+    localizzy project upgrade - Port the approved catalog of CODE onto the fresh lupdate output.
+
+SYNOPSIS
+    localizzy project upgrade CODE <flags>
+
+DESCRIPTION
+    Writes NEW beside the approved catalog (``<name>.new.ts``), RETIRED under
+    ``[catalogs].retired_dir`` and the report under ``report_dir``. RETIRED is
+    named from the sha256 of both inputs and never overwritten: a rerun on the
+    same inputs must produce the same retired messages, or it is refused.
+    --in-place replaces the approved catalog only when nothing stays pending
+    (pending messages exit 1 and leave NEW for review). --glossary adds memories to the
+    configured ones; --no-engine leaves new strings pending.
+
+POSITIONAL ARGUMENTS
+    CODE
+        Type: str
+
+FLAGS
+    --fresh=FRESH
+        Type: Optional[str | None]
+        Default: None
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    -m, --model=MODEL
+        Type: Optional[str | None]
+        Default: None
+    -n, --no_engine=NO_ENGINE
+        Type: bool
+        Default: False
+    -i, --in_place=IN_PLACE
+        Type: bool
+        Default: False
+    -g, --glossary=GLOSSARY
+        Type: Optional[str | None]
+        Default: None
+    --fuzzy_threshold=FUZZY_THRESHOLD
+        Type: float
+        Default: 0.92
+    -c, --config=CONFIG
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy project translate
+
+```text
+NAME
+    localizzy project translate - Fill the catalog of CODE from its memories, then the engine.
+
+SYNOPSIS
+    localizzy project translate CODE <flags>
+
+DESCRIPTION
+    --source-catalog starts a new language from the source-language catalog.
+    That keeps no existing translation, so it is refused when the catalog of
+    CODE exists and --out was not given. --memory-only needs no endpoint.
+
+POSITIONAL ARGUMENTS
+    CODE
+        Type: str
+
+FLAGS
+    --catalog=CATALOG
+        Type: Optional[str | None]
+        Default: None
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    --model=MODEL
+        Type: Optional[str | None]
+        Default: None
+    --memory_only=MEMORY_ONLY
+        Type: bool
+        Default: False
+    -g, --glossary=GLOSSARY
+        Type: Optional[str | None]
+        Default: None
+    -s, --source_catalog=SOURCE_CATALOG
+        Type: Optional[str | None]
+        Default: None
+    -b, --batch_size=BATCH_SIZE
+        Type: int
+        Default: 50
+    --config=CONFIG
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy project build_ui
+
+```text
+NAME
+    localizzy project build_ui - Rebuild the project memory of CODE from its approved catalog.
+
+SYNOPSIS
+    localizzy project build_ui CODE <flags>
+
+DESCRIPTION
+    The output is the first ``[memories].direct`` name. Exact pairs already
+    served by the glossary memories are left out, so a missing glossary memory
+    is an error: its terms would otherwise enter the project memory.
+
+POSITIONAL ARGUMENTS
+    CODE
+        Type: str
+
+FLAGS
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    -c, --config=CONFIG
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy qt
+
+```text
+NAME
+    localizzy qt
+
+SYNOPSIS
+    localizzy qt GROUP | COMMAND
+
+GROUPS
+    GROUP is one of the following:
+
+     applang
+
+COMMANDS
+    COMMAND is one of the following:
+
+     scan
+       Audit Qt/C++ sources and .ui forms for strings that will not translate.
+
+     extract
+       Run Qt lupdate over source directories or .pro files into PREFIX_<locale>.ts.
+
+     release
+       Compile .ts catalogs to .qm with Qt lrelease, beside each catalog or in --out-dir.
+```
+
+## localizzy qt scan
+
+```text
+NAME
+    localizzy qt scan - Audit Qt/C++ sources and .ui forms for strings that will not translate.
+
+SYNOPSIS
+    localizzy qt scan <flags> [SOURCES]...
+
+DESCRIPTION
+    --engine heuristic is a fast line pass; clang uses libclang (the ``clang``
+    extra) and reads --compile-commands when given; both runs clang on files
+    with critical heuristic findings. --format table, json or sarif. Exit 1 on
+    a critical finding, or when coverage is below --min-coverage; --min-coverage
+    over zero C++ files is a usage error (exit 2).
+
+POSITIONAL ARGUMENTS
+    SOURCES
+        Type: str
+
+FLAGS
+    -e, --engine=ENGINE
+        Type: str
+        Default: 'heuristic'
+    -u, --ui=UI
+        Type: bool
+        Default: True
+    -m, --min_coverage=MIN_COVERAGE
+        Type: Optional[float | None]
+        Default: None
+    -f, --format=FORMAT
+        Type: str
+        Default: 'table'
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    --compile_commands=COMPILE_COMMANDS
+        Type: Optional[str | None]
+        Default: None
+    --config=CONFIG
+        Type: Optional[str | None]
+        Default: None
+```
+
+## localizzy qt extract
+
+```text
+NAME
+    localizzy qt extract - Run Qt lupdate over source directories or .pro files into PREFIX_<locale>.ts.
+
+SYNOPSIS
+    localizzy qt extract <flags> [SOURCES]...
+
+DESCRIPTION
+    Existing catalogs are merged and replaced only after lupdate succeeds;
+    strings that left the source stay as vanished with their translations.
+    --no-obsolete drops translations of strings that left the source.
+    --locales de,fr; the source-language catalog is always written.
+    Unset options come from localizzy.toml ([qt] and [source]).
+
+POSITIONAL ARGUMENTS
+    SOURCES
+        Type: str
+
+FLAGS
+    -o, --out_dir=OUT_DIR
+        Type: Optional[str | None]
+        Default: None
+    --locales=LOCALES
+        Type: Optional[str | None]
+        Default: None
+    -p, --prefix=PREFIX
+        Type: Optional[str | None]
+        Default: None
+    -s, --source_lang=SOURCE_LANG
+        Type: Optional[str | None]
+        Default: None
+    --locations=LOCATIONS
+        Type: str
+        Default: 'none'
+    -n, --no_obsolete=NO_OBSOLETE
+        Type: bool
+        Default: False
+    -c, --config=CONFIG
+        Type: Optional[str | None]
+        Default: None
+```
+
+## localizzy qt release
+
+```text
+NAME
+    localizzy qt release - Compile .ts catalogs to .qm with Qt lrelease, beside each catalog or in --out-dir.
+
+SYNOPSIS
+    localizzy qt release <flags> [CATALOGS]...
+
+DESCRIPTION
+    Compile .ts catalogs to .qm with Qt lrelease, beside each catalog or in --out-dir.
+
+POSITIONAL ARGUMENTS
+    CATALOGS
+        Type: str
+
+FLAGS
+    -o, --out_dir=OUT_DIR
+        Type: Optional[str | None]
+        Default: None
+```
+
+## localizzy qt applang
+
+```text
+NAME
+    localizzy qt applang
+
+SYNOPSIS
+    localizzy qt applang COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     list
+       List the UI languages compiled into a macOS Qt app as PREFIX_<lang>.qm resources.
+
+     run
+       Launch a macOS Qt app in UI language LANG; --new starts a separate instance.
+
+     write_commands
+       Write one double-clickable <name>-<lang>.command launcher per UI language into OUT.
+```
+
+## localizzy qt applang list
+
+```text
+NAME
+    localizzy qt applang list - List the UI languages compiled into a macOS Qt app as PREFIX_<lang>.qm resources.
+
+SYNOPSIS
+    localizzy qt applang list APP PREFIX <flags>
+
+DESCRIPTION
+    List the UI languages compiled into a macOS Qt app as PREFIX_<lang>.qm resources.
+
+POSITIONAL ARGUMENTS
+    APP
+        Type: str
+    PREFIX
+        Type: str
+
+FLAGS
+    -s, --source_lang=SOURCE_LANG
+        Type: str
+        Default: 'en'
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy qt applang run
+
+```text
+NAME
+    localizzy qt applang run - Launch a macOS Qt app in UI language LANG; --new starts a separate instance.
+
+SYNOPSIS
+    localizzy qt applang run APP LANG PREFIX <flags>
+
+DESCRIPTION
+    Launch a macOS Qt app in UI language LANG; --new starts a separate instance.
+
+POSITIONAL ARGUMENTS
+    APP
+        Type: str
+    LANG
+        Type: str
+    PREFIX
+        Type: str
+
+FLAGS
+    -n, --new=NEW
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy qt applang write_commands
+
+```text
+NAME
+    localizzy qt applang write_commands - Write one double-clickable <name>-<lang>.command launcher per UI language into OUT.
+
+SYNOPSIS
+    localizzy qt applang write_commands APP PREFIX OUT <flags>
+
+DESCRIPTION
+    Write one double-clickable <name>-<lang>.command launcher per UI language into OUT.
+
+POSITIONAL ARGUMENTS
+    APP
+        Type: str
+    PREFIX
+        Type: str
+    OUT
+        Type: str
+
+FLAGS
+    -n, --name=NAME
+        Type: Optional[str | None]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
 ## localizzy tm
 
 ```text
@@ -441,8 +1369,17 @@ COMMANDS
      tmx2qph
        Convert a TMX file to a Qt phrase book, retaining every pair in input order.
 
+     tmx2html
+       Render a TMX as a self-contained HTML table with filters and click-to-copy.
+
      build_ui
        Build a project memory (every finished message) from a Qt .ts catalog.
+
+     lookup
+       Look up every source of TS in the ``<lang>-*.tmx`` memories of TMX_DIR.
+
+     glossary_json
+       Write a {source term: {code: translation}} JSON view of glossary memories to OUT.
 
      ts2tmx
        Convert one .ts file or every .ts under a folder to TMX (legacy language policy).
@@ -505,6 +1442,50 @@ NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
 ```
 
+## localizzy tm tmx2html
+
+```text
+NAME
+    localizzy tm tmx2html - Render a TMX as a self-contained HTML table with filters and click-to-copy.
+
+SYNOPSIS
+    localizzy tm tmx2html INPUT OUTPUT <flags>
+
+DESCRIPTION
+    Render a TMX as a self-contained HTML table with filters and click-to-copy.
+
+POSITIONAL ARGUMENTS
+    INPUT
+        Type: str
+        source TMX (or .tmx.gz) file.
+    OUTPUT
+        Type: str
+        destination .html file, atomically replaced.
+
+FLAGS
+    --target=TARGET
+        Type: Optional[str | None]
+        Default: None
+        target language tag; detected when the file has exactly one.
+    -s, --src_lang=SRC_LANG
+        Type: str
+        Default: 'en'
+        source language tag (default en).
+    --title=TITLE
+        Type: Optional[str | None]
+        Default: None
+        page heading; defaults to the input file name.
+    -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+        log the counts.
+
+        Units missing either language are skipped and counted, not invented.
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
 ## localizzy tm build_ui
 
 ```text
@@ -515,8 +1496,8 @@ SYNOPSIS
     localizzy tm build_ui CATALOG OUT <flags>
 
 DESCRIPTION
-    --exclude-memory a.tmx,b.tmx drops sources that are whole glossary terms,
-    so the project memory never repeats the core memory. --lang overrides the
+    --exclude-memory a.tmx,b.tmx drops exact source/target pairs served by whole
+    glossary terms, keeping contextual translations. --lang overrides the
     memory's target tag (for example es-419 for an es_MX catalog).
 
 POSITIONAL ARGUMENTS
@@ -535,6 +1516,89 @@ FLAGS
     -n, --note=NOTE
         Type: Optional[str | None]
         Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy tm lookup
+
+```text
+NAME
+    localizzy tm lookup - Look up every source of TS in the ``<lang>-*.tmx`` memories of TMX_DIR.
+
+SYNOPSIS
+    localizzy tm lookup TS TMX_DIR LANGS <flags>
+
+DESCRIPTION
+    --langs de,es,fr names the memory prefixes. --qph adds a phrase book's
+    sources. JSON goes to --out (default TS.lookup.json) and the filterable page
+    to --report (default TS.lookup.html); pass an empty string to skip either.
+    Sources without any match are left out of both.
+
+POSITIONAL ARGUMENTS
+    TS
+        Type: str
+    TMX_DIR
+        Type: str
+    LANGS
+        Type: str
+
+FLAGS
+    -q, --qph=QPH
+        Type: Optional[str | None]
+        Default: None
+    -o, --out=OUT
+        Type: Optional[str | None]
+        Default: None
+    -r, --report=REPORT
+        Type: Optional[str | None]
+        Default: None
+    -v, --verbose=VERBOSE
+        Type: bool
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+
+## localizzy tm glossary_json
+
+```text
+NAME
+    localizzy tm glossary_json - Write a {source term: {code: translation}} JSON view of glossary memories to OUT.
+
+SYNOPSIS
+    localizzy tm glossary_json OUT <flags>
+
+DESCRIPTION
+    Either --memory a.tmx,b.tmx (codes read from each memory, or given by --codes
+    in the same order), or --folder DIR with --codes de,pl and --pattern
+    (default {code}-core.tmx). An OUT that is one of the memories is refused.
+
+POSITIONAL ARGUMENTS
+    OUT
+        Type: str
+
+FLAGS
+    -m, --memory=MEMORY
+        Type: Optional[str | None]
+        Default: None
+    -f, --folder=FOLDER
+        Type: Optional[str | None]
+        Default: None
+    -p, --pattern=PATTERN
+        Type: str
+        Default: '{code}-core.tmx'
+    -c, --codes=CODES
+        Type: Optional[str | None]
+        Default: None
+    -s, --source_lang=SOURCE_LANG
+        Type: str
+        Default: 'en'
+    -g, --glossary_status=GLOSSARY_STATUS
+        Type: str
+        Default: 'approved,do-not-translate'
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS

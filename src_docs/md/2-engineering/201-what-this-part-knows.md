@@ -26,9 +26,9 @@ Catalog formats get their own part: what a Qt `.ts` file contains, what `lupdate
 
 ## How to read the sources here
 
-Three kinds of evidence meet in this part, and they age differently. The 1994 and 2002 books are historical. Their examples use X/Open message catalogs, 8-bit code pages and Win32 resource files, and the chapters say so; what they teach about separating text from code, about fragments and about fonts has not changed. The 2015 and 2025 books add the translator's view and the TypeScript view; where the 2025 book contains mistakes, such as hand-written plural rules or an `Intl.MessageFormat` that does not exist, the chapters point them out rather than repeat them. The research corpus and the fl10n specification are the modern layer. Their figures, such as bundle sizes and text expansion ratios, often disagree, and the chapters report the ranges instead of choosing one number.
+Three kinds of evidence meet in this part, and they age differently. The 1994 and 2002 books are historical. Their examples use X/Open message catalogs, 8-bit code pages and Win32 resource files, and the chapters say so; what they teach about separating text from code, about fragments and about fonts has not changed. The 2015 and 2025 books add the translator's view and the TypeScript view; where the 2025 book contains mistakes, such as hand-written plural rules or an `Intl.MessageFormat` that does not exist, the chapters point them out rather than repeat them. The research corpus and the toolkit design are the modern layer. Their figures, such as bundle sizes and text expansion ratios, often disagree, and the chapters report the ranges instead of choosing one number.
 
-The toolkit appears where it is the clearest example. The fl10n `scan` command audits Qt source for the mistakes described in [205](205-qt-instrumentation.md); its `pseudo` command produces the pseudo-localized catalogs of [210](210-testing-world-readiness.md); and Localizzy's `upgrade` command ports reviewed translations onto a fresh `lupdate` catalog without losing them silently ([206](206-qt-toolchain-and-runtime.md)). The FontLab writing guide supplies the reviewer's side: which strings are not text, what a message contract should say, and how to review a working interface. None of these tools is required to follow the advice. Any team that ships text can apply the same checks with its own tools.
+The toolkit appears where it is the clearest example. The `localizzy qt scan` command audits Qt source for the mistakes described in [205](205-qt-instrumentation.md); `localizzy pseudo` produces the pseudo-localized catalogs of [210](210-testing-world-readiness.md); and Localizzy's `upgrade` command ports reviewed translations onto a fresh `lupdate` catalog without losing them silently ([206](206-qt-toolchain-and-runtime.md)). The FontLab writing guide supplies the reviewer's side: which strings are not text, what a message contract should say, and how to review a working interface. None of these tools is required to follow the advice. Any team that ships text can apply the same checks with its own tools.
 
 ## Sources
 
@@ -36,6 +36,5 @@ The toolkit appears where it is the clearest example. The fl10n `scan` command a
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 2)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (chapters 2 and 3)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025
-- `research/01-foundations-of-software-localization.md` in the fl10n repository
-- `spec/02.md` and `spec/05.md` in the fl10n repository
+- [docs/scanning.md](../8-toolkit/scanning.md), [docs/quality.md](../8-toolkit/quality.md), [docs/pseudo.md](../8-toolkit/pseudo.md) and [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - `README.md` in the vexy-localizzy repository

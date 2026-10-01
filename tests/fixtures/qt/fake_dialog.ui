@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FakeDialog</class>
+ <widget class="QDialog" name="FakeDialog">
+  <property name="windowTitle">
+   <string>Glyph Properties</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{font-size: 11pt;}</string>
+  </property>
+  <widget class="QPushButton" name="okButton">
+   <property name="text">
+    <string notr="true">Apply Now</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="hintLabel">
+   <property name="text">
+    <string>Hinting Options</string>
+   </property>
+  </widget>
+ </widget>
+</ui>

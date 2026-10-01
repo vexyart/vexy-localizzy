@@ -14,6 +14,7 @@ from vexy_localizzy.review.store import ReviewStore
 
 # Built review frontend shipped as package data (``npm run build`` in review/).
 WEB_ROOT = Path(__file__).with_name("web")
+BROWSER_DELAY = 0.8  # seconds; lets the server bind before the browser asks
 
 
 class ReviewConfig(Record):
@@ -50,8 +51,20 @@ def load_app(config, *, web_root=None):
     )
 
 
-def serve(config: str, port: int = 8765, verbose: bool = False):
-    """Run the review UI/API on loopback; CONFIG is a private workspace TOML file."""
+def serve(
+    config: str,
+    port: int = 8765,
+    verbose: bool = False,
+    workspace: str | None = None,
+    ui_files: tuple[str, ...] = (),
+    open_browser: bool = False,
+):
+    """Run the review UI/API on loopback.
+
+    CONFIG is a review TOML, or a ``.ts``/``.json`` catalog that is imported
+    into a resumable workspace first (``workspace`` and ``ui_files`` apply to
+    that import only). The port range is validated before any workspace is created.
+    """
     import uvicorn
 
     if type(port) is not int or not 1 <= port <= 65535:
@@ -61,9 +74,28 @@ def serve(config: str, port: int = 8765, verbose: bool = False):
         raise RuntimeError(
             "Review frontend is missing; run npm ci and npm run build in review/"
         )
-    uvicorn.run(
-        load_app(config, web_root=web),
-        host="127.0.0.1",
-        port=port,
-        log_level="debug" if verbose else "warning",
-    )
+    if Path(config).suffix.lower() != ".toml":
+        from vexy_localizzy.review.workspace import prepare_workspace
+
+        config = str(prepare_workspace(config, workspace=workspace, ui_files=ui_files))
+    elif workspace is not None or ui_files:
+        raise ValueError("Configure the workspace and UI files inside the review TOML")
+    timer = None
+    if open_browser:
+        import threading
+        import webbrowser
+
+        timer = threading.Timer(
+            BROWSER_DELAY, lambda: webbrowser.open(f"http://127.0.0.1:{port}")
+        )
+        timer.start()
+    try:
+        uvicorn.run(
+            load_app(config, web_root=web),
+            host="127.0.0.1",
+            port=port,
+            log_level="debug" if verbose else "warning",
+        )
+    finally:
+        if timer is not None:
+            timer.cancel()

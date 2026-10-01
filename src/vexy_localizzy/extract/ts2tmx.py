@@ -6,7 +6,7 @@ Source language: ``src_lang``, else the ``sourcelanguage`` attribute, else
 or underscored part of the file stem (``scribus.de.ts``, ``app_pt_BR.ts``),
 else the stem itself. Unfinished, obsolete and vanished translations are
 skipped; numerus entries give a singular (first form) and a plural (last form)
-unit; the context name lands in ``x-context``. Ported from fl10n ``tools/ts2tmx.py``.
+unit; the context name lands in ``x-context``. Ported from the earlier ``ts2tmx`` script; see NOTICE.
 """
 
 import sys

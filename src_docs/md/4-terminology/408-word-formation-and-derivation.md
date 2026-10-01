@@ -8,7 +8,7 @@ A glossary entry looks like one word, but in an inflected language it stands for
 
 ## Derive from the chosen noun
 
-Once a language has a noun for a concept, the verb and the adjective should come from that noun, not from the English. The Polish decisions of issue 146 made the rule explicit for two loans:
+Once a language has a noun for a concept, the verb and the adjective should come from that noun, not from the English. The Polish decisions of the founder's update of 29 September 2026 made the rule explicit for two loans:
 
 | Noun | Verb | Adjective | Not |
 |---|---|---|---|
@@ -25,7 +25,7 @@ The rule holds for the adjectives of the house vocabulary too. *Smart* is an adj
 
 A compound can be shorter, more natural and easier to derive from than a phrase. Polish *autowarstwa* for *auto layer* replaced *warstwa automatyczna*: one word instead of two, and it inflects as one (*Utwórz autowarstwy*, *przepisy autowarstw*). German made the same move with *Auto-Ebene* instead of *Ebenenautomatik*, and *Dezimalkoordinaten* instead of *Koordinaten mit Nachkommastellen*.
 
-German also shows that compounds need an orthographic rule. The founder's rule in issue 133: native compounds are written closed when they form naturally from native words (*Dateiname*, *Dicktenausdruck*), and compounds whose first part is a thinly loaned English word take a hyphen (*Kerning-Klasse*, *Demo-Modus*, *Master-Dickten*, *Stil-Gruppe*, *Code-Editor*, *Element-Referenz*). The test, as the FontLab principles phrase it for every language: would a native reader see one word, or a borrowed word with a suffix? Other languages apply their own orthography to the same question. Polish writes prefixed forms closed, *autowarstwa*, *superholowanie*; Spanish and French build phrases with *de* rather than compounds.
+German also shows that compounds need an orthographic rule. The founder's rule in the review of the German, Spanish and French catalogs: native compounds are written closed when they form naturally from native words (*Dateiname*, *Dicktenausdruck*), and compounds whose first part is a thinly loaned English word take a hyphen (*Kerning-Klasse*, *Demo-Modus*, *Master-Dickten*, *Stil-Gruppe*, *Code-Editor*, *Element-Referenz*). The test, as the FontLab principles phrase it for every language: would a native reader see one word, or a borrowed word with a suffix? Other languages apply their own orthography to the same question. Polish writes prefixed forms closed, *autowarstwa*, *superholowanie*; Spanish and French build phrases with *de* rather than compounds.
 
 The later German review records **Synchronsprecher**, **synchron** and
 **synchronisieren** together: a tool, a compact state or command, and a prose
@@ -37,7 +37,7 @@ the general compound rule so a later consistency pass does not undo them.
 
 ### Use a collective noun to dodge an awkward plural
 
-Sometimes the problem is not the word but its plural. FontLab's *Cousins* are glyphs that share a design element with the current glyph, shown beside it for comparison. Polish translated the feature name as *kuzyn* in the singular, but the ordinary plural is trouble: *kuzyni* is the plural for people and *kuzyny* the plural for things, and neither sits right on glyphs. The founder's note in issue 146 compares it to *agenci* and *agenty*, the same split for *agent*.
+Sometimes the problem is not the word but its plural. FontLab's *Cousins* are glyphs that share a design element with the current glyph, shown beside it for comparison. Polish translated the feature name as *kuzyn* in the singular, but the ordinary plural is trouble: *kuzyni* is the plural for people and *kuzyny* the plural for things, and neither sits right on glyphs. The founder's note in the 29 September update compares it to *agenci* and *agenty*, the same split for *agent*.
 
 The solution was a collective noun: *kuzynostwo*, "the cousinhood", grammatically singular. *Ukryj kuzynostwo* (hide the cousins), *glify kuzynostwa* (the cousins' glyphs). The collective noun sidesteps a choice that would have annoyed half the readers either way. The technique generalizes: when a plural forces a grammatical category the concept does not have, look for a collective or a mass noun.
 
@@ -51,13 +51,13 @@ Word formation must not merge concepts. Three Polish decisions of 2026 made dist
 
 **Font tables and interface tables.** An OpenType font is organized in tables: `cmap`, `kern`, `OS/2`, `CVT`. A dialog may also show a table of metrics or names. Polish now uses *tablica* for font tables (*tablica CVT*, *tablica OS/2*, *starsza tablica „kern”*, the *Tablice* panel) and keeps *tabela* for interface tables (*Pokaż tabelę metryk*, *Wczytaj tabelę nazw*). English uses one word for both; Polish gains a distinction a font engineer can use.
 
-**Terminal and stroke end.** The terminal of a letter, the end of a stroke that has no serif, was *zakończenie*, a word that also served for the end of a stroked path. Issue 146 moved the letter's terminal to *zwieńczenie*, a crowning or finish, and left the path's end with its own term, recorded in the core memory as *koniec obrysu*. Two concepts, two words.
+**Terminal and stroke end.** The terminal of a letter, the end of a stroke that has no serif, was *zakończenie*, a word that also served for the end of a stroked path. The 29 September update moved the letter's terminal to *zwieńczenie*, a crowning or finish, and left the path's end with its own term, recorded in the core memory as *koniec obrysu*. Two concepts, two words.
 
 **Mark and width.** *Mark* became *diakrytyk*, one noun instead of *znak diakrytyczny*. Its compounds then follow from other decisions: *przyłączanie diakrytyków* for mark attachment and *diakrytyk bez szerokości pola* for nonspacing mark, which reuses *szerokość pola*, the new term for advance width. A good term family reuses its members.
 
 ## Changing a term changes every form
 
-The cost of a term with a large family shows when it is replaced. When issue 146 moved *stem* from *kreska główna* to *trzon*, every form of the old phrase had to become the matching form of the new noun, and the two differ in gender: *kreska* is feminine, *trzon* masculine. The adjectives around them change too:
+The cost of a term with a large family shows when it is replaced. When the 29 September update moved *stem* from *kreska główna* to *trzon*, every form of the old phrase had to become the matching form of the new noun, and the two differ in gender: *kreska* is feminine, *trzon* masculine. The adjectives around them change too:
 
 ```json
 {
@@ -88,8 +88,8 @@ A reviewer decides that Polish should say *hintować* and *hintowy*. The procedu
 
 ## Sources
 
-- `issues/133.md` and `issues/146.md` in the fl10n repository
-- `data-fontlab-cpp/i18n/fontlab_pl.ts` and `data-fontlab-cpp/i18n/review/2026-09-29-issue-146.json` in the fl10n repository
-- Commit `1a9825a` in the fl10n repository ("Issue 146: review fixes, genitive plural stems, idempotent feature-code rule")
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026) and the founder's update of 29 September 2026, in the FontLab localization project
+- The Polish FontLab 9 interface catalog (`fontlab_pl.ts`) and the review ledger of the founder's update of 29 September 2026
+- The commit of the FontLab localization project that applied the review fixes, genitive plural stems and an idempotent feature-code rule
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/de-core.tmx`, `es-core.tmx` and `fr-core.tmx` in the vexy-fontlab-writing-styleguide repository

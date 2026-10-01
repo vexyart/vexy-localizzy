@@ -1,0 +1,110 @@
+<!doctype html>
+<!-- this_file: src/vexy_localizzy/memory/lookup.html -->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translation evidence</title>
+<script>if(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css">
+<style>
+body { margin:0; font:12px/1.35 system-ui,sans-serif; background:var(--background,#fff); color:var(--muted-foreground,#666); }
+#bar { position:sticky; top:0; z-index:2; display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; padding:6px 12px;
+  background:var(--background,#fff); border-bottom:1px solid var(--border,#ddd); }
+#bar h1 { margin:0 4px 0 0; font-size:12px; font-weight:600; color:var(--foreground,#111); }
+#bar .input,#bar .select { width:auto; height:26px; padding-block:0; font-size:12px; }
+#bar #search { flex:1 1 180px; min-width:120px; }
+#stats { flex:1 1 auto; font-size:11px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+main { padding:0 12px 12px; }
+#grid { width:100%; table-layout:fixed; border-collapse:collapse; }
+#grid th { position:sticky; top:var(--bar,39px); z-index:1; height:auto; padding:3px 8px; text-align:left; font-size:10px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.05em; background:var(--background,#fff); border-bottom:1px solid var(--border,#ddd); }
+#grid th:first-child { width:24%; }
+#grid td { padding:4px 8px; vertical-align:top; white-space:pre-wrap; overflow-wrap:anywhere; border-bottom:1px solid var(--border,#ddd); }
+.term { font-size:15px; line-height:1.3; color:var(--foreground,#111); }
+td.term { font-weight:600; }
+.cand { display:flex; align-items:baseline; gap:6px; }
+.cand .term { flex:1 1 auto; min-width:0; }
+.src { flex:none; padding:0 4px; border:0; border-radius:4px; background:none; color:inherit; font:inherit; font-size:10px;
+  font-variant-numeric:tabular-nums; cursor:pointer; opacity:.7; }
+.src:hover,.src[aria-expanded=true] { background:var(--muted,#eee); opacity:1; }
+.src::after { content:' ▸'; } .src[aria-expanded=true]::after,#grid.all .src::after { content:' ▾'; }
+.files { padding:0 0 3px; font-size:10px; line-height:1.4; white-space:normal; }
+#grid.all .files[hidden] { display:block; }
+.none { font-size:11px; opacity:.5; }
+#empty,footer { padding:10px 8px; font-size:11px; }
+</style>
+<div id="bar">
+  <h1>Translation evidence</h1>
+  <input id="search" class="input" type="search" placeholder="Filter source, translation or filename…" aria-label="Filter">
+  <select id="language" class="select" aria-label="Language"><option value="">All languages</option></select>
+  <select id="status" class="select" aria-label="Show"><option value="all">All sources</option><option value="missing">Missing any language</option><option value="unmatched">No matches</option><option value="conflicts">Multiple translations</option><option value="covered">All languages matched</option></select>
+  <select id="sort" class="select" aria-label="Sort by"><option value="source">Source A–Z</option><option value="alternatives">Most alternatives</option></select>
+  <span id="stats" role="status" aria-live="polite"></span>
+  <button id="memories" class="btn" data-variant="outline" data-size="xs" aria-pressed="false">Memories</button>
+  <button id="reset" class="btn" data-variant="outline" data-size="xs">Reset</button>
+  <button id="download" class="btn" data-variant="outline" data-size="xs">JSON</button>
+</div>
+<main>
+  <table id="grid" class="table"><thead id="head"></thead><tbody id="rows"></tbody></table>
+  <p id="empty" hidden>No sources match these filters.</p>
+  <footer>Matching is case-sensitive, trims outer whitespace and ignores &amp; shortcut markers. TS/QPH translations are never used.
+    The number beside a translation counts its TMX files; click it to list them.</footer>
+</main>
+<script type="application/json" id="data">__PAYLOAD__</script>
+<script>
+'use strict';
+const payload=JSON.parse(document.getElementById('data').textContent);
+const languages=payload.languages, entries=Object.entries(payload.data);
+const $=id=>document.getElementById(id);
+let filtered=[], visible=languages;
+function element(tag,text,className) { const node=document.createElement(tag); if(text!==undefined) node.textContent=text; if(className)node.className=className; return node; }
+for(const lang of languages) { const option=element('option',lang); option.value=lang; $('language').append(option); }
+function counts(row) { return visible.map(lang=>Object.keys(row[lang]).length); }
+function render() {
+  visible=$('language').value?[$('language').value]:languages;
+  const query=$('search').value.toLocaleLowerCase(), status=$('status').value;
+  filtered=entries.filter(([source,row])=>{
+    const n=counts(row);
+    const matches=!query || [source,...visible.flatMap(lang=>Object.entries(row[lang]).flatMap(([t,f])=>[t,...f]))].some(s=>s.toLocaleLowerCase().includes(query));
+    return matches && (status==='all'||status==='missing'&&n.some(v=>v===0)||status==='unmatched'&&n.every(v=>v===0)||status==='conflicts'&&n.some(v=>v>1)||status==='covered'&&n.every(v=>v>0));
+  });
+  if($('sort').value==='alternatives') filtered.sort((a,b)=>Math.max(...counts(b[1]))-Math.max(...counts(a[1])));
+  const covered=entries.filter(([,row])=>counts(row).every(n=>n>0)).length;
+  const conflicts=entries.filter(([,row])=>counts(row).some(n=>n>1)).length;
+  $('stats').textContent=`${filtered.length.toLocaleString()} of ${entries.length.toLocaleString()} sources · ${covered.toLocaleString()} in all languages · ${conflicts.toLocaleString()} with alternatives`;
+  const head=element('tr'); head.append(element('th','Source')); visible.forEach(lang=>head.append(element('th',lang))); $('head').replaceChildren(head);
+  const body=document.createDocumentFragment();
+  for(const [source,row] of filtered) {
+    const tr=element('tr');tr.append(element('td',source||'(empty source)','term'));
+    for(const lang of visible) {
+      const td=element('td'), candidates=Object.entries(row[lang]);
+      if(!candidates.length)td.append(element('span','—','none'));
+      for(const [translation,files] of candidates) {
+        const line=element('div',undefined,'cand'),toggle=element('button',String(files.length),'src'),list=element('div',undefined,'files');
+        toggle.type='button';toggle.title='TMX files';toggle.setAttribute('aria-expanded','false');
+        line.append(element('span',translation||'(empty translation)','term'),toggle);
+        files.forEach(file=>list.append(element('div',file)));list.hidden=true;
+        td.append(line,list);
+      }tr.append(td);
+    }body.append(tr);
+  }
+  $('rows').replaceChildren(body);
+  $('empty').hidden=filtered.length>0;
+}
+function measure() { document.documentElement.style.setProperty('--bar',$('bar').offsetHeight+'px'); }
+for(const id of ['search','language','status','sort'])$(id).addEventListener('input',render);
+$('rows').addEventListener('click',event=>{
+  const toggle=event.target.closest('.src'); if(!toggle)return;
+  const list=toggle.parentElement.nextElementSibling; list.hidden=!list.hidden; toggle.setAttribute('aria-expanded',String(!list.hidden));
+});
+$('memories').onclick=()=>{ $('memories').setAttribute('aria-pressed',String($('grid').classList.toggle('all'))); };
+$('reset').onclick=()=>{$('search').value='';$('language').value='';$('status').value='all';$('sort').value='source';render();};
+$('download').onclick=()=>{
+  const selected=Object.fromEntries(filtered.map(([source,row])=>[source,Object.fromEntries(visible.map(lang=>[lang,row[lang]]))]));
+  const url=URL.createObjectURL(new Blob([JSON.stringify(selected,null,2)],{type:'application/json'}));
+  const a=element('a');a.href=url;a.download='translation-evidence.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+addEventListener('resize',measure);addEventListener('load',measure);
+render();measure();
+</script>
+</html>

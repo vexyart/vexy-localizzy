@@ -46,7 +46,7 @@ Large language models are built on the same transformer architecture but trained
 | Repeatability | tends to give the same output for the same segment | may give a different answer to the same prompt |
 | Output | more accurate, less fluent | highly fluent, less accurate |
 
-The research corpus the fl10n project assembled in 2026 adds the property that made language models attractive for software: they accept instructions and metadata. A model can be told that "Open" is a verb in a menu, that `%1` is a file name that must survive, that the German glossary renders "mask" as *Maske*, and that the label has room for fifteen characters. The corpus calls the discipline of assembling that information context engineering, the subject of [603](603-context-engineering.md), and states its central thesis almost identically across documents: the difficulty lies in the prompting method, not in raw model power.
+The research corpus the FontLab localization project assembled in 2026 adds the property that made language models attractive for software: they accept instructions and metadata. A model can be told that "Open" is a verb in a menu, that `%1` is a file name that must survive, that the German glossary renders "mask" as *Maske*, and that the label has room for fifteen characters. The corpus calls the discipline of assembling that information context engineering, the subject of [603](603-context-engineering.md), and states its central thesis almost identically across documents: the difficulty lies in the prompting method, not in raw model power.
 
 It also records a limit on that thesis, from a 2025 study it attributes to researchers at Charles University, Johns Hopkins, LMU Munich and ETH Zurich: "If a model has not learned to translate a given language pair or style, no amount of carefully worded prompting will make it perform better." Model selection comes first; the prompt refines a capable model and cannot create a missing capability.
 
@@ -73,5 +73,3 @@ Keep the older advice historical. Esselink's 2000 verdict that machine translati
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (localization tools and machine translation)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.5: rule-based, statistical and hybrid machine translation)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: machine translation and localization; large language models and localization)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.1, section 4.2)
-- `research-draft/203-ai-localization-automation.md` in the fl10n repository

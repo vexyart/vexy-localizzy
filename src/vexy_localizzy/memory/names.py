@@ -3,7 +3,7 @@
 
 This is a naming convention: choosing the most populous territory as the bare
 language does not make regional translations equivalent. This module plans only;
-callers control filesystem changes. Adapted from fl10n; see NOTICE.
+callers control filesystem changes. Adapted from earlier tooling; see NOTICE.
 """
 
 from collections import defaultdict

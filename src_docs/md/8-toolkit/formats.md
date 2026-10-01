@@ -54,6 +54,28 @@ rule that matches every active entry's indices. Incomplete retained plurals stay
 untranslated; unchanged input bytes can still be archived. Source-locale edits
 update `X-Source-Language`.
 
+## Plural form counts
+
+Qt numerus forms and gettext `msgstr[n]` are positional and unlabelled; their
+count comes from the format's own rule table, which is not CLDR's. A catalog
+written with CLDR's count for French or Russian is wrong for both formats:
+
+| Language | Qt numerus | gettext `nplurals` | CLDR cardinal categories |
+|---|---|---|---|
+| German | 2 | 2 | one, other |
+| French | 2 | 2 | one, many, other |
+| Russian, Polish | 3 | 3 | one, few, many, other |
+| Japanese | 1 | 1 | other |
+| Arabic | 6 | 6 | zero, one, two, few, many, other |
+
+French gettext uses `plural=(n > 1)`, so zero takes the singular. CLDR's
+`many` for French covers large round numbers in compact notation, and its
+`other` for Russian and Polish covers fractions; neither has a slot of its own
+in Qt or gettext. Never reorder or drop forms in a round trip. `qa
+--plural-forms auto` derives the expected count from these tables, and
+`localizzy convert` requires an explicit `--plural_forms` rule for new PO
+plural output rather than guessing one.
+
 ## XLIFF
 
 `formats.xliff` writes fresh XLIFF 1.2 and preserves existing 1.2, 2.0, 2.1 and

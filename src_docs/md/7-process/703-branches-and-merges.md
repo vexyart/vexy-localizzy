@@ -8,7 +8,7 @@ Translation files are the worst-behaved files in a repository. They are large, m
 
 ## Where the truth lives
 
-A localization project has at least three places that can claim to hold the current translation: the repository, a translation management system, and whatever the running product downloads. Research/05 assigns them roles: git is the source of truth for code, the TMS is the source of truth for translations. The same document then advises keeping a git-stored canonical copy of every catalog even behind a TMS or an over-the-air delivery network, so that the project is never locked into one vendor's database. The fl10n specification resolves the tension in favor of git. The canonical catalogs are versioned in the repository, and a TMS, if one is adopted, is a sync target that reads from and writes back to them.
+A localization project has at least three places that can claim to hold the current translation: the repository, a translation management system, and whatever the running product downloads. Research/05 assigns them roles: git is the source of truth for code, the TMS is the source of truth for translations. The same document then advises keeping a git-stored canonical copy of every catalog even behind a TMS or an over-the-air delivery network, so that the project is never locked into one vendor's database. The toolkit design resolves the tension in favor of git. The canonical catalogs are versioned in the repository, and a TMS, if one is adopted, is a sync target that reads from and writes back to them.
 
 The argument for git is not taste. A catalog in git has history, blame, review and a place in the same pull request as the code change that caused it. A catalog that lives only in a hosted service has whatever history the service keeps. Uren, Howard and Perinotti (1993) already asked for "a method of software configuration control" for localized releases sent to translation sites overseas, when several localized versions were in progress at once. The tool changed from shipped disks to branches; the requirement did not.
 
@@ -25,7 +25,7 @@ Research/05 describes the arrangement most continuous projects converge on:
 5. Bot commits carry a skip marker such as `[ci skip]` so that they do not trigger the pipeline that produced them.
 6. The sync runs every 6 to 24 hours, with an immediate sync when a webhook reports a file as fully translated.
 
-The same source suggests a threshold for outgrowing this pattern: if more than about ten percent of pull requests need conflict resolution, move to a per-feature-branch model, where each feature's strings travel with the feature. The fl10n specification uses the single-branch form, with one branch named `l10n_fl10n` and one squash-merged pull request.
+The same source suggests a threshold for outgrowing this pattern: if more than about ten percent of pull requests need conflict resolution, move to a per-feature-branch model, where each feature's strings travel with the feature. The toolkit design uses the single-branch form, with one dedicated localization branch and one squash-merged pull request.
 
 The pattern works because it gives each catalog one writer at a time. Developers change source files and the extracted source catalog; the localization branch changes targets. Conflicts arise when that division breaks, and it breaks in predictable ways.
 
@@ -45,7 +45,7 @@ Research/04 records how serious this problem is in volunteer projects: KDE decli
 
 ## A worked example: two copies of one catalog
 
-In September 2026 the FontLab catalogs existed in two places. The approved catalogs, reviewed under issues 132, 133 and 145, lived in the fl10n project. The application repository held its own copy, where developers added strings and, for new messages, wrote translations themselves. When the application's copy was pulled, it held changes from a writer the review had never seen.
+In September 2026 the FontLab catalogs existed in two places. The approved catalogs, reviewed in the German consistency review, the founder's review and the review passes of the Polish localization, lived in the FontLab localization project. The application repository held its own copy, where developers added strings and, for new messages, wrote translations themselves. When the application's copy was pulled, it held changes from a writer the review had never seen.
 
 The first step was a report, not a merge. A small script compared the approved catalog with the application's catalog, pairing messages by the same identity the upgrade uses (context, source and disambiguating comment) and sorting every difference into four sections:
 
@@ -56,13 +56,13 @@ The first step was a report, not a merge. A small script compared the approved c
 | Changed | 2 | Same message in both, different target |
 | Removed | 63 | Only in the approved catalog |
 
-The approved catalog had 10,474 messages; the application's had 10,484. The 73 new translated messages were the ones to review, because nobody on the localization side had read them. The founder's review in issue 146 listed 35 corrections across the four languages, each stated as the current target and the target it should have.
+The approved catalog had 10,474 messages; the application's had 10,484. The 73 new translated messages were the ones to review, because nobody on the localization side had read them. The founder's update of 29 September 2026 listed 35 corrections across the four languages, each stated as the current target and the target it should have.
 
-One of those corrections shows how a message moves through branches. In the approved German catalog, the source "Descender to UPM" had a history of its own: the incoming translation *Unterlänge bis UPM*, an issue 132 correction to *Geviert ab Unterlänge*, and an issue 133 correction to *Unterlänge bis Gevierthöhe*. Meanwhile, in the application repository, a developer rewrote the English source as "UPM height from descender" and translated it as *UPM-Höhe ab Unterlänge*, which kept the loan *UPM* where issue 133 had chosen *Geviert* wording for German labels. By identity, this was a new message, and the old one had no match. A naive merge would have kept both catalogs' versions of different messages and reported no conflict at all.
+One of those corrections shows how a message moves through branches. In the approved German catalog, the source "Descender to UPM" had a history of its own: the incoming translation *Unterlänge bis UPM*, a consistency review correction to *Geviert ab Unterlänge*, and a correction in the founder's review to *Unterlänge bis Gevierthöhe*. Meanwhile, in the application repository, a developer rewrote the English source as "UPM height from descender" and translated it as *UPM-Höhe ab Unterlänge*, which kept the loan *UPM* where the founder's review had chosen *Geviert* wording for German labels. By identity, this was a new message, and the old one had no match. A naive merge would have kept both catalogs' versions of different messages and reported no conflict at all.
 
 The report made the situation visible, and the tools made it safe to act on:
 
-- Each correction was checked against the exact prior target before it was applied. The review tooling of issue 145 goes a step further: when the live text no longer matches what the reviewer saw, it lists the correction as stale instead of overwriting the newer text.
+- Each correction was checked against the exact prior target before it was applied. The review tooling built for the Polish localization goes a step further: when the live text no longer matches what the reviewer saw, it lists the correction as stale instead of overwriting the newer text.
 - The corrected application catalogs became the new approved catalogs, and the 63 messages per language that no longer existed in the code were written to a retired file, named from the hashes of the two catalogs and never overwritten.
 - The German result, *Gevierthöhe ab Unterlänge*, went into the review ledger with its prior text, so the next report can show where it came from. Ledgers are the subject of [410](../4-terminology/410-ledgers-and-decisions.md).
 
@@ -80,10 +80,8 @@ The retired German file still contains "Descender to UPM" with its reviewed tran
 ## Sources
 
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: geography, configuration control)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4.1, 5.4.4 and 5.4.5)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.9, KDE and GNOME)
-- `spec/07.md` in the fl10n repository (sections 7.5 and 7.6)
+- [docs/ci.md](../8-toolkit/ci.md) in the vexy-localizzy repository
 - [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository
-- `issues/146.md`, `CHANGELOG.md`, `WORK.md` and `scripts/diff_ts.py` in the fl10n repository
-- `data-fontlab-cpp/i18n/review/README.md`, `2026-09-28-de-consistency.json` and `2026-09-29-issue-146.json` in the fl10n repository
-- `.fl10n/diff/de.json` and `data-fontlab-cpp/i18n/retired/` in the fl10n repository
+- The founder's update of 29 September 2026, the changelog, the work log and the catalog diff script of the FontLab localization project
+- The review ledger directory README, the German consistency ledger of 28 September 2026 and the ledger of the 29 September update
+- The project's German catalog diff and its retired catalogs

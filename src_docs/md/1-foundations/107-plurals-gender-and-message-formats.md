@@ -129,8 +129,6 @@ Twelve is the value that catches most mistakes: it ends in 2 but takes the *many
 
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 8: placeholders, variables and pluralizations)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: message formatting and pluralization; chapter 6: the complexity of pluralization)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (sections 1.3.2 and 1.4)
-- `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (plurals with `%n`, source-language plural catalogs)
 - [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/), [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository
 - Output of `Intl.PluralRules` in Node.js 26.8.2, run for this chapter

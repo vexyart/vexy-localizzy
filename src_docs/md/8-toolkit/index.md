@@ -13,17 +13,45 @@ pages say what it does, in the order a user meets it. The source is on
 
 ## Pages
 
+Start here:
+
+- [Getting started](getting-started.md): install, extras, `doctor` and a first run on a small Qt project.
+- [Project configuration](project.md): `localizzy.toml`, `init` and the `project` commands.
 - [Command-line reference](cli.md): every command's `--help`, generated from the code.
-- [Translating with memories](memories.md): direct and glossary memories, match classes, the QA gate and the provenance sidecar.
-- [Upgrading a Qt catalog](upgrade.md): the ten tiers, element ownership, RETIRED and the report.
+
+Qt source and catalogs:
+
+- [Scanning Qt source](scanning.md): the `qt scan` rules, engines, coverage and SARIF.
+- [Qt extraction, release and launch](qt-tools.md): `qt extract`, `qt release` and `qt applang`.
+- [Pseudo-localization](pseudo.md): the three modes and what they never touch.
+- [Upgrading a Qt catalog](upgrade.md): the ten tiers, element ownership, RETIRED, the report and `diff`.
 - [Catalog formats](formats.md): what each adapter keeps and refuses.
-- [Translation batches and cache](translation.md): batches, cache keys, retries and validation.
-- [Translation content QA](quality.md): the deterministic checks.
+
+Translation and quality:
+
+- [Translating with memories](memories.md): direct and glossary memories, match classes, the QA gate, the provenance sidecar, glossary JSON and lookups.
+- [Translation batches and cache](translation.md): batches, cache keys, retries, validation and shards.
+- [Translating JSON text files](json-files.md): `translate_json` for help and tips files.
+- [Translation content QA](quality.md): the deterministic checks and the optional layers.
+- [Browser catalog review](review.md): the reviewer, its workspace, store and journal.
+- [Editorial review](editorial.md): model-proposed corrections, guarded and recorded.
+- [Vocabulary corpus](vocabulary.md): a golden set for fixtures and benchmarks.
+
+Running it:
+
+- [Continuous localization](ci.md): a GitHub Actions gate and a nightly judge.
+- [Troubleshooting](troubleshooting.md): exit codes and common errors.
+
+Memories and sources:
+
 - [Extract translation-memory pairs](extraction.md): `tm extract` and the legacy tree converters.
 - [Legacy source projections](legacy-sources.md): how foreign resource formats are read.
-- [Browser catalog review](review.md): the reviewer, its store and its journal.
 - [Voting corpus](corpus.md): inventory, weighted votes, import and export.
 - Experimental: [classification](classification.md), [distillation](distillation.md) and [retrieval](retrieval.md).
+
+Design:
+
+- [Toolkit architecture](design/architecture.md): tenets, the canonical model, the pipeline and exit codes.
 - Reviewer design: the [design contract](design/review.md) and the [visual verification](design/review-fidelity.md).
 
 ## Where the toolkit sits

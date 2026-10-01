@@ -16,7 +16,7 @@ Roturier (2015) lists why developers often fail to supply it. They expect the tr
 
 ## The context bundle
 
-The research corpus aggregates the fields that repay the effort. The fl10n specification maps them onto a catalog. The table below combines both, with the Qt field that usually carries each one.
+The research corpus aggregates the fields that repay the effort. The toolkit design maps them onto a catalog. The table below combines both, with the Qt field that usually carries each one.
 
 | Field | What it resolves | Where it comes from in a Qt project |
 |---|---|---|
@@ -40,7 +40,7 @@ Commercial platforms have started to harvest this context automatically. The res
 
 ## Structuring the request
 
-A request that mixes rules, context and strings in one paragraph invites the model to treat a rule as content. The research corpus and the fl10n specification separate four concerns: the policy (the invariants that must hold), the context (the bundle above), the payload (the strings), and the output contract (the exact shape of the answer). The behavioral instruction is "respect invariants", not "be creative": placeholders, tags, accelerators and approved terms are fixed, and terminology and interface tone outrank literal wording.
+A request that mixes rules, context and strings in one paragraph invites the model to treat a rule as content. The research corpus and the toolkit design separate four concerns: the policy (the invariants that must hold), the context (the bundle above), the payload (the strings), and the output contract (the exact shape of the answer). The behavioral instruction is "respect invariants", not "be creative": placeholders, tags, accelerators and approved terms are fixed, and terminology and interface tone outrank literal wording.
 
 The corpus's own FontLab example, written as a JSON payload, shows two strings with their context and typed variables:
 
@@ -69,15 +69,15 @@ The corpus's own FontLab example, written as a JSON payload, shows two strings w
 }
 ```
 
-The output contract asks for JSON keyed by message, so the pipeline can check that every message came back exactly once. vexy-localizzy's transport checks exact coverage of message IDs, duplicate fields and empty targets before anything else looks at the text. A contract that also asks for the tokens the model believes it preserved, a confidence and a list of issues, as the fl10n specification proposes, gives the validator something to compare, though a model's report of its own confidence is a hint, not a measurement.
+The output contract asks for JSON keyed by message, so the pipeline can check that every message came back exactly once. vexy-localizzy's transport checks exact coverage of message IDs, duplicate fields and empty targets before anything else looks at the text. A contract that also asks for the tokens the model believes it preserved, a confidence and a list of issues, as the toolkit design proposes, gives the validator something to compare, though a model's report of its own confidence is a hint, not a measurement.
 
 The specification also groups strings by context, roughly one dialog or screen per request, so the model sees siblings and keeps terminology consistent within a screen. [607](607-routing-batching-and-cost.md) returns to batch size.
 
-Context resolves more than word sense. In the FontLab German review (issue 133), the founder rejected *Wenn die Maskenebene aktiv ist* for the preferences label "If mask is active" and asked for *Wenn Maske aktiv*: no article, no verb, and *Maske* rather than *Maskenebene*, although a mask is a layer in FontLab. The draft was grammatical and accurate. It was wrong because it ignored two facts that no single string reveals: that the English is written in a compressed headline style for a confined space, and that the house rule is to carry that compression into the translation and never to add detail the source omits. Both facts belong in the bundle. The first comes from the element type and length budget, the second from the style sheet. A model that receives them can produce the compact form on the first pass. A model that receives only the string will tend to produce the careful sentence that a reviewer then shortens by hand, one label at a time.
+Context resolves more than word sense. In the FontLab German review, the founder rejected *Wenn die Maskenebene aktiv ist* for the preferences label "If mask is active" and asked for *Wenn Maske aktiv*: no article, no verb, and *Maske* rather than *Maskenebene*, although a mask is a layer in FontLab. The draft was grammatical and accurate. It was wrong because it ignored two facts that no single string reveals: that the English is written in a compressed headline style for a confined space, and that the house rule is to carry that compression into the translation and never to add detail the source omits. Both facts belong in the bundle. The first comes from the element type and length budget, the second from the style sheet. A model that receives them can produce the compact form on the first pass. A model that receives only the string will tend to produce the careful sentence that a reviewer then shortens by hand, one label at a time.
 
 ## What the FontLab Polish catalog sent
 
-The first Polish catalog, 10,474 messages when it was produced in September 2026, shows what a working bundle looked like. The model was claude-opus-5-5, driven by `fl10n localize` through vexy-localizzy. Each request carried:
+The first Polish catalog, 10,474 messages when it was produced in September 2026, shows what a working bundle looked like. The model was claude-opus-5-5, driven by `localizzy translate`. Each request carried:
 
 - the messages of whole Qt contexts, because the catalog was split into four shards that kept every context intact;
 - each message's context and comment;
@@ -102,11 +102,8 @@ A model can also help with context rather than receive it. The FontLab guide lis
 ## Sources
 
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 3.2.4: comments, context and confidentiality)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.2 to 4.4)
-- `research-draft/203-ai-localization-automation.md` in the fl10n repository (context-aware prompting)
-- `spec/04.md` in the fl10n repository (sections 4.2 and 4.3)
-- `issues/133.md` in the fl10n repository (the founder's German review remarks)
-- `WORK.md` and `CHANGELOG.md` in the fl10n repository (issue 145: the Polish catalog)
-- `scripts/shard_ts.py` in the fl10n repository
+- The founder's German review remarks (September 2026), in the FontLab localization project
+- The work log and changelog of the FontLab localization project (the Polish catalog)
+- The catalog sharding script of the FontLab localization project
 - [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

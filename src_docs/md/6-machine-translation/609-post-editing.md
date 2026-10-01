@@ -76,5 +76,5 @@ The resolution in this case was procedural, and it is the one to copy: the owner
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.5.1: dictionary customization and automated post-editing; section 5.6: types of post-editing, tools and analysis)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: post-editing, assimilation and dissemination, priming, interactive machine translation)
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
-- `issues/133.md` and `issues/146.md` in the fl10n repository
-- `WORK.md` and `CHANGELOG.md` in the fl10n repository (issues 145 and 146)
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026) and the founder's update of 29 September 2026, in the FontLab localization project
+- The work log and changelog of the FontLab localization project (the Polish localization and the 29 September update)

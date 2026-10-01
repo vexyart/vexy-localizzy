@@ -149,3 +149,38 @@ Consumers retain their own locale rules and choices about which states to check.
 The abersetz adapter accepts `temperature` (default `0.2`, finite range 0 to 2).
 When overriding it, include the value with `TRANSPORT_ID` in the cache
 `engine_identity`; changed generation settings must not reuse earlier output.
+
+## Parallel runs with shards
+
+An engine translates one batch after another, so a large catalog through a
+slow model takes hours. Shards let several `localizzy translate` processes
+work on one catalog at once:
+
+```sh
+localizzy shard split i18n/fresh/app_en.ts shards --parts 4
+localizzy translate shards/app_en-shard1.ts de --out shards/app_de-shard1.ts \
+    --endpoint https://api.openai.com/v1 --model MODEL
+# ... the same for shards 2 to 4, in parallel
+localizzy shard merge i18n/fresh/app_en.ts \
+    shards/app_de-shard1.ts,shards/app_de-shard2.ts,shards/app_de-shard3.ts,shards/app_de-shard4.ts \
+    de 2 i18n/app_de.ts
+```
+
+`shard split SOURCE OUT_DIR` writes `<stem>-shard<N>.ts` files that keep every
+context whole, balancing message counts (largest context first, into the
+lightest shard). Messages outside any context go to the first shard; a shard
+that would be empty is not written. The command lists each shard with its
+contexts and messages. An OUT_DIR that already holds shards of SOURCE is
+refused unless `--force`, which first removes the earlier shard files.
+
+`shard merge SOURCE SHARDS TARGET PLURAL_COUNT OUT` prepares the full TARGET
+catalog from SOURCE with PLURAL_COUNT numerus forms (2 for German; see
+[plural form counts](formats.md#plural-form-counts)), then fills it from the
+comma-separated shards by message identity, the pairing `upgrade` uses. Only a
+shard message whose every form and variant has text counts as a fill, and it
+brings its state with it. A shard in another language than TARGET is
+refused, and so is an OUT that is one of the inputs; an existing OUT is
+refused unless `--force`.
+Messages that stay unfilled are counted, the catalog is still written so they
+can be inspected, and the command exits 1. A missing file or bad argument
+exits 2.

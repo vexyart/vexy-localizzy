@@ -79,8 +79,7 @@ Qt catalogs are not the only format with this problem; gettext and ICU messages 
 
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (section 4.4.1)
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3: variables)
-- `research/01-foundations-of-software-localization.md` (section 1.4) in the fl10n repository
-- `data-fontlab-cpp/i18n-repo/fontlab_en.ts`, `fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
-- `data-fontlab-cpp/i18n/review/2026-09-28-de-glyph-dialogs.json` and `2026-09-28-de-panels.json` in the fl10n repository
+- The FontLab 9 interface catalogs for English, German, Spanish, French and Polish (`fontlab_en.ts`, `fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts`, `fontlab_pl.ts`)
+- The German review ledgers for glyph dialogs and panels (28 September 2026)
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/quality.md](../8-toolkit/quality.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository

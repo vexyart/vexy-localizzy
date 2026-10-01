@@ -81,7 +81,7 @@ A verbatim match in the same context is reused. Everything else is a proposal, a
 
 Memories decay. Roturier (2015) recommends exporting metadata with each unit: creation date, the authors of source and target, and the number of times it was reused. That metadata is what lets someone prune a memory without rereading it. The FontLab practice regenerates the project memory from the reviewed catalog after every review, rather than editing it, so it cannot contain a string the catalog no longer has.
 
-The core memory is edited only through the decision process ([chapter 410](410-ledgers-and-decisions.md)), and a changed decision is pushed into it the same day. After issue 146 changed 51 Polish terms, the core memory was updated, the Polish catalog and help were rewritten, and the project memory was rebuilt from the rewritten catalog. The order matters: the concept changes first, the strings follow, and the cache is regenerated last.
+The core memory is edited only through the decision process ([chapter 410](410-ledgers-and-decisions.md)), and a changed decision is pushed into it the same day. After the founder's update of 29 September 2026 changed 51 Polish terms, the core memory was updated, the Polish catalog and help were rewritten, and the project memory was rebuilt from the rewritten catalog. The order matters: the concept changes first, the strings follow, and the cache is regenerated last.
 
 ## A worked example: one label, two memories
 
@@ -100,4 +100,4 @@ The same message in Polish gets *Pędzel mocy* from the Polish core memory. Noth
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.3: translation memory)
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and `scripts/check_tm.py` in the vexy-fontlab-writing-styleguide repository
 - [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository
-- `CHANGELOG.md` in the fl10n repository
+- The changelog of the FontLab localization project

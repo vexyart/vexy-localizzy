@@ -10,7 +10,7 @@ This is the one class of error a pipeline can catch completely and mechanically.
 
 ## Four steps
 
-1. **Parse.** Extract every placeholder, tag and accelerator from the source before anything is sent. The fl10n specification stores this inventory on each unit of the canonical model ([307](../3-formats/307-the-canonical-model.md)), so nothing is parsed with ad hoc patterns at translation time.
+1. **Parse.** Extract every placeholder, tag and accelerator from the source before anything is sent. The toolkit design stores this inventory on each unit of the canonical model ([307](../3-formats/307-the-canonical-model.md)), so nothing is parsed with ad hoc patterns at translation time.
 2. **Instruct.** Tell the model what each token is and that it must survive: `%1` is a file name, `%n` is the count, `<b>` and `</b>` are markup. State which tokens may move. The instruction is a guide, not a guarantee.
 3. **Validate.** Parse the returned text with the same parser and compare it with the source inventory. This is the step that matters; the other three exist to make it pass more often.
 4. **Repair.** On a mismatch, ask again with the exact discrepancy stated, or refuse the result. Never write a string that failed validation into a catalog as a translation.
@@ -72,7 +72,7 @@ The Python brace policy uses Python's own format-string parser, so field names, 
 
 The sources agree that a failed string must not reach the catalog as a translation. They disagree about how hard to try before giving up.
 
-The fl10n specification re-prompts **once**, quoting the exact discrepancy. If the second answer is still wrong, it marks the unit `needs_review` and emits a critical finding.
+The toolkit design re-prompts **once**, quoting the exact discrepancy. If the second answer is still wrong, it marks the unit `needs_review` and emits a critical finding.
 
 vexy-localizzy allows **at most three attempts per model** for output that is malformed or rejected by the QA gate, then falls back to the next model in its ordered list. If every model fails, the batch is pending: nothing is written for it, completed batches stay cached, and a later run resumes. The validator runs again on cache hits, so a rule tightened after a response was cached still applies to it.
 
@@ -93,8 +93,6 @@ Accelerators sit halfway between the two worlds: the gate can count them, but ch
 
 ## Sources
 
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.5)
-- `spec/04.md` in the fl10n repository (section 4.4)
 - [docs/quality.md](../8-toolkit/quality.md), [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
 - [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
-- `CHANGELOG.md` in the fl10n repository (issue 145: the Polish plural and markup gates)
+- The changelog of the FontLab localization project (the Polish plural and markup gates)

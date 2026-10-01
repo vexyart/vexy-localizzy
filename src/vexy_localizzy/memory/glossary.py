@@ -54,7 +54,11 @@ class Term(Record):
         """The prompt rendering: the target when there is one, otherwise the
         fallback original term marked as such, so the engine translates the
         plain phrase instead of inventing a term for the empty target."""
-        if self.translatable and self.status != "do-not-translate" and not self.target.strip():
+        if (
+            self.translatable
+            and self.status != "do-not-translate"
+            and not self.target.strip()
+        ):
             if self.fallback:
                 return f"(translate the plain phrase: {self.fallback})"
         return self.rendering

@@ -24,20 +24,31 @@ nav:
       - 7-process/*.md
   - Toolkit:
       - 8-toolkit/index.md
+      - 8-toolkit/getting-started.md
+      - 8-toolkit/project.md
       - 8-toolkit/cli.md
-      - 8-toolkit/memories.md
+      - 8-toolkit/scanning.md
+      - 8-toolkit/qt-tools.md
+      - 8-toolkit/pseudo.md
       - 8-toolkit/upgrade.md
       - 8-toolkit/formats.md
+      - 8-toolkit/memories.md
       - 8-toolkit/translation.md
+      - 8-toolkit/json-files.md
       - 8-toolkit/quality.md
+      - 8-toolkit/review.md
+      - 8-toolkit/editorial.md
+      - 8-toolkit/vocabulary.md
+      - 8-toolkit/ci.md
+      - 8-toolkit/troubleshooting.md
       - 8-toolkit/extraction.md
       - 8-toolkit/legacy-sources.md
-      - 8-toolkit/review.md
       - 8-toolkit/corpus.md
       - Experimental:
           - 8-toolkit/classification.md
           - 8-toolkit/distillation.md
           - 8-toolkit/retrieval.md
-      - Reviewer design:
+      - Design:
+          - 8-toolkit/design/architecture.md
           - 8-toolkit/design/review.md
           - 8-toolkit/design/review-fidelity.md

@@ -54,8 +54,15 @@ def message(node: etree._Element, ns: str) -> tuple[str, str | None]:
 
 
 def unit(node: etree._Element, ns: str, index: int) -> Unit:
-    ctx = context(node, "x-fl10n-context", ns) or ""
-    disambiguation = context(node, "x-fl10n-disambiguation", ns)
+    # The x-fl10n-* names are what releases before 1.1 wrote; they still load.
+    ctx = (
+        context(node, "x-localizzy-context", ns)
+        or context(node, "x-fl10n-context", ns)
+        or ""
+    )
+    disambiguation = context(node, "x-localizzy-disambiguation", ns) or context(
+        node, "x-fl10n-disambiguation", ns
+    )
     plural = None
     source_plural = context(node, "x-localizzy-source-plural", ns)
     if node.get("restype") == PLURALS:

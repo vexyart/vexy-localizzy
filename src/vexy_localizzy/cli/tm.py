@@ -3,15 +3,18 @@
 
 Each function mirrors ``run`` in ``vexy_localizzy.extract.<module>`` and imports
 it on call, so the CLI loads without the optional ``sources`` extra. Commands
-return plain dicts; the legacy converters raise ``SystemExit`` on failure as
-their fl10n scripts did.
+return plain dicts; the legacy converters raise ``SystemExit`` on failure, as
+the scripts they replace did.
 """
 
 from importlib import import_module
 from pathlib import Path
 
+from vexy_localizzy.cli.utilities import glossary_json
 from vexy_localizzy.extract.single import extract
+from vexy_localizzy.memory.lookup import run as lookup
 from vexy_localizzy.memory.qph import tmx2qph
+from vexy_localizzy.memory.tmx_html import tmx2html
 
 
 def _run(module: str, *args: object, **kwargs: object) -> dict:
@@ -150,8 +153,8 @@ def build_ui(
 ) -> dict:
     """Build a project memory (every finished message) from a Qt .ts catalog.
 
-    --exclude-memory a.tmx,b.tmx drops sources that are whole glossary terms,
-    so the project memory never repeats the core memory. --lang overrides the
+    --exclude-memory a.tmx,b.tmx drops exact source/target pairs served by whole
+    glossary terms, keeping contextual translations. --lang overrides the
     memory's target tag (for example es-419 for an es_MX catalog).
     """
     from vexy_localizzy.cli._args import csv_paths
@@ -168,7 +171,10 @@ def build_ui(
 
 TM_COMMANDS = {
     "tmx2qph": tmx2qph,
+    "tmx2html": tmx2html,
     "build_ui": build_ui,
+    "lookup": lookup,
+    "glossary_json": glossary_json,
     "ts2tmx": ts2tmx,
     "po2tmx": po2tmx,
     "lproj2tmx": lproj2tmx,

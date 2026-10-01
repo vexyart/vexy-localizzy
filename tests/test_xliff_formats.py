@@ -16,13 +16,13 @@ SOURCE = f'''<?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="{NS}" xmlns:e="urn:extension" version="1.2">
 <file source-language="en" target-language="de" original="first" datatype="plaintext">
 <header><e:keep a="yes"/></header><body><group id="outer">
-<context-group><context context-type="x-fl10n-context">Menu</context></context-group>
+<context-group><context context-type="x-localizzy-context">Menu</context></context-group>
 <trans-unit id="a" approved="yes"><source>Open <g id="b">bold &amp; bright</g> <x id="p"/></source><target state="final">Öffne <g id="b">fett &amp; hell</g> <x id="p"/></target><note>Note</note><alt-trans><source>Alternative</source><target>Earlier</target></alt-trans><e:keep>yes</e:keep></trans-unit>
 <group id="inner"><trans-unit id="empty"><source>Empty</source><target/></trans-unit></group>
 </group></body></file>
 <file source-language="en" target-language="de" original="second" datatype="plaintext"><body>
 <trans-unit id="a"><source>Again</source></trans-unit>
-<group restype="x-gettext-plurals" id="n"><context-group><context context-type="x-fl10n-context">Count</context></context-group><trans-unit id="n[one]"><source>One item</source><target state="translated">Ein</target></trans-unit><trans-unit id="n[other]"><source>One item</source><target state="translated">Viele</target></trans-unit></group>
+<group restype="x-gettext-plurals" id="n"><context-group><context context-type="x-localizzy-context">Count</context></context-group><trans-unit id="n[one]"><source>One item</source><target state="translated">Ein</target></trans-unit><trans-unit id="n[other]"><source>One item</source><target state="translated">Viele</target></trans-unit></group>
 </body></file></xliff>'''
 
 
@@ -253,3 +253,10 @@ def test_xliff_when_vanished_edit_then_reject_instead_of_dropping_state(tmp_path
     with pytest.raises(ValueError, match="state"):
         xliff.dump(catalog.model_copy(update={"units": units}), tmp_path / "out.xlf")
     assert not (tmp_path / "out.xlf").exists()
+
+
+def test_xliff_when_legacy_context_type_then_context_still_read(tmp_path):
+    source = tmp_path / "legacy.xlf"
+    source.write_text(SOURCE.replace("x-localizzy-context", "x-fl10n-context"))
+    catalog = xliff.load(source)
+    assert catalog.units[0].context == "Menu", "files written before 1.1 must load"

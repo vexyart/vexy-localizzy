@@ -59,7 +59,7 @@ Several rules protect reviewed work. An approved message consumed by a tier is p
 
 A retired message is a reviewed translation the current code does not use. It may belong to a feature that was removed, a string that was rephrased beyond recognition, or a context that was renamed. The last case is the reason to keep them: a renamed class moves every one of its strings to a new context, and a person reviewing the RETIRED file can see that at once.
 
-RETIRED is written as a valid TS file grouped by context in APPROVED's order, and each message keeps its translation state, so harvesting the file into a memory still picks up its finished translations. Relative locations are resolved to absolute ones with explicit file names, using the rule Qt's own reader applies; the documentation records that this resolution matches `lconvert -locations absolute` on all 10,587 messages of a real FontLab catalog. The fl10n project stores the files by language and by the two catalog revisions they bridge, as `retired/fontlab_<code>-<fresh>-<approved>.ts`.
+RETIRED is written as a valid TS file grouped by context in APPROVED's order, and each message keeps its translation state, so harvesting the file into a memory still picks up its finished translations. Relative locations are resolved to absolute ones with explicit file names, using the rule Qt's own reader applies; the documentation records that this resolution matches `lconvert -locations absolute` on all 10,587 messages of a real FontLab catalog. The FontLab localization project stores the files by language and by the two catalog revisions they bridge, as `fontlab_<code>-<fresh>-<approved>.ts`.
 
 ## Worked example: the German catalog
 
@@ -86,7 +86,6 @@ The exit code carries the result for automation: 0 when every active message has
 ## Sources
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 4, processing updates)
-- `research/02-localizing-qt-cpp-applications.md` and `research/03-localizing-web-javascript-applications.md` in the fl10n repository
-- `WORK.md` in the fl10n repository
+- The work log of the FontLab localization project
 - `README.md`, [docs/upgrade.md](../8-toolkit/upgrade.md), [docs/cli.md](../8-toolkit/cli.md) and `WORK.md` in the vexy-localizzy repository
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

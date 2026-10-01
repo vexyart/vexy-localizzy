@@ -97,6 +97,5 @@ The FontLab guide adds the testing view. An intentionally empty message, an abse
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 6, fallback language; chapter 7, string handling)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (chapter 2, software strings and files; chapter 3, internationalization)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 3, fallbacks; chapter 8, Angular message markers)
-- `research/01-foundations-of-software-localization.md`, `research/02-localizing-qt-cpp-applications.md`, `research/03-localizing-web-javascript-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) in the vexy-fontlab-writing-styleguide repository
 - [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

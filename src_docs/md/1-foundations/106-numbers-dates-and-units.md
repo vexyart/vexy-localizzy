@@ -106,7 +106,5 @@ One defect remains, and it belongs to the source, not the translation: *glyphs* 
 - Sandra Martin O'Donnell, *Programming for the World*, 1994 (chapter 2: numbers, dates, times, money, measurement systems, paper sizes)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 4: locale-neutral storage, date formats, units of measure)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: number, date and currency formatting)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3.3: `Intl`)
-- `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (localized numerals with `%L1`)
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - Output of `Intl.NumberFormat` and `Intl.DateTimeFormat` in Node.js 26.8.2, run for this chapter

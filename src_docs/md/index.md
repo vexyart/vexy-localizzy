@@ -10,7 +10,7 @@ how terms are chosen and remembered, how an interface is translated well, what
 a translation engine can and cannot do, and how the whole thing ships without
 regressing. It condenses nine published books on internationalization and
 localization written between 1993 and 2025, a 2026 research corpus on Qt, web
-and model-driven localization, the engineering specification of the `fl10n`
+and model-driven localization, the engineering design of the
 toolkit, and the practice of the FontLab localization into German, Spanish,
 French and Polish. The book documents the reasoning behind
 [vexy-localizzy](https://github.com/vexyart/vexy-localizzy), the localization

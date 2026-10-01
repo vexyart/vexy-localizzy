@@ -16,7 +16,7 @@ The two models solve the same problem differently. The waterfall controls change
 
 ## The eight stages
 
-The 2026 research corpus (research/05) reduces the continuous pipeline to eight stages, and the fl10n specification (spec/07) maps each one to a command. The table combines both.
+The 2026 research corpus (research/05) reduces the continuous pipeline to eight stages, and the toolkit design maps each one to a command. The table combines both.
 
 | Stage | What happens | What it produces |
 |---|---|---|
@@ -41,11 +41,11 @@ Research/05 lists six design principles for the loop. Four of them hold up witho
 
 **Replacing string freezes with gates.** Research/05 recommends replacing hard freezes with automated pull-request gates that block a release branch when translations are missing or checks fail. Esselink's freeze existed for a reason the gate does not address: a changed label invalidates every document that quotes it. A gate can confirm that the new label is translated; it cannot tell you that the tutorial on page 40 still says the old one. Keep the gate, and keep a short freeze on the interface labels that documentation quotes, or add a check that compares quoted labels in help against the catalog. The FontLab writing guide lists exactly that check: "labels quoted in the Help Panel and the manual that do not match the catalog".
 
-A smaller disagreement concerns where translations live. Research/05 names the translation management system as the source of truth for translations and git as the source of truth for code, then advises keeping a git-stored canonical copy even behind a TMS or an over-the-air delivery network, to avoid lock-in. The fl10n specification settles it the second way: the canonical catalog stays in git and any TMS is a sync target. Chapter [703](703-branches-and-merges.md) follows that choice.
+A smaller disagreement concerns where translations live. Research/05 names the translation management system as the source of truth for translations and git as the source of truth for code, then advises keeping a git-stored canonical copy even behind a TMS or an over-the-air delivery network, to avoid lock-in. The toolkit design settles it the second way: the canonical catalog stays in git and any TMS is a sync target. Chapter [703](703-branches-and-merges.md) follows that choice.
 
 ## A worked loop: a Qt catalog upgrade
 
-The FontLab localization in September 2026 shows the loop at the size of one release. The application's developers ran `lupdate`, which produced fresh `.ts` files containing the messages the code now held. The reviewed translations lived in separate approved catalogs. The upgrade step ported one onto the other. The project wrapper `fl10n upgrade CODE` calls vexy-localizzy; written out directly, with illustrative paths, the call has this shape:
+The FontLab localization in September 2026 shows the loop at the size of one release. The application's developers ran `lupdate`, which produced fresh `.ts` files containing the messages the code now held. The reviewed translations lived in separate approved catalogs. The upgrade step ported one onto the other. The project wrapper calls `localizzy upgrade`; written out directly, with illustrative paths, the call has this shape:
 
 ```sh
 localizzy upgrade fresh/fontlab_de.ts approved/fontlab_de.ts \
@@ -56,7 +56,7 @@ localizzy upgrade fresh/fontlab_de.ts approved/fontlab_de.ts \
 
 The command writes three files: the new catalog, which keeps the fresh file's bytes and re-renders only the messages that changed; a retired catalog holding the approved messages that nothing used; and a JSON report with exactly one outcome per fresh message. It refuses to write anything unless every fresh message is classified and every approved message is either consumed or retired. Messages that no approved translation or memory covers go to the engine and stay unfinished. With `--no-engine` instead, they stay empty and the command exits with status 1, which makes the gap visible in CI rather than filling it with guesses. The upgrade tiers are described in [310](../3-formats/310-identity-and-upgrade.md).
 
-The issue 145 run on the German, Spanish and French catalogs gave these results per language:
+The September 2026 upgrade run on the German, Spanish and French catalogs gave these results per language:
 
 | Outcome | Messages |
 |---|---|
@@ -82,9 +82,8 @@ Uren, Howard and Perinotti (1993) observed that last-minute changes were hard to
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: linguistic testing as a freeze point; chapter 14: scheduling, dependencies, sequence)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: the localization process, waterfall versus continuous workflows)
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: time and accuracy)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4 and 5.7)
-- `spec/07.md` in the fl10n repository (sections 7.1, 7.3 and 7.6)
+- [docs/ci.md](../8-toolkit/ci.md) in the vexy-localizzy repository
 - [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository
-- `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 145 entries)
-- `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
+- The work log and changelog of the FontLab localization project (the September 2026 upgrade run)
+- The README of the review ledger directory of the FontLab localization project
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository

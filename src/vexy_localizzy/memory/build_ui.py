@@ -2,10 +2,10 @@
 """Build a project (direct) memory from every finished message of a Qt .ts catalog.
 
 One TU per finished message, or per numerus form. The English source is the
-message source; the target is the reviewed translation. Sources that are whole
-glossary terms of an exclusion memory are dropped, so the project memory and the
-core memory never hold the same string, but only when the glossary's term tier
-would actually serve that message: numerus and length-variant messages, and
+message source; the target is the reviewed translation. Source/target pairs reproduced exactly by a whole
+glossary term are dropped. Reviewed contextual translations remain in the direct
+memory even when their source is a whole term. Exclusion also requires that the
+glossary tier can serve the message: numerus and length-variant messages, and
 sources whose term rendering fails the accelerator or placeholder QA ("&Kerning",
 "Kerning %1"), stay in the project memory. This is the memory ``translate`` and
 ``upgrade`` read as ``--direct-memory``. The output is tagged with the catalog's
@@ -64,11 +64,17 @@ def catalog_units(
         yield (message_id or f"{context}|{source}"), source, forms, props, kind
 
 
-def served_by_term(exclude: Glossary, source: str, kind: str) -> bool:
-    """True when translate's term tier would fill this message from ``exclude``:
-    a scalar message whose source is a whole term (same normalisation as
-    ``Glossary.whole_match``) and whose term rendering passes the blocking QA."""
+def served_by_term(
+    exclude: Glossary, source: str, kind: str, target: str | None = None
+) -> bool:
+    """True when the glossary reproduces this reviewed scalar translation exactly.
+
+    Missing targets cannot prove redundancy. Case, inflection and contextual
+    wording are retained rather than folded into a general glossary lemma.
+    """
     if kind != "scalar" or (term := exclude.whole_match(source)) is None:
+        return False
+    if target is None or target != term.rendering:
         return False
     findings = check_text(source, term.rendering, policy=TextPolicy())
     return not any(f.severity in BLOCKING for f in findings)
@@ -81,7 +87,7 @@ def build_ui_records(
 
     def records():
         for base, source, forms, props, kind in catalog_units(raw):
-            if exclude is not None and served_by_term(exclude, source, kind):
+            if exclude is not None and served_by_term(exclude, source, kind, forms[0]):
                 counts["dropped_core_terms"] += 1
                 continue
             for index, text in enumerate(forms):
@@ -129,7 +135,7 @@ def build_ui(
     )
     header_note = note or (
         f"Project memory built from {Path(catalog).name}: every finished message "
-        f"with a reviewed {target_lang} translation. Glossary terms are excluded."
+        f"with a reviewed {target_lang} translation. Exact glossary source/target pairs are excluded; contextual variants are retained."
     )
     write_records(
         Path(out),

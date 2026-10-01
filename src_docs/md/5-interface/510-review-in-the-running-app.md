@@ -27,7 +27,7 @@ Every source agrees that translations grow. They disagree on how much, and the d
 | Uren, Howard and Perinotti (1993), quoting the Windows SDK | by source length: 200% extra space for 1 to 10 characters, 100% for 11 to 20, 80% for 21 to 30, 60% for 31 to 50, 40% for 51 to 70, 30% above 70 |
 | Esselink (2000) | most European languages longer than English, often by as much as 30% |
 | Dr International (2002) | allow about 30% additional room |
-| fl10n research synthesis (2026) | most European languages 30 to 50%, German, Russian and Finnish at the extreme |
+| Research synthesis (2026) | most European languages 30 to 50%, German, Russian and Finnish at the extreme |
 | FontLab principles (2026) | about a third for sentences, up to double for single words |
 | FontLab language guides | German a tenth to a third; Spanish a fifth to a quarter; French a sixth to a fifth; Polish comparable to German |
 
@@ -81,8 +81,7 @@ Two findings from 29 September 2026 show what such a session would catch in minu
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3: space restrictions)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 7)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (sections 4.2.4 and 4.2.8)
-- `research/01-foundations-of-software-localization.md` (section 1.5) in the fl10n repository
-- `data-fontlab-cpp/i18n/source-review/preference-label-fit-2026-09-16/REPORT.md` in the fl10n repository
-- `data-fontlab-cpp/i18n-repo/fontlab_pl.ts` and `help/helppanel_de.json` in the fl10n repository
+- The preference label fit report of the FontLab localization project (16 September 2026)
+- The Polish FontLab 9 interface catalog (`fontlab_pl.ts`) and the German Help Panel file (`helppanel_de.json`)
 - [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository

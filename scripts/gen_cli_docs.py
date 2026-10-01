@@ -22,7 +22,9 @@ import fire
 
 from vexy_localizzy.cli import COMMANDS
 
-DOC = Path(__file__).resolve().parent.parent / "src_docs" / "md" / "8-toolkit" / "cli.md"
+DOC = (
+    Path(__file__).resolve().parent.parent / "src_docs" / "md" / "8-toolkit" / "cli.md"
+)
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 HEADER = """---
 this_file: src_docs/md/8-toolkit/cli.md

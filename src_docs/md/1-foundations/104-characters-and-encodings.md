@@ -101,6 +101,5 @@ The same word shows the older failure too. Written in UTF-8 and read as Windows-
 - Sandra Martin O'Donnell, *Programming for the World*, 1994 (chapter 4: encoding characters)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 3: Unicode, encoding forms, surrogate pairs, precomposed characters, byte-order marks)
 - Johann Roturier, *Localizing Apps*, 2015 (section 2.3: encodings)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.3.3 and the staged Qt migration)
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/memories.md](../8-toolkit/memories.md) and [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

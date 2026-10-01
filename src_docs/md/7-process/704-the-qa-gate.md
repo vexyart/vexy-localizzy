@@ -21,7 +21,7 @@ translated string
 
 The economics explain the order. Deterministic checks cost almost nothing and run in milliseconds. Research/04 reports that they catch about eighty percent of breakages; the figure comes from the synthesis of several deep-research outputs rather than a measured study, so treat it as an order of magnitude. Judges cost tokens and time, so the same source advises spending them only on strings that already pass, which keeps judge cost to roughly five to fifteen percent of translation spend. People cost the most, and the gate exists to spend their attention on what only they can judge.
 
-The fl10n specification (spec/05) implements the same three layers over its canonical catalog: deterministic linters always, quality estimation optionally, a sampled judge optionally, and then human confirmation in the review tool. The details of estimation and judging belong to Part 6, in [608. Quality estimation and judges](../6-machine-translation/608-quality-estimation-and-judges.md). This chapter is about the gate as a process: what each layer is allowed to decide.
+The toolkit design implements the same three layers over its canonical catalog: deterministic linters always, quality estimation optionally, a sampled judge optionally, and then human confirmation in the review tool. The details of estimation and judging belong to Part 6, in [608. Quality estimation and judges](../6-machine-translation/608-quality-estimation-and-judges.md). This chapter is about the gate as a process: what each layer is allowed to decide.
 
 ## The deterministic layer
 
@@ -78,7 +78,7 @@ Two findings in vexy-localizzy deliberately do not fit the table. `TARGET-UNCHAN
 
 ## Noise, and what to do about it
 
-Every rule has false positives, and a gate that cries wolf gets ignored. Research/04 suggests tracking the false-positive rate of each check and disabling checks above about ten percent, naming the unchanged-translation check for brand names as the usual offender. The FontLab writing guide disagrees about the remedy: it says to tune rules per project, because "a noisy rule gets switched off and then catches nothing", and to preserve the reason for each exception so that the next run does not silently suppress a different defect. The fl10n specification takes a middle course, with per-message ignore markers stored in the unit's notes and a configuration list of disabled checks.
+Every rule has false positives, and a gate that cries wolf gets ignored. Research/04 suggests tracking the false-positive rate of each check and disabling checks above about ten percent, naming the unchanged-translation check for brand names as the usual offender. The FontLab writing guide disagrees about the remedy: it says to tune rules per project, because "a noisy rule gets switched off and then catches nothing", and to preserve the reason for each exception so that the next run does not silently suppress a different defect. The toolkit design takes a middle course, with per-message ignore markers stored in the unit's notes and a configuration list of disabled checks.
 
 The FontLab position is the safer default for a small catalog with a known vocabulary. A per-message exception with a reason keeps the rule alive for every other message. Disabling a rule catalog-wide is appropriate when it is wrong for a whole language, such as a punctuation rule written for Latin script applied to CJK text, which is the other example research/04 gives.
 
@@ -88,7 +88,7 @@ Judges are noisier than linters. Research/04 reports false-positive rates of fif
 
 The residual is what the gate leaves for people. The research synthesis sizes it at five to ten percent of strings in a mature pipeline. The FontLab review sized it differently for its first pass, because every German message was reviewed directly, as chapter [702](702-continuous-localization.md) describes. What the gate contributed there was not a smaller residual but a safer one: every change a reviewer accepted went through the same checks before it reached the catalog.
 
-The verification recorded after issues 132 and 133 shows what a deterministic audit covered and what it did not:
+The verification recorded after the German consistency review and the founder's review shows what a deterministic audit covered and what it did not:
 
 | Check | Result recorded |
 |---|---|
@@ -100,15 +100,12 @@ The verification recorded after issues 132 and 133 shows what a deterministic au
 
 The same record states the limit plainly: these checks "do not establish GUI pixel fit or physical keyboard behavior". Pixel fit belongs to the running application, which chapter [706](706-pseudo-localization-and-layout.md) and Part 5 cover.
 
-Issue 146 shows the residual doing its job on scripted changes. The Polish terminology update was applied by rules: ordered literal replacements and two case-aware families that changed stems and adjusted agreement. The rules passed the validator and `lrelease`, and a scan found no retired term left. An independent review pass then found three defects the gate could not see: a rule that was not idempotent and doubled a word on a second run, a genitive plural that the stem pattern missed in 20 strings and 4 help passages, and one wrong reflexive phrase. All three were fixed and verified again. The gate proved the catalog was well formed. A second, independent reading was needed to show that it was also correct Polish.
+The founder's update of 29 September 2026 shows the residual doing its job on scripted changes. The Polish terminology update was applied by rules: ordered literal replacements and two case-aware families that changed stems and adjusted agreement. The rules passed the validator and `lrelease`, and a scan found no retired term left. An independent review pass then found three defects the gate could not see: a rule that was not idempotent and doubled a word on a second run, a genitive plural that the stem pattern missed in 20 strings and 4 help passages, and one wrong reflexive phrase. All three were fixed and verified again. The gate proved the catalog was well formed. A second, independent reading was needed to show that it was also correct Polish.
 
 That is the division of labor to design for. The FontLab guide puts it in one sentence: automated checks compare tokens, and they cannot approve language.
 
 ## Sources
 
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7 and 4.10)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.4.5)
-- `spec/05.md` in the fl10n repository (sections 5.1, 5.4 and 5.5)
 - [docs/quality.md](../8-toolkit/quality.md) and [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository, and its `src/vexy_localizzy/qa/` package
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/README.md` and `WORK.md` in the fl10n repository (issue 146 entry)
+- The review ledger directory README and the work log of the FontLab localization project (the 29 September update)

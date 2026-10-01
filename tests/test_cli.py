@@ -53,3 +53,33 @@ def test_main_when_convert_po_json_po_then_exact_bytes(tmp_path, monkeypatch, ca
         main()
     assert output.read_bytes() == source.read_bytes()
     assert "findings" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        ["qa", "missing.ts"],
+        ["pseudo", "missing.ts", "out.ts"],
+        ["vocab", "stats", "missing.json"],
+        ["project", "build_ui", "de", "--config", "missing.toml"],
+        ["tm", "lookup", "missing.ts", "nowhere", "de"],
+    ],
+)
+def test_main_when_input_missing_then_exit_2_without_traceback(
+    argv, tmp_path, monkeypatch, capsys
+):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["localizzy", *argv])
+    with pytest.raises(SystemExit) as caught:
+        main()
+    assert caught.value.code == 2, f"{argv}: bad input is a usage error"
+    assert "localizzy" in capsys.readouterr().err, "the reason is printed on stderr"
+
+
+def test_main_when_project_file_has_unknown_key_then_exit_2(tmp_path, monkeypatch):
+    (tmp_path / "localizzy.toml").write_text("[catalogs]\ndirectory = 'x'\n")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["localizzy", "project", "build_ui", "de"])
+    with pytest.raises(SystemExit) as caught:
+        main()
+    assert caught.value.code == 2, "a typo in localizzy.toml is reported, not traced"

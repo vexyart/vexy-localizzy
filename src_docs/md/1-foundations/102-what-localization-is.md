@@ -86,5 +86,4 @@ Notice what is missing: none of the four is a translation error. The German word
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 1: world-readiness, locales, glossary)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 1.3: conceptual framework)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 2: locales, GILT, definitions and metaphors; chapter 3: levels of localization)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.1)
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository

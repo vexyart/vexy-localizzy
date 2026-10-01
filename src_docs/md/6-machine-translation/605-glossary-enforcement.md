@@ -29,7 +29,7 @@ vexy-localizzy selects terms per batch. The rules are worth copying even into a 
 4. **Sort for stability.** The selected terms are sorted by source text, so the same batch always produces the same request and the same cache key ([607](607-routing-batching-and-cost.md)).
 5. **Send only decided terms.** By default only terms with the status *approved* or *do-not-translate* are used. Proposed terms can be included with an explicit flag. A do-not-translate term is sent as mapping to itself, which tells the model to keep it and leaves it free to inflect around it ([409](../4-terminology/409-do-not-translate-with-restraint.md)).
 
-The status rule deserves a moment. At the end of the first Polish pass (issue 145), the core memory still held 59 Polish units as proposed, for want of attestation in published Polish sources. Sending them as if approved would have given the engine an unreviewed decision with the authority of a reviewed one. Leaving them out means the engine falls back on its own choice for those concepts, which a reviewer must then check. Neither is free, and the choice should be made deliberately, per run, rather than by default.
+The status rule deserves a moment. At the end of the first Polish pass, the core memory still held 59 Polish units as proposed, for want of attestation in published Polish sources. Sending them as if approved would have given the engine an unreviewed decision with the authority of a reviewed one. Leaving them out means the engine falls back on its own choice for those concepts, which a reviewer must then check. Neither is free, and the choice should be made deliberately, per run, rather than by default.
 
 ## Whole-string hits and the word "open"
 
@@ -47,7 +47,7 @@ A check that matches only the dictionary form reports a missing *Kerning-Klasse*
 - a target that reintroduces a term the core memory retired;
 - one source string with two targets across the catalog, and two source strings in one context sharing one target.
 
-The retired-term check matters most after a decision changes. When the FontLab founder issued a Polish terminology update in September 2026 (issue 146), it retired a set of renderings the first Polish draft had used: *reguła przetwarzania* for lookup, *kreska główna* for stem, *szerokość posuwu* for advance width, and others. A scan of the catalog and the help files for every retired term, in every form, was the evidence that the update had been applied everywhere.
+The retired-term check matters most after a decision changes. When the FontLab founder issued a Polish terminology update on 29 September 2026, it retired a set of renderings the first Polish draft had used: *reguła przetwarzania* for lookup, *kreska główna* for stem, *szerokość posuwu* for advance width, and others. A scan of the catalog and the help files for every retired term, in every form, was the evidence that the update had been applied everywhere.
 
 A worked example shows how easily such a check misses. The Polish update was applied by a script with ordered literal replacements and two case-aware rule families. One family handled stems: *kreska główna* became *trzon*, with the adjective agreeing (*kreska standardowa* became *trzon standardowy*). The other handled lookups: *reguła przetwarzania* became *podprogram zecerski*, with the plural decided by the governing word.
 
@@ -81,6 +81,5 @@ When a term decision changes, push it to the core memory the same day, regenerat
 
 - [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository (glossary memory, prompt terms, term hits)
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
-- `issues/146.md` in the fl10n repository (the Polish terminology update)
-- `WORK.md` and `CHANGELOG.md` in the fl10n repository (issue 146: rule families, review findings, verification)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.2: glossary hits in the context bundle)
+- The founder's update of 29 September 2026, in the FontLab localization project (the Polish terminology update)
+- The work log and changelog of the FontLab localization project (the 29 September update: rule families, review findings, verification)

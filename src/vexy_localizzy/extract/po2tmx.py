@@ -5,7 +5,7 @@ Source language is the ``msgid`` language (default ``en``). Target language
 comes from the ``Language:`` header, else the file stem, else the stem itself.
 Untranslated, obsolete and (unless ``fuzzy``) fuzzy entries are skipped. Plural
 entries emit ``msgid``/``msgstr[0]`` and ``msgid_plural``/``msgstr[last]``.
-``msgctxt`` lands in ``x-context``. Ported from fl10n ``tools/po2tmx.py``.
+``msgctxt`` lands in ``x-context``. Ported from the earlier ``po2tmx`` script; see NOTICE.
 """
 
 import sys

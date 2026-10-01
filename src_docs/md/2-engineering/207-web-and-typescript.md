@@ -109,6 +109,5 @@ On the file side, Localizzy converts between i18next JSON, its canonical JSON an
 
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapters 2 to 4, 6, 9 and 15)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (chapter 3, the global gateway)
-- `research/01-foundations-of-software-localization.md`, `research/03-localizing-web-javascript-applications.md` and `research/06-tldr.md` in the fl10n repository
 - [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository
 - `README.md` and [docs/extraction.md](../8-toolkit/extraction.md) in the vexy-localizzy repository

@@ -104,9 +104,6 @@ Each run of `lupdate` merges the fresh extraction into the existing catalog in p
 
 ## Sources
 
-- `research/02-localizing-qt-cpp-applications.md`, `research/05-format-conversion-cicd-and-continuous-localization.md` and `research/06-tldr.md` in the fl10n repository
-- `research2/01-gpt.md`, `research2/03-gemi.md`, `research2/04-cla.md`, `research2/05-cla.md` and `research2/06-cla.md` in the fl10n repository
-- `research-draft/313-gpt.md` and `research-draft/315-cla.md` in the fl10n repository
 - `lrelease -help` output and a test compilation with `lrelease` and `lconvert`, Qt Linguist tools 6.11.2
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) in the vexy-fontlab-writing-styleguide repository
 - `README.md` and [docs/upgrade.md](../8-toolkit/upgrade.md) in the vexy-localizzy repository

@@ -18,7 +18,7 @@ Each ``<lang>.tmx`` pairs the English text of a key with the target text;
 ``en.tmx`` is monolingual. Keys go to ``tuid``, the table to ``x-domain`` and
 the file to ``x-origin``. Adobe caret escapes are decoded (``^n``/``^r`` line
 break, ``^t`` tab, ``^C``/``^R``/``^T`` symbols, ``^0``..``^9`` to ``%0``..``%9``,
-``^^`` to ``^``). Ported from fl10n ``tools/adobe2tmx.py``.
+``^^`` to ``^``). Ported from the earlier ``adobe2tmx`` script; see NOTICE.
 """
 
 import os

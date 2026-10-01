@@ -306,3 +306,11 @@ def test_ts_when_plural_scalar_changed_into_variants_then_refuse_implicit_conver
     with pytest.raises(ValueError, match="shape"):
         ts.dump(changed(catalog, 2, plural=plural), output)
     assert output.read_bytes() == b"existing"
+
+
+def test_catalog_when_origin_format_legacy_or_default_then_accepted():
+    from vexy_localizzy.catalog import Catalog
+
+    assert Catalog(source_lang="en").origin_format == "localizzy", "the default origin"
+    legacy = Catalog.model_validate({"source_lang": "en", "origin_format": "fl10n"})
+    assert legacy.origin_format == "fl10n", "catalog JSON written before 1.1 must load"

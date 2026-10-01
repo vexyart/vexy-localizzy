@@ -1,25 +1,36 @@
 # this_file: src/vexy_localizzy/cli/__init__.py
 """Command-line entry points for generic catalog workflows.
 
-The ``translate``, ``upgrade`` and ``tm`` submodules hold the bigger commands.
+The ``translate``, ``upgrade``, ``checks``, ``editorial``, ``project``, ``qt``,
+``tm`` and ``utilities`` submodules hold the bigger commands.
 This module never binds those names itself, so ``vexy_localizzy.cli.translate``
 stays the submodule and dotted paths such as ``vexy_localizzy.cli.translate.translate``
 resolve for imports and monkeypatching.
 """
 
-import json
 import sys
 from pathlib import Path
+from subprocess import SubprocessError
 
 import fire
 from loguru import logger
 
+from vexy_localizzy.cli import checks as _checks
+from vexy_localizzy.cli import editorial as _editorial
+from vexy_localizzy.cli import project as _project
+from vexy_localizzy.cli import qt as _qt
 from vexy_localizzy.cli import sourcefix as _sourcefix
 from vexy_localizzy.cli import tm as _tm
 from vexy_localizzy.cli import translate as _translate
 from vexy_localizzy.cli import upgrade as _upgrade
+from vexy_localizzy.cli import utilities as _utilities
 from vexy_localizzy.conversion import convert as convert_catalog
 from vexy_localizzy.inventory import write_inventory
+
+EXIT_USAGE, EXIT_INTERRUPTED = 2, 130
+# What a wrong path, a malformed file or a failing external tool raises.
+# ValueError covers pydantic validation and TOML decoding errors.
+INPUT_ERRORS = (OSError, ValueError, RuntimeError, SyntaxError, SubprocessError)
 
 
 def inventory(root: str, output: str, verbose: bool = False) -> dict:
@@ -67,38 +78,31 @@ def convert(
     }
 
 
-def review(config: str, port: int = 8765, verbose: bool = False):
-    """Serve configured catalogs with the optional review UI and API."""
+def review(
+    config: str,
+    port: int = 8765,
+    verbose: bool = False,
+    workspace: str | None = None,
+    ui_files: str | None = None,
+    open_browser: bool = False,
+):
+    """Serve catalogs with the optional review UI and API.
+
+    CONFIG is a review TOML, or a .ts/.json catalog that is first imported into
+    a resumable workspace (default CONFIG.review; --workspace overrides it and
+    --ui-files a.ui,b.ui adds form previews). The source catalog is never edited.
+    """
+    from vexy_localizzy.cli._args import csv_strings
     from vexy_localizzy.review.server import serve
 
-    return serve(config, port=port, verbose=verbose)
-
-
-def qa(catalog: str, fail_on: str = "major", plural_forms: str | None = None) -> dict:
-    """Run the deterministic content checks on a catalog; exit 1 on blocking findings."""
-    from vexy_localizzy.conversion import load_any
-    from vexy_localizzy.qa.catalog import check_catalog
-    from vexy_localizzy.qa.text import TextPolicy
-
-    ranks = {"info": 0, "minor": 1, "major": 2, "critical": 3}
-    if fail_on not in ranks:
-        raise SystemExit(f"--fail_on must be one of {', '.join(ranks)}")
-    loaded = load_any(catalog)
-    required = tuple(str(plural_forms).split(",")) if plural_forms else None
-    findings = check_catalog(
-        loaded, policy=TextPolicy(), required_plural_forms=required
+    return serve(
+        config,
+        port=port,
+        verbose=verbose,
+        workspace=workspace,
+        ui_files=tuple(csv_strings(ui_files)),
+        open_browser=open_browser,
     )
-    blocking = [f for f in findings if ranks[f.severity] >= ranks[fail_on]]
-    result = {
-        "catalog": str(catalog),
-        "units": len(loaded.units),
-        "findings": [f.model_dump() for f in findings],
-        "blocking": len(blocking),
-    }
-    if blocking:
-        print(json.dumps(result, ensure_ascii=False, indent=1))
-        raise SystemExit(1)
-    return result
 
 
 COMMANDS = {
@@ -106,17 +110,35 @@ COMMANDS = {
     "translate": _translate.translate,
     "upgrade": _upgrade.upgrade,
     "convert": convert,
-    "qa": qa,
+    "qa": _checks.qa,
+    "pseudo": _checks.pseudo,
     "review": review,
     "inventory": inventory,
+    "vocab": _checks.vocab,
+    "doctor": _checks.doctor,
+    "init": _checks.init,
+    "diff": _utilities.diff,
+    "shard": _utilities.UTILITY_COMMANDS["shard"],
+    "translate_json": _utilities.translate_json,
+    "editorial": _editorial.EDITORIAL_COMMANDS,
+    "project": _project.PROJECT_COMMANDS,
+    "qt": _qt.QT_COMMANDS,
     "tm": _tm.TM_COMMANDS,
 }
 
 
 def main() -> None:
-    """Expose explicit subcommands through Python Fire.
+    """Expose explicit subcommands through Python Fire; exit 2 on bad input.
 
-    Hot-path verbs sit at the top level; the memory builders and converters are
-    grouped under ``tm``. ``extract`` is ``localizzy tm extract`` now.
+    Hot-path verbs sit at the top level. Memory builders and converters are
+    grouped under ``tm``, Qt tooling under ``qt`` and the commands that read
+    ``localizzy.toml`` under ``project``.
     """
-    fire.Fire(COMMANDS)
+    try:
+        fire.Fire(COMMANDS)
+    except KeyboardInterrupt:
+        raise SystemExit(EXIT_INTERRUPTED) from None
+    except INPUT_ERRORS as error:
+        # Bad input is the user's to fix: one line and exit 2, never a traceback.
+        print(f"localizzy: {error}", file=sys.stderr)
+        raise SystemExit(EXIT_USAGE) from error

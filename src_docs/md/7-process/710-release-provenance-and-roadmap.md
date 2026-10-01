@@ -46,13 +46,13 @@ An excerpt of the upgrade report's shape shows what a release audit can check wi
 }
 ```
 
-The message totals are those of the issue 146 German catalogs; the category counts are placeholders, and the field names are the report's own. An auditor who sees `unfilled` above zero knows the release is not complete, and one who sees a `machine` count knows how many messages need a reviewer's name beside them.
+The message totals are those of the German catalogs after the founder's update of 29 September 2026; the category counts are placeholders, and the field names are the report's own. An auditor who sees `unfilled` above zero knows the release is not complete, and one who sees a `machine` count knows how many messages need a reviewer's name beside them.
 
-Provenance has one subtlety that the FontLab review met in practice. Some issue 133 decisions returned a message to its original incoming text: *Collapse* and *Oblique* were two. A naive audit that compares the current text with the baseline would conclude that nothing happened. The FontLab verification script follows provenance chains by content, so a message that went from A to B and back to A still shows both steps and both reasons.
+Provenance has one subtlety that the FontLab review met in practice. Some decisions of the founder's review returned a message to its original incoming text: *Collapse* and *Oblique* were two. A naive audit that compares the current text with the baseline would conclude that nothing happened. The FontLab verification script follows provenance chains by content, so a message that went from A to B and back to A still shows both steps and both reasons.
 
 ## Auditing a release
 
-A release audit asks whether the records and the files agree. The issue 146 verification, recorded in the fl10n work log, is a compact example:
+A release audit asks whether the records and the files agree. The verification of the 29 September update, recorded in the project's work log, is a compact example:
 
 | Check | Result |
 |---|---|
@@ -70,7 +70,7 @@ Esselink and the FontLab guide disagree on one point of reporting. Esselink advi
 
 ## The roadmap, planned and built
 
-The fl10n specification (spec/07) planned four phases:
+The original toolkit specification planned four phases:
 
 | Phase | Planned scope |
 |---|---|
@@ -79,9 +79,9 @@ The fl10n specification (spec/07) planned four phases:
 | P2 | A review tool, estimation and judge layers, a golden-set benchmark, the CI pipeline |
 | P3 | Deferred: assisted source instrumentation, TMS integration, automated model re-benchmarking |
 
-What was built by the end of September 2026 differs from the plan in structure more than in scope. The specification put everything in one package. Issue 145 split it into three layers: [abersetz](https://code.twardoch.com/abersetz/) as the translation engine, vexy-localizzy as the localization software (memories, memory-aware translation, the ten-tier TS upgrade, byte-preserving TS edits, deterministic QA and the browser reviewer), and fl10n as the project layer that knows FontLab's catalogs, languages and memories. The review tool changed shape too. The specification planned to grow it from a prototype single-page application; the shipped reviewer is a packaged browser application with a filesystem store, revision checks and an append-only journal. Its design notes record a browser verification against the design concept at desktop, laptop and phone sizes, and state that this interface acceptance does not imply the rest of the planned pipeline is complete.
+What was built by the end of September 2026 differs from the plan in structure more than in scope. The specification put everything in one package. The work of September 2026 split it into three layers: [abersetz](https://code.twardoch.com/abersetz/) as the translation engine, vexy-localizzy as the localization software (memories, memory-aware translation, the ten-tier TS upgrade, byte-preserving TS edits, deterministic QA and the browser reviewer), and a project layer that knows FontLab's catalogs, languages and memories. The review tool changed shape too. The specification planned to grow it from a prototype single-page application; the shipped reviewer is a packaged browser application with a filesystem store, revision checks and an append-only journal. Its design notes record a browser verification against the design concept at desktop, laptop and phone sizes, and state that this interface acceptance does not imply the rest of the planned pipeline is complete.
 
-The work log is equally direct about what remained open. On 28 September 2026 it listed the Spanish direct review from message 7,200 onwards, Spanish and French help, and 37 further catalogs as pending. The issue 145 entry named a native editorial pass as the next step for Polish, with 59 units of the Polish core memory still proposed rather than approved. A roadmap that lists its own gaps is more useful than one that lists only its milestones.
+The work log is equally direct about what remained open. On 28 September 2026 it listed the Spanish direct review from message 7,200 onwards, Spanish and French help, and 37 further catalogs as pending. The entry for the Polish localization named a native editorial pass as the next step for Polish, with 59 units of the Polish core memory still proposed rather than approved. A roadmap that lists its own gaps is more useful than one that lists only its milestones.
 
 ## What to build first
 
@@ -100,8 +100,7 @@ The research synthesis adds a short list of things not to do, and three of them 
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: delivery testing, bug tracking)
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: maintenance and repair of anomalies)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.4.4 and 5.6)
-- `spec/07.md` in the fl10n repository (sections 7.7 and 7.8)
+- [docs/ci.md](../8-toolkit/ci.md) and [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - [docs/upgrade.md](../8-toolkit/upgrade.md), [docs/translation.md](../8-toolkit/translation.md), [docs/review.md](../8-toolkit/review.md) and [docs/design/review-fidelity.md](../8-toolkit/design/review-fidelity.md) in the vexy-localizzy repository
-- `WORK.md`, `CHANGELOG.md` and `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
+- The work log and changelog of the FontLab localization project, and its review ledger directory README
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository

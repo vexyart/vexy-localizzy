@@ -10,9 +10,9 @@ The fallback original term is a fourth option. Beside the English term, the glos
 
 ## The case that produced the idea
 
-The Polish FontLab interface first rendered *overshoot* as *wydłużenie optyczne*, "optical lengthening". The phrase is accurate and describes the effect, but it is long, it says lengthening where the shape also extends downward below the baseline, and it gives no adjective or compound to build on. In issue 146 the founder replaced it with *naddatek*, the ordinary Polish word for an allowance or surplus, glossed in the same line as an optical surplus, and added: "we should also use this principle in other languages if we're unsure".
+The Polish FontLab interface first rendered *overshoot* as *wydłużenie optyczne*, "optical lengthening". The phrase is accurate and describes the effect, but it is long, it says lengthening where the shape also extends downward below the baseline, and it gives no adjective or compound to build on. In an update of 29 September 2026 the founder replaced it with *naddatek*, the ordinary Polish word for an allowance or surplus, glossed in the same line as an optical surplus, and added: "we should also use this principle in other languages if we're unsure".
 
-That remark names the principle. What the founder translated was not *overshoot* but a plainer English description of the concept, *optical surplus*, keeping only the noun; in a font editor the optical context goes without saying. The Polish core memory records the decision with the note *naddatek optyczny; ta zasada może służyć także innym językom*: the principle may serve other languages too. The English glossary now stores *optical surplus* as the fallback of *overshoot*, so that the next translator into any language starts where the founder finished. (Issue 147 phrased the same example as *architectural surplus*; the glossary kept the wording of issue 146.)
+That remark names the principle. What the founder translated was not *overshoot* but a plainer English description of the concept, *optical surplus*, keeping only the noun; in a font editor the optical context goes without saying. The Polish core memory records the decision with the note *naddatek optyczny; ta zasada może służyć także innym językom*: the principle may serve other languages too. The English glossary now stores *optical surplus* as the fallback of *overshoot*, so that the next translator into any language starts where the founder finished. (The founder's notes on house voice phrased the same example as *architectural surplus*; the glossary kept the wording of the 29 September update.)
 
 *Stem* followed the same path. Its glossary definition calls a stem the main stroke of a letter, and its fallback is *main stroke*. After an evidence review of Polish type literature, the Polish interface used *kreska główna*, which is exactly the literal translation of that fallback, until the founder settled on *trzon*, the shaft or trunk, which yields the compounds the interface needs: *trzon standardowy* for standard stem, *łącze trzonu* for stem link. The interim term shows what a fallback is for: it gives a language a correct, understandable term until a better one is chosen.
 
@@ -55,7 +55,7 @@ The fallback does not replace research. It is what a translator reaches for when
 4. **Shorten where context allows.** *Naddatek optyczny* became *naddatek*, because in a font editor the optics go without saying.
 5. **Record the result** in the core memory with a note saying that it came from the fallback, so a reviewer can see the route.
 
-The Polish FontLab terms of issue 146 show how often the literal route works. Several read as direct translations of the fallback:
+The Polish FontLab terms of the 29 September update show how often the literal route works. Several read as direct translations of the fallback:
 
 | English term | Fallback | Polish | Literal sense of the Polish |
 |---|---|---|---|
@@ -113,7 +113,7 @@ A translation pipeline can use the property too. When a target language has no a
 
 ## Sources
 
-- `issues/146.md` and `issues/147.md` in the fl10n repository
+- The founder's update of 29 September 2026 and the founder's notes on house voice, in the FontLab localization project
 - [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md), `glossary/terms/overshoot.yaml`, `glossary/terms/stem.yaml`, `scripts/check_terms.py`, `scripts/coretm.py` and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) and [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/2026-09-29-issue-146.json` in the fl10n repository
+- The review ledger of the founder's update of 29 September 2026

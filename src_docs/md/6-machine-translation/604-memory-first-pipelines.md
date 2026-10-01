@@ -43,7 +43,7 @@ Every memory hit passes the same QA gate as engine output before it is used. A m
 
 The sources disagree about what to do with a near match, the one case the verbatim rule leaves out.
 
-The 2026 research corpus, and the fl10n specification built on it, send translation memory matches above a fuzzy threshold of about 75 percent to the model as few-shot examples. The idea is that a similar approved translation shows the model the house terminology and phrasing.
+The 2026 research corpus, and the toolkit design built on it, send translation memory matches above a fuzzy threshold of about 75 percent to the model as few-shot examples. The idea is that a similar approved translation shows the model the house terminology and phrasing.
 
 vexy-localizzy's direct memory ignores fuzzy matches entirely: a string either matches verbatim after normalization or goes on down the chain. Similar examples can reach the model, but only through a separate, experimental retrieval step that attaches examples with their provenance, and the documentation states that such references are examples, not automatic approval of terminology.
 
@@ -59,7 +59,7 @@ An empty, counted message is honest. A plausible guess written in its place, fro
 
 ## A worked comparison
 
-The FontLab project in September 2026 ran two very different jobs on the same memory-first principle, through two commands: `fl10n upgrade` for the existing languages and `fl10n localize`, which calls the toolkit's `translate`, for the new one.
+The FontLab project in September 2026 ran two very different jobs on the same memory-first principle, through two commands: `localizzy upgrade` for the existing languages and `localizzy translate` for the new one.
 
 The German, Spanish and French catalogs already existed and had been reviewed. When a new build regenerated the English catalog, the upgrade path ported the approved translations onto it ([310](../3-formats/310-identity-and-upgrade.md)). The CHANGELOG entry for that pass gives the proportions per language:
 
@@ -81,8 +81,6 @@ The lesson for planning is that the first catalog in a new language is the expen
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 11: translation memory combined with machine translation)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: MT-assisted translation memory workflows)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.2 and 4.6)
-- `spec/04.md` in the fl10n repository (sections 4.2 and 4.6)
-- `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 145)
+- The work log and changelog of the FontLab localization project (the Polish localization)
 - `README.md`, [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md) and [docs/retrieval.md](../8-toolkit/retrieval.md) in the vexy-localizzy repository
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

@@ -21,6 +21,8 @@ this_file: DEPENDENCIES.md
 | tree-sitter-cpp 0.23.x | Published C++ grammar for exact literal spans in English source corrections; shares the existing tree-sitter runtime |
 | filelock 3.x (`llm`/`review` extras) | Cross-platform exclusion of simultaneous classification and catalog-review writers |
 | openai 2.54+ (`llm` extra) | Optional bounded transport; preserves provider retry timing for fallbacks |
+| libclang 16+ (`clang` extra) | AST for `qt scan --engine clang`; context drift and non-literal `tr()` arguments with exact locations |
+| translate-toolkit 3.12+ (`pofilter` extra) | `pofilter` test battery for `qa --layers pofilter`; run as a subprocess over a PO projection |
 | fire 0.7.x | CLI argument parsing and help |
 | loguru 0.7.x | Optional verbose diagnostics |
 | hatchling + hatch-vcs | Build wheel/sdist and derive versions from Git |
@@ -41,8 +43,13 @@ caller TEMP-table settings are preserved. Classification handoff follows SQLite
 with existing Pydantic models for evidence boundaries. The handoff itself needs no additional package. The producer uses the documented
 [filelock context manager](https://py-filelock.readthedocs.io/en/latest/) with a
 zero acquisition timeout; an isolated lock/reacquisition check passed on macOS.
-Catalog compatibility types and key/placeholder helpers are adapted from
-MIT-licensed fl10n; attribution and license text are included in `NOTICE`.
+Catalog compatibility types, key/placeholder helpers, the Qt tooling, pseudo-localization,
+the vocabulary reader and the other parts listed in `NOTICE` are adapted from earlier
+MIT-licensed tooling; attribution and license text are included in `NOTICE`.
+Qt Linguist's `lupdate`, `lrelease` and `lconvert` are discovered on `PATH` or in
+well-known Qt directories, never bundled. COMET quality estimation (`qa --layers qe`)
+needs `unbabel-comet` installed by hand; it has no extra because it pulls in a large
+model runtime.
 Legacy filename planning is also adapted from that project. It uses
 [langcodes](https://github.com/rspeer/langcodes) and its published
 [language_data supplement](https://github.com/rspeer/language_data); input locale

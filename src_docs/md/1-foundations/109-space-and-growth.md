@@ -23,7 +23,7 @@ Growth is not universal either. Roturier (2015) notes that French and German ten
 
 ## What the FontLab catalogs measured
 
-The fl10n repository holds four catalogs of the FontLab interface, each with 10,418 translated singular messages. The Polish one is a machine draft that, according to the Polish guide, awaits a native editorial pass. Counting characters, with mnemonic ampersands removed, gives the ratio of translation length to English length:
+The FontLab localization project holds four catalogs of the FontLab interface, each with 10,418 translated singular messages. The Polish one is a machine draft that, according to the Polish guide, awaits a native editorial pass. Counting characters, with mnemonic ampersands removed, gives the ratio of translation length to English length:
 
 | Language | Whole catalog | Strings of 1 to 10 characters: median, 90th percentile | 11 to 20 | 21 to 50 | Over 50 |
 |---|---|---|---|---|---|
@@ -91,7 +91,5 @@ The page adds a limit that is easy to forget. Pseudo-localization proves that a 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 2: user interface)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 7: resizing, the 30 percent rule, HTML AutoLayout, UI controls)
 - Johann Roturier, *Localizing Apps*, 2015 (chapter 4: clipped text and custom layouts)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.5)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.2: pseudo-localization)
-- `data-fontlab-cpp/i18n/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository, measured for this chapter
+- The FontLab 9 interface catalogs for German, Spanish, French and Polish (`fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts`, `fontlab_pl.ts`), measured for this chapter
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

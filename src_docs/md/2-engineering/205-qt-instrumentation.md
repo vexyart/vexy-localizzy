@@ -81,25 +81,25 @@ The research corpus recommends `//:` for guidance and the disambiguation argumen
 
 Designer `.ui` files take part in the same extraction. They are XML, and `lupdate` extracts every `<string>` that is not marked `notr="true"`. The generated `retranslateUi()` function reapplies the translations to a form, which is what makes a language switch work for forms without hand-written code. Two mistakes are common. A visible label marked `notr="true"` never reaches the translator. And a label whose text is set in C++ after `setupUi()` is not covered by `retranslateUi()`, so it keeps its first language after a switch unless the code resets it.
 
-The fl10n specification treats forms as a separate audit pass for this reason: it parses each `.ui` file, lists the translatable strings with their owning widget as context, and flags visible strings that carry `notr="true"` or are empty where a real label is expected. For Proteus, the FontLab code base it audits first, the specification counts 437 forms, which is more than anyone reviews by eye.
+The toolkit design treats forms as a separate audit pass for this reason: it parses each `.ui` file, lists the translatable strings with their owning widget as context, and flags visible strings that carry `notr="true"` or are empty where a real label is expected. For the FontLab application source, the code base it audits first, the design counts 437 forms, which is more than anyone reviews by eye.
 
 ## Audit the source the way lupdate reads it
 
-An instrumentation campaign on an existing code base starts with an audit, not with edits. The fl10n `scan` command reports localizability findings without changing the source, and each detector corresponds to a documented pitfall. The specification defines eleven detectors; the implementation checked for this chapter contains nine of them, and the table marks the other two.
+An instrumentation campaign on an existing code base starts with an audit, not with edits. The `localizzy qt scan` command reports localizability findings without changing the source, and each detector corresponds to a documented pitfall. It has eleven detectors for source and forms.
 
 | Detector | Finding | Severity |
 |---|---|---|
-| `FL-CTX-001` | `QObject` subclass with `tr()` but no `Q_OBJECT` | critical |
-| `FL-TR-002` | `tr()` or `translate()` called with a non-literal | critical |
-| `FL-HARD-003` | Hard-coded literal passed to a UI setter such as `setText` or `setToolTip` | major |
-| `FL-NS-004` | Qualified class that `lupdate` would misfile without `-I` (specified, not yet implemented) | major |
-| `FL-STATIC-005` | `tr()` at static-initialization scope | major |
-| `FL-ARG-006` | Chained `.arg(a).arg(b)` | minor |
-| `FL-CONCAT-007` | Concatenated translatable fragments | minor |
-| `FL-NOOP-008` | `QT_TR_NOOP` outside a class (specified, not yet implemented) | minor |
-| `FL-UI-009` | Visible `.ui` string not translatable | major |
-| `FL-UTF8-010` | Source file not UTF-8 | info |
-| `FL-TRUTF8-011` | Use of the removed `trUtf8()` | minor |
+| `QT-CTX-001` | `QObject` subclass with `tr()` but no `Q_OBJECT` | critical |
+| `QT-TR-002` | `tr()` or `translate()` called with a non-literal | critical |
+| `QT-HARD-003` | Hard-coded literal passed to a UI setter such as `setText` or `setToolTip` | major |
+| `QT-NS-004` | Qualified class that `lupdate` would misfile without `-I` | major |
+| `QT-STATIC-005` | `tr()` at static-initialization scope | major |
+| `QT-ARG-006` | Chained `.arg(a).arg(b)` | minor |
+| `QT-CONCAT-007` | Concatenated translatable fragments | minor |
+| `QT-NOOP-008` | `QT_TR_NOOP` outside a class | minor |
+| `QT-UI-009` | Visible `.ui` string not translatable | major |
+| `QT-UTF8-010` | Source file not UTF-8 | info |
+| `QT-TRUTF8-011` | Use of the removed `trUtf8()` | minor |
 
 Here is the critical case as a worked example. A panel subclass omits the macro:
 
@@ -110,7 +110,7 @@ public:
 };
 ```
 
-`lupdate` files "Kerning" under the context `KerningPanel`. At run time, the inherited `tr()` asks for it under `QWidget`, finds nothing, and displays English. Recent `lupdate` versions warn that the class lacks `Q_OBJECT`, but a warning in a long build log is easy to miss. The scanner reports it as `FL-CTX-001`, and the fix is one line: add `Q_OBJECT`, or `Q_DECLARE_TR_FUNCTIONS(KerningPanel)` if the class must stay free of the meta-object system.
+`lupdate` files "Kerning" under the context `KerningPanel`. At run time, the inherited `tr()` asks for it under `QWidget`, finds nothing, and displays English. Recent `lupdate` versions warn that the class lacks `Q_OBJECT`, but a warning in a long build log is easy to miss. The scanner reports it as `QT-CTX-001`, and the fix is one line: add `Q_OBJECT`, or `Q_DECLARE_TR_FUNCTIONS(KerningPanel)` if the class must stay free of the meta-object system.
 
 The scanner has two engines. The default heuristic engine uses line patterns and light brace matching; it is fast, has no dependencies and marks its results as heuristic because comments and multi-line literals can fool it. The optional Clang engine builds a real syntax tree from a compilation database, so it knows base classes and namespaces and can tell a literal from a variable with certainty; it is the engine of record for the context and literal detectors. Results come out as a table, as JSON for diffing between commits, or as SARIF for code-scanning tools. A coverage figure, marked literals divided by marked literals plus hard-coded candidates, lets a continuous-integration gate fail a change that reduces localizability, and the threshold can rise over the campaign instead of demanding full coverage on the first day. The scanner does not fix code: adding macros and wrapping literals remain reviewed human changes.
 
@@ -118,6 +118,5 @@ Two compiler-side guards complement the audit. Defining `QT_NO_CAST_FROM_ASCII` 
 
 ## Sources
 
-- `research/02-localizing-qt-cpp-applications.md`, `research/06-tldr.md` and `research/01-foundations-of-software-localization.md` in the fl10n repository
-- `spec/02.md`, `docs/commands/scan.md` and `src/fl10n/engines/scan.py` in the fl10n repository
+- [docs/scanning.md](../8-toolkit/scanning.md) in the vexy-localizzy repository
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) in the vexy-fontlab-writing-styleguide repository

@@ -75,7 +75,7 @@ vexy-localizzy reads Apple resources for building translation memories, not for 
 
 Because each file holds one language, any bilingual use starts by pairing two files. vexy-localizzy's memory extractor states the rule that makes pairing reliable: resources join by key, never by row position. Keys that exist in only one file are reported, not silently dropped. For JSON, keys are typed paths, so `["a.b"]` (one key containing a dot) and `["a","b"]` (a nested key) are different messages, and `["items",0]` addresses an array element. The same typed paths serve the i18next editor, where a colliding plain key and plural base get a `plural:` prefix to stay distinct.
 
-The discipline matters because the alternative fails quietly. An earlier fl10n exporter wrote a flat JSON map keyed by English source text. Its own documentation lists the cost: two Qt messages with the same source and different contexts collapsed into one key, context, state, notes and length limits were dropped, and only the `other` plural form was written. The page tells readers to use that JSON only as read-only output for a web view, never as a backup or an interchange format. That was the right warning for that exporter, and it is the reason the later adapter keeps nesting, arrays and plural suffixes intact.
+The discipline matters because the alternative fails quietly. An earlier exporter in the FontLab tooling wrote a flat JSON map keyed by English source text. Its own documentation lists the cost: two Qt messages with the same source and different contexts collapsed into one key, context, state, notes and length limits were dropped, and only the `other` plural form was written. The page tells readers to use that JSON only as read-only output for a web view, never as a backup or an interchange format. That was the right warning for that exporter, and it is the reason the later adapter keeps nesting, arrays and plural suffixes intact.
 
 ## Worked example: translating one Android file
 
@@ -93,7 +93,4 @@ vexy-localizzy implements steps 1 to 5 in its Android adapter and records the li
 ## Sources
 
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 11)
-- `research/03-localizing-web-javascript-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `research-draft/310-gemi.md` and `research-draft/317-cla.md` in the fl10n repository
-- `docs/formats/json.md` in the fl10n repository
 - [docs/formats.md](../8-toolkit/formats.md), [docs/extraction.md](../8-toolkit/extraction.md), [docs/legacy-sources.md](../8-toolkit/legacy-sources.md), `WORK.md`, `tests/test_android_formats.py` and `tests/test_i18next_formats.py` in the vexy-localizzy repository

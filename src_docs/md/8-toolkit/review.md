@@ -8,6 +8,42 @@ The packaged browser application stores canonical JSON catalogs
 with retained native documents, richer review states and an append-only journal.
 It does not require the corpus database.
 
+## Reviewing one catalog
+
+A single catalog needs no configuration file:
+
+```sh
+localizzy review i18n/app_de.ts --ui-files forms/export.ui,forms/main.ui --open-browser
+```
+
+The first call imports the catalog into a workspace beside it,
+`i18n/app_de.ts.review/` (or `--workspace DIR`): a byte copy of the catalog,
+copies of the `.ui` previews, the canonical `catalog.json` that edits go to,
+the generated `review.toml` and an `origin.json` with the hashes of every
+input. The import adds the empty plural slots the target language requires,
+so a reviewer sees every form the language needs even where the file has
+fewer. It is
+staged in a temporary directory and renamed into place, so an interrupted
+import leaves nothing behind.
+
+A later call with the same inputs reopens the workspace and its drafts. If the
+catalog or a preview changed since the import, the command refuses rather
+than reset reviewed work; pass a new `--workspace` to start over from the new
+file. The source catalog is never edited. When the review is done, save
+pending edits, use **Export TS** and put the downloaded file where the
+approved catalog lives, then run [`qa`](quality.md) on it. The server binds to
+`127.0.0.1` only, on `--port` (default 8765).
+
+A day of review usually runs like this: tick **Unreviewed only**, take the
+first message, read its context and the preview, fix the target, and press
+Ctrl/Cmd+Enter to approve and move on. Save a draft (Ctrl/Cmd+S) when you are
+unsure; it stays `needs_review`. Approving text that is identical to the
+source asks for a reason, because an unchanged brand name and a forgotten
+string look the same to every check. Translation and upgrade never set
+`approved`; in the reviewer, only a person does.
+
+## Configured workspaces
+
 From a source checkout, build the browser assets before building a wheel:
 
 ```sh

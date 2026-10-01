@@ -68,7 +68,7 @@ label->setText(tr("Copying %1 to %2").arg(fileName).arg(folderName));
 label->setText(tr("Copying %1 to %2").arg(fileName, folderName));
 ```
 
-The research corpus documents the bug: when the first value contains a literal `%2`, the second call replaces both the real and the injected marker. The multi-argument overload resolves the placeholders in one pass and avoids temporary strings. The fl10n source audit reports the chained form as a minor finding (`FL-ARG-006`) and concatenated translatable fragments as another (`FL-CONCAT-007`); both are described with the other detectors in [205](205-qt-instrumentation.md). Note the order of substitution when a plural is involved: `tr()` replaces `%n` first, then `.arg()` fills `%1`, so `tr("%n of %1 file(s) copied", "", done).arg(total)` is correct.
+The research corpus documents the bug: when the first value contains a literal `%2`, the second call replaces both the real and the injected marker. The multi-argument overload resolves the placeholders in one pass and avoids temporary strings. The toolkit's source audit reports the chained form as a minor finding (`QT-ARG-006`) and concatenated translatable fragments as another (`QT-CONCAT-007`); both are described with the other detectors in [205](205-qt-instrumentation.md). Note the order of substitution when a plural is involved: `tr()` replaces `%n` first, then `.arg()` fills `%1`, so `tr("%n of %1 file(s) copied", "", done).arg(total)` is correct.
 
 Markup inside a message is the web version of the same problem. Storing raw HTML in translation files invites cross-site scripting and assumes translators write correct markup. The research corpus recommends component interpolation with numbered tags, as in react-i18next's `<Trans>`, where the catalog holds `"I agree to the <1>Terms</1>."` and the component supplies the link ([207](207-web-and-typescript.md)).
 
@@ -81,7 +81,6 @@ Because placeholders are syntax, they can be checked without reading the languag
 - Sandra Martin O'Donnell, *Programming for the World: A Guide to Internationalization*, 1994 (chapter 9, variable parameter order and message fragments)
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 2, programmers' tricks; chapter 7, string handling and UI controls in sentences)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (chapter 2, concatenation; chapter 3, avoiding concatenation)
-- `research/01-foundations-of-software-localization.md`, `research/02-localizing-qt-cpp-applications.md` and `research/03-localizing-web-javascript-applications.md` in the fl10n repository
-- `spec/02.md` in the fl10n repository
+- [docs/scanning.md](../8-toolkit/scanning.md) in the vexy-localizzy repository
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/message-contracts](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/message-contracts/) in the vexy-fontlab-writing-styleguide repository
 - [docs/quality.md](../8-toolkit/quality.md) in the vexy-localizzy repository

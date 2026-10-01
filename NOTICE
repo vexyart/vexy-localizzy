@@ -2,15 +2,24 @@ The bundled browser reviewer uses published React, React DOM, Scheduler,
 DOMPurify, quiht-core and lucide-react. Their license texts are included in
 vexy_localizzy/review/web/THIRD_PARTY_LICENSES.txt and review/public/THIRD_PARTY_LICENSES.txt.
 
-Canonical catalog compatibility types and key/placeholder helpers in
-src/vexy_localizzy/catalog.py and filename planning in
-src/vexy_localizzy/memory/names.py and literal-token QA contracts in
-src/vexy_localizzy/qa/tokens.py and the explicit compatibility projections in
-src/vexy_localizzy/extract/legacy_pairs.py and the plural/device projection in
-src/vexy_localizzy/extract/apple_resources.py and Fluent projection in
-src/vexy_localizzy/extract/fluent_resources.py and the legacy converters in
-src/vexy_localizzy/extract/ are adapted from fl10n, whose project metadata
-identifies FontLab as author and declares the MIT license.
+Parts of this package are adapted from an earlier MIT-licensed localization
+toolkit whose project metadata identifies FontLab as author: the canonical
+catalog compatibility types and key/placeholder helpers in
+src/vexy_localizzy/catalog.py; filename planning in
+src/vexy_localizzy/memory/names.py; literal-token QA contracts in
+src/vexy_localizzy/qa/tokens.py; the compatibility, plural/device and Fluent
+projections and the legacy converters in src/vexy_localizzy/extract/; the Qt
+source scanner, lupdate/lrelease wrappers and app launcher in
+src/vexy_localizzy/qt/; pseudo-localization in src/vexy_localizzy/pseudo.py;
+the vocabulary corpus reader in src/vexy_localizzy/vocab.py and the example
+corpus in examples/vocabulary/; the findings renderers in
+src/vexy_localizzy/report.py; tool discovery in src/vexy_localizzy/external.py
+and src/vexy_localizzy/doctor.py; plural tables in src/vexy_localizzy/plurals.py;
+project configuration in src/vexy_localizzy/project.py and
+src/vexy_localizzy/cli/project.py; the optional QA layers in
+src/vexy_localizzy/qa/layers.py; the review workspace import in
+src/vexy_localizzy/review/workspace.py; and the memory lookup in
+src/vexy_localizzy/memory/lookup.py and lookup.html.
 
 Copyright FontLab
 

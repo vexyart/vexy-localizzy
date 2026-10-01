@@ -35,13 +35,13 @@ The research reduces the choice to a table, and its rules hold up:
 | i18next JSON to or from XLIFF with plurals intact | the locize export |
 | XLIFF 2.0 as the canonical handling | Okapi |
 
-The first row carries an exception to the general advice. The research and the fl10n specification both recommend the Translate Toolkit for most conversions, and both carve out Qt: the toolkit's own documentation warns that `po2ts` uses its older TS support and that many newer TS features are not supported. For a Qt catalog, the Qt tool wins.
+The first row carries an exception to the general advice. The research and the original toolkit specification both recommend the Translate Toolkit for most conversions, and both carve out Qt: the toolkit's own documentation warns that `po2ts` uses its older TS support and that many newer TS features are not supported. For a Qt catalog, the Qt tool wins.
 
 The rows also imply a direction. The research calls i18next JSON a poor interchange format, because the v3 to v4 migration tool only handles keys with the default `_` separator, and recommends converting into it late in the pipeline. The general principle is to convert toward the richer format early and toward the poorer one at the boundary, so that as few steps as possible run on reduced data.
 
 ## When to write your own
 
-Here the sources disagree, and the disagreement is instructive. The research ends its staged rollout plan with a list of things not to do, and the first is "roll your own format converter": use the Translate Toolkit, Okapi or `lconvert`. The fl10n specification follows the advice. Its `convert` command picks `lconvert` whenever a `.ts` file is on either end and the Translate Toolkit otherwise, and passes through to them directly for pairs they round-trip safely.
+Here the sources disagree, and the disagreement is instructive. The research ends its staged rollout plan with a list of things not to do, and the first is "roll your own format converter": use the Translate Toolkit, Okapi or `lconvert`. The original specification follows the advice. Its `convert` command picks `lconvert` whenever a `.ts` file is on either end and the Translate Toolkit otherwise, and passes through to them directly for pairs they round-trip safely.
 
 vexy-localizzy did the opposite. It reads and writes TS, PO, XLIFF, Android, i18next and TMX with its own adapters, keeps the original bytes of every document, and refuses any conversion that loses a field unless the caller acknowledges the loss. Its documentation does not state a motive for the departure, and this book will not invent one. What the record shows is the set of requirements the adapters meet and the existing tools, as the sources describe them, do not:
 
@@ -58,13 +58,13 @@ A team that needs none of these should use the standard tools. A team that needs
 
 Whether you use a standard tool or write one, test it, and test it on the three losses that the research calls predictable: plural arity, context and placeholders. The sources name four kinds of test.
 
-**Round trips with property-based inputs.** The research recommends generating random placeholder sequences with Hypothesis or fast-check and checking that they survive a trip through the converter. The fl10n specification adopts this for its own conversions, and adds a test file with duplicate sources in different contexts to check that `msgctxt` survives.
+**Round trips with property-based inputs.** The research recommends generating random placeholder sequences with Hypothesis or fast-check and checking that they survive a trip through the converter. The original specification adopts this for its own conversions, and adds a test file with duplicate sources in different contexts to check that `msgctxt` survives.
 
 **Byte round trips on real catalogs.** vexy-localizzy's work log records them per format: 53,075 messages in eleven PO catalogs, 981 XLIFF messages in 92 file sections, 771 messages in three nested JSON catalogs and 533 TMX units in three native catalogs, each restored exactly after a trip through canonical JSON.
 
 **Validation against the format's own authority.** Output XLIFF was validated against the official OASIS schemas, fresh TMX against a TMX 1.4 DTD, Android output against native AAPT2 compilation in four cases, and i18next behavior against the published i18next 26.3.6 in thirteen runtime comparisons. The work log is careful to call the Android check synthetic validation, not device coverage.
 
-**Golden files for legacy behavior.** When vexy-localizzy took over fl10n's older memory extractors, it captured their output on synthetic inputs and required byte-identical results from the ports.
+**Golden files for legacy behavior.** When vexy-localizzy took over the older memory extractors of the FontLab tooling, it captured their output on synthetic inputs and required byte-identical results from the ports.
 
 ## Worked example: auditing lconvert on one file
 
@@ -93,8 +93,6 @@ Three of the seven are changes, and all three are defensible: a duplicate messag
 ## Sources
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapters 4 and 11)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `research-draft/317-cla.md` in the fl10n repository
-- `spec/03.md` in the fl10n repository
+- [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - [docs/formats.md](../8-toolkit/formats.md), [docs/extraction.md](../8-toolkit/extraction.md), `WORK.md` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository
 - `lconvert -help` and a local round trip with `lconvert` from Qt tools 6.11.2, recorded for this chapter

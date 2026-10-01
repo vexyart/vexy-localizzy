@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!-- this_file: examples/vocabulary/index.html -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Localization Vocabulary Sandbox & Review Tool</title>
+  <!-- Modern typography via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body class="dark-theme">
+  <!-- Application Container -->
+  <div id="app-container">
+    
+    <!-- Top Menu Bar -->
+    <header id="menu-bar">
+      <div class="logo">
+        <span class="logo-bold">FL</span><span class="logo-light">10n</span>
+      </div>
+      <nav class="main-nav">
+        <div class="menu-item" id="menu-file-trigger">
+          <span class="menu-title" data-i18n="menu.file">_File</span>
+          <div class="dropdown-menu" id="menu-file-dropdown">
+            <button class="dropdown-item" id="btn-file-new" data-i18n="menu.file.new">_New Font...</button>
+            <button class="dropdown-item" id="btn-file-open" data-i18n="menu.file.open">_Open Font...</button>
+            <button class="dropdown-item" id="btn-file-save" data-i18n="menu.file.save">_Save Font</button>
+            <hr>
+            <button class="dropdown-item" id="btn-file-export" data-i18n="menu.file.export">_Export Font Masters...</button>
+          </div>
+        </div>
+        <div class="menu-item" id="menu-edit-trigger">
+          <span class="menu-title" data-i18n="menu.edit">_Edit</span>
+          <div class="dropdown-menu" id="menu-edit-dropdown">
+            <button class="dropdown-item" id="btn-edit-undo" data-i18n="menu.edit.undo">_Undo</button>
+            <button class="dropdown-item" id="btn-edit-redo" data-i18n="menu.edit.redo">_Redo</button>
+          </div>
+        </div>
+        <div class="menu-item" id="menu-contour-trigger">
+          <span class="menu-title" data-i18n="menu.contour">_Contour</span>
+          <div class="dropdown-menu" id="menu-contour-dropdown">
+            <button class="dropdown-item" id="btn-contour-add" data-i18n="menu.contour.addNode">_Add Node</button>
+            <button class="dropdown-item" id="btn-contour-delete" data-i18n="menu.contour.removeNode">_Delete Node</button>
+            <button class="dropdown-item" id="btn-contour-simplify" data-i18n="menu.contour.simplify">_Simplify Path</button>
+            <button class="dropdown-item" id="btn-contour-corner" data-i18n="menu.contour.makeCorner">_Make Corner</button>
+          </div>
+        </div>
+        <div class="menu-item" id="menu-metrics-trigger">
+          <span class="menu-title" data-i18n="menu.metrics">_Metrics</span>
+          <div class="dropdown-menu" id="menu-metrics-dropdown">
+            <button class="dropdown-item" id="btn-metrics-autokern" data-i18n="menu.metrics.autoKern">_Auto-Kern Pair</button>
+          </div>
+        </div>
+        <div class="menu-item" id="menu-hinting-trigger">
+          <span class="menu-title" data-i18n="menu.hinting">_Hinting</span>
+          <div class="dropdown-menu" id="menu-hinting-dropdown">
+            <button class="dropdown-item" id="btn-hinting-autohint" data-i18n="menu.hinting.autoHint">_Generate Autohints</button>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- Top Right Controls (Language switcher) -->
+      <div class="top-controls">
+        <label for="lang-select" class="control-label" data-i18n="languages.language_label">Language:</label>
+        <select id="lang-select" class="custom-select">
+          <option value="en">English (Built-in)</option>
+          <option value="de">Deutsch (German)</option>
+          <option value="fr">Français (French)</option>
+          <option value="ja">日本語 (Japanese)</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- Workspace Panel (Main Section) -->
+    <main id="main-workspace">
+      
+      <!-- Left Toolbar Mockup -->
+      <aside id="toolbar-left">
+        <button class="tool-btn active" id="tool-draw" title="Draw Tool">✎</button>
+        <button class="tool-btn" id="tool-edit" title="Contour Edit Tool">⬈</button>
+        <button class="tool-btn" id="tool-metrics" title="Metrics Tool">↔</button>
+        <button class="tool-btn" id="tool-hints" title="Hinting Tool">▩</button>
+      </aside>
+
+      <!-- Center Vector Canvas Area -->
+      <section id="canvas-area">
+        <div class="canvas-header">
+          <span class="glyph-name">a / glyph_a</span>
+          <div class="canvas-actions">
+            <button class="canvas-btn" id="btn-autokern-class" data-i18n="editor.btn.autoKernClass" data-tooltip="editor.tooltip.autoKernClass">_Auto-Kern Class</button>
+            <button class="canvas-btn" id="btn-autohint" data-i18n="editor.btn.generateHints" data-tooltip="editor.tooltip.generateHints">_Generate Hints</button>
+          </div>
+        </div>
+        
+        <!-- Interactive Vector Editor Canvas Mockup -->
+        <div class="canvas-wrapper">
+          <div class="canvas-grid-lines">
+            <!-- Typographic Guidelines -->
+            <div class="guideline ascender"><span class="guide-label">Ascender (750)</span></div>
+            <div class="guideline capheight"><span class="guide-label">Cap Height (700)</span></div>
+            <div class="guideline xheight"><span class="guide-label">X-Height (500)</span></div>
+            <div class="guideline baseline"><span class="guide-label">Baseline (0)</span></div>
+            <div class="guideline descender"><span class="guide-label">Descender (-250)</span></div>
+            <div class="guideline left-bearing"><span class="guide-label-bearing vertical">LSB</span></div>
+            <div class="guideline right-bearing"><span class="guide-label-bearing vertical">RSB</span></div>
+          </div>
+          
+          <!-- Mock SVG Glyph Outline (Lowercase 'a') -->
+          <svg class="glyph-svg" viewBox="0 0 1000 1000">
+            <!-- Shaded Glyph Area -->
+            <path class="glyph-path" d="M 300 500 C 300 350, 400 300, 500 300 C 600 300, 700 380, 700 500 L 700 750 L 600 750 L 600 680 C 560 730, 480 760, 400 760 C 300 760, 200 680, 200 550 C 200 420, 300 350, 500 350 L 600 350 L 600 500 C 600 580, 520 620, 450 620 C 370 620, 300 580, 300 500 Z" />
+            <!-- Active Node and Bezier Handles Visuals -->
+            <!-- Handles -->
+            <line class="bezier-handle-line" x1="500" y1="300" x2="400" y2="300" />
+            <line class="bezier-handle-line" x1="500" y1="300" x2="600" y2="300" />
+            <circle class="bezier-handle" cx="400" cy="300" r="4" />
+            <circle class="bezier-handle" cx="600" cy="300" r="4" />
+            <!-- Nodes -->
+            <rect class="vector-node corner" x="296" y="496" width="8" height="8" />
+            <circle class="vector-node curve" cx="500" cy="300" r="5" />
+            <polygon class="vector-node tangent" points="695,500 700,492 705,500 700,508" />
+          </svg>
+
+          <!-- Hotspot overlay for translation keys -->
+          <div class="hover-hotspot node-hotspot" data-key="vocab.node" style="left: 50%; top: 30%;">Node</div>
+          <div class="hover-hotspot contour-hotspot" data-key="vocab.contour" style="left: 45%; top: 48%;">Contour</div>
+          <div class="hover-hotspot lsb-hotspot" data-key="vocab.leftSidebearing" style="left: 18%; top: 60%;">Left Sidebearing</div>
+          <div class="hover-hotspot rsb-hotspot" data-key="vocab.rightSidebearing" style="left: 82%; top: 60%;">Right Sidebearing</div>
+          <div class="hover-hotspot baseline-hotspot" data-key="vocab.baseline" style="left: 5%; top: 74%;">Baseline</div>
+        </div>
+
+        <!-- Canvas Footer / Spacing Info bar -->
+        <div class="canvas-footer">
+          <div class="metrics-summary">
+            <span class="metric-block" data-key="vocab.leftSidebearing">LSB: <strong class="metric-val">80</strong></span>
+            <span class="metric-block" data-key="vocab.rightSidebearing">RSB: <strong class="metric-val">90</strong></span>
+            <span class="metric-block" data-key="vocab.advanceWidth">Width: <strong class="metric-val">680</strong></span>
+          </div>
+          <div class="selection-status-bar" id="selection-status" data-i18n="msg.selectedGlyphsCount" data-vals='{"count":12,"total":256}'>
+            Selected 12 glyphs out of 256 total.
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Sidebar Panel (Vocabulary Glossary & Review Editor) -->
+      <aside id="sidebar-right">
+        
+        <!-- Glossary Vocabulary Panel -->
+        <section class="sidebar-section" id="vocab-section">
+          <h2 class="sidebar-title" data-i18n="editor.vocabTitle">Active Font Engineering Vocabulary</h2>
+          <p class="sidebar-desc" data-i18n="editor.vocabExplanation">Select a term below to view its localized description and metadata context.</p>
+          <div class="vocab-list-wrapper">
+            <ul id="vocab-list" class="styled-list">
+              <!-- Dynamically populated from translations.js -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Disambiguation Display -->
+        <section class="sidebar-section" id="disambig-section">
+          <h2 class="sidebar-title">Context Disambiguation</h2>
+          <div class="grid-disambig">
+            <div class="disambig-cell">
+              <span class="disambig-header" data-i18n="label.disambig.kern.noun">Kern (Noun)</span>
+              <span class="disambig-text badge" data-i18n="label.disambig.kern.noun.desc">Kern</span>
+            </div>
+            <div class="disambig-cell">
+              <span class="disambig-header" data-i18n="label.disambig.kern.verb">Kern (Verb)</span>
+              <span class="disambig-text badge" data-i18n="label.disambig.kern.verb.desc">Kern</span>
+            </div>
+            <div class="disambig-cell">
+              <span class="disambig-header" data-i18n="label.disambig.weight.font">Weight (Font Style)</span>
+              <span class="disambig-text badge" data-i18n="label.disambig.weight.font.desc">Weight</span>
+            </div>
+            <div class="disambig-cell">
+              <span class="disambig-header" data-i18n="label.disambig.weight.visual">Weight (Visual Density)</span>
+              <span class="disambig-text badge" data-i18n="label.disambig.weight.visual.desc">Weight</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Live Review Tool Panel -->
+        <section class="sidebar-section active" id="review-panel">
+          <h2 class="sidebar-title" data-i18n="editor.panel.review.title">Localization Review Tool</h2>
+          
+          <div class="review-fields">
+            <div class="field-group">
+              <label class="field-label">Translation Key</label>
+              <div class="field-value-mono" id="review-key">-</div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Developer / Context Notes</label>
+              <div class="field-value" id="review-context">-</div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">English Source (en)</label>
+              <div class="field-value-source" id="review-source">-</div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Localized Value (<span id="active-lang-label">de</span>)</label>
+              <textarea id="review-input" class="field-input" rows="3" placeholder="Enter localized string..."></textarea>
+            </div>
+          </div>
+
+          <div class="review-actions">
+            <button class="primary-btn" id="btn-save-translation" data-i18n="editor.panel.review.save">Save Translation</button>
+            <button class="secondary-btn" id="btn-export-json" data-i18n="editor.panel.review.export">Export JSON Vocabulary</button>
+          </div>
+        </section>
+
+      </aside>
+
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer id="status-bar">
+      <div class="status-left">
+        <span class="status-indicator"></span>
+        <span id="status-message" data-i18n="editor.statusBar.ready">Ready to edit font contours.</span>
+      </div>
+      <div class="status-right">
+        <span>X: <strong id="val-x">500</strong> Y: <strong id="val-y">300</strong></span>
+        <span>Units Per Em: <strong>1000</strong></span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Loading scripts -->
+  <script src="translations.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

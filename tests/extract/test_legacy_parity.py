@@ -1,7 +1,7 @@
 # this_file: tests/extract/test_legacy_parity.py
-"""Ported converters reproduce the outputs of the old fl10n scripts on synthetic inputs.
+"""Ported converters reproduce the outputs of the old converter scripts on synthetic inputs.
 
-Goldens in ``tests/fixtures/legacy_golden`` were written by the fl10n tools
+Goldens in ``tests/fixtures/legacy_golden`` were written by those scripts
 (see ``capture.py`` and ``commands.txt`` there). Files are compared as parsed
 records (header srclang, tuid, props, segments, languages) and as filename
 sets, not as bytes.
@@ -236,7 +236,10 @@ def test_tm_commands_when_listed_then_expected_names():
 
     assert list(cli_tm.TM_COMMANDS) == [
         "tmx2qph",
+        "tmx2html",
         "build_ui",
+        "lookup",
+        "glossary_json",
         "ts2tmx",
         "po2tmx",
         "lproj2tmx",

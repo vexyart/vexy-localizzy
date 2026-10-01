@@ -30,7 +30,7 @@ What has changed since 2000 is who reads the glossary. In Esselink's day a senio
 
 ## How the FontLab practice appears
 
-The worked examples come from one real localization. FontLab 9 has a catalog of about 10,500 messages, reviewed in German, Spanish and French in 2026 and localized into Polish in the same year. The founder's review remarks, kept in the `fl10n` repository as issues 133 and 146, turned a pile of corrections into general rules: one meaning gets one translation; do not add detail; keep the length; derive consistently; keep humor; go easy on do-not-translate. The writing styleguide publishes those rules and holds the data: one YAML file per English term, one core translation memory per language, and a project memory of reviewed interface strings. The `vexy-localizzy` toolkit reads those memories when it translates and upgrades catalogs.
+The worked examples come from one real localization. FontLab 9 has a catalog of about 10,500 messages, reviewed in German, Spanish and French in 2026 and localized into Polish in the same year. The founder's review remarks, kept in the FontLab localization project, turned a pile of corrections into general rules: one meaning gets one translation; do not add detail; keep the length; derive consistently; keep humor; go easy on do-not-translate. The writing styleguide publishes those rules and holds the data: one YAML file per English term, one core translation memory per language, and a project memory of reviewed interface strings. The `vexy-localizzy` toolkit reads those memories when it translates and upgrades catalogs.
 
 Neither the product nor the toolkit is the point. The FontLab case is useful because every decision in it is recorded with the text before and after, so the reasoning can be checked. Where the FontLab data disagrees with itself, for example a language guide that still describes an older decision, the chapters say so. That disagreement is part of the lesson of [chapter 410](410-ledgers-and-decisions.md).
 
@@ -43,6 +43,6 @@ Read [402](402-terminology-work.md) and [403](403-a-glossary-schema.md) first if
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: terminology)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.4: terminology)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: terminology and localization)
-- `issues/133.md`, `issues/146.md` and `issues/147.md` in the fl10n repository
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026), the founder's update of 29 September 2026 and the founder's notes on house voice, in the FontLab localization project
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository
 - [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository

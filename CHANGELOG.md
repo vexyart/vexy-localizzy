@@ -32,6 +32,79 @@ and direct TMX/table/QPH parity checks. Runtime UI review is not claimed.
 
 ## Unreleased
 
+### 2026-10-01: Qt tooling, project file, editorial review, QA layers
+
+The toolkit absorbs the Qt and project tooling that used to sit in a separate
+project layer. Nothing here names a product; a project supplies its paths in
+`localizzy.toml`.
+
+- **Project file.** `localizzy init` writes `localizzy.toml` (catalog layout,
+  memories, per-language tags, engine settings, Qt sources). `localizzy project
+  upgrade|translate|build_ui CODE` run the general commands with paths resolved
+  from it. Unknown keys are an error; a configured memory that is missing is
+  reported, and `build_ui` refuses to run without its glossary memories.
+- **Qt.** `localizzy qt scan` audits C++ and `.ui` sources with twelve rules
+  (`QT-CTX-001` to `QT-CLANG-012`), a heuristic engine and a libclang engine
+  (`clang` extra, `--compile-commands`), table/JSON/SARIF output and a coverage
+  gate. New detectors: `QT-NS-004` (namespaced `Q_DECLARE_TR_FUNCTIONS`) and
+  `QT-NOOP-008` (`QT_TR_NOOP` outside a class). The clang engine never reports
+  an unparsed file as clean: it emits `QT-CLANG-012` and falls back to the
+  heuristic findings. `qt extract` and `qt release` wrap `lupdate` and
+  `lrelease` with timeouts. `qt extract` keeps translations of strings that
+  left the source (`--no-obsolete` drops them), works on copies and replaces
+  the catalogs only after `lupdate` succeeded; `qt applang` lists the UI languages compiled into
+  a macOS Qt app, launches it in one, and writes `.command` launchers.
+- **QA.** `localizzy qa --plural-forms auto` derives the required native forms
+  from the target language. `--layers pofilter,qe,judge` adds Translate
+  Toolkit's battery (`pofilter` extra), COMET quality estimation and an MQM
+  judge behind an OpenAI-compatible endpoint. `--format table|json|sarif
+  --out`; SARIF results carry the catalog as location. Exit 1 blocking
+  findings, 2 usage, 3 missing optional dependency.
+- **Pseudo-localization.** `localizzy pseudo CATALOG OUT` (accent, bracket,
+  rtl). `%L1`, `%Ln`, printf tokens, entities and `&&` are now protected.
+- **Editorial review.** `localizzy editorial review` asks a model to review an
+  already translated catalog or flat JSON file and appends proposals to a
+  candidates file; `editorial apply` applies accepted ones with staleness and
+  shape guards and writes an exact ledger. Duplicate candidate ids are refused;
+  skipped plural lists and vanished units are counted and listed.
+- **Catalog utilities.** `localizzy diff OLD NEW`, `shard split|merge`,
+  `translate_json` (flat JSON and titles files, with QA, sidecar and resume by
+  key), `tm glossary_json`, `tm lookup` (every exact source match of a catalog
+  in `<lang>-*.tmx` memories, as JSON and a filterable page).
+- **Review.** `localizzy review catalog.ts` imports a `.ts` or `.json` catalog
+  into a resumable `CATALOG.review/` workspace with `.ui` previews
+  (`--workspace`, `--ui-files`, `--open-browser`); the source is never edited.
+- **Vocabulary.** `localizzy vocab stats|list|validate|export|compare` over a
+  keyed multilingual corpus; `--flat` export and `compare` make it a golden set
+  for benchmarks. An example corpus ships in `examples/vocabulary/`.
+- **Environment.** `localizzy doctor` reports tools and extras. New extras:
+  `clang`, `pofilter`.
+- **Fixed.** `pofilter` was invoked with one comma-joined `-t` value, which it
+  rejects; the layer now passes one `-t` per test and raises on failure.
+  The libclang pass reported every literal `tr("…")` as non-literal (the
+  literal is wrapped in an implicit conversion node) and crashed on headers.
+  `atomic_write` keeps the destination's file mode.
+- **Changed.** XLIFF context types are written as `x-localizzy-context` and
+  `x-localizzy-disambiguation`; the earlier `x-fl10n-*` names still load. The
+  default `origin_format` of a catalog is `localizzy`; `fl10n` still loads.
+  `src_docs/deploy.sh` requires `VEXY_LOCALIZZY_PAGES`. Book chapters no longer
+  cite private repository paths; scanner rule ids in the book are `QT-…`.
+- **Safety.** A command whose output path resolves to one of its inputs is
+  refused. A missing or malformed input file prints one line and exits 2;
+  Ctrl+C exits 130. `project upgrade` may be rerun on the same inputs.
+- **Not carried over.** The tier-routed translation path with per-provider
+  SDK calls is retired; memory-first `translate` replaces it.
+
+### 2026-10-01: TMX to HTML
+
+- `localizzy tm tmx2html input.tmx output.html [--target xx] [--title ...]`
+  renders a two-language TMX as one self-contained page: streamed units,
+  embedded JSON, text search, a filter per `x-*` property with few values,
+  unit and segment notes, click-to-copy on source and target, dark mode.
+  Units missing either language are skipped and counted; the output is
+  written atomically. Module `memory/tmx_html.py`, tests in
+  `tests/memory/test_tmx_html.py`.
+
 ### 2026-09-30: stale English catalogs during source-fix apply
 
 - A correction whose new wording already sits in the source (the catalog was
@@ -55,7 +128,7 @@ and direct TMX/table/QPH parity checks. Runtime UI review is not claimed.
 - Source-fix commands explain their intent before work, report each catalog and
   elapsed time, and emit a heartbeat during slow stages. Library calls remain silent.
 - Ctrl+C exits cleanly with status 130 and reports the actual write/rollback state.
-- The Proteus wrapper requires an explicit prepare, preview or apply operation;
+- The application-side wrapper script requires an explicit prepare, preview or apply operation;
   no arguments shows help. Preview always enforces dry-run.
 
 ### 2026-09-29: English source corrections through Qt Linguist
@@ -182,11 +255,11 @@ Fixes for the issue 145 code review. Each finding has a regression test.
   - `experimental/`: the research code (`classification*`, `distillation*`,
     `embeddings`, `embedding_search`, `embedding_store`, `clustering`,
     `retrieval`). It is not part of the supported CLI.
-- **Deprecated aliases.** Every research module and every old path fl10n
+- **Deprecated aliases.** Every research module and every old path a consumer
   imports stays importable at its old name. The old name is the same module
   object as the new one and emits a `DeprecationWarning`. The research
   aliases exist for the live classification run's private driver scripts;
-  delete them once that run is sealed. Delete the fl10n aliases once fl10n
+  delete them once that run is sealed. Delete the consumer aliases once that consumer
   imports the new paths.
 - `scripts/move_modules.py` performs the moves and import rewrites
   (idempotent, `--dry-run`, `--consumer DIR` for other repositories).
@@ -268,9 +341,9 @@ Fixes for the issue 145 code review. Each finding has a regression test.
   3 the `translation` extra is missing. `--provenance=extra` writes
   `<extra-localizzy-origin>` into TS messages; the default writes the sidecar only.
 
-### 2026-09-28: legacy converters moved from fl10n
+### 2026-09-28: legacy converters moved in
 
-- Add `vexy_localizzy.extract`, ported from the fl10n `tools/` scripts. The
+- Add `vexy_localizzy.extract`, ported from earlier standalone converter scripts. The
   ports cover `ts2tmx`, `po2tmx`, `lproj` (lproj2tmx), `adobe` (adobe2tmx),
   `oss` (oss2tmx) and `names.normalize_folder` (tmxnorm). They share
   `legacy_lang` (region shortening, filename guessing, XML-illegal character
@@ -286,7 +359,7 @@ Fixes for the issue 145 code review. Each finding has a regression test.
 - The TMX headers are unchanged. ts2tmx and oss2tmx still write
   `creationtool="po2tmx"` and `o-tmf="gettext"`, because they shared po2tmx's writer.
 - Golden parity tests compare parsed records against outputs of the old scripts
-  on synthetic inputs, in `tests/fixtures/legacy_golden`. The fl10n
+  on synthetic inputs, in `tests/fixtures/legacy_golden`. The earlier
   `test_legacy_*` suites were ported to `tests/extract/`.
 
 ### 2026-09-28: TS splice writer

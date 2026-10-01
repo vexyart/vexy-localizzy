@@ -4,7 +4,7 @@ this_file: src_docs/md/4-terminology/409-do-not-translate-with-restraint.md
 
 # 409. Do-not-translate with restraint: brands, trademarks, identifiers, and everything else that may inflect
 
-Every glossary has a do-not-translate list, and every do-not-translate list grows. It is the safe answer: nobody is blamed for leaving an English word alone. The result is a localized interface that says *Unicode codepoint*, *glyph index*, *CVT table* and *feature code* in the middle of German or Polish sentences, as the first Polish FontLab catalog did, because each of those words once looked technical enough to protect. The founder's instruction in issue 147 is short: go easy on do-not-translate. Brands and trademarks stay; almost everything else may be translated, and even a protected name sits inside a sentence whose grammar belongs to the target language.
+Every glossary has a do-not-translate list, and every do-not-translate list grows. It is the safe answer: nobody is blamed for leaving an English word alone. The result is a localized interface that says *Unicode codepoint*, *glyph index*, *CVT table* and *feature code* in the middle of German or Polish sentences, as the first Polish FontLab catalog did, because each of those words once looked technical enough to protect. The founder's instruction in the notes on house voice is short: go easy on do-not-translate. Brands and trademarks stay; almost everything else may be translated, and even a protected name sits inside a sentence whose grammar belongs to the target language.
 
 This chapter separates what must stay English from what only looks as if it should, and shows how a protected name and the words around it behave in an inflected language.
 
@@ -25,9 +25,9 @@ Roturier (2015) explains the second row with an example that has not aged. Comma
 
 ## What only looks like a name
 
-The Polish decisions of issue 146 moved a group of English phrases out of the protected list, because on inspection they were ordinary technical nouns:
+The Polish decisions of the founder's update of 29 September 2026 moved a group of English phrases out of the protected list, because on inspection they were ordinary technical nouns:
 
-| English | First Polish catalog | After issue 146 |
+| English | First Polish catalog | After the 29 September update |
 |---|---|---|
 | Unicode codepoint | *Unicode codepoint* | *jednostka unikodu* |
 | glyph index | *glyph index* | *indeks glifu* |
@@ -51,9 +51,9 @@ The pattern generalizes to every inflected language. Put the translated common n
 
 ## Names of operations are a separate question
 
-Some feature names stay English for a reason that has nothing to do with trademarks: they denote one specific operation, and a translation would suggest a general one. The founder's rule in issue 133 concerns *Oblique*. FontLab's Oblique applies a particular set of optical corrections; it is not any slant. German therefore keeps *Oblique* for the operation and uses *Geneigt* only for the PANOSE letterform classification of the same name. The German guide treats *Flex* (a kind of hint) and *OT Def* the same way, following issue 133.
+Some feature names stay English for a reason that has nothing to do with trademarks: they denote one specific operation, and a translation would suggest a general one. The founder's rule in the review of the German, Spanish and French catalogs concerns *Oblique*. FontLab's Oblique applies a particular set of optical corrections; it is not any slant. German therefore keeps *Oblique* for the operation and uses *Geneigt* only for the PANOSE letterform classification of the same name. The German guide treats *Flex* (a kind of hint) and *OT Def* the same way, following that review.
 
-This rule and the down-to-earth rule of [chapter 407](407-house-voice-across-languages.md) can pull in different directions, and the languages have resolved them differently. The FontLab principles used to list Cousins, Genius, Servant and Skin among the names to keep; since issue 147 they ask for a plain native word wherever one is attested and keep the English only where none exists, and German, Spanish and French still keep *Cousins* for now. Polish translated *Cousins*, *Servant* and *Skin* in issue 146, keeps *Genius* with a translated noun (*węzeł Genius*, still proposed), and Spanish renders Skin as *revestimiento*. The resolution in both directions is the same test: does the translated word name exactly this operation, or does it suggest a broader one? *Kuzynostwo* names the same view that *Cousins* does. A translation of *Oblique* as a generic slant would not.
+This rule and the down-to-earth rule of [chapter 407](407-house-voice-across-languages.md) can pull in different directions, and the languages have resolved them differently. The FontLab principles used to list Cousins, Genius, Servant and Skin among the names to keep; since the founder's notes on house voice they ask for a plain native word wherever one is attested and keep the English only where none exists, and German, Spanish and French still keep *Cousins* for now. Polish translated *Cousins*, *Servant* and *Skin* in the 29 September update, keeps *Genius* with a translated noun (*węzeł Genius*, still proposed), and Spanish renders Skin as *revestimiento*. The resolution in both directions is the same test: does the translated word name exactly this operation, or does it suggest a broader one? *Kuzynostwo* names the same view that *Cousins* does. A translation of *Oblique* as a generic slant would not.
 
 ## The cost of protecting too much
 
@@ -74,12 +74,12 @@ The FontLab core memories record *FontLab account* differently in German and Pol
 1. **German.** Status `do-not-translate`, target *FontLab account*. The note: a brand term, so it stays English; *FontLab-Konto* is the natural German form and reads well, but service names carry the English name.
 2. **Polish.** Status `do-not-translate`, target *konto FontLab*. The note: the brand name stays; the Polish segment translates only *account*.
 
-Both protect the brand. They differ on whether *account* is part of a service name or a common noun. The German note itself calls *FontLab-Konto* natural, which is the argument for translating it; the Polish decision of issue 146 follows the founder's later instruction to go easy on do-not-translate. A German reviewer revisiting the entry would apply the test of this chapter: is *account* protected by law or read by a program? If the answer is no, *FontLab-Konto* is the candidate, and the change goes into the ledger with its reason ([chapter 410](410-ledgers-and-decisions.md)).
+Both protect the brand. They differ on whether *account* is part of a service name or a common noun. The German note itself calls *FontLab-Konto* natural, which is the argument for translating it; the Polish decision of the 29 September update follows the founder's later instruction to go easy on do-not-translate. A German reviewer revisiting the entry would apply the test of this chapter: is *account* protected by law or read by a program? If the answer is no, *FontLab-Konto* is the candidate, and the change goes into the ledger with its reason ([chapter 410](410-ledgers-and-decisions.md)).
 
 ## Sources
 
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.4.1: why terminology matters)
-- `issues/133.md`, `issues/146.md` and `issues/147.md` in the fl10n repository
-- `data-fontlab-cpp/i18n/fontlab_pl.ts` in the fl10n repository
+- The founder's review remarks on the German, Spanish and French catalogs (September 2026), the founder's update of 29 September 2026 and the founder's notes on house voice, in the FontLab localization project
+- The Polish FontLab 9 interface catalog (`fontlab_pl.ts`)
 - [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md) and [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/) in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/de-core.tmx`, `es-core.tmx`, `fr-core.tmx` and `pl-core.tmx` in the vexy-fontlab-writing-styleguide repository

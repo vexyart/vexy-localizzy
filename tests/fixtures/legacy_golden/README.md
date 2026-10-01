@@ -3,14 +3,14 @@ this_file: tests/fixtures/legacy_golden/README.md
 ---
 # Legacy converter goldens
 
-These files are the outputs of the old fl10n scripts (`tools/ts2tmx.py`,
+These files are the outputs of the old converter scripts (`tools/ts2tmx.py`,
 `po2tmx.py`, `lproj2tmx.py`, `adobe2tmx.py`, `oss2tmx.py`, `tmxnorm.py`) run on
 synthetic inputs, captured on 2026-09-28. `tests/extract/test_legacy_parity.py`
 runs the ported `vexy_localizzy.extract` modules on the same inputs. It compares
 parsed records: header `srclang`, `tuid`, props, segments, languages and the
 output filename set. It does not compare bytes.
 
-No input is FontLab data:
+No input is product data:
 - `inputs/ts`, `inputs/po` and `inputs/oss` are hand-written text files.
 - The Adobe folder and the Apple bundle contain binary resources. These are PMST
   tables, a Pascal-string `.rsrc`, a Mach-O stub, a UTF-16 `.dat` and a binary
@@ -18,7 +18,7 @@ No input is FontLab data:
   test time.
 - `oss_registry.toml` is a synthetic app registry. Its repositories resolve to
   `inputs/oss/<repo>` in place of git clones.
-- `legacy_apps.json` snapshots the fl10n `oss2tmx.APPS` table. The packaged
+- `legacy_apps.json` snapshots the old `oss2tmx.APPS` table. The packaged
   `oss_apps.toml` must match it.
 
 ## Intentional divergences
@@ -37,16 +37,17 @@ Regenerating with the legacy scripts undoes these edits; reapply them.
 
 ## Regenerate
 
-Run the scripts with the fl10n virtual environment. Their `uv run -s` shebang
+The old scripts are no longer distributed; this section records how the goldens
+were made. They ran from their own virtual environment. Their `uv run -s` shebang
 would fetch vexy-localizzy from PyPI instead of this tree.
 
 ```sh
-FL10N=/path/to/fl10n
-$FL10N/.venv/bin/python tests/fixtures/legacy_golden/capture.py $FL10N/tools
+LEGACY=/path/to/old-scripts-checkout
+$LEGACY/.venv/bin/python tests/fixtures/legacy_golden/capture.py $LEGACY/tools
 ```
 
 `capture.py` writes `commands.txt`. The recorded commands are these. `$TOOLS` is
-the fl10n `tools/` folder, `$GOLDEN` is this folder and `$WORK` is a temporary
+the old `tools/` folder, `$GOLDEN` is this folder and `$WORK` is a temporary
 folder:
 
 ```text

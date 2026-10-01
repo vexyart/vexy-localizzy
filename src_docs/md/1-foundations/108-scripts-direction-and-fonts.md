@@ -78,6 +78,4 @@ None of these steps involves a translation choice. Together they decide whether 
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 1 glossary; chapter 5: complex scripts, bidirectionality, shaping, clusters, line breaking, fonts, fallback and linking)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 2, box 2.1: locales with scripts)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (L10n)*, 2025 (chapter 2: text direction and layout)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository (section 1.5)
-- `research/02-localizing-qt-cpp-applications.md` in the fl10n repository (right-to-left pitfalls and fonts)
 - [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

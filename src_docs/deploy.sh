@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # this_file: src_docs/deploy.sh
 #
-# Publish the built book (docs/fl1992mk) to https://fontlab.dev/vexy-localizzy/fl1992mk/.
+# Publish the built book (docs/) to https://fontlab.dev/vexy-localizzy/fl1992mk/.
 # fontlab.dev is served by GitHub Pages of the Fontlab organization, one repository per
 # path, so the site lives in the docs-only repository Fontlab/vexy-localizzy (source of
 # the book stays here, in vexyart/vexy-localizzy). Run src_docs/build.sh first.
 set -euo pipefail
-SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )/docs/fl1992mk"
-PAGES="${VEXY_LOCALIZZY_PAGES:-$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../../github.fontlab/vexy-localizzy" && pwd )}"
-[ -d "$SRC" ] || { echo "build the site first: src_docs/build.sh" >&2; exit 2; }
+SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )/docs"
+PAGES="${VEXY_LOCALIZZY_PAGES:?set VEXY_LOCALIZZY_PAGES to a checkout of the pages repository}"
+[ -d "$PAGES/.git" ] || { echo "not a git checkout: $PAGES" >&2; exit 2; }
+[ -f "$SRC/index.html" ] || { echo "build the site first: src_docs/build.sh" >&2; exit 2; }
 rsync -a --delete "$SRC/" "$PAGES/docs/fl1992mk/"
 touch "$PAGES/docs/.nojekyll"
 cd "$PAGES"

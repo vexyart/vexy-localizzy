@@ -10,7 +10,7 @@ untranslated entries are dropped, plurals give a singular and a plural unit,
 ``msgctxt`` / Qt context / Fluent id land in ``x-context`` and the source file
 in ``x-origin``. Fluent select expressions are expanded per variant (context
 suffixed ``[key]``). For Qt TS files ``<TS language>`` wins over the file name.
-Ported from fl10n ``tools/oss2tmx.py``.
+Ported from the earlier ``oss2tmx`` script; see NOTICE.
 """
 
 import re

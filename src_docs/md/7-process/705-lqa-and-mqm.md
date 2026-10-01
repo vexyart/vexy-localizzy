@@ -64,7 +64,7 @@ The first FontLab metrics pass recorded this change to the German catalog, one o
   "source": "Width",
   "before": "Breite",
   "after": "Dickte",
-  "why": "The control edits glyph advance/metrics width; it does not measure the outline bounding box. Proteus advanceWidth()/gi::AdvanceWidth; FontForge de Width TU 27422753."
+  "why": "The control edits glyph advance/metrics width; it does not measure the outline bounding box. application source advanceWidth()/gi::AdvanceWidth; FontForge de Width TU 27422753."
 }
 ```
 
@@ -90,6 +90,5 @@ The FontLab guide adds one more distinction that keeps sign-off honest: acceptin
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: QA and QC, levels of testing)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: levels of localization; chapter 4: LQA stages, MQM and DQF, the LISA QA model, error severity)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 11: the world-ready approach to testing, localization testing)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.3)
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/2026-09-28-metrics.json` in the fl10n repository
+- The German review ledger for metrics (28 September 2026)

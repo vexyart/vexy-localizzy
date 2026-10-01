@@ -12,12 +12,12 @@ alias stubs at the old paths listed in ``STUBS``, then runs ruff on the touched
 Python files. Running it again changes nothing. ``--dry-run`` prints the plan.
 
 ``--consumer DIR`` rewrites another repository (``src``, ``tests``, ``tools``)
-without moving files, for example fl10n. Files carrying the marker
+without moving files. Files carrying the marker
 ``move-modules: skip`` are never rewritten.
 
 Usage:
     scripts/move_modules.py --group qa [--dry-run]
-    scripts/move_modules.py --group all --consumer ../fl10n --dry-run
+    scripts/move_modules.py --group all --consumer ../consumer --dry-run
 """
 
 import argparse
@@ -180,7 +180,7 @@ MOVES: dict[str, str] = {
 # Non-module directories that move with a group (paths relative to the package).
 DIR_MOVES: dict[str, dict[str, str]] = {"review": {"review_web": "review/web"}}
 
-# Old paths that keep a deprecated alias module: every path fl10n imports, plus
+# Old paths that keep a deprecated alias module: every path a known consumer imported, plus
 # every research module (a live classification run imports the old names).
 STUBS: set[str] = {
     f"{PKG}.{name}"

@@ -25,7 +25,7 @@ The bugs it exposes, in Dr International's list, fall into a handful of kinds:
 
 ## Transformations and what each reveals
 
-Pseudo-localization is not one transformation but several, and each targets a different failure. The table combines Dr International's features with the stress vectors in research/04 and the modes in the fl10n specification.
+Pseudo-localization is not one transformation but several, and each targets a different failure. The table combines Dr International's features with the stress vectors in research/04 and the modes in the toolkit design.
 
 | Transformation | Example | What it reveals |
 |---|---|---|
@@ -37,7 +37,7 @@ Pseudo-localization is not one transformation but several, and each targets a di
 | Pseudo-mirroring | Flip layout direction only | Interfaces that cannot be mirrored |
 | Graphic and audio markers | Overlay the file name on an image | Media outside the localization scope |
 
-The expansion ratio is where sources give numbers. Research/04 recommends lengthening strings by thirty to fifty percent and cites Microsoft guidance of about forty percent for English source text; the fl10n specification defaults to forty percent. Part 1 discusses real expansion rates in [109. Space and growth](../1-foundations/109-space-and-growth.md). For a pseudo-locale, the exact figure matters less than applying it uniformly, so that a failure points to the layout rather than to one translator's verbosity.
+The expansion ratio is where sources give numbers. Research/04 recommends lengthening strings by thirty to fifty percent and cites Microsoft guidance of about forty percent for English source text; the toolkit design defaults to forty percent. Part 1 discusses real expansion rates in [109. Space and growth](../1-foundations/109-space-and-growth.md). For a pseudo-locale, the exact figure matters less than applying it uniformly, so that a failure points to the layout rather than to one translator's verbosity.
 
 Delimiters deserve special attention because they reveal structure that no other check can. Dr International's worked example shows a rendered line with braces added at the start and end of each resource:
 
@@ -49,7 +49,7 @@ Read left to right, it says four things. The second string was inserted into the
 
 ## Preserve the syntax
 
-A pseudo-localizer is a translation engine with no vocabulary, and it is bound by the same rules as a real one. Placeholders, markup and escapes must pass through unchanged, or the pseudo build will fail for reasons that have nothing to do with localizability. The fl10n specification says placeholders and tags are never transformed. The FontLab runtime-review guide asks for a tool that preserves message syntax, so that placeholder identifiers, markup and escapes remain functional, and warns that an unchanged user value or technical identifier may be intentional.
+A pseudo-localizer is a translation engine with no vocabulary, and it is bound by the same rules as a real one. Placeholders, markup and escapes must pass through unchanged, or the pseudo build will fail for reasons that have nothing to do with localizability. The toolkit design says placeholders and tags are never transformed. The FontLab runtime-review guide asks for a tool that preserves message syntax, so that placeholder identifiers, markup and escapes remain functional, and warns that an unchanged user value or technical identifier may be intentional.
 
 A small pseudo-localizer for Qt messages shows the principle. This is a sketch, not a library function:
 
@@ -76,7 +76,7 @@ The placeholder `%n` and the mnemonic marker survive; everything else is visibly
 
 ## Where it runs, and what it may block
 
-In the eight-stage loop of chapter [702](702-continuous-localization.md), pseudo-localization is stage 3, after the diff and before translation. The fl10n specification writes the pseudo catalog as an ordinary catalog with the target language `xx-pseudo`, converts it to `.ts` and compiles it to `.qm`, so the application loads it like any locale and the team sees overflow in the real interface. Research/04 and research/05 pair it with screenshot tests in Playwright, Cypress or Chromatic, and propose failing the build when the interface fractures.
+In the eight-stage loop of chapter [702](702-continuous-localization.md), pseudo-localization is stage 3, after the diff and before translation. The toolkit design writes the pseudo catalog as an ordinary catalog with the target language `xx-pseudo`, converts it to `.ts` and compiles it to `.qm`, so the application loads it like any locale and the team sees overflow in the real interface. Research/04 and research/05 pair it with screenshot tests in Playwright, Cypress or Chromatic, and propose failing the build when the interface fractures.
 
 A build failure is the right response to some pseudo findings and the wrong one to others. A string that stays in English is a missed extraction, a defect in code, and blocking is reasonable. A truncated label is a layout defect, and whether it blocks depends on what is lost, as chapter [705](705-lqa-and-mqm.md) describes. Buttons from the operating system stay in English in a pseudo build, because the system is not pseudo-localized; Dr International's pseudo-localized Notepad shows *Yes*, *No* and *Cancel* in plain English beside accented application text. Those are not defects, and a rule that fails the build on any unaccented string will fail on them.
 
@@ -86,7 +86,7 @@ A review tool can show layout before a build exists. The vexy-localizzy browser 
 
 ## Length checks, and the limits of a pseudo-locale
 
-Not every length check needs a pseudo build. The FontLab review of September 2026 did not use one. It used a rule and a search. Issue 133 set the rule that labels in the Measurements panel should be no longer than their English originals, and the German catalog was searched for interface strings longer than the English. The FontLab guide generalizes this into a script check: flag a length ratio far outside the language's expected range, and flag any target longer than its source in a panel with a length cap. Research/04 suggests carrying such caps with the string, in an XLIFF size restriction or a JSON manifest, and asserting the length in the gate.
+Not every length check needs a pseudo build. The FontLab review of September 2026 did not use one. It used a rule and a search. The founder's review set the rule that labels in the Measurements panel should be no longer than their English originals, and the German catalog was searched for interface strings longer than the English. The FontLab guide generalizes this into a script check: flag a length ratio far outside the language's expected range, and flag any target longer than its source in a panel with a length cap. Research/04 suggests carrying such caps with the string, in an XLIFF size restriction or a JSON manifest, and asserting the length in the gate.
 
 A length rule is cheap and exact, and it catches the panel you already know is tight. A pseudo build catches the panels you did not know about. The FontLab audit states the limit of the first approach in its own words: its checks do not establish pixel fit in the interface. Characters are not pixels, and the widest German word in a proportional font is a matter for the running product.
 
@@ -98,9 +98,7 @@ Keep the failures pseudo-localization finds, and rerun their cases after each re
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: internationalization testing and pseudo-translation, linguistic testing of dynamic dialogs; chapter 13: pseudo-translation in project evaluation)
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002 (chapter 11: localizability testing; chapter 12: pseudo-localization)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7.1 and 4.7.2)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.4.2)
-- `spec/05.md` in the fl10n repository (section 5.2)
+- [docs/pseudo.md](../8-toolkit/pseudo.md) in the vexy-localizzy repository
 - [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
 - [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository (issue 133 and audit limits)
+- The README of the review ledger directory of the FontLab localization project (the founder's review and audit limits)

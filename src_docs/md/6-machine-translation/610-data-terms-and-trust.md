@@ -88,7 +88,6 @@ A reader of a catalog, whether a reviewer, an auditor or the next engineer, shou
 
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 1.1.3: local laws; section 3.2.4: confidentiality and context; section 5.2: translation environments and their terms; task 5.9.1: reviewing the terms and conditions of an online translation management system)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: overt and covert machine translation; neural translation engines and language models compared)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.6: open-weight models for on-premises use)
-- `WORK.md` in the fl10n repository (issue 145: per-shard provenance)
+- The work log of the FontLab localization project (per-shard provenance of the Polish localization)
 - `README.md`, [docs/memories.md](../8-toolkit/memories.md), [docs/translation.md](../8-toolkit/translation.md), [docs/retrieval.md](../8-toolkit/retrieval.md) and [docs/review.md](../8-toolkit/review.md) in the vexy-localizzy repository
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository

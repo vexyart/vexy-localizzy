@@ -12,7 +12,7 @@ variants prefer ``mac``). Each ``<lang>.tmx`` pairs the English text of a key
 with the target text: ``en.lproj`` is the pivot and ``Base.lproj`` /
 ``English.lproj`` fill gaps. A ``.strings`` key that is an English sentence
 serves as its own source. Keys go to ``tuid``, the table to ``x-domain`` and
-the file to ``x-origin``. Ported from fl10n ``tools/lproj2tmx.py``.
+the file to ``x-origin``. Ported from the earlier ``lproj2tmx`` script; see NOTICE.
 """
 
 import sys

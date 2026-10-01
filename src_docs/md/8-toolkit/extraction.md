@@ -126,8 +126,8 @@ ordinary keyed resources.
 
 ## Legacy tree converters
 
-`tm extract` reads one file with a strict policy. The legacy converters moved
-from fl10n walk whole trees and keep the old tools' behaviour exactly, including
+`tm extract` reads one file with a strict policy. The legacy converters walk
+whole trees and keep the old tools' behaviour exactly, including
 their language policy: regions are shortened by their own default-region table,
 the language falls back to the file name stem and XML-illegal characters are
 stripped. Golden parity tests compare them with the old scripts'

@@ -145,6 +145,34 @@ and messages that were already vanished or obsolete.
 `upgrade()` writes nothing unless both invariants hold. The CLI writes the
 report to `OUT.upgrade.json` unless `--report` is given.
 
+## Previewing with `diff`
+
+Before an upgrade, see what `lupdate` brought in:
+
+```sh
+localizzy diff i18n/app_de.ts i18n/fresh/app_de.ts --report i18n/app_de.diff.json
+```
+
+`diff OLD NEW` pairs the messages of the approved and the fresh catalog the way
+`upgrade` does: by message id where the old catalog has one, otherwise by
+context, source and comment, first come first served for repeats. Vanished
+and obsolete messages take no part. It prints a Markdown report with a count
+line and four sections, each message shown as context and source:
+
+- **Not translated in the fresh catalog**: only in NEW, without a complete
+  translation (every plural form and length variant filled);
+- **New in the fresh catalog, already translated**;
+- **Translation differs**: in both, with the old and the new text and state;
+- **Removed from the fresh catalog**: only in OLD.
+
+Plain `lupdate` output has no translations, so against it every carried-over
+message shows under "Translation differs" with an empty new text; the report
+is most useful against a catalog that `lupdate` merged, or a NEW from
+`upgrade`. `--report` also writes the full report as JSON; a report path that is OLD or
+NEW is refused. The command writes
+nothing else, exits 0 with the counts, and exits 2 for a missing or malformed
+file.
+
 ## Exit codes
 
 | Code | Meaning |

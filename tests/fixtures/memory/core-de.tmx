@@ -55,16 +55,16 @@
     <seg>Glyphe</seg>
    </tuv>
   </tu>
-  <tu tuid="term:fontlab">
-   <prop type="x-term-id">fontlab</prop>
+  <tu tuid="term:demoapp">
+   <prop type="x-term-id">demoapp</prop>
    <prop type="x-category">test</prop>
    <prop type="x-translatable">no</prop>
    <prop type="x-status">do-not-translate</prop>
    <tuv xml:lang="en">
-    <seg>FontLab</seg>
+    <seg>DemoApp</seg>
    </tuv>
    <tuv xml:lang="de">
-    <seg>FontLab</seg>
+    <seg>DemoApp</seg>
    </tuv>
   </tu>
   <tu tuid="term:font">

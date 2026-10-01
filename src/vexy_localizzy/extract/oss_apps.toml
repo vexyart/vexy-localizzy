@@ -1,5 +1,5 @@
 # this_file: src/vexy_localizzy/extract/oss_apps.toml
-# Registry of open-source apps for `localizzy tm oss2tmx`, ported from fl10n oss2tmx.APPS.
+# Registry of open-source apps for `localizzy tm oss2tmx`, ported from the earlier oss2tmx script.
 # [apps.<name>]: glob (relative to the repo root; {lang} marks the language segment),
 # kind = po | ts | mozilla (default po), optional ignore (regex on the repo-relative path).
 # [apps.<name>.repo] / [apps.<name>.source_repo]: url, optional sparse paths and branch.

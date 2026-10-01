@@ -30,8 +30,11 @@ finished TS catalog. Every numerus form gets its own TU with `x-numerus-form`,
 even in one-form languages such as Chinese. The target tag is the catalog's
 `language` (or `--lang`), never the glossary's. A message is left out only when
 the glossary's whole-string term tier would fill it: a plain message whose
-source equals a term after the tier's own normalization, and whose term
-rendering passes the accelerator and placeholder checks. `&Kerning`,
+source equals a term after the tier's own normalization, whose reviewed target
+is exactly the term rendering, and whose term rendering passes the accelerator
+and placeholder checks. Contextual wording, inflection and capitalization stay
+in direct memory: `Thickness → Strichdicke` is retained when the general term
+is `thickness → Dicke`. A matching source alone cannot prove redundancy. `&Kerning`,
 `Kerning %1` and plural messages therefore stay in the project memory.
 
 Sources match verbatim. Only Unicode NFC and CRLF-to-LF normalization apply, so
@@ -182,3 +185,43 @@ repeated run is served from the cache. Models are tried in order. See
 
 List flags take comma-separated values, for example `--direct-memory a.tmx,b.tmx`.
 Repeating a flag keeps only its last value.
+
+## Glossary as JSON
+
+Scripts outside the toolkit sometimes need the approved terms as one small
+object rather than a set of TMX memories:
+
+```sh
+localizzy tm glossary_json glossary.json --folder i18n/memories --codes de,fr,pl
+localizzy tm glossary_json glossary.json --memory de-core.tmx,pl-core.tmx
+```
+
+The result maps each source term to its translation per language code:
+`{"kerning": {"de": "Unterschneidung", "pl": "Kerning"}}`. Only units with a
+selected `x-status` (`--glossary-status`, default approved and
+do-not-translate) and a non-empty source and target take part. With
+`--folder`, the memories are `--pattern` (default `{code}-core.tmx`) for each
+of `--codes`; with `--memory`, each file's code is its single non-source
+language, or the matching entry of `--codes`. Pass exactly one of the two.
+Terms sort case-insensitively, codes alphabetically. An OUT that is one of the
+memories is refused. The TMX memories stay
+canonical: regenerate the JSON from them, never edit it by hand.
+
+## Looking up a catalog in other memories
+
+Before deciding a term, see how other products render it:
+
+```sh
+localizzy tm lookup i18n/app_en.ts memories/ de,es,fr --qph app.qph
+```
+
+`tm lookup TS TMX_DIR LANGS` reads every distinct source of the catalog (and
+of a Qt phrase book with `--qph`) and lists every translation that any
+`<lang>-*.tmx` memory in TMX_DIR holds for it, with the memory files that hold
+it. Catalog and phrase-book translations are never read. Matching is exact
+and case-sensitive after trimming and dropping `&` accelerator markers.
+Sources without any match are left out. The JSON goes to `--out` (default
+`TS.lookup.json`) and a filterable HTML page to `--report` (default
+`TS.lookup.html`); pass an empty string to skip either. The result is
+evidence for a terminology decision, not a decision: how many sources agree,
+and where.

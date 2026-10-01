@@ -1,5 +1,5 @@
 # this_file: tests/memory/test_build_ui.py
-"""A project memory holds every finished message and never a core term."""
+"""A project memory omits exact core pairs and preserves contextual translations."""
 
 from pathlib import Path
 
@@ -134,7 +134,7 @@ def test_build_ui_when_glossary_is_other_script_then_raises_and_writes_nothing(
 def test_build_ui_when_term_tier_cannot_serve_source_then_message_is_kept(tmp_path):
     catalog = tmp_path / "de.ts"
     catalog.write_text(KERNING_TS.replace("LANG", "de_DE"), encoding="utf-8")
-    core = _core(tmp_path / "core.tmx", _term("Kerning", "Unterschneidung", "de"))
+    core = _core(tmp_path / "core.tmx", _term("Kerning", "K-X", "de"))
     out = tmp_path / "ui.tmx"
     result = build_ui(catalog, out, exclude_memories=[core])
     sources = [u.segments[0].text for u in read_tmx(out)]
@@ -152,3 +152,27 @@ def test_build_ui_when_single_form_numerus_then_form_property_is_set(tmp_path):
     unit = next(u for u in read_tmx(out) if u.segments[0].text == "%n file(s)")
     assert unit.tuid == "M|%n file(s):0"
     assert dict(unit.properties)["x-numerus-form"] == "0"
+
+
+@pytest.mark.parametrize("reviewed", ["Strichdicke", "Stammstärke", "dicke"])
+def test_build_ui_when_contextual_translation_differs_from_term_then_keeps_it(
+    tmp_path, reviewed
+):
+    catalog = tmp_path / "de.ts"
+    catalog.write_text(
+        '<TS version="2.1" language="de"><context><name>StrokePanel</name>'
+        "<message><source>Thickness</source><translation>"
+        + reviewed
+        + "</translation></message></context></TS>",
+        encoding="utf-8",
+    )
+    core = _core(tmp_path / "core.tmx", _term("thickness", "Dicke", "de"))
+    out = tmp_path / "ui.tmx"
+    result = build_ui(catalog, out, exclude_memories=[core])
+    units = list(read_tmx(out))
+    assert result["kept"] == 1, (
+        "A glossary lemma must not erase a reviewed contextual rendering"
+    )
+    assert result["dropped_core_terms"] == 0
+    assert units[0].segments[1].text == reviewed
+    assert dict(units[0].properties)["x-context"] == "StrokePanel"

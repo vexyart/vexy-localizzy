@@ -86,7 +86,7 @@ Two further rules protect the file on disk. Output is prepared and parsed before
 
 A small diff says what changed. It does not say why, or who proposed the new text. Once engines and memories fill catalogs, that second question matters as much as the first. The FontLab guide makes it a rule for machine drafts: pin the prompt, the model and the settings and record them beside the output, because a review that cannot name what it reviewed cannot be repeated.
 
-vexy-localizzy records provenance in a sidecar file, not in the catalog. Every `translate` run writes a JSON report with the input digest and language pair, each memory file with its SHA-256 and unit count, counts per origin, and one row per message with its origin, match class, memory file, unit ids, glossary terms, the model requested and the model that answered. The upgrade command writes a report of the same kind for every message of a fresh catalog ([chapter 310](310-identity-and-upgrade.md)). The fl10n project keeps these reports next to the catalogs; the engine provenance for each shard of the Polish catalog, for example, is stored under `data-fontlab-cpp/i18n/upgrade/`.
+vexy-localizzy records provenance in a sidecar file, not in the catalog. Every `translate` run writes a JSON report with the input digest and language pair, each memory file with its SHA-256 and unit count, counts per origin, and one row per message with its origin, match class, memory file, unit ids, glossary terms, the model requested and the model that answered. The upgrade command writes a report of the same kind for every message of a fresh catalog ([chapter 310](310-identity-and-upgrade.md)). The FontLab localization project keeps these reports next to the catalogs, including the engine provenance for each shard of the Polish catalog.
 
 The toolkit can also write provenance into the catalog, as an element Qt keeps as a message extra:
 
@@ -101,7 +101,7 @@ It does not do so by default. The reason is stated in its documentation and foll
 The FontLab review of September 2026 corrected 35 western strings and 663 Polish strings after the founder's review remarks. The work log describes the discipline that made the pass reviewable, and it generalizes to any correction pass:
 
 1. Apply each correction against the exact prior target. The German, Spanish and French corrections were each checked against the text they replaced, so a correction written for an old draft could not overwrite a newer one.
-2. Write through a byte-preserving writer, so the catalog diff contains only the corrected messages. The pass's script, `scripts/issue146.py` in the fl10n repository, loads and saves the catalogs through vexy-localizzy's TS adapter, whose save on a retained document is the splice writer.
+2. Write through a byte-preserving writer, so the catalog diff contains only the corrected messages. The pass's script loads and saves the catalogs through vexy-localizzy's TS adapter, whose save on a retained document is the splice writer.
 3. Record every change in a ledger with its reason, separately from the catalog ([chapter 410](../4-terminology/410-ledgers-and-decisions.md) describes ledgers).
 4. Verify the result independently: the validator reported 10,484 active messages and no unfinished ones per catalog, `lrelease` compiled all of them, and a scan for every retired term came back clean.
 5. Let a second pass review the diff. In that review, an independent pass caught a non-idempotent rule that doubled a word, a genitive plural that a pattern had missed in twenty strings and four help passages, and one stray reflexive pronoun.
@@ -112,7 +112,7 @@ Step 5 is where the other steps pay off. A second reader has to see the edits to
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 2.5.2)
-- `WORK.md` and `scripts/issue146.py` in the fl10n repository
+- The work log and the catalog correction script of the FontLab localization project
 - [docs/formats.md](../8-toolkit/formats.md), [docs/memories.md](../8-toolkit/memories.md), [docs/upgrade.md](../8-toolkit/upgrade.md), `WORK.md` and `src/vexy_localizzy/formats/ts_splice.py` in the vexy-localizzy repository
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository
 - A local edit of `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` through `lxml` and through `formats.ts`, recorded for this chapter

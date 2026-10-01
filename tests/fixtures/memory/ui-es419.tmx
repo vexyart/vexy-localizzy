@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tmx version="1.4">
  <header creationtool="synthetic" creationtoolversion="1" segtype="sentence" o-tmf="qt-ts" adminlang="en" srclang="en" datatype="plaintext">
-  <prop type="x-memory-kind">fontlab-ui</prop>
+  <prop type="x-memory-kind">project-ui</prop>
   <note>Synthetic direct memory, es-419.</note>
  </header>
  <body>

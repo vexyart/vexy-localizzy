@@ -61,7 +61,7 @@ Evidence narrows the choice. It does not always make it, and a terminology proce
 
 The Polish FontLab terms give three instances.
 
-**Advance width.** The evidence review kept *szerokość posuwu*, "width of advance", to keep the concept apart from geometric width, against FontForge's *szerokość znaku*. In issue 146 the founder replaced it with *szerokość pola*, the width of the field or box the glyph occupies, which is also the literal sense of the English fallback *glyph box width* ([chapter 404](404-the-fallback-original-term.md)).
+**Advance width.** The evidence review kept *szerokość posuwu*, "width of advance", to keep the concept apart from geometric width, against FontForge's *szerokość znaku*. In the update of 29 September 2026 the founder replaced it with *szerokość pola*, the width of the field or box the glyph occupies, which is also the literal sense of the English fallback *glyph box width* ([chapter 404](404-the-fallback-original-term.md)).
 
 **Stem.** The evidence review approved *kreska główna*, the main stroke. The founder chose *trzon*, which gives the compounds *trzon standardowy* and *łącze trzonu*.
 
@@ -93,8 +93,7 @@ A reviewer has to choose a Polish term for *stroke cap*, the shape at the open e
 ## Sources
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: introduction, terminology reference materials, operating environment glossaries)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (section 4.7.3: LLM-as-judge and the MQM framework)
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) and [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/) in the vexy-fontlab-writing-styleguide repository
 - `localization/tm/pl-core.tmx` and `localization/tm/fr-core.tmx` in the vexy-fontlab-writing-styleguide repository
-- `data-fontlab-cpp/i18n/review/2026-09-28-de-consistency.json` and `issues/146.md` in the fl10n repository
+- The German consistency ledger of 28 September 2026 and the founder's update of 29 September 2026, in the FontLab localization project
 - [docs/corpus.md](../8-toolkit/corpus.md) and [docs/retrieval.md](../8-toolkit/retrieval.md) in the vexy-localizzy repository

@@ -100,6 +100,47 @@ def setup_source_fix(where: Path) -> None:
     )
 
 
+def setup_nothing(where: Path) -> None:
+    """Commands that need no input files."""
+
+
+def setup_lookup(where: Path) -> None:
+    memory = FIXTURES / "memory"
+    (where / "memories").mkdir()
+    _copy(
+        {
+            "app_en.ts": memory / "app_de.ts",
+            "memories/de-ui.tmx": memory / "ui-de.tmx",
+            "memories/de-core.tmx": memory / "core-de.tmx",
+        },
+        where,
+    )
+
+
+def setup_project(where: Path) -> None:
+    upgrade = FIXTURES / "upgrade"
+    (where / "i18n" / "fresh").mkdir(parents=True)
+    _copy(
+        {
+            "i18n/app_de.ts": upgrade / "approved.ts",
+            "i18n/fresh/app_de.ts": upgrade / "fresh.ts",
+        },
+        where,
+    )
+    (where / "localizzy.toml").write_text("[source]\nlocales = ['de']\n")
+
+
+def setup_scan(where: Path) -> None:
+    _copy({"src": FIXTURES / "qt"}, where)
+
+
+def setup_vocab(where: Path) -> None:
+    corpus = ROOT / "examples" / "vocabulary" / "translations.js"
+    _copy({"translations.js": corpus}, where)
+
+
+GROUPS = ("tm", "qt", "project", "editorial", "shard")
+
 # command prefix -> (setup, allowed exit codes, outputs that must exist)
 CASES = {
     "translate": (
@@ -115,7 +156,20 @@ CASES = {
     "convert": (setup_convert, {0}, ["de.json"]),
     "tm build-ui": (setup_build_ui, {0}, ["de-ui.tmx"]),
     "tm ts2tmx": (setup_ts2tmx, {0}, ["tmx"]),
-    "tm tmx2qph": (setup_translate, {0}, ["fontlab_de.qph"]),
+    "tm tmx2qph": (setup_translate, {0}, ["app_de.qph"]),
+    "tm lookup": (
+        setup_lookup,
+        {0},
+        ["app_en.ts.lookup.json", "app_en.ts.lookup.html"],
+    ),
+    "doctor": (setup_nothing, {0}, []),
+    "init": (setup_nothing, {0}, ["localizzy.toml"]),
+    "project upgrade": (setup_project, {0, 1}, ["i18n/app_de.new.ts"]),
+    "qt scan": (setup_scan, {0, 1}, ["scan.sarif"]),
+    "pseudo": (setup_translate, {0}, ["app_xx.ts"]),
+    "qa": (setup_translate, {0, 1}, ["qa.sarif"]),
+    "vocab": (setup_vocab, {0}, []),
+    "tm tmx2html": (setup_translate, {0}, ["de-core.html"]),
     "review": (setup_review, {0}, []),
     "source-fix": (setup_source_fix, {0}, ["app_en_tofix.ts", "app_en_tofix.ts.json"]),
 }
@@ -123,7 +177,7 @@ CASES = {
 
 def _case(example: str) -> str:
     words = shlex.split(example)[1:]
-    key = " ".join(words[:2]) if words[0] == "tm" else words[0]
+    key = " ".join(words[:2]) if words[0] in GROUPS else words[0]
     assert key in CASES, f"README example without a test case: {example}"
     return key
 
@@ -141,7 +195,7 @@ def test_readme_example_when_run_then_succeeds_and_writes_outputs(
     monkeypatch.chdir(tmp_path)
     served: list[object] = []
 
-    def fake_serve(config, port=8765, verbose=False):
+    def fake_serve(config, port=8765, verbose=False, **options):
         from vexy_localizzy.review.server import load_app
 
         served.append(load_app(config))

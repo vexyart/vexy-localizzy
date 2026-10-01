@@ -1,10 +1,10 @@
 # this_file: src/vexy_localizzy/extract/legacy_lang.py
-"""Historical language-tag and text policy of the fl10n TMX converters.
+"""Historical language-tag and text policy of the earlier TMX converter scripts.
 
 Verbatim port of ``adobe2tmx.norm_lang``/``clean_text``, the ``oss2tmx`` extra
 region and script tables, and ``ts2tmx.stem_lang``. This policy shortens
 default regions and may guess from filenames; the strict extractor in
-``vexy_localizzy.extract.single`` does neither. Adapted from fl10n; see NOTICE.
+``vexy_localizzy.extract.single`` does neither. Adapted from earlier tooling; see NOTICE.
 
 Deliberate departures from the legacy tools: script subtags (``sr-Latn``) and
 numeric regions (``es-419``) are kept instead of being dropped; European

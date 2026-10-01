@@ -4,7 +4,7 @@
 These retain historical first/last plural and plain-text selection rules. Use
 formats.ts, formats.po and conversion for complete native catalog preservation.
 Locale normalization, source paths and output publication belong to the caller.
-Adapted from MIT-licensed fl10n; see NOTICE.
+Adapted from earlier MIT-licensed tooling; see NOTICE.
 """
 
 import xml.etree.ElementTree as ET

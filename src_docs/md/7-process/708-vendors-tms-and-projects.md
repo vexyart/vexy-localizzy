@@ -30,7 +30,7 @@ Research/05 compares three systems as they stood in 2025 and 2026. Its prices an
 | Hosting | Hosted | Hosted | Hosted or self-hosted (GPLv3) |
 | Per-seat fees | No | Yes, on lower tiers | No, when self-hosted |
 
-The research synthesis recommends Crowdin for a Qt desktop product because of its native `.ts` support, Lokalise where score-based routing matters, and self-hosted Weblate where data must stay on premises or per-word billing is unwelcome. The fl10n specification treats all three as optional: the project runs on git, a command-line tool and a model provider, and a TMS would be a sync target, not the owner of the translations.
+The research synthesis recommends Crowdin for a Qt desktop product because of its native `.ts` support, Lokalise where score-based routing matters, and self-hosted Weblate where data must stay on premises or per-word billing is unwelcome. The toolkit design treats all three as optional: the project runs on git, a command-line tool and a model provider, and a TMS would be a sync target, not the owner of the translations.
 
 That choice has a cost and a benefit. Without a TMS, the project writes its own glue: the upgrade, review and ledger tools described elsewhere in this part. With one, it inherits a web editor, translator management and vendor integrations, and it takes on the lock-in risk that research/05 warns about. Whatever the choice, keep a canonical copy of every catalog in git, as chapter [703](703-branches-and-merges.md) argues, and check how the TMS handles the format's hard parts before committing: plural forms, disambiguating comments, and placeholders.
 
@@ -52,7 +52,7 @@ The deliverable that turns an evaluation into work is the localization kit. Esse
 
 ## A worked scope: one catalog update
 
-The issue 146 update is small enough to scope completely. Suppose it had gone to a vendor instead of being handled in house. The request would have needed to state:
+The founder's update of 29 September 2026 is small enough to scope completely. Suppose it had gone to a vendor instead of being handled in house. The request would have needed to state:
 
 | Item | Content |
 |---|---|
@@ -79,7 +79,6 @@ What version control does not replace is measurement. Research/05 lists the indi
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (chapter 8: time, accuracy, geography, business relationships, ownership, roles)
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 5: division of testing responsibility; chapter 13: project evaluations and word counts; chapter 14: project management, quotations, tiers, kits, scheduling)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: project preparation, localization technologies)
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (sections 5.5.1, 5.5.3 and 5.5.4)
-- `spec/07.md` in the fl10n repository (section 7.6)
-- `issues/146.md`, `CHANGELOG.md` and `WORK.md` in the fl10n repository (issue 146 entries)
+- [docs/ci.md](../8-toolkit/ci.md) in the vexy-localizzy repository
+- The founder's update of 29 September 2026, and the changelog and work log of the FontLab localization project
 - [localization/handoff](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/handoff/) and [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) in the vexy-fontlab-writing-styleguide repository

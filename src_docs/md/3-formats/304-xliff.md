@@ -25,11 +25,11 @@ The pieces map onto familiar ideas. `id` is the unit's identity within the file.
 
 Inline codes are the part that matters most for safety. `<g>` wraps a span of formatted text, and `<x/>` stands for a standalone code such as a placeholder or a line break. The translator moves them but must not change their `id` values, because the tool that merges the translation back uses the ids to restore the original markup. Angular's extractor, as Baldurs (2025) shows, writes an interpolation as `<x id="INTERPOLATION" equiv-text="{{username}}"/>`, so the translator sees a readable hint while the tool keeps control of the real code.
 
-Version 1.2 has no plural element. Tools represent plurals by convention, and the conventions differ. `lconvert` and the Translate Toolkit use a `<group restype="x-gettext-plurals">` with one `<trans-unit>` per form, following the XLIFF representation guide for gettext PO. Apple's 1.2 exports encode the plural structure of `.stringsdict` in the unit ids, with a `key:variable:dict` naming scheme, according to one of the research reports. A tool that knows neither convention shows the plural forms as unrelated strings, and the fl10n notes advise briefing translators on plural groups for that reason. Context for gettext entries travels in `<context-group>`, which the vexy fixture uses for the Qt context:
+Version 1.2 has no plural element. Tools represent plurals by convention, and the conventions differ. `lconvert` and the Translate Toolkit use a `<group restype="x-gettext-plurals">` with one `<trans-unit>` per form, following the XLIFF representation guide for gettext PO. Apple's 1.2 exports encode the plural structure of `.stringsdict` in the unit ids, with a `key:variable:dict` naming scheme, according to one of the research reports. A tool that knows neither convention shows the plural forms as unrelated strings, and the FontLab project's notes advise briefing translators on plural groups for that reason. Context for gettext entries travels in `<context-group>`, which the vexy fixture uses for the Qt context:
 
 ```xml
 <group restype="x-gettext-plurals" id="n">
-  <context-group><context context-type="x-fl10n-context">Count</context></context-group>
+  <context-group><context context-type="x-localizzy-context">Count</context></context-group>
   <trans-unit id="n[one]"><source>One item</source><target state="translated">Ein</target></trans-unit>
   <trans-unit id="n[other]"><source>One item</source><target state="translated">Viele</target></trans-unit>
 </group>
@@ -64,12 +64,12 @@ The sources give XLIFF three different jobs, and the difference is a real disagr
 
 | Source | Position |
 |---|---|
-| fl10n research, chapter 5 | XLIFF 2.1 is the best interchange hub; keep a 1.2 path when Qt is involved |
-| fl10n research, chapter 3 | XLIFF is transport to a TMS, never a runtime artifact |
-| fl10n format notes | The `.ts` file is authoritative; XLIFF is for exchange only |
+| Research corpus, chapter 5 | XLIFF 2.1 is the best interchange hub; keep a 1.2 path when Qt is involved |
+| Research corpus, chapter 3 | XLIFF is transport to a TMS, never a runtime artifact |
+| FontLab project format notes | The `.ts` file is authoritative; XLIFF is for exchange only |
 | vexy-localizzy | Writes fresh documents as 1.2; preserves and edits existing 1.2, 2.0, 2.1 and 2.2 |
 
-The positions agree more than they seem to. All four treat XLIFF as something that crosses a boundary, not as the store of record. They differ on which version to emit, and the deciding factor is the tool on the other side. Qt's own converter is the clearest constraint. The fl10n notes and the research both say that `lconvert` writes XLIFF 1.1, and the research adds that Qt Linguist supports only 1.1 and 1.2. A test for this chapter disagrees on the first point: `lconvert` from Qt 5.15.19 and from Qt tools 6.11 both wrote documents declaring `version="1.2"` in the 1.2 namespace. The sources and the test agree on what matters: Qt's tools write no 2.x. The FontLab catalogs therefore reach a CAT tool through the older dialect. A team whose vendor accepts 2.x and whose own tools read it gains the richer model; a team with a Qt tool anywhere in the loop keeps a 1.2 path.
+The positions agree more than they seem to. All four treat XLIFF as something that crosses a boundary, not as the store of record. They differ on which version to emit, and the deciding factor is the tool on the other side. Qt's own converter is the clearest constraint. The FontLab project's notes and the research both say that `lconvert` writes XLIFF 1.1, and the research adds that Qt Linguist supports only 1.1 and 1.2. A test for this chapter disagrees on the first point: `lconvert` from Qt 5.15.19 and from Qt tools 6.11 both wrote documents declaring `version="1.2"` in the 1.2 namespace. The sources and the test agree on what matters: Qt's tools write no 2.x. The FontLab catalogs therefore reach a CAT tool through the older dialect. A team whose vendor accepts 2.x and whose own tools read it gains the richer model; a team with a Qt tool anywhere in the loop keeps a 1.2 path.
 
 ## State mapping is where round trips break
 
@@ -96,7 +96,7 @@ lconvert -if xlf -of ts app_de.xlf -o app_de.back.ts
 
 Running exactly this on the small German fixture from [chapter 302](302-qt-ts.md), with no CAT tool in between, shows what the trip costs before any translator touches the file. `lconvert` wrapped each Qt context in a `<group restype="x-trolltech-linguist-context">`, turned the unfinished message into a target with `state="needs-review-translation"`, and put plural forms in an `x-gettext-plurals` group. On the way back, the `sourcelanguage` attribute was gone, a duplicate message was dropped with a warning, an obsolete message moved to another position, and a plural message that had one form gained a second, empty one. None of this is wrong by Qt's rules, and all of it shows up in a diff.
 
-Before you trust a file returned from a CAT tool, also check what XLIFF 1.1 and 1.2 could not carry. The fl10n notes list three fields that do not survive: the internal source hash, the full state value, which comes back with reduced resolution, and the length budget, which travels as a custom attribute that CAT tools may strip. They add a fourth hazard: unit ids built from context and source text can grow long, and some CAT tools truncate ids at 256 characters, which breaks the merge. Placeholders are a fifth: the research records an open issue in one Node XLIFF converter where `{{name}}` does not survive the round trip as an inline code.
+Before you trust a file returned from a CAT tool, also check what XLIFF 1.1 and 1.2 could not carry. The FontLab project's notes list three fields that do not survive: the internal source hash, the full state value, which comes back with reduced resolution, and the length budget, which travels as a custom attribute that CAT tools may strip. They add a fourth hazard: unit ids built from context and source text can grow long, and some CAT tools truncate ids at 256 characters, which breaks the merge. Placeholders are a fifth: the research records an open issue in one Node XLIFF converter where `{{name}}` does not survive the round trip as an inline code.
 
 The check after import is therefore concrete:
 
@@ -105,15 +105,12 @@ The check after import is therefore concrete:
 3. No state is higher than the state the CAT tool actually assigned.
 4. Length limits and comments are restored from your own copy, not from the returned XLIFF.
 
-vexy-localizzy's XLIFF adapter was checked against the two XLIFF catalogs the fl10n project consumes, 981 messages in 92 file sections: both round-trip byte for byte through canonical JSON, and fresh and edited output validates against the official OASIS 1.2, 2.0 and 2.2 core schemas. Validation against the schema is cheap and catches the structural half of these failures. The semantic half, a state that claims more review than happened, needs the explicit refusals described above.
+vexy-localizzy's XLIFF adapter was checked against the two XLIFF catalogs the FontLab localization project consumes, 981 messages in 92 file sections: both round-trip byte for byte through canonical JSON, and fresh and edited output validates against the official OASIS 1.2, 2.0 and 2.2 core schemas. Validation against the schema is cheap and catches the structural half of these failures. The semantic half, a state that claims more review than happened, needs the explicit refusals described above.
 
 ## Sources
 
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 2.5.2)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapters 3 and 6)
 - Baldurs L., *TypeScript Internationalization (i18n) and Localization (l10n)*, 2025 (extracting and managing translation files)
-- `research/03-localizing-web-javascript-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `research-draft/310-gemi.md` and `research-draft/317-cla.md` in the fl10n repository
-- `docs/formats/xliff.md` in the fl10n repository
 - A local test of `lconvert` (Qt 5.15.19 and Qt tools 6.11.2) on `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` from the vexy-localizzy repository
 - [docs/formats.md](../8-toolkit/formats.md), `WORK.md`, `src/vexy_localizzy/formats/xliff2.py`, `tests/test_xliff2.py` and `tests/test_xliff_formats.py` in the vexy-localizzy repository

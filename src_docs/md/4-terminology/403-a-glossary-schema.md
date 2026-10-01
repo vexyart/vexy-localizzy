@@ -118,4 +118,4 @@ Then the languages follow in their own memories. German wrote *Tunni-Linie*, Spa
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: reference materials, multilingual client terminology database, standards)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 3: terminology and localization, note 17)
 - [glossary/schema.md](https://github.com/Fontlab/vexy-fontlab-writing-styleguide/blob/main/glossary/schema.md), `glossary/terms/overshoot.yaml`, `glossary/terms/layers.yaml`, `glossary/terms/tunni-line.yaml`, `scripts/check_terms.py` and `localization/tm/*-core.tmx` in the vexy-fontlab-writing-styleguide repository
-- `issues/146.md` in the fl10n repository
+- The founder's update of 29 September 2026, in the FontLab localization project

@@ -4,13 +4,13 @@ this_file: src_docs/md/3-formats/307-the-canonical-model.md
 
 # 307. The canonical model: one typed representation and the loss every conversion accepts
 
-Chapters 302 to 306 described six formats that answer the same questions differently. A team that uses more than one of them faces a choice. It can convert each pair of formats directly, which means writing and testing a converter for every pair and discovering each pair's losses separately. Or it can define one representation in the middle, read every format into it and write every format out of it. The research synthesis recommends the second design, and the fl10n specification adopts it: preserve the source format's meaning as long as possible, normalize into one typed bilingual model with explicit fields, and apply the target runtime's conventions only at the boundary, accepting and testing the loss that the boundary causes.
+Chapters 302 to 306 described six formats that answer the same questions differently. A team that uses more than one of them faces a choice. It can convert each pair of formats directly, which means writing and testing a converter for every pair and discovering each pair's losses separately. Or it can define one representation in the middle, read every format into it and write every format out of it. The research synthesis recommends the second design, and the original toolkit specification adopts it: preserve the source format's meaning as long as possible, normalize into one typed bilingual model with explicit fields, and apply the target runtime's conventions only at the boundary, accepting and testing the loss that the boundary causes.
 
 The phrase "accepting the loss" is the important part. A canonical model does not make conversion lossless. It makes the loss visible, because every field the target cannot hold is a named field that the converter can compare before and after. This chapter describes what such a model must contain, the decisions that shaped the one in vexy-localizzy, and how loss is reported.
 
 ## The fields a message needs
 
-The fl10n specification defines the model as immutable Pydantic records. vexy-localizzy kept the design and extended it. Its message record, abridged:
+The original specification defines the model as immutable Pydantic records. vexy-localizzy kept the design and extended it. Its message record, abridged:
 
 ```python
 class Unit(Record):
@@ -54,13 +54,13 @@ The record's configuration forbids unknown fields. A serialized catalog with a f
 
 The specification and the toolkit disagree about plurals, and the disagreement is the center of this chapter.
 
-The fl10n specification canonicalizes plurals to ICU with CLDR categories. Qt's positional numerus forms and PO's indexed forms are parsed into named categories on the way in and re-emitted in the target convention on the way out. The goal is sound: a model that stores `one`, `few` and `many` explicitly cannot silently collapse a six-form Arabic message.
+The original specification canonicalizes plurals to ICU with CLDR categories. Qt's positional numerus forms and PO's indexed forms are parsed into named categories on the way in and re-emitted in the target convention on the way out. The goal is sound: a model that stores `one`, `few` and `many` explicitly cannot silently collapse a six-form Arabic message.
 
 vexy-localizzy stores positions as positions. Its `PluralForms` record has an `indexing` field: `cldr` for formats that name categories, such as Android and i18next, and `index` for Qt and gettext, whose forms are keyed `"0"`, `"1"`, `"2"`. The record's documentation states the rule: positions "are never inferred to be CLDR categories". Converting from named categories to positions requires the caller to supply `plural_order`, listing every source category exactly once.
 
 ICU messages add a second case. A string such as `{count, plural, one {# item} other {# items}}` holds its own plural logic, and the model can parse it into forms. Qt does not evaluate ICU syntax, so when such a message is written to TS, vexy-localizzy keeps the complete ICU sentence as a literal string and records in the loss report that the parsed metadata was removed. The sentence reaches the translator intact, and the report says what the TS file can no longer express.
 
-The evidence in this part favors the toolkit's caution. Chapter 302 showed that Qt 5.15 gives French two numerus forms where CLDR has three categories, and Polish three where CLDR has four. Chapter 303 showed two fl10n files disagreeing about the French and Russian gettext rules. A converter that maps position 1 to `few` has to know which rule produced the file, and the file does not say. Storing the position and asking for the order moves that knowledge from a hidden assumption into an explicit argument. The specification's aim, never losing a form, is kept; its method, inferring the category, is not.
+The evidence in this part favors the toolkit's caution. Chapter 302 showed that Qt 5.15 gives French two numerus forms where CLDR has three categories, and Polish three where CLDR has four. Chapter 303 showed two files of the earlier FontLab tooling disagreeing about the French and Russian gettext rules. A converter that maps position 1 to `few` has to know which rule produced the file, and the file does not say. Storing the position and asking for the order moves that knowledge from a hidden assumption into an explicit argument. The specification's aim, never losing a form, is kept; its method, inferring the category, is not.
 
 ### Decision two: identity and the source hash
 
@@ -126,7 +126,6 @@ The Android file held English values in a single column. PO is bilingual, so the
 
 ## Sources
 
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `spec/03.md` and `docs/formats/json.md` in the fl10n repository
+- [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - [docs/formats.md](../8-toolkit/formats.md), `src/vexy_localizzy/catalog.py`, `src/vexy_localizzy/conversion.py`, `src/vexy_localizzy/formats/po.py` and `src/vexy_localizzy/formats/xliff2.py` in the vexy-localizzy repository
 - A local run of `localizzy convert` on a two-message Android resource, recorded for this chapter

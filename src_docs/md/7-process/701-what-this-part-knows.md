@@ -10,7 +10,7 @@ In September 2026 the German catalog of the FontLab interface, 10,587 messages, 
 
 Parts 1 to 6 dealt with what a string is, how code prepares it, which files carry it, how its terms are chosen, how its wording is judged and how machines draft it. This part deals with the flow that joins those pieces: how a source change reaches a compiled catalog, how that catalog is checked, reviewed and shipped, and what records it leaves. It is written for the localization engineer who builds the pipeline, the project manager who scopes and schedules it, and the reviewer who has to sign it off, because all three work on the same catalogs at the same time.
 
-The part draws on two eras. Esselink's *A Practical Guide to Localization* (2000), Dr International's *Developing International Software* (2002) and the 1993 introduction by Uren, Howard and Perinotti describe localization as a project with kits, freezes, test cycles and vendors. The 2026 research corpus and the fl10n specification describe it as a continuous loop in a repository, with deterministic gates and language models. Much of the older advice survives the change of shape, and some of it does not. Where the sources disagree, the chapters say so.
+The part draws on two eras. Esselink's *A Practical Guide to Localization* (2000), Dr International's *Developing International Software* (2002) and the 1993 introduction by Uren, Howard and Perinotti describe localization as a project with kits, freezes, test cycles and vendors. The 2026 research corpus and the toolkit design describe it as a continuous loop in a repository, with deterministic gates and language models. Much of the older advice survives the change of shape, and some of it does not. Where the sources disagree, the chapters say so.
 
 ## How the chapters connect
 
@@ -45,5 +45,4 @@ FontLab and the vexy-localizzy toolkit appear throughout as worked examples, bec
 - Bert Esselink, *A Practical Guide to Localization*, 2000
 - Microsoft Corporation (Dr International), *Developing International Software*, second edition, 2002
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993
-- `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository (section 5.7)
-- `data-fontlab-cpp/i18n/review/README.md` in the fl10n repository
+- The README of the review ledger directory of the FontLab localization project

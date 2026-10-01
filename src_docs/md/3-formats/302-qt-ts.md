@@ -4,7 +4,7 @@ this_file: src_docs/md/3-formats/302-qt-ts.md
 
 # 302. Qt Linguist TS: contexts, numerus forms, states and what lupdate rewrites
 
-A Qt `.ts` file is the translation source for a Qt application. `lupdate` writes it by scanning C++, `.ui` and QML files; a translator or an engine fills it; `lrelease` compiles it into a binary `.qm` file that `QTranslator` loads at run time. The `.ts` file is XML, one file per target language, and it is the file a Qt team commits to version control. The `.qm` file is a build artifact. The research corpus and the fl10n specification agree on that division: commit `.ts`, ignore `.qm`, and run `lrelease` in continuous integration or packaging rather than in the developer's inner loop.
+A Qt `.ts` file is the translation source for a Qt application. `lupdate` writes it by scanning C++, `.ui` and QML files; a translator or an engine fills it; `lrelease` compiles it into a binary `.qm` file that `QTranslator` loads at run time. The `.ts` file is XML, one file per target language, and it is the file a Qt team commits to version control. The `.qm` file is a build artifact. The research corpus and the toolkit design agree on that division: commit `.ts`, ignore `.qm`, and run `lrelease` in continuous integration or packaging rather than in the developer's inner loop.
 
 This chapter reads the format as a data model. The instrumentation that produces it, `tr()`, `Q_OBJECT`, the NOOP macros and translator comments in code, belongs to [chapter 205](../2-engineering/205-qt-instrumentation.md), and the toolchain commands to [chapter 206](../2-engineering/206-qt-toolchain-and-runtime.md).
 
@@ -73,7 +73,7 @@ The context is also part of the identity, and it drifts silently. If a widget su
 
 A plural message holds one `<numerusform>` per plural form of the target language, and the forms carry no labels. Their order is the order of Qt's own rule for the language. Nothing in the XML says which form is "one" and which is "other"; the reader has to know the rule.
 
-The number of forms also comes from Qt, and here the sources disagree. The fl10n format notes (`docs/formats/ts.md`) state that the forms align with CLDR categories and give French three forms (one, many, other) and Russian four (one, few, many, other). The numerus table in vexy-localizzy (`formats/qt_numerus.py`), which was read from Qt's `numerus.cpp` on the 5.15 branch, gives different counts, and the fl10n research synthesis agrees with it for Russian:
+The number of forms also comes from Qt, and here the sources disagree. The format notes of the earlier FontLab tooling state that the forms align with CLDR categories and give French three forms (one, many, other) and Russian four (one, few, many, other). The numerus table in vexy-localizzy (`formats/qt_numerus.py`), which was read from Qt's `numerus.cpp` on the 5.15 branch, gives different counts, and the research synthesis agrees with it for Russian:
 
 | Language | Qt 5.15 numerus forms | CLDR cardinal categories |
 |---|---|---|
@@ -107,7 +107,7 @@ Qt has fewer states than a translation workflow needs. There is no separate "nee
 
 `lupdate` does not create a fresh file each time. It performs a smart merge: it keeps existing translations, appends new messages as unfinished, and marks messages whose source disappeared as vanished. With `-no-obsolete` it drops them instead. Its merge heuristics try to rescue translations when a source string changed slightly; the `-disable-heuristic` option names three of them, `sametext`, `similartext` and `number`. The format has a place for the evidence of such a pairing: `<oldsource>` and `<oldcomment>` hold the previous source and disambiguation, so a translator can see what changed before approving the carried-over text.
 
-Two options exist mainly for version control. `-locations none` or `-locations relative` stops line numbers from changing in every message whenever code moves, and `-no-ui-lines` does the same for `.ui` files. The fl10n specification runs `lupdate` with `-locations none -no-obsolete`, so that the committed catalog changes only when strings change.
+Two options exist mainly for version control. `-locations none` or `-locations relative` stops line numbers from changing in every message whenever code moves, and `-no-ui-lines` does the same for `.ui` files. The toolkit design runs `lupdate` with `-locations none -no-obsolete`, so that the committed catalog changes only when strings change.
 
 The merge happens in place. That is convenient for a single developer and inconvenient for a reviewed catalog: the command writes no list of what it dropped, no report of which translations it matched by heuristic, and it cannot consult a translation memory. [Chapter 310](310-identity-and-upgrade.md) describes the alternative the FontLab project adopted, which keeps `lupdate` as the extractor and moves the merge into a separate step with a report.
 
@@ -137,6 +137,5 @@ The FontLab catalogs pass the same gates at scale: about ten thousand five hundr
 
 ## Sources
 
-- `research/02-localizing-qt-cpp-applications.md` and `research/05-format-conversion-cicd-and-continuous-localization.md` in the fl10n repository
-- `spec/03.md`, `docs/formats/ts.md` and `WORK.md` in the fl10n repository
+- The work log of the FontLab localization project
 - [docs/formats.md](../8-toolkit/formats.md), [docs/upgrade.md](../8-toolkit/upgrade.md), `src/vexy_localizzy/formats/qt_numerus.py` and `tests/fixtures/legacy_golden/inputs/ts/app_de.ts` in the vexy-localizzy repository

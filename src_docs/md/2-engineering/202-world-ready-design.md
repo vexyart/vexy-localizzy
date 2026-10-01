@@ -95,12 +95,11 @@ The last part of world-ready design is not code. Dr International describes Micr
 - no language-specific `#ifdef`, and no fixes that apply "only to international builds";
 - a localization kit that lets translators build and check their work without the source code.
 
-The toolkit behind this book follows the same line from the other side. The fl10n engineering specification begins with the observation that the FontLab repositories were not instrumented for localization, and its first command, `fl10n scan`, reports which user-facing strings are marked, which are not and which are marked wrongly, as a coverage figure that a continuous-integration gate can ratchet upward over time. That audit is described in [205](205-qt-instrumentation.md). The point here is that world-readiness can be measured, and that the measurement belongs in the build, not in a review at the end.
+The toolkit behind this book follows the same line from the other side. The toolkit design begins with the observation that the FontLab repositories were not instrumented for localization, and its first command, `localizzy qt scan`, reports which user-facing strings are marked, which are not and which are marked wrongly, as a coverage figure that a continuous-integration gate can ratchet upward over time. That audit is described in [205](205-qt-instrumentation.md). The point here is that world-readiness can be measured, and that the measurement belongs in the build, not in a review at the end.
 
 ## Sources
 
 - Sandra Martin O'Donnell, *Programming for the World: A Guide to Internationalization*, 1994 (chapter 3, designing for the world; chapter 4, obsolete facts about characters; chapter 8, limits of the locale model)
 - Dr International, *Developing International Software*, second edition, 2002 (chapter 2, designing a world-ready program; chapter 7, isolating localizable resources)
-- `research/01-foundations-of-software-localization.md` in the fl10n repository
-- `spec/02.md` in the fl10n repository
+- [docs/scanning.md](../8-toolkit/scanning.md) and [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/) and [localization/runtime-review](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/runtime-review/) in the vexy-fontlab-writing-styleguide repository

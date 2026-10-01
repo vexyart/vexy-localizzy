@@ -14,7 +14,7 @@ The older literature does not use the word, but it describes the need. Esselink 
 
 ## Anatomy of a ledger entry
 
-The German review of September 2026 wrote its ledgers as JSON files, one per area of the interface, under `data-fontlab-cpp/i18n/review/` in the `fl10n` repository. Each file states its scope and the batches it read, with a digest of each request, and then lists the changes:
+The German review of September 2026 wrote its ledgers as JSON files, one per area of the interface, in the review ledger directory of the FontLab localization project. Each file states its scope and the batches it read, with a digest of each request, and then lists the changes:
 
 ```json
 {
@@ -40,9 +40,9 @@ Every field has a job:
 | `why` | The reason, with its evidence: an issue number, a source function, an attestation |
 | file-level `scope` and `inputs` | What was reviewed and from which inputs, so the review can be reproduced |
 
-The `before` field is a guard as well as a record. The issue 146 corrections were applied to the catalogs with exact prior-target checks: a change applies only if the string still says what the reviewer saw. If someone else has changed it in the meantime, the change stops rather than overwriting their work.
+The `before` field is a guard as well as a record. The corrections of the founder's update of 29 September 2026 were applied to the catalogs with exact prior-target checks: a change applies only if the string still says what the reviewer saw. If someone else has changed it in the meantime, the change stops rather than overwriting their work.
 
-Two practical notes from the same data. The German ledgers name the reason field `why` in some files and `reason` in others; pick one name and enforce it, because a tool that looks for one misses the other. And the issue 146 ledger groups its 746 entries into three lists (35 western corrections, 663 Polish catalog changes, 48 help changes) without a reason per entry, because every entry in it has the same reason: the founder's instructions in issue 146. A per-entry reason is needed when the reasons differ; a file-level reason is enough when they do not, provided the file names the issue.
+Two practical notes from the same data. The German ledgers name the reason field `why` in some files and `reason` in others; pick one name and enforce it, because a tool that looks for one misses the other. And the ledger of the 29 September update groups its 746 entries into three lists (35 western corrections, 663 Polish catalog changes, 48 help changes) without a reason per entry, because every entry in it has the same reason: the founder's instructions of 29 September. A per-entry reason is needed when the reasons differ; a file-level reason is enough when they do not, provided the file names its source.
 
 ## Decisions chain
 
@@ -52,12 +52,12 @@ A string can change several times, and each change can be right in its own momen
 |---|---|---|
 | Original catalog | *Unterlänge bis UPM* | |
 | German consistency review | *Geviert ab Unterlänge* | The code sets the target height to one em measured from the descender, which is not the coordinate range from descender to UPM; the ledger names the two functions it read |
-| Review of issue 133 | *Unterlänge bis Gevierthöhe* | The founder: the label names a distance from one line to the other |
-| Build pulled for issue 146 | message retired; new source *UPM height from descender* translated as *Gevierthöhe ab Unterlänge* | The English source itself was reworded in the product |
+| Founder's review | *Unterlänge bis Gevierthöhe* | The founder: the label names a distance from one line to the other |
+| Build pulled for the 29 September update | message retired; new source *UPM height from descender* translated as *Gevierthöhe ab Unterlänge* | The English source itself was reworded in the product |
 
-Read without the ledgers, the final German looks like a reversal of the issue 133 decision. Read with them, it is the consequence of a new English source: the message that the founder's rule applied to no longer exists, and the retired catalog keeps it. The FontLab principles describe this property: provenance follows the chain of ledgers by content, so a decision that returns a string to an earlier form is still traceable.
+Read without the ledgers, the final German looks like a reversal of the founder's decision. Read with them, it is the consequence of a new English source: the message that the founder's rule applied to no longer exists, and the retired catalog keeps it. The FontLab principles describe this property: provenance follows the chain of ledgers by content, so a decision that returns a string to an earlier form is still traceable.
 
-The same mechanism records supersession of a term rather than a string. Issue 132 chose *Kegelauflösung* for UPM in German; issue 133 replaced it with *Geviertauflösung*. The review directory's README states that the explicit instructions of issue 133 take priority over older glossary entries and names this case, so that nobody restores the older term from an older ledger.
+The same mechanism records supersession of a term rather than a string. An earlier German review chose *Kegelauflösung* for UPM in German; the founder's review replaced it with *Geviertauflösung*. The review directory's README states that the founder's explicit instructions take priority over older glossary entries and names this case, so that nobody restores the older term from an older ledger.
 
 ## One decision, three records that must agree
 
@@ -67,12 +67,12 @@ A terminology decision lives in three places, each for a different reader:
 - **the core memory**, for every future translation of the term, by person or engine;
 - **the language guide**, for the reasoning behind the less obvious choices.
 
-The FontLab principles say that a review is not complete until all three agree. The Polish core memory shows one way to keep the memory in step: each unit changed in issue 146 carries a translator's note of the form *Przegląd 2026-09-29 (issue 146): decyzja założyciela, poprzednio „…”*, "review of 29 September 2026, issue 146: founder's decision, previously …", so the prior term travels with the new one into every export.
+The FontLab principles say that a review is not complete until all three agree. The Polish core memory shows one way to keep the memory in step: each unit changed in the 29 September update carries a translator's note of the form *Przegląd 2026-09-29 (…): decyzja założyciela, poprzednio „…”*, "review of 29 September 2026 (…): founder's decision, previously …", so the prior term travels with the new one into every export.
 
 Guides drift more easily, because they are prose. Two examples from the FontLab guides as they stood at the end of September 2026:
 
-- The German guide's list of decisions and the German core memory say *Power-Schub* for Power Nudge, following issue 133. A longer section further down the same guide still explains the name as *Power-Verschiebung*, from an earlier review.
-- The principles page still gives *Descender to UPM* as *Unterlänge bis Gevierthöhe*, a correct record of the issue 133 rule for a source string that the product has since retired.
+- The German guide's list of decisions and the German core memory say *Power-Schub* for Power Nudge, following the founder's review. A longer section further down the same guide still explains the name as *Power-Verschiebung*, from an earlier review.
+- The principles page still gives *Descender to UPM* as *Unterlänge bis Gevierthöhe*, a correct record of the founder's rule for a source string that the product has since retired.
 
 Neither is a catalog error; the strings are right. Both are the kind of stale reasoning that misleads the next reviewer, and both are found the same way: search the guides for every rejected form named in the core memory notes and the ledgers.
 
@@ -80,13 +80,13 @@ The catalogs drift too. A concept search for *Power Brush* in the German catalog
 
 ## Retired strings and the next catalog
 
-When a new build regenerates the catalog, some messages disappear. They are not deleted from the record. The upgrade that brought in the issue 146 build wrote 63 messages per language to a retired catalog under `data-fontlab-cpp/i18n/retired/`. A reviewed translation is never lost because its source changed; if the source returns, the translation is still there to compare.
+When a new build regenerates the catalog, some messages disappear. They are not deleted from the record. The upgrade that brought in the build for the 29 September update wrote 63 messages per language to a retired catalog. A reviewed translation is never lost because its source changed; if the source returns, the translation is still there to compare.
 
-Retired terms need the opposite treatment. After a terminology change, the old term must not come back through any door: a project memory built from an older catalog, a machine draft primed with an older glossary, a help file translated before the change. The issue 146 verification included a retired-term scan of the catalogs and help, which came back clean. The FontLab memory guidance states the general rule: after a decision changes, regenerate the exports and identify the translations that used the superseded form.
+Retired terms need the opposite treatment. After a terminology change, the old term must not come back through any door: a project memory built from an older catalog, a machine draft primed with an older glossary, a help file translated before the change. The verification of the 29 September update included a retired-term scan of the catalogs and help, which came back clean. The FontLab memory guidance states the general rule: after a decision changes, regenerate the exports and identify the translations that used the superseded form.
 
 ## Rules that can be replayed
 
-A large terminology change is applied by a program, and that program is part of the record. Issue 146 was applied by a script with three modes: report, apply and ledger. Its first run contained a rule that was not idempotent and a stem pattern that missed the genitive plural ([chapter 408](408-word-formation-and-derivation.md)). An independent review pass caught both, the fix was applied, and the ledger was extended with the repaired strings.
+A large terminology change is applied by a program, and that program is part of the record. The 29 September update was applied by a script with three modes: report, apply and ledger. Its first run contained a rule that was not idempotent and a stem pattern that missed the genitive plural ([chapter 408](408-word-formation-and-derivation.md)). An independent review pass caught both, the fix was applied, and the ledger was extended with the repaired strings.
 
 Three properties make such a program safe to run again:
 
@@ -111,7 +111,7 @@ The next time a catalog is upgraded, the project memory supplies the new strings
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 12: terminology reference materials)
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.3: translation memory)
-- `data-fontlab-cpp/i18n/review/README.md`, `2026-09-28-de-consistency.json`, `2026-09-28-issue133-de.json`, `2026-09-28-de-properties-tools.json` and `2026-09-29-issue-146.json` in the fl10n repository
-- `data-fontlab-cpp/i18n/fontlab_de.ts` and `data-fontlab-cpp/i18n/retired/` in the fl10n repository
-- `CHANGELOG.md`, `issues/133.md` and `issues/146.md` in the fl10n repository
+- The German review ledgers of the FontLab localization project (September 2026): the directory README, the consistency review, the founder's review, the properties and tools review, and the 29 September update
+- The German FontLab 9 interface catalog (`fontlab_de.ts`) and the retired catalogs of the FontLab localization project
+- The changelog of the FontLab localization project, the founder's review remarks on the German, Spanish and French catalogs (September 2026) and the founder's update of 29 September 2026
 - [localization/principles](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/principles/), [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/) and `localization/tm/pl-core.tmx` in the vexy-fontlab-writing-styleguide repository

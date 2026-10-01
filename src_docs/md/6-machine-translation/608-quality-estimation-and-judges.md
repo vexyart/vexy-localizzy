@@ -20,7 +20,7 @@ Quality estimation predicts the quality of a translation from the source and the
 
 The neural successors named in the research corpus are more accurate and work the same way from the outside. COMET-QE and COMETKiwi score a translation without a reference, which suits new strings. xCOMET adds error spans and is the corpus's recommended default when a reference exists. MetricX-24 led the neural metrics at WMT24, according to the corpus.
 
-A QE score is a number per segment. It is good at ranking: this string looks riskier than that one. It is weaker at the absolute question of whether a given string is acceptable, and it cannot say what is wrong unless it reports spans. That makes it a natural triage tool. The fl10n specification treats it that way: an optional, heavyweight layer that flags low-scoring units for further checking.
+A QE score is a number per segment. It is good at ranking: this string looks riskier than that one. It is weaker at the absolute question of whether a given string is acceptable, and it cannot say what is wrong unless it reports spans. That makes it a natural triage tool. The toolkit design treats it that way: an optional, heavyweight layer that flags low-scoring units for further checking.
 
 ## Language models as judges
 
@@ -32,7 +32,7 @@ A language model can be asked to read a source and a translation and list the er
 
 A judge finds what a linter cannot: a meaning that drifted, a register that is wrong for the product, a term that ignores the glossary. The corpus's typographic example is a model translating "Kern" in a font editor with the word for a fruit kernel. A judge given the domain would flag that; a placeholder check never would.
 
-The corpus is equally direct about the costs. Judges are probabilistic and inconsistent between runs, report 15 to 25 percent false positives without calibration, drift when the provider updates the model, and cost far more than a local check. The mitigations it lists are structured JSON output, temperature 0, voting across several judges, calibration against a set of segments labelled by humans, and a pinned model and prompt version. The fl10n specification adds sampling, judging about one unit in ten, and records the judge model and prompt version with each score.
+The corpus is equally direct about the costs. Judges are probabilistic and inconsistent between runs, report 15 to 25 percent false positives without calibration, drift when the provider updates the model, and cost far more than a local check. The mitigations it lists are structured JSON output, temperature 0, voting across several judges, calibration against a set of segments labelled by humans, and a pinned model and prompt version. The toolkit design adds sampling, judging about one unit in ten, and records the judge model and prompt version with each score.
 
 The corpus also lists ways to detect semantic drift without a judge: back-translate the output and compare sentence embeddings with the source, or use a reference-based metric. The FontLab quality specification is wary of the first. Back-translation introduces another translation, it notes, and can raise questions but cannot by itself establish accuracy; a proficient reviewer resolves the meaning against the source and the product.
 
@@ -56,7 +56,7 @@ A worked example shows how far apart they land. Take a batch of twenty strings w
 
 Here the sources disagree outright.
 
-The fl10n specification lets the judge decide eligibility: a score of 80 or above makes a unit eligible for automatic approval, while a score below 80 or any critical span routes it to a human. A human confirmation in the review tool remains the only path to the approved state, but the score decides which units are routed to a person for correction and which arrive already marked as acceptable.
+The original toolkit specification lets the judge decide eligibility: a score of 80 or above makes a unit eligible for automatic approval, while a score below 80 or any critical span routes it to a human. A human confirmation in the review tool remains the only path to the approved state, but the score decides which units are routed to a person for correction and which arrive already marked as acceptable.
 
 The FontLab writing guide says quality estimation may triage and may not approve: a score can point the reviewer at risky strings and cannot say that a string is right. vexy-localizzy is built on the same line. Its content checks explicitly exclude linguistic quality scoring, its `ready` flag means every message has an acceptable candidate and not semantic approval, and engine output is always written for review.
 
@@ -68,8 +68,5 @@ Whichever rule a team adopts, it needs its own evidence. The research corpus rec
 
 - Johann Roturier, *Localizing Apps: A Practical Guide for Translators and Translation Students*, 2015 (section 5.5.2: evaluation; sections 5.7.4 to 5.7.6: statistical and machine-learning checks, quality standards)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 4: MQM-DQF, the LISA QA model, error severity)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository (sections 4.7 and 4.9)
-- `research/06-tldr.md` in the fl10n repository (chapter 4 summary)
-- `spec/05.md` in the fl10n repository (sections 5.1 and 5.5)
 - [docs/quality.md](../8-toolkit/quality.md) and [docs/translation.md](../8-toolkit/translation.md) in the vexy-localizzy repository
 - [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/) and [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository

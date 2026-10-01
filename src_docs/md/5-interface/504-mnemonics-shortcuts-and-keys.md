@@ -96,8 +96,8 @@ A script cannot see letters in menus assembled at run time, cannot tell whether 
 
 - Emmanuel Uren, Robert Howard and Tiziana Perinotti, *Software Internationalization and Localization: An Introduction*, 1993 (section 4.3.12)
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 3: hot keys and control keys)
-- `data-fontlab-cpp/i18n-repo/fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts` and `fontlab_pl.ts` in the fl10n repository
-- `data-fontlab-cpp/i18n/source-review/possible-bugs-2026-09-28.md` (B-002) in the fl10n repository
-- `Proteus/workspace2/mainwindow.ui` (menu bar order) in the FontLab application source
+- The FontLab 9 interface catalogs for German, Spanish, French and Polish (`fontlab_de.ts`, `fontlab_es.ts`, `fontlab_fr.ts`, `fontlab_pl.ts`)
+- The source review list of possible bugs of the FontLab localization project, 28 September 2026 (B-002)
+- The main window form (menu bar order) in the FontLab application source
 - [localization/ui-strings](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/ui-strings/), [localization/quality](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/quality/), [localization/de](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/de/), [localization/es](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/es/), [localization/fr](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/fr/) and [localization/pl](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/pl/) in the vexy-fontlab-writing-styleguide repository
 - [docs/quality.md](../8-toolkit/quality.md) in the vexy-localizzy repository

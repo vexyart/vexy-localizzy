@@ -1,11 +1,11 @@
 # this_file: tests/fixtures/legacy_golden/capture.py
-"""Regenerate golden outputs by running the OLD fl10n converter scripts.
+"""Regenerate golden outputs by running the OLD converter scripts.
 
-Run with the fl10n virtual environment, never through the scripts' ``uv run -s``
+Run with the virtual environment of the old scripts, never through the scripts' ``uv run -s``
 shebang (that would resolve vexy-localizzy from PyPI):
 
-    FL10N=/path/to/fl10n
-    $FL10N/.venv/bin/python tests/fixtures/legacy_golden/capture.py $FL10N/tools [WORKDIR]
+    LEGACY=/path/to/old-scripts-checkout
+    $LEGACY/.venv/bin/python tests/fixtures/legacy_golden/capture.py $LEGACY/tools [WORKDIR]
 
 Every input is synthetic: text fixtures live in ``inputs/``; binary Adobe and
 Apple resources are built by ``tests/extract/legacy_builders.py``. Each command

@@ -26,7 +26,7 @@ The part follows a string from the moment it needs a translation to the moment a
 
 A model that translates ten thousand interface strings overnight changes the economics of a release, and it changes where errors come from. A human translator who does not understand "Open" asks a question. A model picks a meaning and moves on, and the German reads well. Jiménez-Crespo (2024) calls neural output deceptively fluent: the distortion is harder to see because the sentence is well formed. Every chapter here is a response to that one property. Context reduces the guessing, memories remove the guessing for strings already decided, glossaries and placeholders are checked mechanically, scores point reviewers at risk, and people approve.
 
-The part also records where the sources disagree. The 2026 research corpus recommends routing strings to model tiers; the vexy-localizzy toolkit tries an ordered list of models instead. The fl10n specification lets a judge's score of 80 make a string eligible for approval; the FontLab writing guide says quality estimation may triage and may not approve. These disagreements are stated where they arise, with the reasoning on each side.
+The part also records where the sources disagree. The 2026 research corpus recommends routing strings to model tiers; the vexy-localizzy toolkit tries an ordered list of models instead. The original toolkit specification lets a judge's score of 80 make a string eligible for approval; the FontLab writing guide says quality estimation may triage and may not approve. These disagreements are stated where they arise, with the reasoning on each side.
 
 ## How the chapters connect
 
@@ -38,8 +38,7 @@ The worked examples come from the FontLab localization. Its German, Spanish and 
 
 - Bert Esselink, *A Practical Guide to Localization*, 2000 (chapter 11: translation technology, machine translation)
 - Miguel A. Jiménez-Crespo, *Localization in Translation*, 2024 (chapter 12: machine translation and large language models)
-- `research/04-ai-driven-translation-and-quality-assurance.md` in the fl10n repository
-- `spec/04.md` and `spec/05.md` in the fl10n repository
-- `WORK.md` and `CHANGELOG.md` in the fl10n repository (issues 145 and 146)
+- [docs/quality.md](../8-toolkit/quality.md) and [docs/design/architecture.md](../8-toolkit/design/architecture.md) in the vexy-localizzy repository
+- The work log and changelog of the FontLab localization project (the Polish localization and the founder's update of 29 September 2026)
 - [localization/memories](https://fontlab.dev/vexy-fontlab-writing-styleguide/fl1992mk/localization/memories/) in the vexy-fontlab-writing-styleguide repository
 - `README.md` and [docs/memories.md](../8-toolkit/memories.md) in the vexy-localizzy repository
