@@ -179,6 +179,50 @@ def test_review_catalog_when_glossary_terms_change_then_reviewed_again(tmp_path)
     assert len(again.calls) == 1, "new terms review the batch again"
 
 
+def test_review_catalog_when_terms_are_proposed_then_sent_only_when_status_named(
+    tmp_path,
+):
+    proposed = glossary(tmp_path / "a.tmx", ("Kerning", "Crénage"), status="proposed")
+    default = FakeEndpoint()
+    _review(tmp_path, default, glossaries=[proposed])
+    assert "Crénage" not in default.calls[0][1], "proposed terms are off by default"
+    opted = FakeEndpoint()
+    summary = _review(
+        tmp_path,
+        opted,
+        glossaries=[proposed],
+        glossary_statuses=frozenset({"approved", "proposed", "do-not-translate"}),
+    )
+    assert len(opted.calls) == 1 and summary["already_reviewed"] == 0, (
+        "new statuses change the terms, so the batch is reviewed again"
+    )
+    assert "Crénage" in opted.calls[0][1], "proposed terms are sent when named"
+
+
+def test_review_catalog_when_statuses_change_but_terms_do_not_then_batch_skipped(
+    tmp_path,
+):
+    unrelated = glossary(tmp_path / "a.tmx", ("Baseline", "Ligne"), status="proposed")
+    _review(tmp_path, FakeEndpoint(), glossaries=[unrelated])
+    endpoint = FakeEndpoint()
+    summary = _review(
+        tmp_path,
+        endpoint,
+        glossaries=[unrelated],
+        glossary_statuses=frozenset({"proposed"}),
+    )
+    assert endpoint.calls == [] and summary["already_reviewed"] == 1, (
+        "as with a changed glossary, only batches whose terms changed are redone"
+    )
+
+
+def test_review_catalog_when_no_status_selected_then_no_terms_sent(tmp_path):
+    approved = glossary(tmp_path / "a.tmx", ("Kerning", "Crénage"))
+    endpoint = FakeEndpoint()
+    _review(tmp_path, endpoint, glossaries=[approved], glossary_statuses=frozenset())
+    assert "Crénage" not in endpoint.calls[0][1], "an empty selection sends nothing"
+
+
 def test_review_catalog_when_batch_fails_then_counted_and_not_recorded(tmp_path):
     summary = _review(tmp_path, FakeEndpoint(fail=3))
     assert summary["failed"] == 1 and summary["reviewed"] == 0, summary

@@ -11,10 +11,12 @@ staleness and shape guards and records an exact ledger. Exit codes: 0 success;
 import json
 import sys
 from pathlib import Path
+from typing import get_args
 
 from lxml.etree import LxmlError
 
 from vexy_localizzy.cli._args import csv_paths, csv_strings
+from vexy_localizzy.cli.translate import TermStatus
 from vexy_localizzy.editorial.candidate_file import FAMILIES, SEVERITIES
 from vexy_localizzy.editorial.review_prompt import DEFAULT_PRODUCT
 
@@ -65,6 +67,14 @@ def _choices(value: object, allowed: tuple[str, ...], flag: str) -> set[str]:
     return chosen
 
 
+def _statuses(value: object) -> frozenset[str]:
+    """Glossary term statuses, as ``localizzy translate --glossary-status`` reads them."""
+    statuses = frozenset(csv_strings(value))
+    if unknown := statuses - set(get_args(TermStatus)):
+        raise UsageError(f"--glossary-status: unknown status {sorted(unknown)}")
+    return statuses
+
+
 def _fail(error: Exception, code: int, hint: str = "") -> None:
     print(f"error: {error}{hint}", file=sys.stderr)
     raise SystemExit(code) from error
@@ -86,6 +96,7 @@ def review(
     workers: int = 4,
     batch_size: int = 40,
     limit: int = 0,
+    glossary_status: str = "approved,do-not-translate",
 ) -> dict:
     """Ask a model to review the --target translation in CATALOG; append proposals to OUT.
 
@@ -93,7 +104,9 @@ def review(
     file with --source-json naming the English one. --product describes the
     application in a phrase ("a professional font editor"); --style-file is the
     language style sheet; --glossary-memory lists TMX memories, comma-separated,
-    whose approved and do-not-translate terms are sent with each batch.
+    whose terms are sent with each batch. --glossary-status picks the term
+    statuses that count (comma-separated; default approved,do-not-translate;
+    add proposed for a language whose glossary is not reviewed yet).
     --endpoint and --model are required; the key comes from --api-key-env.
     --timeout defaults to 300 seconds because a batch of 40 messages returns
     long corrected texts. Re-running skips batches already in OUT unless the
@@ -114,6 +127,7 @@ def review(
             "glossaries": [
                 _existing(p, "glossary-memory") for p in csv_paths(glossary_memory)
             ],
+            "glossary_statuses": _statuses(glossary_status),
             "source_json": _existing(source_json, "source-json")
             if source_json
             else None,

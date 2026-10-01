@@ -33,7 +33,7 @@ The status rule deserves a moment. At the end of the first Polish pass, the core
 
 ## Whole-string hits and the word "open"
 
-A whole-string hit ignores case, tags and accelerators, and it ignores context. That is its weakness. A glossary entry for "open" as the adjective (an open contour) will fill a menu command "Open" whose meaning is the verb. The vexy-localizzy documentation names this exact case, and its default reflects it: term hits are written unfinished, for review, unless the run explicitly allows them to be finished. When a term hit fills a label that starts with a capital letter and the term does not, the first letter is capitalized to match.
+A whole-string hit ignores case, tags and accelerators, and it ignores context. That is its weakness. A glossary entry for "open" as the adjective (an open contour) will fill a menu command "Open" whose meaning is the verb. The vexy-localizzy documentation names this exact case, and its default reflects it: term hits are written unfinished, for review, unless the run explicitly allows them to be finished. When a term hit fills a label that starts with a capital letter and the glossary target starts with a lowercase one, the target's first letter is capitalized to match; a do-not-translate term keeps its spelling.
 
 The general rule is that a glossary knows concepts and a catalog holds strings. A string that happens to equal a term is probably that concept, which is enough for a draft and not enough for approval.
 

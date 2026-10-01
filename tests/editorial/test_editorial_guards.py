@@ -53,6 +53,48 @@ def test_safe_when_plural_list_empty_or_wrong_length_then_rejected():
     assert safe(["%n a", "%n b"], ["%n c", "%n d"], "%n x"), "same length passes"
 
 
+def test_problem_when_one_count_form_spells_out_the_number_then_safe():
+    before = ["%n plik", "%n pliki", "%n plików"]
+    spelled = ["Jeden plik", "%n pliki", "%n plików"]
+    source, singular = "%n file(s)", frozenset({0})
+    assert problem(before, spelled, source) == "shape", "strict without the rule"
+    assert problem(before, spelled, source, count_optional=singular) is None, (
+        "the form that one count selects may omit %n"
+    )
+    assert problem(spelled, before, source, count_optional=singular) is None, (
+        "putting the count back is fine too"
+    )
+    ranged = ["%n plik", "pliki", "%n plików"]
+    assert problem(before, ranged, source, count_optional=singular) == "shape", (
+        "a form of several counts must keep %n"
+    )
+
+
+def test_problem_when_one_count_form_changes_another_token_then_shape():
+    source, singular = "%n file(s) in %1:", frozenset({0})
+    before = ["%n plik w %1:", "%n pliki w %1:"]
+    assert (
+        problem(
+            before, ["Jeden plik w %1:", before[1]], source, count_optional=singular
+        )
+        is None
+    )
+    for revised in (
+        "Jeden plik:",
+        "Jeden plik w %1",
+        "Jeden plik w %1 %2:",
+        "%n %n plik w %1:",
+    ):
+        assert (
+            problem(before, [revised, before[1]], source, count_optional=singular)
+            == "shape"
+        ), revised
+    assert (
+        problem("%n plik", "Jeden plik", "%n file(s)", count_optional=singular)
+        == "shape"
+    ), "a scalar message never gets the exemption"
+
+
 def test_problem_when_plural_list_wrong_length_then_reason_is_plural_forms():
     assert problem(["%n a", "%n b"], ["%n a"], "%n x") == "plural_forms", "length"
     assert problem(["%n a", "%n b"], "%n a", "%n x") == "plural_forms", "list → text"

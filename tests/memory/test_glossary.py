@@ -6,8 +6,38 @@ from pathlib import Path
 import pytest
 
 from vexy_localizzy.memory import Glossary, match_text
+from vexy_localizzy.memory.glossary import capitalize_first
 
 CORE_DE = Path(__file__).parent.parent / "fixtures" / "memory" / "core-de.tmx"
+
+
+@pytest.mark.parametrize(
+    ("text", "lang", "expected"),
+    [
+        ("удалить наложение", "ru", "Удалить наложение"),
+        ("ábra", "hu", "Ábra"),
+        ("Öffnen", "de", "Öffnen"),
+        ("", "de", ""),
+        ("カーニング", "ja", "カーニング"),
+        ("كيرنينغ", "ar", "كيرنينغ"),
+        ("კერნინგი", "ka", "კერნინგი"),
+        ("«кернинг»", "ru", "«кернинг»"),
+        (" kerning", "en", " kerning"),
+        ("ßtest", "de", "ßtest"),
+        ("içe aktar", "tr", "İçe aktar"),
+        ("içe aktar", "tr_TR", "İçe aktar"),
+        ("idxal", "az", "İdxal"),
+        ("ışık", "tr", "Işık"),
+        ("import", "en", "Import"),
+        ("import", None, "Import"),
+        ("ijken", "nl-NL", "IJken"),
+        ("ijken", "de", "Ijken"),
+    ],
+)
+def test_capitalize_first_when_given_text_then_only_a_cased_first_letter_changes(
+    text, lang, expected
+):
+    assert capitalize_first(text, lang) == expected, (text, lang)
 
 
 @pytest.fixture

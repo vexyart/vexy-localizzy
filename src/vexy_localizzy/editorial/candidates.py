@@ -58,8 +58,13 @@ def _units(
     )
 
 
-def _terms(glossaries: Sequence[Path], source_lang: str, target_lang: str) -> Terms:
-    """A ``texts -> {term: hint}`` lookup over approved glossary entries."""
+def _terms(
+    glossaries: Sequence[Path],
+    source_lang: str,
+    target_lang: str,
+    statuses: frozenset[str],
+) -> Terms:
+    """A ``texts -> {term: hint}`` lookup over glossary entries with ``statuses``."""
     if not glossaries:
         return lambda texts: {}
     from vexy_localizzy.memory.glossary import Glossary
@@ -68,7 +73,7 @@ def _terms(glossaries: Sequence[Path], source_lang: str, target_lang: str) -> Te
         glossaries,
         source_lang=source_lang,
         target_lang=target_lang,
-        statuses=GLOSSARY_STATUSES,
+        statuses=statuses,
     )
     return glossary.relevant
 
@@ -156,19 +161,26 @@ def review_catalog(
     product: str = DEFAULT_PRODUCT,
     style: str = "",
     glossaries: Sequence[Path] = (),
+    glossary_statuses: frozenset[str] = GLOSSARY_STATUSES,
     source_json: Path | None = None,
     workers: int = 4,
     batch_size: int = 40,
     limit: int = 0,
     sleep: Callable[[float], None] | None = None,
 ) -> dict:
-    """Review CATALOG into the JSONL file OUT; return counts of batches and corrections."""
+    """Review CATALOG into the JSONL file OUT; return counts of batches and corrections.
+
+    ``glossary_statuses`` selects the glossary entries sent with a batch. A
+    change of statuses changes the terms of the batches that mention the newly
+    included or excluded entries, and so their identity: those batches are
+    reviewed again, exactly as after an edit of the glossary itself.
+    """
     refuse_overwrite({"out": out}, {"catalog": catalog, "source JSON": source_json})
     units, source_lang, target_lang = _units(Path(catalog), target, source_json)
     units, left_out = eligible(units)
     language = language_name(target)
     system = system_prompt(language, product, style)
-    terms = _terms(glossaries, source_lang, target_lang)
+    terms = _terms(glossaries, source_lang, target_lang, frozenset(glossary_statuses))
     jobs = plan(units, model=model, system=system, terms=terms, batch_size=batch_size)
     done = finished_batches(Path(out))
     todo = [job for job in jobs if job[0] not in done]

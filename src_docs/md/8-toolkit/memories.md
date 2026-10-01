@@ -75,8 +75,13 @@ target. Its terms serve two purposes:
   sorted by source, so the same batch always has the same cache key. A
   do-not-translate term maps to itself.
 - **`term` hits.** A message whose whole text is a term, ignoring case, tags
-  and accelerators, takes the term's rendering. If the label starts with a
-  capital letter and the term does not, the first letter is capitalized.
+  and accelerators, takes the term's rendering. A glossary holds dictionary
+  forms, so if the label starts with a capital letter and the target with a
+  lowercase one, the target's first letter is capitalized ("Remove overlap"
+  takes "Удалить наложение" from the term "удалить наложение"). A target in a
+  script without case, a target that starts with a digit or a quote, and a
+  do-not-translate term stay as the glossary spells them. Turkish and
+  Azerbaijani `i` becomes `İ`, and Dutch `ij` becomes `IJ`.
 
 By default only `approved` and `do-not-translate` terms are used. Pass
 `--glossary-status approved,proposed,do-not-translate` to include proposed ones.

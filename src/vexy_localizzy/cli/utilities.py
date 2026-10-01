@@ -154,14 +154,16 @@ def shard_merge(
     return summary
 
 
-def _engine(endpoint, model, api_key_env, temperature, timeout):
+def _engine(endpoint, model, fallback_models, api_key_env, temperature, timeout):
+    """The endpoint and its models, preferred first, as ``localizzy translate`` reads them."""
     from vexy_localizzy.translate.engine import EngineSpec
 
-    if not endpoint or not model:
+    models = [str(m) for m in ([model] if model else []) + csv_strings(fallback_models)]
+    if not endpoint or not models:
         raise UsageError("Pass --endpoint and --model")
     return EngineSpec(
         endpoint=str(endpoint),
-        models=(str(model),),
+        models=tuple(dict.fromkeys(models)),
         api_key_env=str(api_key_env),
         temperature=_number(temperature, "--temperature", float, 0),
         timeout=_number(timeout, "--timeout", float, 0),
@@ -195,12 +197,19 @@ def translate_json(
     titles: bool = False,
     batch_size: int = 5,
     workers: int = 3,
+    fallback_models: str | None = None,
+    rescue: bool = True,
 ) -> dict:
     """Translate flat JSON file SOURCE ({key: Markdown text}) into --target at --out.
 
     --titles: the keys are English titles and are translated too. --product
     describes what the texts document (default: a software application).
-    --glossary-memory a.tmx,b.tmx adds the terms each batch mentions. Resume is
+    --glossary-memory a.tmx,b.tmx adds the terms each batch mentions.
+    --fallback-models b,c names the models to try, in order, when a request to
+    --model fails or its answer is rejected. A text that several keys share is
+    translated once. An item whose batch failed is retried alone, then
+    paragraph by paragraph (a <pre> block stays as it is), then with its markup
+    masked as numbered tokens; --norescue turns that off. Resume is
     by English key; provenance goes to OUT's ``.localizzy.json`` sidecar. Exits
     1, leaving --out untouched, until every item is translated; finished batches
     are kept in OUT's ``.partial.json`` after each batch. Ctrl+C exits 130. An
@@ -219,7 +228,9 @@ def translate_json(
         summary = translate_json_file(
             _file(source, "Source file"),
             _path(out, "OUT"),
-            spec=_engine(endpoint, model, api_key_env, temperature, timeout),
+            spec=_engine(
+                endpoint, model, fallback_models, api_key_env, temperature, timeout
+            ),
             target_lang=target,
             source_lang=source_lang,
             style=style,
@@ -234,6 +245,7 @@ def translate_json(
             batch_size=_number(batch_size, "--batch-size", int, 1),
             workers=_number(workers, "--workers", int, 1),
             protected=[style_path] if style_path else [],
+            rescue=bool(rescue),
         )
     except KeyboardInterrupt:
         print("interrupted; finished batches are in the partial file", file=sys.stderr)

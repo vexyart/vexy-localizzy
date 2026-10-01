@@ -239,12 +239,26 @@ def test_translate_json_file_when_translation_drops_markup_then_batch_rejected(
         )
 
     out = tmp_path / "help_pl.json"
-    summary = run(source, out, fake(lossy))
+    summary = run(source, out, fake(lossy), rescue=False)
     assert summary["failed_batches"] == 3 and not out.exists(), summary
     partial = read(tmp_path / "help_pl.partial.json")
     assert set(partial) == {"ok"}, "only the clean item is kept"
     assert partial["ok"]["model"] == "fake-model", partial
     assert partial["ok"]["state"] == "machine", partial
+
+    summary = run(source, out, fake(lossy))
+    assert summary["complete"] and summary["rescued"] == 3, summary
+    assert read(out) == {
+        "tag": "Press <b>OK</b> PL",
+        "link": "See [docs](https://example.com/a) PL",
+        "code": "Run `x` PL",
+        "ok": "Plain PL",
+    }, "masking keeps the tag, the link target and the code span"
+    paths = {
+        key: item["path"]
+        for key, item in read(tmp_path / "help_pl.localizzy.json")["items"].items()
+    }
+    assert paths == {"tag": "masked", "link": "masked", "code": "masked", "ok": "whole"}
 
 
 def test_translate_json_file_when_source_text_changes_then_only_that_key_retranslated(

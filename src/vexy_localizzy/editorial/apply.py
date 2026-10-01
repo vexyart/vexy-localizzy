@@ -175,7 +175,12 @@ def apply_review(
     if not dry_run and Path(ledger).exists() and not force:
         raise ValueError(f"ledger {ledger} exists; pass --force to replace it")
     changes, filtered, refused = load_candidates(
-        candidates, severities, families, rejected, allow_markup=allow_markup
+        candidates,
+        severities,
+        families,
+        rejected,
+        allow_markup=allow_markup,
+        language=language,
     )
     if Path(catalog).suffix.lower() == ".json":
         if source_json is None:

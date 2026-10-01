@@ -8,6 +8,7 @@ import pytest
 from editorial_fixtures import (
     FakeEndpoint,
     candidate,
+    glossary,
     ts,
     units,
     write_candidates,
@@ -263,3 +264,45 @@ def test_review_when_flags_named_like_translate_then_style_and_glossary_used(
     parameters = inspect.signature(editorial.review).parameters
     assert "glossary_memory" in parameters, "--glossary-memory like translate"
     assert parameters["temperature"].default == 0.2, "same default as translate"
+
+
+def test_review_when_glossary_status_names_proposed_then_proposed_terms_sent(
+    catalog, tmp_path, endpoint
+):
+    memory = glossary(tmp_path / "fr.tmx", ("Open", "Ouvrir"), status="proposed")
+    flags = {"model": "m", "endpoint": "e", "glossary_memory": str(memory)}
+    editorial.review(catalog, "fr", tmp_path / "default.jsonl", **flags)
+    assert '"Open": "Ouvrir"' not in endpoint.calls[0][1], "default leaves proposed out"
+    editorial.review(
+        catalog,
+        "fr",
+        tmp_path / "opted.jsonl",
+        glossary_status=("approved", "proposed", "do-not-translate"),
+        **flags,
+    )
+    assert '"Open": "Ouvrir"' in endpoint.calls[1][1], "a Fire tuple of statuses works"
+
+
+def test_review_when_glossary_status_unknown_then_exit_2(catalog, tmp_path, endpoint):
+    call = lambda: editorial.review(  # noqa: E731
+        catalog,
+        "fr",
+        tmp_path / "c.jsonl",
+        model="m",
+        endpoint="e",
+        glossary_status="approved,deprecated",
+    )
+    assert _exit_code(call) == 2, "an unknown status is a usage error"
+    assert endpoint.calls == [], "nothing is sent on a usage error"
+
+
+def test_review_when_signature_compared_then_glossary_status_matches_translate():
+    import inspect
+
+    from vexy_localizzy.cli.translate import translate
+
+    ours = inspect.signature(editorial.review).parameters["glossary_status"]
+    theirs = inspect.signature(translate).parameters["glossary_status"]
+    assert ours.default == theirs.default == "approved,do-not-translate", (
+        "same flag and default as localizzy translate"
+    )

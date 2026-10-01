@@ -13,6 +13,7 @@ from pathlib import Path
 
 from vexy_localizzy.editorial.guards import problem
 from vexy_localizzy.editorial.ledger import Outcome
+from vexy_localizzy.formats import qt_numerus
 
 FAMILIES = (
     "accuracy",
@@ -60,6 +61,19 @@ def _refuse_duplicates(records: list[dict], path: Path) -> None:
         )
 
 
+def _one_count_forms(revised: object, language: str | None) -> frozenset[int]:
+    """Forms of a plural correction that may omit the count in ``language``:
+    none for a scalar, an unknown language, or a list that is not Qt's count."""
+    if not isinstance(revised, list) or not language:
+        return frozenset()
+    try:
+        if len(revised) != qt_numerus.count(language):
+            return frozenset()
+        return qt_numerus.single_number_forms(language)
+    except qt_numerus.UnknownQtNumerus:
+        return frozenset()
+
+
 def load_candidates(
     path: Path,
     severities: set[str],
@@ -67,8 +81,13 @@ def load_candidates(
     rejected: set[str],
     *,
     allow_markup: bool = False,
+    language: str | None = None,
 ) -> tuple[list[dict], Counter, Outcome]:
-    """Kept candidates, counts of the user's filters, and guard refusals by id."""
+    """Kept candidates, counts of the user's filters, and guard refusals by id.
+
+    ``language`` lets a plural correction omit ``%n`` in the forms that exactly
+    one count selects in that language; without it every form must keep it.
+    """
     records = _records(path)
     _refuse_duplicates(records, path)
     kept, filtered, refused = [], Counter(), Outcome()
@@ -85,6 +104,7 @@ def load_candidates(
                 c["revised"],
                 c.get("source"),
                 markup=allow_markup and c.get("family") == MARKUP_FAMILY,
+                count_optional=_one_count_forms(c["revised"], language),
             ):
                 refused.skip(c, reason)
             else:

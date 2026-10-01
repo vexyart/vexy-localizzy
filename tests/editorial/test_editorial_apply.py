@@ -122,6 +122,41 @@ def test_apply_ts_when_plural_forms_revised_then_written(tmp_path):
     }, "both forms written"
 
 
+def _polish_numerus(tmp_path):
+    forms = ["%n plik", "%n pliki", "%n plików"]
+    body = "".join(f"<numerusform>{form}</numerusform>" for form in forms)
+    text = ts(
+        [f"<source>%n file(s)</source><translation>{body}</translation>"], "pl"
+    ).replace("<message>", '<message numerus="yes">')
+    path = tmp_path / "cat_pl.ts"
+    path.write_text(text, encoding="utf-8")
+    return path, next(iter(units(path))), forms
+
+
+@pytest.mark.parametrize(
+    ("language", "revised", "applied", "shape"),
+    [
+        ("pl", ["Jeden plik", "%n pliki", "%n plików"], 1, 0),
+        ("pl", ["%n plik", "pliki", "%n plików"], 0, 1),
+        ("ru", ["Jeden plik", "%n pliki", "%n plików"], 0, 1),
+        ("tlh", ["Jeden plik", "%n pliki", "%n plików"], 0, 1),
+    ],
+)
+def test_apply_review_when_plural_correction_omits_the_count_then_rule_of_language(
+    tmp_path, language, revised, applied, shape
+):
+    catalog, key, forms = _polish_numerus(tmp_path)
+    path = write_candidates(
+        tmp_path / "c.jsonl", [candidate(key, "%n file(s)", forms, revised)]
+    )
+    result = apply_review(catalog, language, path, tmp_path / "ledger.json")
+    assert (result["applied"], result["skipped"]["shape"]) == (applied, shape), (
+        "only a form that one count selects in the language may omit %n"
+    )
+    expected = revised if applied else forms
+    assert list(units(catalog)[key].plural.forms.values()) == expected, language
+
+
 def test_apply_ts_when_nothing_applies_then_catalog_bytes_untouched(tmp_path):
     catalog = _catalog(
         tmp_path, "<source>Open</source><translation>Ouvrir</translation>"

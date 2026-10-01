@@ -9,6 +9,9 @@ broken rule so the applier can count and list refusals by reason.
 """
 
 import re
+from collections import Counter
+
+from vexy_localizzy.qa.text import COUNT_TOKENS
 
 PRINTF = r"%[-+ 0#]*\d*(?:\.\d+)?[hlLqjzt]*[diouxXeEfFgGaAcspn%]"
 PLACEHOLDER = re.compile(r"%L?\d+|%n|" + PRINTF + r"|\{\{[^{}]*\}\}|\{\w+\}|<[^>]+>")
@@ -68,8 +71,24 @@ def _pairs(before: object, after: object) -> list[tuple[object, object]] | None:
     return list(zip(before, after))
 
 
+def _same_shape(reference: str, text: str, tags: bool, count_optional: bool) -> bool:
+    """True when ``text`` keeps the shape of ``reference``; with ``count_optional``
+    it may lack the count placeholder, and nothing else."""
+    wanted, got = shape(reference, tags=tags), shape(text, tags=tags)
+    if not count_optional:
+        return wanted == got
+    missing = Counter(wanted[0]) - Counter(got[0])
+    extra = Counter(got[0]) - Counter(wanted[0])
+    return wanted[1:] == got[1:] and not extra and set(missing) <= set(COUNT_TOKENS)
+
+
 def problem(
-    before: object, after: object, source: object = None, *, markup: bool = False
+    before: object,
+    after: object,
+    source: object = None,
+    *,
+    markup: bool = False,
+    count_optional: frozenset[int] = frozenset(),
 ) -> str | None:
     """The first rule ``after`` breaks, or None when the correction is safe.
 
@@ -78,15 +97,19 @@ def problem(
     keeps a defect does not. The mnemonic count is compared with ``before``.
     ``markup`` (an accepted markup repair) relaxes tags and the mnemonic count
     only; placeholders, punctuation, whitespace and newlines still hold.
+    ``count_optional`` names the forms of a plural correction that exactly one
+    count selects; such a form may omit ``%n``, as content QA allows.
     """
     pairs = _pairs(before, after)
     if pairs is None:
         return PLURAL_FORMS
-    for b, a in pairs:
+    plural = isinstance(after, list)
+    for index, (b, a) in enumerate(pairs):
         if not isinstance(a, str) or not a.strip() or not isinstance(b, str):
             return EMPTY
         reference = source if isinstance(source, str) else b
-        if shape(reference, tags=not markup) != shape(a, tags=not markup):
+        optional = plural and index in count_optional
+        if not _same_shape(reference, a, not markup, optional):
             return SHAPE
         if not markup and mnemonics(b) != mnemonics(a):
             return MNEMONIC

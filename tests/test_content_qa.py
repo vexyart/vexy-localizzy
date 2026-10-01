@@ -181,3 +181,146 @@ def test_braces_when_automatic_root_has_suffix_then_manual_mixing_rejected(
 @pytest.mark.parametrize("source", ["<b>Open</b>", "<b>&copy;</b>", "<b>&#169;</b>"])
 def test_markup_when_visible_content_removed_then_empty_finding(source):
     assert "TARGET-EMPTY" in rules(source, "<b>   </b>")
+
+
+def _mismatch(source, target, **options):
+    return [
+        f for f in check_text(source, target, **options) if f.rule_id == "PH-MISMATCH"
+    ]
+
+
+@pytest.mark.parametrize(
+    "source,target",
+    [
+        ("%n file(s)", "ملف واحد"),
+        ("%Ln file(s)", "One file"),
+        ("%n file(s) in %1", "One file in %1"),
+    ],
+)
+def test_qt_when_count_optional_then_form_may_omit_the_count(source, target):
+    assert _mismatch(source, target), "a form of several counts must keep the count"
+    assert not _mismatch(source, target, count_optional=True), (
+        "a one-count form may spell its number out"
+    )
+
+
+def test_qt_when_count_optional_and_count_kept_then_valid():
+    assert not _mismatch("%n file(s)", "%n ملف", count_optional=True), (
+        "keeping the count is always allowed"
+    )
+
+
+def test_qt_when_count_optional_then_every_other_placeholder_is_still_required():
+    (finding,) = _mismatch("%n file(s) in %1", "One file", count_optional=True)
+    assert finding.data["missing"] == ["%1"], "only the count may be omitted"
+    (added,) = _mismatch("%n file(s)", "One file in %1", count_optional=True)
+    assert added.data["extra"] == ["%1"], "an added argument is still an error"
+    (swapped,) = _mismatch("%n file(s)", "%Ln files", count_optional=True)
+    assert swapped.data["extra"] == ["%Ln"], "another count token is not an omission"
+    assert _mismatch("%1 file(s)", "One file", count_optional=True), (
+        "%1 is an argument, not the count"
+    )
+
+
+def test_qt_when_count_optional_and_target_empty_then_still_reported():
+    findings = check_text("%n file(s)", " ", count_optional=True)
+    assert [f.rule_id for f in findings] == ["TARGET-EMPTY"], findings
+
+
+def _numerus_batch(lang, forms, source="%n file(s)", source_lang="en"):
+    """A batch of one numerus message; ``forms`` maps form index to target."""
+    items = [
+        TranslationItem(id=f'["Files.n","{form}"]', source=source, form=form)
+        for form in forms
+    ]
+    batch = TranslationBatch(source_lang=source_lang, target_lang=lang, items=items)
+    targets = {item.id: forms[item.form] for item in items}
+    result = TranslationResult(
+        targets=targets, requested_model="one", reported_model="one"
+    )
+    return batch, result
+
+
+ARABIC = {
+    "0": "لا ملفات",
+    "1": "ملف واحد",
+    "2": "ملفان",
+    "3": "%n ملفات",
+    "4": "%n ملفًا",
+    "5": "%n ملف",
+}
+
+
+def test_validation_when_arabic_one_count_forms_omit_the_count_then_accepted():
+    assert validate_batch(*_numerus_batch("ar", ARABIC)) is None, (
+        "the zero, one and two forms may spell their number out"
+    )
+
+
+@pytest.mark.parametrize("form", ["3", "4", "5"])
+def test_validation_when_arabic_range_form_omits_the_count_then_rejected(form):
+    forms = ARABIC | {form: "ملفات"}
+    with pytest.raises(ValueError, match=rf'"{form}"\]: PH-MISMATCH'):
+        validate_batch(*_numerus_batch("ar", forms))
+
+
+@pytest.mark.parametrize(
+    ("lang", "forms", "rejected"),
+    [
+        ("ru", {"0": "Один файл", "1": "%n файла", "2": "%n файлов"}, "0"),
+        ("pl", {"0": "Jeden plik", "1": "pliki", "2": "%n plików"}, "1"),
+        ("pl", {"0": "Jeden plik", "1": "%n pliki", "2": "plików"}, "2"),
+        ("ja", {"0": "ファイル"}, "0"),
+        ("fr", {"0": "Un fichier", "1": "%n fichiers"}, "0"),
+        ("pt_BR", {"0": "Um arquivo", "1": "%n arquivos"}, "0"),
+        ("tlh", {"0": "wa' teywI'", "1": "%n teywI'"}, "0"),
+    ],
+)
+def test_validation_when_form_serves_several_counts_then_count_required(
+    lang, forms, rejected
+):
+    with pytest.raises(ValueError, match=rf'"{rejected}"\]: PH-MISMATCH'):
+        validate_batch(*_numerus_batch(lang, forms))
+
+
+@pytest.mark.parametrize(
+    ("lang", "forms"),
+    [
+        ("pl", {"0": "Jeden plik", "1": "%n pliki", "2": "%n plików"}),
+        ("cs", {"0": "Jeden soubor", "1": "%n soubory", "2": "%n souborů"}),
+        ("pt", {"0": "Um ficheiro", "1": "%n ficheiros"}),
+    ],
+)
+def test_validation_when_singular_spelled_out_then_accepted(lang, forms):
+    assert validate_batch(*_numerus_batch(lang, forms)) is None, lang
+
+
+def test_validation_when_english_singular_spelled_out_then_accepted():
+    batch, result = _numerus_batch(
+        "en",
+        {"0": "One file", "1": "%n files"},
+        source="%n Datei(en)",
+        source_lang="de",
+    )
+    assert validate_batch(batch, result) is None, "Qt practice: One file / %n files"
+    batch, result = _numerus_batch(
+        "en", {"0": "%n file", "1": "files"}, source="%n Datei(en)", source_lang="de"
+    )
+    with pytest.raises(ValueError, match=r'"1"\]: PH-MISMATCH'):
+        validate_batch(batch, result)
+
+
+@pytest.mark.parametrize(
+    "item_id", ["m1", '["Files.n","scalar"]', '["Files.n"]', "[1]"]
+)
+def test_validation_when_item_is_not_a_numerus_form_then_count_required(item_id):
+    batch = TranslationBatch(
+        source_lang="en",
+        target_lang="ar",
+        items=[TranslationItem(id=item_id, source="%n file(s)")],
+    )
+    result = TranslationResult(
+        targets={item_id: "ملف واحد"}, requested_model="one", reported_model="one"
+    )
+    with pytest.raises(ValueError, match="PH-MISMATCH"):
+        validate_batch(batch, result)

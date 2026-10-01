@@ -115,6 +115,19 @@ def tu(context: str, source: str, target: str, *, lang: str = "de", **props) -> 
     )
 
 
+def term(source: str, target: str, *, lang: str = "de", **props) -> str:
+    """A glossary TU; ``props`` override ``status="approved"``, ``translatable="yes"``."""
+    props = {"status": "approved", "translatable": "yes"} | props
+    extra = "".join(
+        f'<prop type="x-{name}">{escape(value)}</prop>' for name, value in props.items()
+    )
+    return (
+        f'<tu tuid="term:{escape(source)}">{extra}'
+        f'<tuv xml:lang="en"><seg>{escape(source)}</seg></tuv>'
+        f'<tuv xml:lang="{lang}"><seg>{escape(target)}</seg></tuv></tu>'
+    )
+
+
 def tmx(path: Path, *units: str) -> Path:
     path.write_text(
         '<?xml version="1.0" encoding="UTF-8"?><tmx version="1.4">'

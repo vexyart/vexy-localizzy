@@ -32,6 +32,57 @@ and direct TMX/table/QPH parity checks. Runtime UI review is not claimed.
 
 ## Unreleased
 
+### 2026-10-01: Limits found while drafting new languages
+
+- **Editorial review.** `localizzy editorial review --glossary-status` picks the
+  glossary term statuses sent with a batch (comma-separated, default
+  `approved,do-not-translate`), as in `translate` and `translate_json`. A new
+  language whose glossary holds only `proposed` terms no longer needs a copy
+  with rewritten statuses. A changed selection reviews again the batches whose
+  terms it changes. Fire no longer offers `-g` for `--glossary-memory` on this
+  command, because two flags now start with that letter.
+- **Term hits.** When `localizzy translate` fills a message that is exactly a
+  glossary term, a label that starts with a capital letter now capitalizes a
+  lowercase target whatever the case of the term's English source: "Remove
+  overlap" takes "Удалить наложение" from the dictionary form "удалить
+  наложение". Before, this happened only when the English term was lowercase.
+  Three cases changed the other way and now keep the glossary spelling: a
+  do-not-translate or untranslatable term, a target that starts with a digit,
+  quote or bracket, and a label whose first character is not a letter. Scripts
+  without case are untouched; Turkish and Azerbaijani `i` becomes `İ`, Dutch
+  `ij` becomes `IJ`. `localizzy upgrade` writes term hits as before.
+- **Plural forms and `%n`.** `PH-MISMATCH` is form-aware for Qt numerus
+  messages. A form that exactly one count selects may spell its number out and
+  omit `%n` or `%Ln`: Arabic zero, one and two, and the singular of a language
+  whose rule is n == 1 ("One file" beside "%n files"), as in Qt's own
+  catalogs. A form that covers several counts must keep it (every Russian form,
+  the French singular that also serves zero, the single form of Japanese), and
+  every other placeholder is still required. The rule holds in `localizzy qa`,
+  in the acceptance of engine output (`translate`, `upgrade`), of memory hits
+  and kept translations (`translate`), in the reviewer's edit checks, and in
+  the shape guard of `editorial apply`. `formats.qt_numerus` gained Qt's selection rules
+  (`form_index`, `single_number_forms`). The rule only accepts more, so cache
+  validation identities are unchanged and cached translations stay valid. A
+  catalog that omitted `%n` in such a form used to fail QA and now passes.
+- **`translate_json`.** Three changes, with the contract unchanged (exit 1 and
+  OUT untouched until every item is translated; resume by key):
+  - A text that several keys share is requested once and written under every
+    key; the sidecar still lists every key. A new key whose text is already
+    translated is filled without a request. With `--titles`, an item is its
+    title plus its text. The summary reports `reused`.
+  - Every item of a failed batch is now retried on its own in the same run:
+    alone, then paragraph by paragraph (split at blank lines, a `<pre>` block
+    kept verbatim), then with its markup masked as numbered tokens such as
+    `[[1]]`, which must each come back exactly once. The reassembled item
+    passes the same checks. This is the default; `--norescue` restores the
+    earlier behaviour. The sidecar records the `path` of each item (`whole`,
+    `paragraphs`, `masked`) and the summary reports `rescued`. A run now makes
+    more requests for an item that fails, and finishes files that used to
+    need several runs or never finished.
+  - `--fallback-models b,c`, as in `localizzy translate`: the next model is
+    tried when a request fails or its answer is rejected. The sidecar records
+    `fallback_models`, and each item names the model that answered.
+
 ### 2026-10-01: Qt tooling, project file, editorial review, QA layers
 
 The toolkit absorbs the Qt and project tooling that used to sit in a separate

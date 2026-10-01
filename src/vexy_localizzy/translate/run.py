@@ -30,9 +30,9 @@ from vexy_localizzy.formats.ts_template import prepare_translation
 from vexy_localizzy.locales import canonical_locale
 from vexy_localizzy.memory.direct import DirectMemory, MatchClass
 from vexy_localizzy.memory.glossary import DEFAULT_STATUSES, Glossary
-from vexy_localizzy.qa.catalog import scalar_targets, shape_findings
+from vexy_localizzy.qa.catalog import form_findings, scalar_targets, shape_findings
 from vexy_localizzy.qa.formats import format_policy
-from vexy_localizzy.qa.text import TextPolicy, check_text
+from vexy_localizzy.qa.text import TextPolicy
 from vexy_localizzy.translate.catalog import translate_catalog
 from vexy_localizzy.translate.catalog_types import Prefill
 from vexy_localizzy.translate.context import GlossaryContext
@@ -97,38 +97,18 @@ def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def _blocking(unit: Unit, values: dict[str, str], qa: TextPolicy) -> list[Finding]:
+def _blocking(
+    unit: Unit, values: dict[str, str], qa: TextPolicy, lang: str | None
+) -> list[Finding]:
     """Major/critical placeholder, markup and accelerator findings for these values."""
-    policy = (
-        qa.model_copy(update={"max_length": unit.max_length})
-        if unit.max_length is not None
-        else qa
-    )
     return [
         finding
-        for form, source, _ in scalar_targets(unit)
-        for finding in check_text(
-            source, values.get(form), policy=policy, unit_key=unit.key
-        )
+        for finding in form_findings(unit, qa, lang, values)
         if finding.severity in BLOCKING
     ]
 
 
-def _first_letter(text: str) -> str:
-    return next((c for c in text if c.isalpha()), "")
-
-
-def _match_case(source: str, term_source: str, value: str) -> str:
-    """Capitalize a term rendering when the UI label is capitalized and the term
-    is not ("Visual kerning" vs term "visual kerning"). Never lowercases."""
-    if _first_letter(source).isupper() and _first_letter(term_source).islower():
-        index = next((i for i, c in enumerate(value) if c.isalpha()), None)
-        if index is not None:
-            return value[:index] + value[index].upper() + value[index + 1 :]
-    return value
-
-
-def _candidates(unit: Unit, direct, glossary, term_files):
+def _candidates(unit: Unit, direct, glossary, term_files, lang: str | None = None):
     """(match, values, tuids, memory path, memory sha) in PRECEDENCE order."""
     found = []
     if direct is not None and (hit := direct.lookup(unit)) is not None:
@@ -144,7 +124,7 @@ def _candidates(unit: Unit, direct, glossary, term_files):
         and (term := glossary.whole_match(unit.source)) is not None
     ):
         path, sha = term_files.get(term.tuid, (None, None))
-        value = _match_case(unit.source, term.source, term.rendering)
+        value = term.label(unit.source, lang)
         found.append(("term", {"scalar": value}, (term.tuid,), path, sha))
     return sorted(found, key=lambda c: PRECEDENCE.index(c[0]))
 
@@ -175,11 +155,11 @@ def memory_prefill(
             continue
         forms = {form for form, _, _ in scalar_targets(unit)}
         for match, values, tuids, memory, sha in _candidates(
-            unit, direct, glossary, term_files
+            unit, direct, glossary, term_files, catalog.target_lang
         ):
             if match not in policy.use or set(values) != forms:
                 continue
-            if rejected := _blocking(unit, values, qa):
+            if rejected := _blocking(unit, values, qa, catalog.target_lang):
                 findings.append(
                     Finding(
                         rule_id="MEMORY-QA-REJECT",
@@ -267,7 +247,8 @@ def _keep(template: Catalog, plural_forms, qa: TextPolicy, keep_existing: bool):
             continue
         units.append(unit)
         problems = (
-            shape_findings(unit, required) + _blocking(unit, values, qa)
+            shape_findings(unit, required)
+            + _blocking(unit, values, qa, template.target_lang)
             if all(filled)
             else []
         )

@@ -40,7 +40,7 @@ The deterministic layer compares tokens. It does not read language. Within that 
 
 Several of these are terminology checks rather than syntax checks, and they only work because the project keeps its terms in a memory the checker can read. Part 4 describes that memory.
 
-The syntax checks need a parser for the actual message format, not a regular expression that looks roughly right. vexy-localizzy's content checks default to Qt syntax: exact multiplicity of `%1`, `%L1`, `%n` and `%Ln`, ampersand mnemonics, and ordered HTML tags with protected attributes. Other syntaxes are chosen explicitly. Python brace fields are parsed with Python's own formatter, and C printf formats are checked by calling GNU `msgfmt`, with a missing tool treated as an error rather than a pass.
+The syntax checks need a parser for the actual message format, not a regular expression that looks roughly right. vexy-localizzy's content checks default to Qt syntax: exact multiplicity of `%1`, `%L1`, `%n` and `%Ln`, ampersand mnemonics, and ordered HTML tags with protected attributes. The `%n` rule knows the plural forms: a form that exactly one count selects, such as the Arabic forms for zero, one and two or an English singular, may spell the number out and omit `%n`, while a form that covers several counts must keep it. Other syntaxes are chosen explicitly. Python brace fields are parsed with Python's own formatter, and C printf formats are checked by calling GNU `msgfmt`, with a missing tool treated as an error rather than a pass.
 
 ```python
 from pathlib import Path

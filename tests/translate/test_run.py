@@ -10,6 +10,7 @@ from translate_fixtures import (
     SOURCE_TS,
     FakeProvider,
     needs_abersetz,
+    term,
     tmx,
     tu,
     ui_memory,
@@ -29,7 +30,11 @@ from vexy_localizzy.translate import (
 )
 from vexy_localizzy.translate.engine import abersetz_request, engine_identity
 from vexy_localizzy.translate.run import same_language
-from vexy_localizzy.translate.types import TranslationBatch, TranslationItem
+from vexy_localizzy.translate.types import (
+    TranslationBatch,
+    TranslationItem,
+    TranslationResult,
+)
 
 ENGINE = EngineSpec(endpoint="http://fake.invalid/v1", models=("m1", "m2"))
 
@@ -325,6 +330,201 @@ def test_memory_prefill_when_term_is_lowercase_then_capitalize_for_label():
     assert "c" not in prefills, "a term without the accelerator fails the QA gate"
     assert [f.rule_id for f in findings] == ["MEMORY-QA-REJECT"]
     assert rows[0].memory == "core-de.tmx" and rows[0].tuids == ("term:kern",)
+
+
+def _term_values(tmp_path, lang, terms, sources, qa=TextPolicy()):
+    """Scalar term-hit values by source text for a one-file glossary in ``lang``."""
+    glossary = Glossary.load(
+        [tmx(tmp_path / f"core-{lang}.tmx", *terms)], source_lang="en", target_lang=lang
+    )
+    units = [Unit(key=s, context="C", source=s, target="") for s in sources]
+    catalog = Catalog(source_lang="en", target_lang=lang, units=units)
+    prefills, _, _ = memory_prefill(
+        catalog, direct=None, glossary=glossary, policy=MemoryPolicy(), qa=qa
+    )
+    return {key: prefill.values["scalar"] for key, prefill in prefills.items()}
+
+
+def test_memory_prefill_when_label_is_capitalized_then_dictionary_form_capitalized(
+    tmp_path,
+):
+    terms = [
+        term("Remove overlap", "удалить наложение", lang="ru"),
+        term("kerning", "кернинг", lang="ru"),
+        term("Glyph", "Глиф", lang="ru"),
+    ]
+    sources = ["Remove overlap", "remove overlap", "Kerning", "kerning", "Glyph"]
+    values = _term_values(tmp_path, "ru", terms, sources)
+    assert values["Remove overlap"] == "Удалить наложение", (
+        "a capitalized label capitalizes the target even when the term source "
+        "is capitalized too"
+    )
+    assert values["remove overlap"] == "удалить наложение", "never capitalized"
+    assert values["Kerning"] == "Кернинг" and values["kerning"] == "кернинг", values
+    assert values["Glyph"] == "Глиф", "an already capitalized target is kept"
+
+
+def test_memory_prefill_when_target_has_no_case_or_starts_with_non_letter_then_kept(
+    tmp_path,
+):
+    japanese = _term_values(
+        tmp_path, "ja", [term("Kerning", "カーニング", lang="ja")], ["Kerning"]
+    )
+    assert japanese == {"Kerning": "カーニング"}, "a script without case is kept"
+    georgian = _term_values(
+        tmp_path, "ka", [term("Kerning", "კერნინგი", lang="ka")], ["Kerning"]
+    )
+    assert georgian == {"Kerning": "კერნინგი"}, (
+        "Georgian has capitals only for all-caps text, never for a first letter"
+    )
+    terms = [
+        term("Guides", "«направляющие»", lang="ru"),
+        term("Preview", "3D-вид", lang="ru"),
+    ]
+    russian = _term_values(tmp_path, "ru", terms, ["Guides", "Preview"])
+    assert russian == {"Guides": "«направляющие»", "Preview": "3D-вид"}, (
+        "a target that starts with a quote or digit is kept"
+    )
+
+
+def test_memory_prefill_when_term_is_not_translated_then_spelling_kept(tmp_path):
+    terms = [
+        term("glyphs", "глифы", lang="ru", status="do-not-translate"),
+        term("unicode", "юникод", lang="ru", translatable="no"),
+    ]
+    values = _term_values(tmp_path, "ru", terms, ["Glyphs", "Unicode"])
+    assert values == {"Glyphs": "glyphs", "Unicode": "unicode"}, (
+        "a do-not-translate term keeps the glossary spelling"
+    )
+
+
+def test_memory_prefill_when_label_has_mnemonic_then_first_letter_decides(tmp_path):
+    terms = [term("Remove overlap", "удалить наложение", lang="ru")]
+    relaxed = TextPolicy(accelerators=False)
+    sources = ["&Remove overlap", "&remove overlap"]
+    values = _term_values(tmp_path, "ru", terms, sources, relaxed)
+    assert values == {
+        "&Remove overlap": "Удалить наложение",
+        "&remove overlap": "удалить наложение",
+    }, "the mnemonic marker is not the label's first letter"
+
+
+def test_memory_prefill_when_language_has_own_capitals_then_those_used(tmp_path):
+    turkish = _term_values(
+        tmp_path, "tr", [term("Import", "içe aktar", lang="tr")], ["Import"]
+    )
+    assert turkish == {"Import": "İçe aktar"}, "Turkish i has a dotted capital"
+    dutch = _term_values(
+        tmp_path, "nl", [term("Calibrate", "ijken", lang="nl")], ["Calibrate"]
+    )
+    assert dutch == {"Calibrate": "IJken"}, "the Dutch digraph ij capitalizes whole"
+
+
+ARABIC = {
+    "0": "لا ملفات",
+    "1": "ملف واحد",
+    "2": "ملفان",
+    "3": "%n ملفات",
+    "4": "%n ملفًا",
+    "5": "%n ملف",
+}
+RUSSIAN = {"0": "Один файл", "1": "%n файла", "2": "%n файлов"}
+NUMERUS_TS = """<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1"{language} sourcelanguage="en">
+<context>
+    <name>Files</name>
+    <message numerus="yes">
+        <source>%n file(s)</source>
+        <translation{state}>{forms}</translation>
+    </message>
+</context>
+</TS>
+"""
+
+
+def _numerus_ts(path, lang=None, forms=None):
+    """An English numerus catalog, or one in ``lang`` with finished ``forms``."""
+    body = "".join(f"<numerusform>{text}</numerusform>" for text in (forms or ["", ""]))
+    language = f' language="{lang}"' if lang else ""
+    state = "" if forms else ' type="unfinished"'
+    return write(path, NUMERUS_TS.format(language=language, state=state, forms=body))
+
+
+def _numerus_memory(path, lang, forms):
+    units = [
+        tu("Files", "%n file(s)", text, lang=lang, numerus_form=form)
+        for form, text in forms.items()
+    ]
+    return tmx(path, *units)
+
+
+def test_translate_file_when_arabic_memory_spells_out_one_count_forms_then_filled(
+    tmp_path,
+):
+    report = translate_file(
+        _numerus_ts(tmp_path / "app.ts"),
+        target="ar",
+        out=tmp_path / "app_ar.ts",
+        direct_memories=[_numerus_memory(tmp_path / "ui-ar.tmx", "ar", ARABIC)],
+    )
+    assert report.counts["memory_context"] == 1 and report.ready, report.counts
+    assert report.findings == [], "zero, one and two may omit %n in Arabic"
+    assert ts.load(tmp_path / "app_ar.ts").units[0].plural.forms == ARABIC
+
+
+def test_translate_file_when_russian_memory_spells_out_first_form_then_rejected(
+    tmp_path,
+):
+    report = translate_file(
+        _numerus_ts(tmp_path / "app.ts"),
+        target="ru",
+        out=tmp_path / "app_ru.ts",
+        direct_memories=[_numerus_memory(tmp_path / "ui-ru.tmx", "ru", RUSSIAN)],
+    )
+    assert report.counts["memory_rejected_qa"] == 1 and not report.ready, (
+        "the first Russian form also serves 21 and 101, so it must keep %n"
+    )
+
+
+def test_translate_file_when_arabic_catalog_kept_then_spelled_out_forms_pass(tmp_path):
+    catalog = _numerus_ts(tmp_path / "app_ar.ts", "ar", list(ARABIC.values()))
+    report = translate_file(catalog, target="ar", out=tmp_path / "out_ar.ts")
+    assert report.counts["kept"] == 1 and report.ready, report.counts
+    assert report.findings == [], "a kept Arabic translation is not a QA failure"
+
+
+@needs_abersetz
+@pytest.mark.parametrize(
+    ("lang", "forms", "ready"),
+    [
+        ("ar", ARABIC, True),
+        ("ru", RUSSIAN, False),
+        ("pl", {"0": "Jeden plik", "1": "%n pliki", "2": "%n plików"}, True),
+        ("ja", {"0": "ファイル"}, False),
+    ],
+)
+def test_translate_file_when_engine_spells_out_a_form_then_only_one_count_forms_pass(
+    tmp_path, lang, forms, ready
+):
+    def provider(model, batch):
+        targets = {item.id: forms[json.loads(item.id)[1]] for item in batch.items}
+        return TranslationResult(
+            targets=targets, requested_model=model, reported_model=model
+        )
+
+    report = translate_file(
+        _numerus_ts(tmp_path / "app.ts"),
+        target=lang,
+        out=tmp_path / f"app_{lang}.ts",
+        engine=ENGINE,
+        cache_path=tmp_path / "cache.sqlite",
+        request=provider,
+    )
+    assert report.ready is ready, (lang, report.counts)
+    assert report.counts["engine" if ready else "pending"] == 1, report.counts
+    if ready:
+        assert ts.load(tmp_path / f"app_{lang}.ts").units[0].plural.forms == forms
 
 
 def test_memory_prefill_when_context_hit_and_term_then_context_wins(tmp_path):

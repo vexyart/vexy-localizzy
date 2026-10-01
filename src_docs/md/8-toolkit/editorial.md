@@ -29,6 +29,9 @@ parallel requests (default 4). Each item carries its id, context, English
 source, current translation (every plural form for a plural message) and any
 comment or note, together with the glossary terms that occur in the batch,
 taken from the approved and do-not-translate entries of `--glossary-memory`.
+`--glossary-status` changes which entries count, with the same values as
+`localizzy translate`: a new language whose glossary holds only `proposed`
+terms is reviewed with `--glossary-status approved,proposed,do-not-translate`.
 The instructions name the language and the product (`--product`, default
 "a desktop application") and end with the style sheet from `--style-file`.
 Requests run at `--temperature` 0.2 with a `--timeout` of 300 seconds, since a
@@ -69,7 +72,9 @@ dropped and counted.
 The batch id is a hash of the items, the model, the whole instruction text
 (product and style sheet included) and the glossary terms. A second run skips
 every batch already in OUT, so an interrupted review resumes where it stopped;
-change any of those inputs and the affected batches are reviewed again. A last
+change any of those inputs and the affected batches are reviewed again. A
+different `--glossary-status` counts as a changed glossary: the batches whose
+terms it adds or removes are reviewed again, the others are skipped. A last
 line cut off by an interrupted write is dropped on resume, and that batch is
 reviewed again.
 `--limit N` reviews only the next N pending batches, which is a cheap way to
@@ -89,7 +94,9 @@ A correction lands only when all of these hold:
   `message missing`);
 - the revision keeps the source's placeholders and tags, a trailing ellipsis
   or colon, the leading and trailing whitespace, and the count of newlines and
-  literal `\n` escapes (**shape**);
+  literal `\n` escapes (**shape**); one placeholder is exempt, as in
+  [content QA](quality.md): a plural form that exactly one count selects in
+  the TARGET language may omit `%n`;
 - it keeps the current translation's number of `&` accelerators
   (**mnemonic**); in rich text, entities such as `&amp;` are not counted;
 - a plural message gets a list with exactly its number of forms, and a scalar

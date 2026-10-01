@@ -9,7 +9,7 @@ import pytest
 from vexy_localizzy.cli import utilities
 from vexy_localizzy.formats.ts import load
 from vexy_localizzy.translate import json_file, json_request
-from vexy_localizzy.translate.provider_errors import ModelResponse
+from vexy_localizzy.translate.provider_errors import ModelResponse, ProviderUnavailable
 
 
 def ts(body: str, language: str = "fr_FR") -> str:
@@ -152,6 +152,93 @@ def test_translate_json_when_batch_fails_then_exit_1(tmp_path, monkeypatch):
         )
     )
     assert code == 1 and not out.exists(), "the output is never written with gaps"
+
+
+def _models_seen(monkeypatch, down=()):
+    """Fake transports that record their model; models in ``down`` are unavailable."""
+    seen = []
+
+    def transport(spec):
+        model = spec.models[0]
+
+        def request(system, payload):
+            seen.append(model)
+            if model in down:
+                raise ProviderUnavailable("http:503")
+            return fake_request(spec)(system, payload)
+
+        return request
+
+    monkeypatch.setattr(json_file, "openai_request", transport)
+    return seen
+
+
+@pytest.mark.parametrize("fallbacks", ["m2,m3", ("m2", "m3"), "m2, m3,m"])
+def test_translate_json_when_fallback_models_then_next_model_answers(
+    tmp_path, monkeypatch, fallbacks
+):
+    seen = _models_seen(monkeypatch, down={"m"})
+    source = write(tmp_path / "help.json", '{"a": "Alpha"}')
+    out = tmp_path / "help_pl.json"
+    summary = utilities.translate_json(
+        str(source),
+        "pl",
+        str(out),
+        endpoint="http://localhost:1/v1",
+        model="m",
+        fallback_models=fallbacks,
+    )
+    assert summary["complete"] and seen == ["m", "m2"], (
+        "the first fallback answers when the preferred model fails"
+    )
+    sidecar = json.loads((tmp_path / "help_pl.localizzy.json").read_text("utf-8"))
+    assert sidecar["fallback_models"] == ["m2", "m3"], "a repeated model counts once"
+
+
+def test_translate_json_when_no_fallback_models_then_one_model_and_exit_1(
+    tmp_path, monkeypatch
+):
+    seen = _models_seen(monkeypatch, down={"m"})
+    source = write(tmp_path / "help.json", '{"a": "Alpha"}')
+    out = tmp_path / "help_pl.json"
+    code = exit_code(
+        lambda: utilities.translate_json(
+            str(source), "pl", str(out), endpoint="http://x", model="m"
+        )
+    )
+    assert code == 1 and set(seen) == {"m"}, "no other model is tried"
+
+
+def test_translate_json_when_norescue_then_failed_item_is_not_retried(
+    tmp_path, monkeypatch
+):
+    seen = _models_seen(monkeypatch, down={"m"})
+    source = write(tmp_path / "help.json", '{"a": "Alpha"}')
+    out = tmp_path / "help_pl.json"
+    call = lambda **flags: utilities.translate_json(  # noqa: E731
+        str(source), "pl", str(out), endpoint="http://x", model="m", **flags
+    )
+    assert exit_code(lambda: call(rescue=False)) == 1 and seen == ["m"], (
+        "--norescue: one request, as before"
+    )
+    assert exit_code(call) == 1 and seen == ["m", "m", "m"], (
+        "by default the failed item is retried alone"
+    )
+
+
+def test_translate_json_when_only_fallback_models_then_first_is_preferred(
+    tmp_path, monkeypatch
+):
+    seen = _models_seen(monkeypatch)
+    source = write(tmp_path / "help.json", '{"a": "Alpha"}')
+    summary = utilities.translate_json(
+        str(source),
+        "pl",
+        str(tmp_path / "help_pl.json"),
+        endpoint="http://x",
+        fallback_models="m2,m3",
+    )
+    assert summary["complete"] and seen == ["m2"], "as in localizzy translate"
 
 
 def test_translate_json_when_titles_unpairable_then_exit_2(tmp_path, monkeypatch):

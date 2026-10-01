@@ -742,7 +742,12 @@ SYNOPSIS
 DESCRIPTION
     --titles: the keys are English titles and are translated too. --product
     describes what the texts document (default: a software application).
-    --glossary-memory a.tmx,b.tmx adds the terms each batch mentions. Resume is
+    --glossary-memory a.tmx,b.tmx adds the terms each batch mentions.
+    --fallback-models b,c names the models to try, in order, when a request to
+    --model fails or its answer is rejected. A text that several keys share is
+    translated once. An item whose batch failed is retried alone, then
+    paragraph by paragraph (a <pre> block stays as it is), then with its markup
+    masked as numbered tokens; --norescue turns that off. Resume is
     by English key; provenance goes to OUT's ``.localizzy.json`` sidecar. Exits
     1, leaving --out untouched, until every item is translated; finished batches
     are kept in OUT's ``.partial.json`` after each batch. Ctrl+C exits 130. An
@@ -796,6 +801,12 @@ FLAGS
     -w, --workers=WORKERS
         Type: int
         Default: 3
+    -f, --fallback_models=FALLBACK_MODELS
+        Type: Optional[str | None]
+        Default: None
+    -r, --rescue=RESCUE
+        Type: bool
+        Default: True
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
@@ -834,7 +845,9 @@ DESCRIPTION
     file with --source-json naming the English one. --product describes the
     application in a phrase ("a professional font editor"); --style-file is the
     language style sheet; --glossary-memory lists TMX memories, comma-separated,
-    whose approved and do-not-translate terms are sent with each batch.
+    whose terms are sent with each batch. --glossary-status picks the term
+    statuses that count (comma-separated; default approved,do-not-translate;
+    add proposed for a language whose glossary is not reviewed yet).
     --endpoint and --model are required; the key comes from --api-key-env.
     --timeout defaults to 300 seconds because a batch of 40 messages returns
     long corrected texts. Re-running skips batches already in OUT unless the
@@ -860,7 +873,7 @@ FLAGS
     --style_file=STYLE_FILE
         Type: Optional[str | None]
         Default: None
-    -g, --glossary_memory=GLOSSARY_MEMORY
+    --glossary_memory=GLOSSARY_MEMORY
         Type: Optional[str | None]
         Default: None
     -p, --product=PRODUCT
@@ -887,6 +900,9 @@ FLAGS
     -l, --limit=LIMIT
         Type: int
         Default: 0
+    --glossary_status=GLOSSARY_STATUS
+        Type: str
+        Default: 'approved,do-not-translate'
 
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS

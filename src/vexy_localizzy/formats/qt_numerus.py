@@ -1,5 +1,5 @@
 # this_file: src/vexy_localizzy/formats/qt_numerus.py
-"""Qt Linguist numerus form counts per language.
+"""Qt Linguist numerus form counts and selection rules per language.
 
 Qt decides how many ``<numerusform>`` elements a ``.ts`` message carries from
 its own rule table, not from CLDR plural categories. French has two Qt forms
@@ -7,13 +7,21 @@ its own rule table, not from CLDR plural categories. French has two Qt forms
 CLDR has four. Callers that prepare a catalog for a new language must use this
 table, or pass an explicit count.
 
+``form_index`` says which form Qt shows for a count, and
+``single_number_forms`` which forms exactly one count selects; content QA
+lets such a form omit ``%n``.
+
 Source: qttools ``src/linguist/shared/numerus.cpp`` (branch 5.15), read on
-2026-09-28. The table is factual data about Qt's behaviour; Qt itself is
-licensed under the LGPL/GPL and none of its code is copied here. Language
-names were mapped to ISO 639 codes with ``langcodes``. Brazilian Portuguese
-uses Qt's "French style" rule (n > 1) but the count is the same as
-European Portuguese.
+2026-09-28 (counts) and 2026-10-01 (rules). The tables are factual data about
+Qt's behaviour; Qt itself is licensed under the LGPL/GPL and none of its code
+is copied here. Language names were mapped to ISO 639 codes with
+``langcodes``. Brazilian Portuguese uses Qt's "French style" rule (n > 1) but
+the count is the same as European Portuguese.
 """
+
+from collections import Counter
+from collections.abc import Callable
+from functools import cache
 
 from langcodes import Language
 
@@ -168,20 +176,146 @@ QT_NUMERUS_FORMS: dict[str, int] = {
 }
 
 
+Rule = Callable[[int], bool]
+
+
+def _teens(n: int) -> bool:
+    return 10 <= n % 100 <= 19
+
+
+# One test per form except the last, tried in order; the last form takes every
+# other count. Transcribed from the rule arrays of numerus.cpp, which Qt
+# evaluates at run time (its gettext strings differ for Macedonian and Tagalog).
+STYLE_RULES: dict[str, tuple[Rule, ...]] = {
+    "japanese": (),
+    "english": (lambda n: n == 1,),
+    "french": (lambda n: n <= 1,),
+    "latvian": (lambda n: n % 10 == 1 and n % 100 != 11, lambda n: n != 0),
+    "icelandic": (lambda n: n % 10 == 1 and n % 100 != 11,),
+    "irish": (lambda n: n == 1, lambda n: n == 2),
+    "gaelic": (
+        lambda n: n in (1, 11),
+        lambda n: n in (2, 12),
+        lambda n: 3 <= n <= 19,
+    ),
+    "slovak": (lambda n: n == 1, lambda n: 2 <= n <= 4),
+    "macedonian": (lambda n: n % 10 == 1, lambda n: n % 10 == 2),
+    "lithuanian": (
+        lambda n: n % 10 == 1 and n % 100 != 11,
+        lambda n: n % 10 != 0 and not _teens(n),
+    ),
+    "russian": (
+        lambda n: n % 10 == 1 and n % 100 != 11,
+        lambda n: 2 <= n % 10 <= 4 and not _teens(n),
+    ),
+    "polish": (lambda n: n == 1, lambda n: 2 <= n % 10 <= 4 and not _teens(n)),
+    "romanian": (lambda n: n == 1, lambda n: n == 0 or 1 <= n % 100 <= 19),
+    "slovenian": (
+        lambda n: n % 100 == 1,
+        lambda n: n % 100 == 2,
+        lambda n: 3 <= n % 100 <= 4,
+    ),
+    "maltese": (
+        lambda n: n == 1,
+        lambda n: n == 0 or 1 <= n % 100 <= 10,
+        lambda n: 11 <= n % 100 <= 19,
+    ),
+    "welsh": (
+        lambda n: n == 0,
+        lambda n: n == 1,
+        lambda n: 2 <= n <= 5,
+        lambda n: n == 6,
+    ),
+    "arabic": (
+        lambda n: n == 0,
+        lambda n: n == 1,
+        lambda n: n == 2,
+        lambda n: 3 <= n % 100 <= 10,
+        lambda n: n % 100 >= 11,
+    ),
+    "tagalog": (lambda n: n <= 1, lambda n: n % 10 in (4, 6, 9)),
+}
+
+# Languages whose rule is not the usual one for their count: a language with one
+# form uses "japanese" and one with two forms "english" unless it is named here.
+# numerus.cpp lists Filipino under both the French and the Tagalog rule; the
+# count table above gives it three forms, so it follows the Tagalog rule here.
+LANGUAGE_STYLES: dict[str, str] = {
+    **dict.fromkeys(("br", "fr", "hy", "ti", "wa"), "french"),
+    **dict.fromkeys(("dv", "ga", "gv", "ik", "iu", "mi", "sa", "se", "sm"), "irish"),
+    **dict.fromkeys(("cs", "sk"), "slovak"),
+    **dict.fromkeys(("be", "bs", "hr", "ru", "sr", "uk"), "russian"),
+    **dict.fromkeys(("fil", "tl"), "tagalog"),
+    "ar": "arabic",
+    "cy": "welsh",
+    "gd": "gaelic",
+    "is": "icelandic",
+    "lt": "lithuanian",
+    "lv": "latvian",
+    "mk": "macedonian",
+    "mt": "maltese",
+    "pl": "polish",
+    "ro": "romanian",
+    "sl": "slovenian",
+}
+DEFAULT_STYLES = {1: "japanese", 2: "english"}
+# Portuguese follows the English rule, Brazilian Portuguese the French one.
+FRENCH_STYLE_REGIONS = {("pt", "BR")}
+# Every rule depends on the count below 20 or on its last two digits, so a form
+# that several counts select shows at least two of them below this bound.
+PROBED_COUNTS = 300
+
+
 class UnknownQtNumerus(ValueError):
     """Qt has no numerus rule for this language; pass ``plural_count`` explicitly."""
+
+
+def _language(lang: str) -> Language:
+    """Parse a BCP 47 or Qt-style tag; an ``@modifier`` is dropped."""
+    tag = lang.split("@", 1)[0].replace("_", "-")
+    try:
+        return Language.get(tag)
+    except Exception as error:  # noqa: BLE001 - any parse failure is an unknown tag
+        raise UnknownQtNumerus(f"Cannot parse language tag {lang!r}") from error
 
 
 def count(lang: str) -> int:
     """Return Qt's numerus form count for a BCP 47 or Qt-style tag such as ``pl``,
     ``es_MX`` or ``sr@latin`` (an ``@modifier`` never changes the count)."""
-    tag = lang.split("@", 1)[0].replace("_", "-")
-    try:
-        primary = Language.get(tag).language or ""
-    except Exception as error:  # noqa: BLE001 - any parse failure is an unknown tag
-        raise UnknownQtNumerus(f"Cannot parse language tag {lang!r}") from error
+    primary = _language(lang).language or ""
     if primary in QT_NUMERUS_FORMS:
         return QT_NUMERUS_FORMS[primary]
     raise UnknownQtNumerus(
         f"Qt Linguist has no numerus rule for {lang!r}; pass an explicit plural count"
     )
+
+
+def _rules(lang: str) -> tuple[Rule, ...]:
+    """The form tests of ``lang``; UnknownQtNumerus when Qt has no rule for it."""
+    forms = count(lang)
+    language = _language(lang)
+    if (language.language, language.territory) in FRENCH_STYLE_REGIONS:
+        return STYLE_RULES["french"]
+    style = LANGUAGE_STYLES.get(language.language or "") or DEFAULT_STYLES.get(forms)
+    if style is None:
+        raise UnknownQtNumerus(f"No numerus rule is recorded for {lang!r}")
+    return STYLE_RULES[style]
+
+
+def form_index(lang: str, n: int) -> int:
+    """The index of the numerus form Qt shows for the count ``n`` in ``lang``."""
+    rules = _rules(lang)
+    return next((i for i, rule in enumerate(rules) if rule(n)), len(rules))
+
+
+@cache
+def single_number_forms(lang: str) -> frozenset[int]:
+    """Indices of the forms of ``lang`` that exactly one count selects.
+
+    Arabic has three (zero, one, two), English and Polish one (the singular),
+    Russian none, because its first form also serves 21, 31 and 101. Such a
+    form can spell its number out, so a translation may leave ``%n`` out of
+    it. Referenced by ``qa.catalog`` and ``qa.text``.
+    """
+    hits = Counter(form_index(lang, n) for n in range(PROBED_COUNTS))
+    return frozenset(form for form, selected in hits.items() if selected == 1)

@@ -8,6 +8,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_serializer
 
 from vexy_localizzy.catalog import Finding
+from vexy_localizzy.formats.qt_numerus import UnknownQtNumerus, single_number_forms
 from vexy_localizzy.qa.markup import markup_pair, visible_text
 from vexy_localizzy.qa.placeholders import accelerators, arguments
 from vexy_localizzy.qa.printf import printf_error
@@ -19,6 +20,8 @@ from vexy_localizzy.translate.types import (
 )
 
 PlaceholderStyle = Literal["qt", "python_brace", "printf", "i18next"]
+# Qt's count placeholders: the tokens a one-count numerus form may leave out.
+COUNT_TOKENS = ("%n", "%Ln")
 
 
 class TextPolicy(TranslationRecord):
@@ -64,8 +67,15 @@ def check_text(
     *,
     policy: TextPolicy = TextPolicy(),
     unit_key: str | None = None,
+    count_optional: bool = False,
 ) -> list[Finding]:
-    """Report every applicable rule; unchanged prose is a review finding, not approval."""
+    """Report every applicable rule; unchanged prose is a review finding, not approval.
+
+    ``count_optional`` is for a numerus form that exactly one count selects
+    (Arabic zero, one and two; a singular chosen by n == 1): it may spell the
+    number out and leave out ``%n`` or ``%Ln``. Every other argument is still
+    required, and no argument may be added.
+    """
     findings = []
 
     def add(rule, message, severity="critical", **data):
@@ -108,13 +118,17 @@ def check_text(
         except ValueError as error:
             add("PH-SYNTAX", str(error), style=style)
             continue
-        if left != right:
+        missing, extra = left - right, right - left
+        if count_optional and style == "qt":
+            for token in COUNT_TOKENS:
+                del missing[token]
+        if missing or extra:
             add(
                 "PH-MISMATCH",
                 f"{style} arguments or formatting differ.",
                 style=style,
-                missing=[str(v) for v in (left - right).elements()],
-                extra=[str(v) for v in (right - left).elements()],
+                missing=[str(v) for v in missing.elements()],
+                extra=[str(v) for v in extra.elements()],
             )
     pair = markup_pair(source, target, policy.markup)
     if pair:
@@ -140,14 +154,42 @@ def check_text(
     return findings
 
 
+def numerus_form(item_id: str) -> int | None:
+    """The numerus form index named by a batch item id (``["key","2"]`` or, for a
+    length variant, ``["key","2:1"]``); None for a scalar or category-keyed item."""
+    try:
+        parts = json.loads(item_id)
+    except ValueError:
+        return None
+    if not isinstance(parts, list) or len(parts) != 2 or not isinstance(parts[1], str):
+        return None
+    index = parts[1].split(":")[0]
+    return int(index) if index.isascii() and index.isdigit() else None
+
+
+def _one_count_forms(lang: str) -> frozenset[int]:
+    try:
+        return single_number_forms(lang)
+    except UnknownQtNumerus:
+        return frozenset()
+
+
 def validate_batch(
     batch: TranslationBatch,
     result: TranslationResult,
     *,
     policy: TextPolicy = TextPolicy(),
 ) -> None:
-    """TranslationCache callback: reject structural errors on fresh and cached results."""
+    """TranslationCache callback: reject structural errors on fresh and cached results.
+
+    An item that is a numerus form selected by exactly one count in the batch's
+    target language may omit the count placeholder (see ``check_text``). The
+    batch does not say how many forms its message has, so this trusts Qt's rule
+    for the language; ``qa.catalog`` also compares the form count. The rule only
+    accepts more than before, so cache validation identities stay as they were.
+    """
     check_result(result, batch, result.requested_model)
+    optional = _one_count_forms(batch.target_lang)
     findings = [
         finding
         for item in batch.items
@@ -158,6 +200,7 @@ def validate_batch(
             if item.max_length is not None
             else policy,
             unit_key=item.id,
+            count_optional=numerus_form(item.id) in optional,
         )
         if finding.severity in ("major", "critical")
     ]

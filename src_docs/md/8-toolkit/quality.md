@@ -16,6 +16,21 @@ ampersand mnemonics, and automatic recognition of common HTML tags. Numbered
 arguments and mnemonic letters can move. `&&` is a literal ampersand. In HTML,
 attribute ampersands and character entities do not introduce mnemonics.
 
+One exception is form-aware. A Qt numerus form that exactly one count selects
+may spell its number out and leave out `%n` (or `%Ln`), as Qt's own catalogs
+do: "One file" beside "%n files", and in Arabic the zero, one and two forms.
+`formats.qt_numerus.single_number_forms(lang)` derives those forms from Qt's
+rule for the language: Arabic `0`, `1` and `2`; the singular of English,
+German, Polish or Czech; none for Russian or Ukrainian, whose first form also
+serves 21 and 101; none for French or Brazilian Portuguese, whose first form
+serves 0 and 1; none for a language with one form. A form that covers several
+counts must keep `%n`, every other argument is required in every form, and a
+form may always keep the count. `check_catalog` applies the exception only to
+index-keyed plurals whose forms are the ones Qt counts for the language;
+`validate_batch` reads the form from the batch item id and trusts the rule of
+the batch's target language. The rule accepts more than before and rejects
+nothing new, so the cache validation identities did not change.
+
 HTML checks compare ordered tags and protected attributes, validate nesting, and
 preserve stylesheet/script contents. Attribute order, quote style, tag case and
 void-tag serialization may differ. `alt` and `title` text may be translated.

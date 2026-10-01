@@ -19,6 +19,8 @@ from vexy_localizzy.catalog import PLACEHOLDER_PATTERNS, Record
 from vexy_localizzy.memory.direct import BilingualFile, read_bilingual
 
 DEFAULT_STATUSES = frozenset({"approved", "do-not-translate"})
+# Languages whose lowercase i capitalizes to the dotted İ.
+DOTTED_CAPITAL_I = frozenset({"tr", "az"})
 TAG = re.compile(r"<[^>]+>")
 ACCELERATOR = re.compile(r"&&|&(?=\w)")
 PLACEHOLDER = re.compile(
@@ -63,13 +65,55 @@ class Term(Record):
                 return f"(translate the plain phrase: {self.fallback})"
         return self.rendering
 
+    def label(self, source: str, lang: str | None = None) -> str:
+        """The rendering for a message whose whole text is this term.
 
-def match_text(text: str) -> str:
+        A glossary holds dictionary forms, so a target is capitalized when the
+        message starts with an uppercase letter (after the tags and mnemonic
+        marker that matching ignores). A term that is not translated keeps the
+        glossary spelling.
+        """
+        if not self.translatable or self.status == "do-not-translate":
+            return self.rendering
+        if plain_text(source)[:1].isupper():
+            return capitalize_first(self.rendering, lang)
+        return self.rendering
+
+
+def plain_text(text: str) -> str:
     """NFC → drop tags → drop single '&' accelerators (keep '&&' as '&')
-    → replace Qt/printf/brace placeholders with a space → casefold."""
+    → replace Qt/printf/brace placeholders with a space; case is kept."""
     text = TAG.sub("", unicodedata.normalize("NFC", text))
     text = ACCELERATOR.sub(lambda m: "&" if m.group() == "&&" else "", text)
-    return PLACEHOLDER.sub(" ", text).casefold()
+    return PLACEHOLDER.sub(" ", text)
+
+
+def match_text(text: str) -> str:
+    """``plain_text``, casefolded: the key that term matching compares."""
+    return plain_text(text).casefold()
+
+
+def capitalize_first(text: str, lang: str | None = None) -> str:
+    """``text`` with its first character capitalized, if it is a lowercase letter
+    that has a one-letter capital.
+
+    Text in a script without case, text that starts with a digit, quote or
+    space, and a letter without a single capital (``ß``) come back unchanged.
+    Title case is used, so Georgian (capitals only in all-caps text) is left
+    alone. ``lang`` adds two spelling rules: Turkish and Azerbaijani ``i``
+    becomes ``İ``, and the Dutch digraph ``ij`` becomes ``IJ``.
+    Referenced by ``translate.run`` for whole-string term hits.
+    """
+    first = text[:1]
+    if not first.islower():
+        return text
+    code = (lang or "").replace("_", "-").split("-")[0].lower()
+    if code in DOTTED_CAPITAL_I and first == "i":
+        return "İ" + text[1:]
+    if code == "nl" and text.startswith("ij"):
+        return "IJ" + text[2:]
+    capital = first.title()
+    return capital + text[1:] if len(capital) == 1 and capital != first else text
 
 
 def _term(unit, src, tgt) -> Term:

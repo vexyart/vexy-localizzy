@@ -70,10 +70,12 @@ def write_candidates(path: Path, *records: list[dict], model: str = "m") -> Path
     return path
 
 
-def glossary(path: Path, *pairs: tuple[str, str], lang: str = "fr") -> Path:
-    """A TMX glossary of approved terms."""
+def glossary(
+    path: Path, *pairs: tuple[str, str], lang: str = "fr", status: str = "approved"
+) -> Path:
+    """A TMX glossary whose terms all have ``status`` (approved by default)."""
     tus = "".join(
-        f'<tu tuid="term:{s}"><prop type="x-status">approved</prop>'
+        f'<tu tuid="term:{s}"><prop type="x-status">{status}</prop>'
         f'<tuv xml:lang="en"><seg>{s}</seg></tuv>'
         f'<tuv xml:lang="{lang}"><seg>{t}</seg></tuv></tu>'
         for s, t in pairs

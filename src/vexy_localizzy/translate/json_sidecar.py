@@ -4,7 +4,11 @@
 The sidecar ``<out stem>.localizzy.json`` records, for each English key in the
 order of the output file, the sha256 of its English text (title included in
 titles mode), the model, the state (``machine``, or ``adopted`` for a
-translation that predates the sidecar) and the QA findings. A key whose English
+translation that predates the sidecar), the QA findings and, for an item this
+tool translated, the ``path`` that filled it: ``whole`` (one request for the
+item), ``paragraphs`` (one request per paragraph) or ``masked`` (at least one
+paragraph with its markup masked). Keys that share one English text share one
+translation, and each is listed. A key whose English
 text changed is translated again; resume goes by English key, never by
 position. Items done in an incomplete run wait in ``<out stem>.partial.json``,
 which is rewritten after every accepted batch.
@@ -16,6 +20,7 @@ when their lengths differ.
 
 import hashlib
 import json
+from collections.abc import Sequence
 from pathlib import Path
 
 from vexy_localizzy.formats.document import atomic_write
@@ -137,10 +142,28 @@ def clashing_keys(done: dict) -> list[str]:
     )
 
 
-def sidecar(source_name: str, model: str, source: dict, done: dict) -> dict:
-    """The sidecar document for a complete output."""
+def _meta(entry: dict) -> dict:
+    """The provenance fields of one item; ``path`` only where a run recorded it."""
+    meta = {field: entry[field] for field in META_FIELDS}
+    return meta | ({"path": entry["path"]} if "path" in entry else {})
+
+
+def sidecar(
+    source_name: str,
+    model: str,
+    source: dict,
+    done: dict,
+    fallback_models: Sequence[str] = (),
+) -> dict:
+    """The sidecar document for a complete output.
+
+    ``fallback_models`` is recorded when the run had any; each item's own
+    ``model`` is the one that answered.
+    """
+    models = {"fallback_models": list(fallback_models)} if fallback_models else {}
     return {
         "source": source_name,
         "model": model,
-        "items": {k: {f: done[k][f] for f in META_FIELDS} for k in source},
+        **models,
+        "items": {key: _meta(done[key]) for key in source},
     }

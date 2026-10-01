@@ -5,6 +5,55 @@ this_file: WORK.md
 
 Earlier entries are in the git history of this file.
 
+## 2026-10-01: Four limits found while drafting new languages
+
+A project drafted fifteen languages with the toolkit and had to wrap four
+limits in its own code. The generic part of each wrapper moved in; details are
+in CHANGELOG.md.
+
+- `editorial review --glossary-status` (`cli/editorial`, `editorial/candidates`).
+- Term hits capitalize a lowercase target for a capitalized label
+  (`memory/glossary`: `Term.label`, `capitalize_first`; `translate/run`).
+- `%n` may be omitted in a numerus form that one count selects
+  (`formats/qt_numerus`: `form_index`, `single_number_forms`; `qa/text`,
+  `qa/catalog`, `translate/run`, `editorial/guards`).
+- `translate_json`: one request per distinct text, fallback models, and a
+  second chance for each item of a failed batch (`translate/json_file`,
+  `json_request`, `json_sidecar`, new `json_rescue`).
+
+### Verification
+
+- `./test.sh`: ruff check and format clean; 2049 Python tests pass; ICU checker
+  (66) and reviewer (14) suites pass; reviewer build succeeds.
+- `src_docs/build.sh check` passes, and a strict book build into a scratch
+  folder succeeds. The committed `docs/` site was not rebuilt.
+- Real CLI, synthetic files: `qa --plural-forms auto` on an Arabic catalog
+  reports only the range form that lacks `%n`; the new flags parse and
+  validate.
+- The numerus rules were transcribed from qttools `numerus.cpp` (branch 5.15);
+  a test checks that every language's rule reaches exactly the forms of the
+  count table.
+
+### Not verified
+
+- Live model calls. The paragraph and masked paths of `translate_json`, the
+  fallback models and the `--glossary-status` prompt ran only against fake
+  transports.
+- `numerus.cpp` lists Filipino under both the French rule and the Tagalog rule,
+  and the French entry comes first; the count table here gives `fil` and `tl`
+  three forms. Neither rule has a one-count form, so the `%n` check is the
+  same either way, but the count deserves a check against `lupdate`.
+
+### Left as it was
+
+- `localizzy upgrade` writes whole-string term hits without the capitalization
+  step, as before.
+- The engine prompt still tells the model to keep `%n` in every form, and the
+  batch items do not say which counts a form serves, so an engine rarely uses
+  the new freedom on its own; memory hits, kept translations and reviewers do.
+- The `pofilter` QA layer applies Translate Toolkit's own tests and may still
+  report a form without `%n`.
+
 ## 2026-10-01: Qt tooling, project file, editorial review, QA layers
 
 The toolkit took over the Qt and project tooling that a separate project layer

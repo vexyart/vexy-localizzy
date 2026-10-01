@@ -151,6 +151,54 @@ def test_qa_command_when_plural_form_missing_then_exit_1(tmp_path, capsys):
     assert "PLURAL-MISS" in capsys.readouterr().out, "the missing third form is named"
 
 
+def _numerus_ts(tmp_path, lang, forms):
+    body = "".join(f"<numerusform>{form}</numerusform>" for form in forms)
+    path = tmp_path / f"app_{lang}.ts"
+    path.write_text(
+        '<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE TS>\n'
+        f'<TS version="2.1" language="{lang}" sourcelanguage="en"><context>'
+        '<name>C</name><message numerus="yes"><source>%n file(s)</source>'
+        f"<translation>{body}</translation></message></context></TS>\n",
+        encoding="utf-8",
+    )
+    return str(path)
+
+
+@pytest.mark.parametrize(
+    ("lang", "forms"),
+    [
+        ("ar", ["لا ملفات", "ملف واحد", "ملفان", "%n ملفات", "%n ملفًا", "%n ملف"]),
+        ("pl", ["Jeden plik", "%n pliki", "%n plików"]),
+        ("en_GB", ["One file", "%n files"]),
+    ],
+)
+def test_qa_command_when_one_count_form_spells_out_the_number_then_clean(
+    tmp_path, lang, forms
+):
+    result = checks.qa(_numerus_ts(tmp_path, lang, forms), plural_forms="auto")
+    assert result["blocking"] == 0 and result["findings"] == [], result
+
+
+@pytest.mark.parametrize(
+    ("lang", "forms", "form"),
+    [
+        ("ar", ["لا ملفات", "ملف واحد", "ملفان", "ملفات", "%n ملفًا", "%n ملف"], "3"),
+        ("ru", ["Один файл", "%n файла", "%n файлов"], "0"),
+        ("ja", ["ファイル"], "0"),
+    ],
+)
+def test_qa_command_when_form_of_several_counts_omits_the_count_then_exit_1(
+    tmp_path, capsys, lang, forms, form
+):
+    with pytest.raises(SystemExit) as caught:
+        checks.qa(_numerus_ts(tmp_path, lang, forms), plural_forms="auto")
+    assert caught.value.code == 1, lang
+    findings = json.loads(capsys.readouterr().out)["findings"]
+    assert [(f["rule_id"], f["data"]["form"]) for f in findings] == [
+        ("PH-MISMATCH", form)
+    ], findings
+
+
 def test_qa_command_when_sarif_requested_then_file_and_exit_1(tmp_path):
     out = tmp_path / "qa.sarif"
     with pytest.raises(SystemExit) as caught:
