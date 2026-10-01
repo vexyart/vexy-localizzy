@@ -10,15 +10,50 @@ This chapter collects the rules the FontLab founder set for carrying that voice 
 
 ## Humor and wordplay are allowed
 
-The first rule is permission. Terms may be funny, and a funny term is often a better term, because it is easier to remember and easier to say. The Polish decisions of issue 146 are full of examples:
+The first rule is permission. Terms may be funny, and a funny term is often a better term, because it is easier to remember and easier to say. The Polish feature names give several examples:
 
-- **Matchmaker** became *swat*, the traditional village matchmaker who arranges marriages. The tool matches masters so they can interpolate; the Polish word keeps the image and loses the English.
+- **Matchmaker** is *Swatka*, the feminine name for a matchmaker who arranges marriages. The tool matches masters so they can interpolate; the Polish word keeps the image and loses the English.
 - **True Fill** became *Pełna krasa*, from the idiom *w pełnej krasie*, "in all its glory". The earlier *Prawdziwe wypełnienie*, "true filling", was a literal translation that said nothing a user could picture.
 - **Dream Up**, a generation feature, became *wyczaruj*, "conjure it up".
 
-The core memory note on *Pełna krasa* adds an invitation: it is a concise idiom, and similar solutions are worth finding in other languages. At the time of writing, German, Spanish and French still render True Fill literally, as *Echte Füllung*, *Relleno real* and *Remplissage réel*, and keep *Dream Up* in English. The later German review names Matchmaker **Synchronsprecher**, a dubbing actor: it builds the joke around *synchron* and matching masters. Spanish and French still keep *Matchmaker* in this comparison. Those are not errors; they are the obvious places where a native reviewer with a good idiom could improve the product.
+The core memory note on *Pełna krasa* adds an invitation: it is a concise idiom, and similar solutions are worth finding in other languages. At the time of writing, German, Spanish and French still render True Fill literally, as *Echte Füllung*, *Relleno real* and *Remplissage réel*, and keep *Dream Up* in English. The later German review names Matchmaker **Synchronsprecher**, a dubbing actor: it builds the joke around *synchron* and matching masters. Issue 305 settles the corresponding names as Spanish **Casamentero** and French **Accordeur**.
 
-Humor has one condition, stated in the house writing rules: the information must remain true when the joke is missed. A user who does not catch the idiom in *Pełna krasa* still reads "full", which is what the preview shows. A user who does not know the word *swat* still sees it on a tool with a tooltip. A joke that becomes a riddle fails the condition.
+Humor has one condition, stated in the house writing rules: the information must remain true when the joke is missed. A user who does not catch the idiom in *Pełna krasa* still reads "full", which is what the preview shows. A user who does not know the word *Swatka* still sees it on a tool with a tooltip. A joke that becomes a riddle fails the condition.
+
+## Matching masters: a productive term family
+
+For interpolation, matching masters have corresponding structure; they need
+not have identical shapes. Issue 305 replaces earlier Polish, Spanish and
+French decisions with these families:
+
+| Use | Polish | Spanish | French |
+|---|---|---|---|
+| Action | dopasować | casar | accorder |
+| State labels | Pasują / Nie pasują | Casan / No casan | Accordés / Désaccordés |
+| Participle | dopasowane | casados | accordés |
+| Adjectives | pasujące / niepasujące | que casan / que no casan | accordés / désaccordés |
+| Nouns | dopasowanie / niedopasowanie | recast with casar / no casan | accord / désaccord |
+| Tool | Swatka | Casamentero | Accordeur |
+
+Polish *pasować do siebie* describes a couple that is a good match;
+*dopasować* names the action. Use command *Dopasuj*, never *pasuj*, and
+noun *dopasowanie*, never *pasowanie*. *Swatka* is feminine and declines:
+*Swatki*, *Swatkę*, *Swatką*. Spanish *casar* means both to marry and to make
+two things correspond; *Casamentero* is masculine. Spanish has no noun for
+this term: use the verb, never *casamiento*, *match* or *hacer match*.
+French *accorder* means to tune or bring into agreement. Tuning makes strings
+agree, not identical. *Accordeur* is masculine, replacing *Marieuse*.
+*Accorder* is a regular -er verb; *accordé* and *désaccordé* agree in gender
+and number. Do not use *matcher*, *match* or *harmoniser* for this sense;
+*harmoniser* belongs to *Harmonize*.
+
+Keep the existing translations of master, kerning and other terms, and the
+command form used in the file. Capitalize the tool name. Preserve placeholders,
+accelerators, punctuation, case style and format. Do not change English source
+keys, German or other languages. Keep *compatible* when the source says
+*compatible*. Other senses, such as search matching or *Fit*, retain their
+translations; leave uncertain senses unchanged. Earlier compatibility and
+synchronization wording does not govern the interpolation sense.
 
 ## Power names are playful power
 
@@ -83,7 +118,7 @@ The rule does not override meaning. The Eraser tool in FontLab removes points an
 
 Voice is a reason to choose a word, never a reason to change a meaning. Four checks keep the rules above from going wrong:
 
-1. **The concept first.** Read the definition and the fallback original term ([chapter 404](404-the-fallback-original-term.md)) before looking for a playful word. *Matchmaker* has the fallback *master matcher*; *swat* works because it keeps that meaning.
+1. **The concept first.** Read the definition and the fallback original term ([chapter 404](404-the-fallback-original-term.md)) before looking for a playful word. *Matchmaker* has the fallback *master matcher*; *Swatka* works because it keeps that meaning.
 2. **Survives a missed joke.** The label must be understandable to someone who does not get the reference.
 3. **One name everywhere.** A playful name is still a term. *Pędzel mocy* is the same in the toolbar, the menu, the preferences, the help and the marketing page.
 4. **Register by surface.** Names can be playful. Error messages, license terms and destructive confirmations stay literal.

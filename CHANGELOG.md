@@ -3,6 +3,17 @@ this_file: CHANGELOG.md
 ---
 # Changelog
 
+## 2026-10-01: issue 305 master matching terms
+
+Updated the terminology and language-portrait chapters to use Swatka,
+Casamentero and Accordeur. Added the action/state/participle/adjective/noun
+families, grammatical rules and naming reasons. Search matching, literal
+compatible, German terminology and the generic matching algorithms are unchanged.
+Verification: all 94 Markdown files pass the prose checks and the isolated
+strict documentation build passes. Reviewed src, tests, examples and documentation: the product-specific obsolete
+names were in these two chapters; fallback examples remain valid.
+
+
 ## 2026-09-30: German UI review preferences
 
 Integrated the supplied German catalog diff: 547 translation changes after
