@@ -23,3 +23,11 @@ Tooling that arrived with the Qt and project commands (1 October 2026):
 - [ ] Nightly vocabulary benchmark (`vocab export`, `translate`, `vocab compare`) with a kept series.
 - [ ] Upgrade: Norwegian and `sr@latin` plural counts.
 - [ ] Translate: exit code when the report says `ready: false`; finished glossary term hits.
+
+Minor findings of the 1.1.0 review left open:
+
+- [ ] `project upgrade`: restore the earlier RETIRED file in a `finally` block when the upgrade fails for a reason other than pending messages.
+- [ ] `qt/compile_db.py`: resolve a relative `directory` entry against the folder of the database, not the working directory.
+- [ ] `shard split --force`: write the new shards before removing the old ones.
+- [ ] Top-level handler: provider and engine outages exit 2; give them their own exit code.
+- [ ] `pseudo`: keep shortcut text such as "Ctrl+S" unaccented.
