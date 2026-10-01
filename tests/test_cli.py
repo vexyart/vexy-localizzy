@@ -83,3 +83,20 @@ def test_main_when_project_file_has_unknown_key_then_exit_2(tmp_path, monkeypatc
     with pytest.raises(SystemExit) as caught:
         main()
     assert caught.value.code == 2, "a typo in localizzy.toml is reported, not traced"
+
+
+def test_main_when_optional_dependency_missing_then_exit_3(monkeypatch, capsys):
+    from vexy_localizzy import cli
+    from vexy_localizzy.external import MissingDependencyError
+
+    def missing():
+        raise MissingDependencyError("lupdate", "install Qt")
+
+    monkeypatch.setitem(cli.COMMANDS, "doctor", missing)
+    monkeypatch.setattr(sys, "argv", ["localizzy", "doctor"])
+    with pytest.raises(SystemExit) as caught:
+        main()
+    assert caught.value.code == 3, (
+        "a missing tool or extra is exit 3, not a usage error"
+    )
+    assert "Install with" in capsys.readouterr().err

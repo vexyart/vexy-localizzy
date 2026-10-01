@@ -25,9 +25,10 @@ from vexy_localizzy.cli import translate as _translate
 from vexy_localizzy.cli import upgrade as _upgrade
 from vexy_localizzy.cli import utilities as _utilities
 from vexy_localizzy.conversion import convert as convert_catalog
+from vexy_localizzy.external import MissingDependencyError
 from vexy_localizzy.inventory import write_inventory
 
-EXIT_USAGE, EXIT_INTERRUPTED = 2, 130
+EXIT_USAGE, EXIT_DEPENDENCY, EXIT_INTERRUPTED = 2, 3, 130
 # What a wrong path, a malformed file or a failing external tool raises.
 # ValueError covers pydantic validation and TOML decoding errors.
 INPUT_ERRORS = (OSError, ValueError, RuntimeError, SyntaxError, SubprocessError)
@@ -138,6 +139,9 @@ def main() -> None:
         fire.Fire(COMMANDS)
     except KeyboardInterrupt:
         raise SystemExit(EXIT_INTERRUPTED) from None
+    except MissingDependencyError as error:
+        print(f"localizzy: {error}", file=sys.stderr)
+        raise SystemExit(EXIT_DEPENDENCY) from error
     except INPUT_ERRORS as error:
         # Bad input is the user's to fix: one line and exit 2, never a traceback.
         print(f"localizzy: {error}", file=sys.stderr)

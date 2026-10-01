@@ -26,7 +26,7 @@ used to hold. What arrived, by module:
 
 ### Verification
 
-- `./test.sh`: ruff check and format clean; 1874 Python tests pass (94% line
+- `./test.sh`: ruff check and format clean; 1875 Python tests pass (94% line
   coverage over the package); ICU checker and reviewer suites pass (14 reviewer
   tests); reviewer build succeeds.
 - Real tools, not mocks: `lupdate` and `lrelease` 6.11 round trips (a finished
