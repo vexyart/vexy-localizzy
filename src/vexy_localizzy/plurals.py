@@ -77,11 +77,6 @@ def required_categories(lang: str | None) -> frozenset[str]:
     return frozenset(CATEGORIES.get(_primary(lang), ("other",)))
 
 
-def known_locales() -> list[str]:
-    """Sorted languages covered by the category table."""
-    return sorted(CATEGORIES)
-
-
 def plural_forms_header(lang: str | None) -> str:
     """The gettext ``Plural-Forms`` declaration for a language.
 

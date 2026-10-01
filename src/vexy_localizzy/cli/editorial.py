@@ -18,7 +18,7 @@ from vexy_localizzy.cli._args import csv_paths, csv_strings
 from vexy_localizzy.editorial.candidate_file import FAMILIES, SEVERITIES
 from vexy_localizzy.editorial.review_prompt import DEFAULT_PRODUCT
 
-EXIT_OK, EXIT_FAILED, EXIT_USAGE, EXIT_EXTRA = 0, 1, 2, 3
+EXIT_FAILED, EXIT_USAGE, EXIT_EXTRA = 1, 2, 3
 # Errors that mean bad input or flags: a clean message and exit 2, no traceback.
 INPUT_ERRORS = (ValueError, OSError, LxmlError)
 
