@@ -1454,6 +1454,8 @@ FLAGS
 
         Notes and x-status become definitions. Proposed and identical translations are retained; Qt does not enforce review status. Other TMX properties are not exported. Missing, duplicate, empty or inline-marked segments fail explicitly, preserving an existing output. No translations are invented.
 
+        Export replaces an existing phrase book; it does not merge manual edits. Before rebuilding a curated QPH, export to a scratch path, compare targets and definitions, and reconcile approved changes into the source TMX first.
+
 NOTES
     You can also use flags syntax for POSITIONAL ARGUMENTS
 ```

@@ -140,6 +140,10 @@ Qt does not enforce review status. Use the exact TMX target tag (for example
 `--target es-419`). Missing, empty, duplicate or inline-marked segments fail
 without replacing the output. Other TMX properties are not exported.
 
+Export replaces an existing QPH; it does not merge manual edits. For a curated
+phrase book, export to a scratch path, compare targets and definitions, and
+port approved changes into the source TMX before rebuilding the live QPH.
+
 Render any two-language TMX as a self-contained HTML page with search, filters
 on its `x-*` properties, notes and click-to-copy (the target is detected when
 the file has one):

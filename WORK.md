@@ -5,6 +5,20 @@ this_file: WORK.md
 
 Earlier entries are in the git history of this file.
 
+## 2026-10-04: Issue 160 glossary and QPH reconciliation
+
+- Fixed whole-term matching for appended Qt shortcut annotations in ASCII and
+  fullwidth parentheses. Embedded shortcuts still match, while escaped
+  ampersands, longer parenthesized text, and nonterminal annotations retain
+  their meaning. Added twelve regression cases, including whole-term lookup
+  and ASCII/fullwidth colon suffixes.
+- Documented the existing replacement behavior of QPH export and the required
+  upstream reconciliation of curated translations before regeneration.
+- Verification: five new failing cases reproduced before the fix; 202 focused
+  tests passed afterward. Full `./test.sh` passed: 2,064 Python tests, ICU and
+  reviewer tests, lint, formatting, and reviewer production build.
+- No dependencies added. Existing Apple extraction work is outside this commit.
+
 ## 2026-10-01: Four limits found while drafting new languages
 
 A project drafted fifteen languages with the toolkit and had to wrap four

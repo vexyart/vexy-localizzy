@@ -52,6 +52,37 @@ def test_match_text_when_markup_accelerators_placeholders_then_normalized():
     assert match_text("Move %1 by {count}") == "move   by  "
 
 
+@pytest.mark.parametrize(
+    ("label", "expected"),
+    [
+        ("字形(&G)", "字形"),
+        ("フォントオーディット (&F)", "フォントオーディット"),
+        ("열기（&O）…", "열기…"),
+        ("เปิด (&O)...", "เปิด..."),
+        ("Name (&N):", "name:"),
+        ("名称（&N）：", "名称："),
+        ("Power Nu&dge", "power nudge"),
+        ("Name (G)", "name (g)"),
+        ("Name (&&G)", "name (&g)"),
+        ("Name (&G) suffix", "name (g) suffix"),
+        ("Name (&Go)", "name (go)"),
+    ],
+)
+def test_match_text_when_qt_suffix_then_ignore_only_single_key_annotation(
+    label, expected
+):
+    assert match_text(label) == expected, (
+        "A Qt shortcut suffix must not become part of the glossary term."
+    )
+
+
+def test_whole_match_when_appended_accelerator_then_find_canonical_term(glossary):
+    term = glossary.whole_match("Kerning (&K)")
+    assert term is not None and term.term_id == "kerning", (
+        "Appended accelerators must match like embedded accelerators."
+    )
+
+
 def test_relevant_when_word_is_longer_then_boundary_blocks_partial(glossary):
     found = glossary.relevant(["Show kerning"])
     assert "kerning" in found and "kern" not in found, found

@@ -23,6 +23,9 @@ DEFAULT_STATUSES = frozenset({"approved", "do-not-translate"})
 DOTTED_CAPITAL_I = frozenset({"tr", "az"})
 TAG = re.compile(r"<[^>]+>")
 ACCELERATOR = re.compile(r"&&|&(?=\w)")
+ACCELERATOR_SUFFIX = re.compile(
+    r"[ \t]*(?:\(&[A-Za-z0-9]\)|（&[A-Za-z0-9]）)(?=[ \t]*(?:…|\.{3}|[:：])?[ \t]*$)"
+)
 PLACEHOLDER = re.compile(
     "|".join(
         [r"%L\d+|%n"]
@@ -81,9 +84,11 @@ class Term(Record):
 
 
 def plain_text(text: str) -> str:
-    """NFC → drop tags → drop single '&' accelerators (keep '&&' as '&')
+    """NFC → drop tags and appended Qt shortcut annotations → drop single '&'
+    accelerators (keep '&&' as '&')
     → replace Qt/printf/brace placeholders with a space; case is kept."""
     text = TAG.sub("", unicodedata.normalize("NFC", text))
+    text = ACCELERATOR_SUFFIX.sub("", text)
     text = ACCELERATOR.sub(lambda m: "&" if m.group() == "&&" else "", text)
     return PLACEHOLDER.sub(" ", text)
 

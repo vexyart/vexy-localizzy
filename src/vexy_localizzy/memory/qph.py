@@ -59,6 +59,10 @@ def tmx2qph(
     are retained; Qt does not enforce review status. Other TMX properties are
     not exported. Missing, duplicate, empty or inline-marked segments fail
     explicitly, preserving an existing output. No translations are invented.
+
+    Export replaces an existing phrase book; it does not merge manual edits.
+    Before rebuilding a curated QPH, export to a scratch path, compare targets
+    and definitions, and reconcile approved changes into the source TMX first.
     """
     source_path, output_path = Path(input), Path(output)
     if source_path.resolve() == output_path.resolve():

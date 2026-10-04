@@ -3,6 +3,14 @@ this_file: CHANGELOG.md
 ---
 # Changelog
 
+## 2026-10-04: Qt glossary matching and curated phrase books
+
+- Match canonical terms when Qt labels append a shortcut such as `(&G)` or
+  `（&G）`, including suffixes before an ellipsis or colon. Preserve escaped
+  ampersands and ordinary parenthesized text.
+- Document that QPH export replaces its destination: reconcile team edits into
+  the source TMX before rebuilding a curated phrase book.
+
 ## 2026-10-01: issue 305 master matching terms
 
 Updated the terminology and language-portrait chapters to use Swatka,
