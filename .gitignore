@@ -227,3 +227,7 @@ review/.vite/
 
 # Local agent state
 .omc/
+
+# macOS Finder metadata and local build output
+.DS_Store
+site/
