@@ -80,6 +80,13 @@ def setup_ts2tmx(where: Path) -> None:
     _copy({"translations": FIXTURES / "legacy_golden" / "inputs" / "ts"}, where)
 
 
+def setup_lproj2tmx(where: Path) -> None:
+    for locale, text in [("en", "Open"), ("de", "Öffnen")]:
+        folder = where / "Example.app" / f"{locale}.lproj"
+        folder.mkdir(parents=True)
+        (folder / "Localizable.strings").write_text(f'"open" = "{text}";')
+
+
 def setup_review(where: Path) -> None:
     example = ROOT / "examples" / "review_sample.py"
     subprocess.run(
@@ -156,6 +163,7 @@ CASES = {
     "convert": (setup_convert, {0}, ["de.json"]),
     "tm build-ui": (setup_build_ui, {0}, ["de-ui.tmx"]),
     "tm ts2tmx": (setup_ts2tmx, {0}, ["tmx"]),
+    "tm lproj2tmx": (setup_lproj2tmx, {0}, ["tmx/apple/en.tmx", "tmx/apple/de.tmx"]),
     "tm tmx2qph": (setup_translate, {0}, ["app_de.qph"]),
     "tm lookup": (
         setup_lookup,

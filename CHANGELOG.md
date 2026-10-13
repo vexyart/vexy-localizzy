@@ -11,6 +11,12 @@ this_file: CHANGELOG.md
 - Document that QPH export replaces its destination: reconcile team edits into
   the source TMX before rebuilding a curated phrase book.
 
+## 2026-10-02: Apple directory-to-TMX conversion
+
+- Accept `tm lproj2tmx --input DIR --output DIR` for Apple app bundles and
+  extracted glossaries, retaining the legacy `--app` and positional arguments.
+  Discover nested `.lproj` string resources in deterministic path order.
+
 ## 2026-10-01: issue 305 master matching terms
 
 Updated the terminology and language-portrait chapters to use Swatka,

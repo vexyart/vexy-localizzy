@@ -58,25 +58,27 @@ def po2tmx(
 
 
 def lproj2tmx(
-    app: str,
-    output: str,
+    app: str | None = None,
+    output: str | None = None,
     dedupe: bool = True,
     skip_identical: bool = False,
     include_infoplist: bool = False,
     verbose: bool = False,
+    input: str | None = None,
 ) -> dict:
-    """Convert an .app bundle's .lproj/.strings and .loctable files into per-language TMX.
+    """Scan a directory for Apple .lproj resources and .loctable files; write <lang>.tmx.
 
     Args:
-        app: bundle folder.
+        input: directory to scan recursively (app bundle or extracted glossary).
         output: folder that receives <lang>.tmx files.
+        app: legacy alias for input; positional usage remains supported.
         dedupe: collapse identical (source, target) pairs within a language.
         skip_identical: drop units whose target equals the English source.
         include_infoplist: also read InfoPlist bundle metadata tables.
         verbose: debug logging.
     """
     return _run(
-        "lproj", app, output, dedupe, skip_identical, include_infoplist, verbose
+        "lproj", app, output, dedupe, skip_identical, include_infoplist, verbose, input
     )
 
 

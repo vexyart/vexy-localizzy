@@ -9,7 +9,7 @@
         <meta name="author" content="Vexy">
       
       
-        <link rel="canonical" href="https://fontlab.dev/vexy-localizzy/toolkit/editorial/">
+        <link rel="canonical" href="https://vexy.dev/vexy-localizzy/toolkit/editorial/">
       
       
         <link rel="prev" href="../review/">
@@ -105,7 +105,7 @@
     </div>
     
     
-  <vexy-menu site-label="Localization" site-url="https://fontlab.dev/vexy-localizzy/" mode="dark" mobile-menu="materialx" mobile-search="materialx"></vexy-menu>
+  <vexy-menu site-label="Localization" site-url="https://vexy.dev/vexy-localizzy/" mode="dark" mobile-menu="materialx" mobile-search="materialx"></vexy-menu>
   
       
 
@@ -209,6 +209,18 @@
 </div>
       
     
+    
+      <div class="md-header__source">
+        <a href="https://github.com/vexyart/vexy-localizzy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    vexyart/vexy-localizzy
+  </div>
+</a>
+      </div>
     
   </nav>
   
@@ -436,6 +448,18 @@
     </a>
     Localization
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/vexyart/vexy-localizzy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    vexyart/vexy-localizzy
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list">
     
@@ -4156,6 +4180,9 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+  
+
 
 <h1 id="editorial-review">Editorial review<a class="headerlink" href="#editorial-review" title="Permanent link">¶</a></h1>
 <p>A shipped translation drifts: a term changes, a label is longer than it needs
@@ -4179,6 +4206,9 @@ parallel requests (default 4). Each item carries its id, context, English
 source, current translation (every plural form for a plural message) and any
 comment or note, together with the glossary terms that occur in the batch,
 taken from the approved and do-not-translate entries of <code>--glossary-memory</code>.
+<code>--glossary-status</code> changes which entries count, with the same values as
+<code>localizzy translate</code>: a new language whose glossary holds only <code>proposed</code>
+terms is reviewed with <code>--glossary-status approved,proposed,do-not-translate</code>.
 The instructions name the language and the product (<code>--product</code>, default
 "a desktop application") and end with the style sheet from <code>--style-file</code>.
 Requests run at <code>--temperature</code> 0.2 with a <code>--timeout</code> of 300 seconds, since a
@@ -4211,7 +4241,9 @@ dropped and counted.</p>
 <p>The batch id is a hash of the items, the model, the whole instruction text
 (product and style sheet included) and the glossary terms. A second run skips
 every batch already in OUT, so an interrupted review resumes where it stopped;
-change any of those inputs and the affected batches are reviewed again. A last
+change any of those inputs and the affected batches are reviewed again. A
+different <code>--glossary-status</code> counts as a changed glossary: the batches whose
+terms it adds or removes are reviewed again, the others are skipped. A last
 line cut off by an interrupted write is dropped on resume, and that batch is
 reviewed again.
 <code>--limit N</code> reviews only the next N pending batches, which is a cheap way to
@@ -4228,7 +4260,9 @@ one per line in a file and pass it as <code>--reject-ids</code>; <code>--severit
   <code>message missing</code>);</li>
 <li>the revision keeps the source's placeholders and tags, a trailing ellipsis
   or colon, the leading and trailing whitespace, and the count of newlines and
-  literal <code>\n</code> escapes (<strong>shape</strong>);</li>
+  literal <code>\n</code> escapes (<strong>shape</strong>); one placeholder is exempt, as in
+  <a href="../quality/">content QA</a>: a plural form that exactly one count selects in
+  the TARGET language may omit <code>%n</code>;</li>
 <li>it keeps the current translation's number of <code>&amp;</code> accelerators
   (<strong>mnemonic</strong>); in rich text, entities such as <code>&amp;amp;</code> are not counted;</li>
 <li>a plural message gets a list with exactly its number of forms, and a scalar

@@ -1404,7 +1404,7 @@ COMMANDS
        Convert one .po file or every .po under a folder to TMX (legacy language policy).
 
      lproj2tmx
-       Convert an .app bundle's .lproj/.strings and .loctable files into per-language TMX.
+       Scan a directory for Apple .lproj resources and .loctable files; write <lang>.tmx.
 
      adobe2tmx
        Convert an Adobe app folder's localization resources into per-language TMX.
@@ -1700,23 +1700,23 @@ NOTES
 
 ```text
 NAME
-    localizzy tm lproj2tmx - Convert an .app bundle's .lproj/.strings and .loctable files into per-language TMX.
+    localizzy tm lproj2tmx - Scan a directory for Apple .lproj resources and .loctable files; write <lang>.tmx.
 
 SYNOPSIS
-    localizzy tm lproj2tmx APP OUTPUT <flags>
+    localizzy tm lproj2tmx <flags>
 
 DESCRIPTION
-    Convert an .app bundle's .lproj/.strings and .loctable files into per-language TMX.
-
-POSITIONAL ARGUMENTS
-    APP
-        Type: str
-        bundle folder.
-    OUTPUT
-        Type: str
-        folder that receives <lang>.tmx files.
+    Scan a directory for Apple .lproj resources and .loctable files; write <lang>.tmx.
 
 FLAGS
+    -a, --app=APP
+        Type: Optional[str | None]
+        Default: None
+        legacy alias for input; positional usage remains supported.
+    -o, --output=OUTPUT
+        Type: Optional[str | None]
+        Default: None
+        folder that receives <lang>.tmx files.
     -d, --dedupe=DEDUPE
         Type: bool
         Default: True
@@ -1725,7 +1725,7 @@ FLAGS
         Type: bool
         Default: False
         drop units whose target equals the English source.
-    -i, --include_infoplist=INCLUDE_INFOPLIST
+    --include_infoplist=INCLUDE_INFOPLIST
         Type: bool
         Default: False
         also read InfoPlist bundle metadata tables.
@@ -1733,9 +1733,10 @@ FLAGS
         Type: bool
         Default: False
         debug logging.
-
-NOTES
-    You can also use flags syntax for POSITIONAL ARGUMENTS
+    --input=INPUT
+        Type: Optional[str | None]
+        Default: None
+        directory to scan recursively (app bundle or extracted glossary).
 ```
 
 ## localizzy tm adobe2tmx

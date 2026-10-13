@@ -4,9 +4,13 @@
 # Build or serve the vexy-localizzy book (ProperDocs + MaterialX over MkDocs).
 #
 # Usage:
-#   src_docs/build.sh          # strict build into docs/
+#   src_docs/build.sh          # markdown checks, then strict build into ../docs
 #   src_docs/build.sh serve    # local preview on :8000
 #   src_docs/build.sh check    # markdown checks only (no dashes, banned words, headers)
+#   src_docs/build.sh --docs [properdocs build options]   # plain build, no checks
+#
+# Needs only uv (uvx): every tool runs from pinned packages, so the same command
+# works locally and in .github/workflows/docs.yml.
 
 set -euo pipefail
 
@@ -15,12 +19,22 @@ cd "${SCRIPT_DIR}"
 
 COMMAND="${1:-build}"
 
-run_uv() {
-  uv run --project tooling/python --locked "$@"
+# Run a command inside the pinned ProperDocs + MaterialX tool environment.
+docs_uvx() {
+  uvx --python 3.13 --from properdocs==1.6.7 \
+    --with mkdocs==1.6.1 \
+    --with mkdocs-materialx==10.1.8 \
+    --with mkdocs-glightbox==0.5.2 \
+    --with vexy-mkdocs-strip-number-prefix==1.0.12 \
+    --with mkdocs-awesome-nav==3.3.0 \
+    --with pymdown-extensions==11.0.1 \
+    --with Markdown==3.10.2 \
+    --with mkdocs-material-extensions==1.3.1 \
+    "$@"
 }
 
 check_markdown() {
-  run_uv python3 - <<'PY'
+  docs_uvx python - <<'PY'
 import re, sys
 from pathlib import Path
 banned = ("delve", "leverage", "seamless", "robust", "pivotal", "crucial", "comprehensive",
@@ -49,16 +63,24 @@ PY
 case "${COMMAND}" in
   build)
     check_markdown
-    run_uv properdocs build --strict -f mkdocs.yml
+    docs_uvx properdocs build --strict -f mkdocs.yml
+    touch ../docs/.nojekyll
+    ;;
+  --docs)
+    shift
+    export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
+    docs_uvx properdocs build --config-file mkdocs.yml "$@"
+    touch ../docs/.nojekyll
     ;;
   serve)
-    run_uv properdocs serve -f mkdocs.yml
+    shift
+    docs_uvx properdocs serve -f mkdocs.yml "$@"
     ;;
   check)
     check_markdown
     ;;
   *)
-    echo "usage: $0 [build|serve|check]" >&2
+    echo "usage: $0 [build|serve|check|--docs ...]" >&2
     exit 2
     ;;
 esac

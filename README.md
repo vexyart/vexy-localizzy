@@ -3,6 +3,8 @@ this_file: README.md
 ---
 # Localizzy
 
+**Documentation:** https://vexy.dev/vexy-localizzy/
+
 Localization software: catalogs, translation memories, memory-aware machine
 translation, TS upgrades, QA and review. It uses
 [abersetz](https://github.com/twardoch/abersetz) as its translation engine.
@@ -128,6 +130,19 @@ Turn a tree of Qt catalogs into TMX with the legacy language policy:
 localizzy tm ts2tmx translations/ --output tmx/
 ```
 
+Convert Apple localization resources from an app bundle or extracted glossary:
+
+```sh
+localizzy tm lproj2tmx --input Example.app --output tmx/apple
+```
+
+Scans `.strings` and `.stringsdict` under `.lproj` folders and all `.loctable`
+files recursively. Writes `<lang>.tmx`, matching resource keys against English
+(with Base/English fallbacks). Unmatched entries remain single-language units.
+Keys and resource paths are retained as provenance. Use `--include-infoplist`
+for bundle metadata and `--dedupe=False` to keep repeated text pairs.
+The legacy `--app` argument and positional arguments remain supported.
+
 Export a core TMX memory as a Qt Linguist phrase book:
 
 ```sh
@@ -241,10 +256,9 @@ message. See [memories](src_docs/md/8-toolkit/memories.md).
 ## Documentation
 
 The book and the package documentation are published as one site at
-[fontlab.dev/vexy-localizzy/fl1992mk](https://fontlab.dev/vexy-localizzy/fl1992mk/)
-(mirror: [vexy.dev/vexy-localizzy](https://vexy.dev/vexy-localizzy/)).
+[vexy.dev/vexy-localizzy](https://vexy.dev/vexy-localizzy/).
 The source is `src_docs/md`; `docs/` is the build output. The
-[toolkit part](https://fontlab.dev/vexy-localizzy/fl1992mk/toolkit/) holds these pages:
+[toolkit part](https://vexy.dev/vexy-localizzy/toolkit/) holds these pages:
 
 - [Getting started](src_docs/md/8-toolkit/getting-started.md): install, extras, a first run.
 - [Project file](src_docs/md/8-toolkit/project.md): `localizzy.toml` and the `project` commands.

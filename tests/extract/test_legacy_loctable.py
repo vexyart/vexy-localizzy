@@ -78,3 +78,36 @@ def test_command_when_resource_invalid_then_all_existing_outputs_survive(
     assert {p.name: p.read_bytes() for p in output.iterdir()} == original, (
         "Partial extraction must not publish"
     )
+
+
+def test_cli_when_input_directory_then_nested_resources_and_loctable(tmp_path):
+    from lxml import etree
+
+    from vexy_localizzy.cli.tm import lproj2tmx
+
+    root = tmp_path / "glossary"
+    for locale, text in [("en", "Open"), ("pl", "Otwórz")]:
+        folder = root / f"{locale}.lproj" / "nested"
+        folder.mkdir(parents=True)
+        (folder / "Localizable.strings").write_bytes(
+            f'"open_key" = "{text}";'.encode("utf-16")
+        )
+    (root / "Other.loctable").write_bytes(
+        plistlib.dumps(
+            {"en": {"close_key": "Close"}, "pl": {"close_key": "Zamknij"}},
+            fmt=plistlib.FMT_BINARY,
+        )
+    )
+    result = lproj2tmx(input=str(root), output=str(tmp_path / "tmx"))
+    assert len(result["languages"]) == 2, "Both locales must be exported"
+    tree = etree.parse(str(tmp_path / "tmx/pl.tmx"))
+    assert tree.xpath("//seg/text()") == ["Close", "Zamknij", "Open", "Otwórz"], (
+        "Nested strings and loctable must both pair against English"
+    )
+
+
+def test_cli_when_input_and_app_conflict_then_reject(tmp_path):
+    from vexy_localizzy.cli.tm import lproj2tmx
+
+    with pytest.raises(ValueError, match="either"):
+        lproj2tmx(app="a", input="b", output=str(tmp_path))

@@ -92,7 +92,8 @@ def domain_for(path: Path, root: Path) -> str:
 
 
 def parse_lproj_file(path: Path, root: Path) -> Iterator[tuple[bool, Entry]]:
-    lang, fallback = lproj_lang(path.parent.name)
+    locale = next(parent for parent in path.parents if parent.suffix == ".lproj")
+    lang, fallback = lproj_lang(locale.name)
     if lang is None:
         return
     data = path.read_bytes()
@@ -116,16 +117,15 @@ def parse_loctable(path: Path, root: Path) -> Iterator[tuple[bool, Entry]]:
 
 
 def walk(root: Path) -> Iterator[Path]:
-    for path in root.rglob("*"):
+    for path in sorted(root.rglob("*")):
         if any(p in SKIP_DIRS for p in path.parts) or path.is_symlink():
             continue
         if not path.is_file():
             continue
         if path.suffix == ".loctable":
             yield path
-        elif (
-            path.suffix in (".strings", ".stringsdict")
-            and path.parent.suffix == ".lproj"
+        elif path.suffix in (".strings", ".stringsdict") and any(
+            parent.suffix == ".lproj" for parent in path.parents
         ):
             yield path
 
@@ -224,23 +224,29 @@ def write_tmx(
 
 
 def run(
-    app: str,
-    output: str,
+    app: str | None = None,
+    output: str | None = None,
     dedupe: bool = True,
     skip_identical: bool = False,
     include_infoplist: bool = False,
     verbose: bool = False,
+    input: str | None = None,
 ) -> dict:
-    """Convert an .app bundle's .lproj/.strings and .loctable files into per-language TMX.
+    """Convert a directory's .lproj resources and .loctable files into per-language TMX.
 
     Args:
-        app: Bundle folder, e.g. "/System/Applications/Font Book.app".
+        app: Input directory, e.g. "/System/Applications/Font Book.app".
         output: Folder that receives <lang>.tmx files (created if missing).
         dedupe: Collapse identical (source, target) pairs within a language.
         skip_identical: Drop units whose target equals the English source.
         include_infoplist: Also read InfoPlist bundle metadata tables.
         verbose: Debug logging.
     """
+    if input is not None and app is not None:
+        raise ValueError("Specify either --input or --app, not both")
+    app = input if input is not None else app
+    if not app or not output:
+        raise ValueError("Both --input (or --app) and --output are required")
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if verbose else "INFO")
     root = Path(app).expanduser().resolve()

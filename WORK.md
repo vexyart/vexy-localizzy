@@ -19,6 +19,23 @@ Earlier entries are in the git history of this file.
   reviewer tests, lint, formatting, and reviewer production build.
 - No dependencies added. Existing Apple extraction work is outside this commit.
 
+## 2026-10-02: Apple directory-to-TMX conversion
+
+- Extended `localizzy tm lproj2tmx` with `--input DIR --output DIR`, preserving
+  legacy positional and `--app` usage. Reused existing Apple parsers and atomic
+  TMX writer; no new dependencies. Nested resources are discovered in sorted order.
+- Added UTF-16 nested-resource and binary loctable pairing tests, conflicting
+  argument validation, and a runnable README example. Regenerated CLI reference.
+- Converted `/Applications/JWLibrary.app` into
+  `../vexy-localizzy.priv/tmx-orig-soft/tmx-lproj/jwlibrary-ios`: 366 resource files,
+  146,496 raw entries, 172 TMX files, 136,504 units, 135,654 English/target pairs.
+  Every output parsed successfully; nonempty segments, target tags and origin
+  properties were checked. Existing deduplication and InfoPlist-exclusion defaults
+  apply; unmatched entries remain single-language units.
+- Verification: `./test.sh` passes (2052 Python tests, 66 ICU tests, 14 reviewer
+  tests, reviewer build, ruff lint and format checks). Initial regression run
+  caught CLI signature parity and example/reference updates; corrected and rerun.
+
 ## 2026-10-01: Four limits found while drafting new languages
 
 A project drafted fifteen languages with the toolkit and had to wrap four
