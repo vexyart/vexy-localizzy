@@ -24,6 +24,7 @@ docs_uvx() {
   uvx --python 3.13 --from properdocs==1.6.7 \
     --with mkdocs==1.6.1 \
     --with mkdocs-materialx==10.1.8 \
+    --with mkdocs-print-site-plugin==2.9 \
     --with mkdocs-glightbox==0.5.2 \
     --with vexy-mkdocs-strip-number-prefix==1.0.12 \
     --with mkdocs-awesome-nav==3.3.0 \

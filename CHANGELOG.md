@@ -736,3 +736,9 @@ Fixes for the issue 145 code review. Each finding has a regression test.
 - Preserve compressed content-addressed source snapshots so raw provenance
   survives input replacement; retain resumable commits only for valid identities.
 - Add original synthetic tests and a runnable source-voting example.
+
+## 2026-10-18: documentation plugins
+
+- Use MaterialX search, inherited metadata and a topic index; keep ordered navigation in awesome-nav.
+- The documentation wrapper installs the plugins required by this site.
+- Strict documentation build and rendered output checks passed.

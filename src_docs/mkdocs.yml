@@ -20,6 +20,7 @@ theme:
     fold:
       enabled: true
   features:
+    - navigation.path
     - navigation.tabs
     - navigation.top
     - navigation.footer
@@ -92,7 +93,9 @@ markdown_extensions:
   - material.extensions.code_download
 
 plugins:
-  - search:
+  - materialx/meta
+  - materialx/tags
+  - materialx/search:
       enabled: true
   - glightbox
   - strip-number-prefix:
@@ -102,6 +105,9 @@ plugins:
       filename: nav.yml
 
 # Shared FontLab theme 2026 (fontlab-www-docstheme), served from i.fontlab.com.
+  - print-site:
+      add_to_navigation: true
+      print_page_title: Print this guide
 extra_css:
   - https://i.fontlab.com/fltheme26/1.0.0/components.css
   - https://i.fontlab.com/fltheme26/1.0.0/theme.css
